@@ -55,7 +55,7 @@ public class Main {
             case 16 -> evaluate(1000, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
             case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, 8, 10 * 1000);
+            case 19 -> evaluateMultiple(1000, 7, 10 * 1000);
         }
     }
 

@@ -51,6 +51,7 @@ public class Evaluation {
     private long[] failed, failDif;
     private long[] mut, mutSuccess, mutTried;
     private Solver best;
+    private InputGenerator generator;
 
     private Evaluation() {
     }
@@ -88,9 +89,10 @@ public class Evaluation {
         mutSuccess = new long[solvers.length];
         mutTried = new long[solvers.length];
         Arrays.fill(stepMin, Long.MAX_VALUE);
+        generator = InputGenerator.create(type);
         runCancellableTask(() ->
         {
-            String folder = path + getFolder(type);
+            String folder = path + generator.folder;
             String startTime = formatter.format(LocalDateTime.now());
             String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
 //            startFilePrinting(folder + startTime + "-res" + append + ".csv");
@@ -113,19 +115,6 @@ public class Evaluation {
             System.out.printf("---------------Evaluation %s complete-------------%n", append);
         });
         return best;
-    }
-
-    private String getFolder(int type) {
-        return switch (type) {
-            case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
-            case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
-            case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
-            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
-            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
-            case BINOMIAL_DISTRIBUTED -> "Binomial";
-            case EXPONENTIAL_DISTRIBUTED -> "Exponential";
-            default -> "other";
-        } + "\\";
     }
 
 
@@ -180,24 +169,24 @@ public class Evaluation {
         if (type > 1 && type < 7) {
             printFirstAndLastElements(generateInput(type, length), 10);
         }
-        printf("input type:      %s (%d)%n", getInputTypeDescription(type), type);
+        printf("input type:      %s (%d)%n", generator.description, generator.type);
         printf("array length:    %,d%n", length);
         printf("number of runs:  %,d%n", n);
         printf("Limit per run:   %,d%n", maxSteps);
-        double ratio = 100 * log(max(generateInput(type, length)), 2.0) / length;
+        double ratio = 100 * log(max(generator.generate(length)), 2.0) / length;
         printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
         if (type == 1 || type == 3 || type == 6 || type == 10) {
-            printf("lowest value:    %,d%n", DEFAULT_LOWEST_VALUE);
-            printf("highest value:   %,d%n", DEFAULT_BIGGEST_VALUE);
+            printf("lowest value:    %,d%n", generator.bottom);
+            printf("highest value:   %,d%n", generator.top);
         }
         if (type == 5 || type == 6) {
-            printf("Fields with sum: %,d%n", DEFAULT_SUM_COUNT);
+            printf("Fields with sum: %,d%n", generator.sumCount);
         }
         if (type == 7 || type == 8) {
             println(separation);
-            printf("n value:         %,d%n", DEFAULT_N);
-            printf("p:               %.6f%n", type == 7 ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL);
-            printf("expected value:  %,d%n", (int) (type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL));
+            printf("n value:         %,d%n", generator.n);
+            printf("p:               %.6f%n", generator.p);
+            printf("expected value:  %,d%n", generator.expectedValue);
         }
         printTable(separation, maxSteps, n, solvers);
         printExplanation(separation);

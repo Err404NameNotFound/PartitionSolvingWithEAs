@@ -33,6 +33,64 @@ public class InputGenerator {
     public static final int BINOMIAL_DISTRIBUTED_SHIFT = 9;
     public static final int POWERLAW_DISTRIBUTED = 10;
 
+    private interface Generator {
+        long[] generate(int length);
+    }
+
+    public final int type;
+    public final String folder;
+    public final String description;
+    private final Generator generator;
+    public final int bottom;
+    public final int top;
+    public final int sumCount;
+    public final int n;
+    public final double p;
+    public final long expectedValue;
+    public final double pMutParam;
+    private long[] output;
+    private final boolean outputConstant;
+
+
+    private InputGenerator(int type, Generator generator) {
+        this.type = type;
+        this.generator = generator;
+        this.folder = getFolder(type);
+        this.description = getInputTypeDescription(type);
+        outputConstant = type == ALL_SAME_AND_LAST_SUM
+                || type == LAST_TWO_SUM_REST_ONE || type == ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
+        bottom = DEFAULT_LOWEST_VALUE;
+        top = DEFAULT_BIGGEST_VALUE;
+        n = DEFAULT_N;
+        p = type == 7 ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL;
+        pMutParam = DEFAULT_PMUT_PARAM;
+        sumCount = DEFAULT_SUM_COUNT;
+        expectedValue = Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL);
+    }
+
+    public long[] generate(int length) {
+        if (outputConstant) {
+            if (output == null) {
+                output = generator.generate(length);
+            }
+            return output;
+        }
+        return generator.generate(length);
+    }
+
+    private String getFolder(int type) {
+        return switch (type) {
+            case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
+            case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
+            case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
+            case BINOMIAL_DISTRIBUTED -> "Binomial";
+            case EXPONENTIAL_DISTRIBUTED -> "Exponential";
+            default -> "other";
+        } + "\\";
+    }
+
     public static long[] generateInput(int selection, int length) {
         if (selection == READ_FROM_CONSOLE) {
             Scanner scanner = new Scanner(System.in);
@@ -157,7 +215,7 @@ public class InputGenerator {
         return fill(length, (i) -> powerlawK(bottom, top, n));
     }
 
-    public interface Generator {
-        long[] generate(int length);
+    public static InputGenerator create(int type) {
+        return new InputGenerator(type, (a) -> generateInput(type, a));
     }
 }
