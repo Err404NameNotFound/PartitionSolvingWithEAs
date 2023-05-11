@@ -1,0 +1,26 @@
+input type:      uniform random values from complete int range (0)
+array length:    2.000
+number of runs:  100
+Limit per run:   152.020
+ratio 100 * m/n: 1,54998 -> hard
+---------
+algo type:           pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut
+algo param:         -1,25;   -1,50;   -1,75;   -2,00;   -2,25;   -2,50;   -2,75;   -3,00;   -3,25
+avg mut/change:       NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN
+avg mut/step:         NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN;     NaN
+---------
+total avg count:  152.020; 152.020; 152.020; 152.020; 152.020; 152.020; 152.020; 152.020; 152.020
+avg eval count:        -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1
+max eval count:         0;       0;       0;       0;       0;       0;       0;       0;       0
+min eval count:        -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1
+---------
+fails:                100;     100;     100;     100;     100;     100;     100;     100;     100
+fail ratio:         1,000;   1,000;   1,000;   1,000;   1,000;   1,000;   1,000;   1,000;   1,000
+avg fail dif:      35.958;  30.354;  28.570;  23.082;  26.820;  28.288;  29.987;  36.733;  31.264
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

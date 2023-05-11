@@ -1,0 +1,28 @@
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959]
+input type:      all values are one except the last x fields as sum of all other fields (5)
+array length:    1.000.000
+number of runs:  100
+Limit per run:   138.155.110
+ratio 100 * m/n: 0,00128 -> easy
+Fields with sum: 100
+---------
+algo type:             pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut
+algo param:           -1,25;     -1,50;     -1,75;     -2,00;     -2,25;     -2,50;     -2,75;     -3,00;     -3,25
+avg mut/change:    2747,686;   427,032;    54,635;    10,431;     4,503;     2,879;     2,160;     1,829;     1,616
+avg mut/step:      5944,992;   686,780;    78,566;    13,010;     4,649;     2,946;     2,284;     1,936;     1,727
+---------
+total avg count:        212;       849;     3.050;     7.967;    15.850;    20.069;    21.249;    25.284;    26.551
+avg eval count:         212;       849;     3.050;     7.967;    15.850;    20.069;    21.249;    25.284;    26.551
+max eval count:         662;     2.816;     8.398;    29.345;    59.395;    62.033;   109.652;    67.483;    73.409
+min eval count:          26;        22;         4;        64;       226;        72;        15;       159;         1
+---------
+fails:                    0;         0;         0;         0;         0;         0;         0;         0;         0
+fail ratio:           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
+avg fail dif:            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

@@ -1,0 +1,13 @@
+Binomial values:
+Expected number of values = 1010 with length = 10000 of binomial dist(10000, 0.1)
+10000 * P(X = 1010) where X is binomial dist(10000, 0.1)
+https://www.wolframalpha.com/input?i=10000+*+P%28X+%3D+1010%29+where+X+is+binomial+dist%2810000%2C+0.1%29
+
+P(differs from expectation by 10000)
+normal distribution(1000*10000, 10000*sqrt(0.09))
+https://www.wolframalpha.com/input?i=1%2F2+*+erfc%28-2.35702%29+-+1%2F2+*+erfc%282.35702%29+
+https://www.wolframalpha.com/input?i=1%2F2+*+erfc%280.000235702+%28-10000%29%29+-+1%2F2+*+erfc%280.000235702+%2810000%29%29+
+
+
+P(of at least once the value)
+https://www.wolframalpha.com/input?i=P%28X+%3E%3D+1%29+where+X+is+binomial+distribution+n%3D10000%2C+p%3D0.000135867

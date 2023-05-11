@@ -1,0 +1,29 @@
+input type:      binomial distributed (7)
+array length:    1.000
+number of runs:  1.000
+Limit per run:   69.080
+---------
+n value:         10.000
+p:               0,100000
+expected value:  1.000
+---------
+algo type:          RLS-N;   EA-SM;    fmut
+algo param:           k=2;     3/n;   0,100
+avg mut/change:     1,999;   3,055; 148,618
+avg mut/step:       1,998;   2,998; 225,050
+---------
+total avg count:      252;     622;  12.049
+avg eval count:       252;     622;  11.705
+max eval count:     1.369;   4.343;  61.508
+min eval count:         7;       5;      10
+---------
+fails:                  0;       0;       6
+fail ratio:         0,000;   0,000;   0,006
+avg fail dif:          -1;      -1;       1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

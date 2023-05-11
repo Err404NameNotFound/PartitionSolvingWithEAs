@@ -1,0 +1,29 @@
+***************************
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+input type:      all values are one except the last x fields as sum of all other fields (5)
+array length:    1.000
+number of runs:  1.000
+Limit per run:   69.080
+ratio 100 * m/n: 0,23219 -> easy
+Fields with sum: 100
+---------
+algo type:           fmut;    fmut;    fmut;    fmut;    fmut
+algo param:         0,100;   0,250;   0,500;   0,750;   0,900
+avg mut/change:   158,772; 109,379;  74,430;  39,766;  17,973
+avg mut/step:     226,120; 188,003; 123,288;  63,700;  26,029
+---------
+total avg count:       26;      20;      17;      18;      23
+avg eval count:        26;      20;      17;      18;      23
+max eval count:       149;      84;      52;      71;      80
+min eval count:         0;       0;       0;       0;       0
+---------
+fails:                  0;       0;       0;       0;       0
+fail ratio:         0,000;   0,000;   0,000;   0,000;   0,000
+avg fail dif:          -1;      -1;      -1;      -1;      -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

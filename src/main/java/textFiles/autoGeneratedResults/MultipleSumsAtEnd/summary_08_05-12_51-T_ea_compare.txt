@@ -1,0 +1,29 @@
+***************************
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959, 6959]
+input type:      all values are one except the last x fields as sum of all other fields (5)
+array length:    1.000.000
+number of runs:  774
+Limit per run:   138.155.110
+ratio 100 * m/n: 0,00128 -> easy
+Fields with sum: 100
+---------
+algo type:             EA;   EA-SM;   EA-SM;   EA-SM;   EA-SM;   EA-SM
+algo param:             -;     2/n;     3/n;     4/n;     5/n;    10/n
+avg mut/change:     1,477;   2,261;   3,174;   4,130;   5,107;  10,060
+avg mut/step:       1,000;   2,000;   3,001;   3,999;   4,999;   9,999
+---------
+total avg count:   45.432;  24.746;  18.466;  15.165;  12.400;   7.221
+avg eval count:    45.432;  24.746;  18.466;  15.165;  12.400;   7.221
+max eval count:   205.488; 119.692;  74.212;  72.696;  50.347;  28.771
+min eval count:         0;       9;      10;      24;      15;      19
+---------
+fails:                  0;       0;       0;       0;       0;       0
+fail ratio:         0,000;   0,000;   0,000;   0,000;   0,000;   0,000
+avg fail dif:          -1;      -1;      -1;      -1;      -1;      -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

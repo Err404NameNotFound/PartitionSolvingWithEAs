@@ -1,0 +1,13 @@
+input type:     1
+array length:   10000
+number of runs: 102
+lowest value:   1
+highest value:  50000
+Limit per run:  921030
+avg eval count: 13525;201291;181052;142895;137168;126247;181563
+max eval count: 75912;834954;863577;763735;739865;897537;846623
+min eval count: 302;863;963;1078;276;2055;948
+fails:          83;8;2;0;0;0;1
+avg fail dif:   4;1;1;0;0;0;1
+avg mut/change: 1,000;1,590;1,927;2,270;3,113;3,961;9,729
+avg mut/step  : 1,000;1,000;1,500;2,000;3,000;4,000;10,000

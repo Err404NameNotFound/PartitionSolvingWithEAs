@@ -1,0 +1,30 @@
+input type:      exponential distributed (8)
+array length:    10.000
+number of runs:  100
+Limit per run:   921.030
+ratio 100 * m/n: 0,13288 -> easy
+---------
+n value:         10.000
+p:               0,001000
+expected value:  1.000
+---------
+algo type:           pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut
+algo param:         -1,25;   -1,50;   -1,75;   -2,00;   -2,25;   -2,50;   -2,75;   -3,00;   -3,25
+avg mut/change:   108,855;  43,932;  14,687;   6,496;   3,739;   2,821;   2,418;   1,837;   1,682
+avg mut/step:     223,549;  70,582;  23,002;   8,414;   4,419;   2,898;   2,268;   1,924;   1,731
+---------
+total avg count:    7.376;   4.509;   3.308;   3.010;   2.652;   2.782;   2.565;   2.647;   3.018
+avg eval count:     7.376;   4.509;   3.308;   3.010;   2.652;   2.782;   2.565;   2.647;   3.018
+max eval count:    64.604;  25.134;  23.721;  16.082;  17.395;  10.297;  19.862;  12.960;  29.550
+min eval count:        62;      11;      45;      61;      77;      81;      27;      67;      35
+---------
+fails:                  0;       0;       0;       0;       0;       0;       0;       0;       0
+fail ratio:         0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000
+avg fail dif:          -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

@@ -1,0 +1,16 @@
+Binomialverteilte Eingabe
+    - Eingabe grafisch darstellen
+    - Warum ist RLS so viel schlechter?
+    - Ist RLS-v1-k besser?
+    - Ist RLS-v2-k besser?
+
+Implementieren
+    - Heavy-tailed mit Population
+    - pMut mit powerlaw distribution implementieren
+
+
+Gemacht
+Implementieren
+    - RLS-v1-k implementieren
+    - RLS-v2-k implementieren
+    - fmut implementieren

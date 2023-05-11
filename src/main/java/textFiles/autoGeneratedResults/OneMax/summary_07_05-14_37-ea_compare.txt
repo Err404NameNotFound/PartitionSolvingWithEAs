@@ -1,0 +1,28 @@
+***************************
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 999]
+input type:      OneMax equivalent for partition (2)
+array length:    1.000
+number of runs:  3
+Limit per run:   69.080
+ratio 100 * m/n: 0,99643 -> easy
+---------
+algo type:            EA;  EA-SM;  EA-SM;  EA-SM;  EA-SM;  EA-SM;  EA-SM;  EA-SM;  EA-SM
+algo param:            -;    2/n;    3/n;    4/n;    5/n;   10/n;   20/n;   50/n;  100/n
+avg mut/change:    1,254;  1,746;  2,301;  3,023;    NaN;    NaN;    NaN;    NaN;    NaN
+avg mut/step:      1,001;  1,993;  3,003;  4,001;    NaN;    NaN;    NaN;    NaN;    NaN
+---------
+total avg count:  15.735; 22.411; 32.125; 46.389; 69.080; 69.080; 69.080; 69.080; 69.080
+avg eval count:   15.735; 22.411; 32.125; 35.044;     -1;     -1;     -1;     -1;     -1
+max eval count:   16.627; 26.258; 43.277; 36.564;      0;      0;      0;      0;      0
+min eval count:   14.520; 19.305; 17.947; 33.524;     -1;     -1;     -1;     -1;     -1
+---------
+fails:                 0;      0;      0;      1;      3;      3;      3;      3;      3
+fail ratio:        0,000;  0,000;  0,000;  0,333;  1,000;  1,000;  1,000;  1,000;  1,000
+avg fail dif:         -1;     -1;     -1;      1;      3;     65;    152;    255;    323
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

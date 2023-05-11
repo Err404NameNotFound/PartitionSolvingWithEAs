@@ -1,0 +1,30 @@
+***************************
+Input: [76102, 71697, 33104, 96835, 49380, 92772, 5676, 64357, 37040, 91936, ..., 70209, 70019, 68964, 24766, 43135, 45353, 25039, 67102, 7661, 2491451147]
+input type:      uniform random values from given range except last field as sum of all other fields (3)
+array length:    50.000
+number of runs:  14
+Limit per run:   5.409.890
+ratio 100 * m/n: 0,06243 -> easy
+lowest value:    1
+highest value:   100.000
+---------
+algo type:                EA;      EA-SM;      EA-SM;      EA-SM;      EA-SM;      EA-SM
+algo param:                -;        2/n;        3/n;        4/n;        5/n;       10/n
+avg mut/change:        1,441;      1,869;      2,325;      2,816;        NaN;        NaN
+avg mut/step:          1,000;      2,000;      3,000;      4,001;        NaN;        NaN
+---------
+total avg count:   1.379.267;  1.874.582;  3.168.971;  5.355.168;  5.409.890;  5.409.890
+avg eval count:    1.379.267;  1.874.582;  3.168.971;  5.026.840;         -1;         -1
+max eval count:    1.949.923;  2.393.886;  3.851.844;  5.030.229;          0;          0
+min eval count:    1.117.243;  1.460.643;  2.462.269;  5.023.452;         -1;         -1
+---------
+fails:                     0;          0;          0;         12;         14;         14
+fail ratio:            0,000;      0,000;      0,000;      0,857;      1,000;      1,000
+avg fail dif:             -1;         -1;         -1;      7.424;    447.893; 76.864.119
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
