@@ -135,7 +135,8 @@ public class InputGenerator {
 
     public static long[] lastXSumRestUniformRange(int length, int low, int high, int sumCount) {
         long[] ret = fill(length, (i) -> Math.abs(RANDOM.nextInt(low, high)), 0, length - sumCount);
-        long sum = (length - sumCount) / (sumCount + 1) - epsilonDif(length, sumCount);
+        long sum = Arrays.stream(ret).sum();
+        sum = sum / (sumCount + 1) - epsilonDif(length, sumCount);
         Arrays.fill(ret, ret.length - sumCount, ret.length, sum);
         return ret;
     }

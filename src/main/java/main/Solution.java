@@ -6,8 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static help.Help.intString;
-import static help.Help.printFirstAndLastElements;
+import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayHelp.swap;
 
 public class Solution {
@@ -143,23 +142,23 @@ public class Solution {
 
     public void printResult() {
         System.out.println("*****************************************");
-        System.out.printf("Array size: %s%n", intString(values.length));
-        System.out.printf("total sum : %s%n", intString(totalSum));
+        System.out.printf("Array size: %,d%n", values.length);
+        System.out.printf("total sum : %,d%n", totalSum);
         if (sumIsEven) {
-            System.out.printf("optimum   : %s%n", intString(optimalValue));
+            System.out.printf("optimum   : %,d%n", optimalValue);
         } else {
-            System.out.printf("optimum 1 : %s%n", intString(optimalValue));
-            System.out.printf("optimum 2 : %s%n", intString(totalSum.subtract(optimalValue)));
+            System.out.printf("optimum 1 : %,d%n", optimalValue);
+            System.out.printf("optimum 2 : %,d%n", totalSum.subtract(optimalValue));
         }
-        System.out.printf("solution  : %s%n", intString(sum));
-        System.out.printf("Difference: %s%n", intString(dif));
+        System.out.printf("solution  : %,d%n", sum);
+        System.out.printf("Difference: %,d%n", dif);
         if (dif.equals(BigInteger.ZERO)) {
             System.out.println("Percentage: 100%");
         } else {
             System.out.printf("Percentage: %.15f%%%n", 100 * (1 - dif.doubleValue() / optimalValue.doubleValue()));
         }
-        System.out.printf("Tries     : %s%n", intString(tries));
-        System.out.printf("Changes   : %s%n", intString(changes));
+        System.out.printf("Tries     : %,d%n", tries);
+        System.out.printf("Changes   : %,d%n", changes);
     }
 
     void printResult(long maxSteps, long totalCount) {
@@ -173,8 +172,8 @@ public class Solution {
 
     public void printTotalStats(long maxSteps, long totalCount) {
         System.out.println("------ total stats ---------");
-        System.out.printf("Limit count: %s%n", intString(maxSteps));
-        System.out.printf("Total tries: %s%n", intString(totalCount));
+        System.out.printf("Limit count: %,d%n", maxSteps);
+        System.out.printf("Total tries: %,d%n", totalCount);
         System.out.println("----------------------------");
     }
 

@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-import static help.Help.printFirstAndLastElements;
+import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.printProgress;
-import static help.Help.printResult;
+import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.powerlawK;
@@ -33,7 +33,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 16;
+        int selection = 19;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -44,30 +44,28 @@ public class Main {
             case 6 -> testRandomBinomial(100000000, 1000);
             case 7 -> printBinomialDistribution();
             case 8 -> testRandomNextBoolean();
-            case 9 -> evaluateMultiple();
+            case 9 -> evaluateMultiple(3, 2, 1000);
             case 10 ->
-                    evaluate(100, 9, 40 * 1, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
+                    evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
             case 12 -> evaluate(1000, 7, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
             case 13 -> compareAllOnAllInstances(1000);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
+            case 16 -> evaluate(1000, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
             case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
+            case 19 -> evaluateMultiple(1000, 8, 10 * 1000);
         }
     }
 
-    private static void evaluateMultiple() {
-        int n = 3;
-        int type = 2;
-        int length = 1 * 1000;
+    private static void evaluateMultiple(int n, int type, int length) {
         Solver[] solvers = new Solver[3];
         solvers[0] = evaluate(n, type, length, Solver.getRLSComparison(), "rls_compare");
         solvers[1] = evaluate(n, type, length, Solver.getEAComparison(), "ea_compare");
-        solvers[2] = evaluate(n, type, length, Solver.getFmutComparison(), "fmut_compare");
-        System.out.println("+++++++++");
-        System.out.println(Arrays.toString(solvers));
+        solvers[2] = evaluate(n, type, length, Solver.getPmutComparison(), "pmut_compare");
+        Solver best = evaluate(n, type, length, solvers, "T_comparingBest");
+        System.out.printf("+++++++++ %d: %s -> %s +++++++++%n", type, Arrays.toString(solvers), best);
     }
 
     private static void compareAllOnAllInstances(int n) {
@@ -78,18 +76,15 @@ public class Main {
                 50 * 1000,
                 1000 * 1000,
                 1000 * 1000,
-                1000 * 1000,
+                10 * 1000,
+                10 * 1000,
+                10 * 1000,
                 10 * 1000,
                 10 * 1000
         };
         setPrintToConsole(false);
-        for (int i = 7; i < inputLengths.length; ++i) {
-            Solver[] solvers = new Solver[3];
-            solvers[0] = evaluate(n, i, inputLengths[i], Solver.getRLSComparison(), "T_rls_compare");
-            solvers[1] = evaluate(n, i, inputLengths[i], Solver.getEAComparison(), "T_ea_compare");
-            solvers[2] = evaluate(n, i, 1000, Solver.getFmutComparison(), "T_fmut_compare");
-            Solver best = evaluate(n, i, 1000, solvers, "T_comparingBest");
-            System.out.printf("+++++++++ %d: %s -> %s +++++++++%n", i, Arrays.toString(solvers), best);
+        for (int i = 0; i < inputLengths.length; ++i) {
+            evaluateMultiple(n, i, inputLengths[i]);
         }
         setPrintToConsole(true);
     }

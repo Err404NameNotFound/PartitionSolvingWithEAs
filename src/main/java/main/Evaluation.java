@@ -1,6 +1,6 @@
 package main;
 
-import help.Help;
+import help.ArrayPrinter;
 
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static help.Help.clearProgressBar;
-import static help.Help.printFirstAndLastElements;
+import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.printProgress;
 import static help.Help.runCancellableTask;
 import static help.MathHelp.log;
@@ -109,7 +109,7 @@ public class Evaluation {
                 }
             }
             this.best = solvers[best];
-            append = append == "" ? "" : append.substring(1);
+            append = append.equals("") ? "" : append.substring(1);
             System.out.printf("---------------Evaluation %s complete-------------%n", append);
         });
         return best;
@@ -120,7 +120,8 @@ public class Evaluation {
             case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
             case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
             case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
-            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS, ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
             case BINOMIAL_DISTRIBUTED -> "Binomial";
             case EXPONENTIAL_DISTRIBUTED -> "Exponential";
             default -> "other";
@@ -185,7 +186,7 @@ public class Evaluation {
         printf("Limit per run:   %,d%n", maxSteps);
         double ratio = 100 * log(max(generateInput(type, length)), 2.0) / length;
         printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
-        if (type == 1 || type == 3 || type == 6) {
+        if (type == 1 || type == 3 || type == 6 || type == 10) {
             printf("lowest value:    %,d%n", DEFAULT_LOWEST_VALUE);
             printf("highest value:   %,d%n", DEFAULT_BIGGEST_VALUE);
         }
@@ -269,8 +270,8 @@ public class Evaluation {
 //        Help.printResult("fail ratio:      ", failed, divisors, digits);
 //        Help.printResultWithDecimalPoint("avg fail dif:    ", failDif, digits);
 
-        Help.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
-        Help.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
+        ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
+        ArrayPrinter.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
         printRow("avg mut/change:  ", mut, mutSuccess, indexes, digits);
         printRow("avg mut/step:    ", mutTried, stepSum, indexes, digits);
         println(separation);
@@ -285,11 +286,11 @@ public class Evaluation {
     }
 
     private void printRow(String title, long[] values, Integer[] sorting, int digits) {
-        Help.printResult(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
+        ArrayPrinter.printResult(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
     }
 
     private void printRow(String title, long[] values, long[] divisors, Integer[] sorting, int digits) {
-        Help.printResult(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
+        ArrayPrinter.printResult(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
                 sorting.length, digits);
     }
 

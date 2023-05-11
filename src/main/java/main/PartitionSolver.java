@@ -13,7 +13,7 @@ import java.util.Set;
 import static help.MathHelp.binomialK;
 import static help.ArrayHelp.findLargestK;
 import static help.MathHelp.nChooseK_double;
-import static help.Help.printFirstAndLastElements;
+import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.printProgress;
 import static help.ArrayHelp.swap;
 import static help.MathHelp.powerlawK;

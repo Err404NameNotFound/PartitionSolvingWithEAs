@@ -5,11 +5,11 @@ public class Solver {
         Solution solve(long[] values, long maxSteps);
     }
 
-    public ISolver solver;
-    public String description;
-    public String parameter;
+    public final ISolver solver;
+    public final String description;
+    public final String parameter;
 
-    public Solver(String description, String parameter, ISolver solver) {
+    private Solver(String description, String parameter, ISolver solver) {
         this.parameter = parameter;
         this.solver = solver;
         this.description = description;
@@ -119,7 +119,8 @@ public class Solver {
                 getRLSUniformRing(2),
                 getRLSUniformNeighbour(2),
                 getEA(),
-                getEA(2)
+                getEA(2),
+                getPmut(-2.75)
         };
     }
 
