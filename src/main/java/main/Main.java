@@ -29,10 +29,11 @@ public class Main {
     public static final double DEFAULT_P_BINOMIAL = 0.1;
     public static final double DEFAULT_P_EXPONENTIAL = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
+    public static final double DEFAULT_PMUT_PARAM = -2.75;
 
 
     public static void main(String[] args) {
-        int selection = 17;
+        int selection = 16;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -47,12 +48,13 @@ public class Main {
             case 10 ->
                     evaluate(100, 9, 40 * 1, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
-            case 12 -> evaluate(1000, 7, 10 * 1000, Solver.getComparison(), "temp");
+            case 12 -> evaluate(1000, 7, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
             case 13 -> compareAllOnAllInstances(1000);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1000, 7, 10000, Solver.getEAComparison(), "X_pmut_compare");
-            case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2,2,3,-2.75), "Z_best_compare");
+            case 16 -> evaluate(1, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
+            case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
+            case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
         }
     }
 
@@ -110,7 +112,7 @@ public class Main {
         }
     }
 
-    private static void compareOnSpecificType(){
+    private static void compareOnSpecificType() {
 //        evaluate(n);
     }
 

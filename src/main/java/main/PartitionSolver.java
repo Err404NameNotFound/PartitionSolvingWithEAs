@@ -11,11 +11,11 @@ import java.util.Random;
 import java.util.Set;
 
 import static help.MathHelp.binomialK;
-import static help.Help.findLargestK;
+import static help.ArrayHelp.findLargestK;
 import static help.MathHelp.nChooseK_double;
 import static help.Help.printFirstAndLastElements;
 import static help.Help.printProgress;
-import static help.Help.swap;
+import static help.ArrayHelp.swap;
 import static help.MathHelp.powerlawK;
 
 public class PartitionSolver {
@@ -93,17 +93,7 @@ public class PartitionSolver {
         if (mutationRate > values.length || mutationRate <= 0) {
             throw new IllegalArgumentException("Illegal mutation rate");
         }
-        Random random = new Random();
-        Solution sol = createStartingPoint(values, random);
-        while (sol.isNotOptimal(maxSteps)) {
-            int k;
-//            do {
-//                k = binomialK(values.length, mutationRate);
-//            } while (k == 0);
-            k = binomialK(values.length, mutationRate); // TODO unnötige steps entfernen
-            sol.updateIfImprovementMultiple(randomKIndices(k, random, values));
-        }
-        return sol;
+        return solve(values, maxSteps, (a) -> binomialK(a, mutationRate));
     }
 
     public static Solution solveFmut(long[] values, long maxSteps, double p) {
@@ -243,7 +233,7 @@ public class PartitionSolver {
         return set;
     }
 
-    private static interface KGenerator{
+    private interface KGenerator{
         int generateK(int max);
     }
 }

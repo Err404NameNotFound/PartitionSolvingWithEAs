@@ -10,8 +10,6 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Random;
 
 import static help.Printer.print;
@@ -34,36 +32,6 @@ public class Help {
 
     public static String intString(BigInteger val) {
         return NumberFormat.getNumberInstance().format(val);
-    }
-
-    public static int[] findLargestK(long[] arr, int k) {
-        Queue<Tuple> queue = new PriorityQueue<>(Tuple::compareTo);
-
-        for (int i = 0; i < arr.length; ++i) {
-            if (queue.size() == k && queue.peek().value < arr[i]) {
-                queue.remove();
-            }
-            if (queue.size() < k) {
-                queue.add(new Tuple(i, arr[i]));
-            }
-        }
-        int[] indexes = new int[k];
-        for (int i = k - 1; i >= 0; --i) {
-            indexes[i] = queue.remove().index;
-        }
-        return indexes;
-    }
-
-    public static void swap(long[] values, int i, int j) {
-        long help = values[i];
-        values[i] = values[j];
-        values[j] = help;
-    }
-
-    public static void swap(int[] values, int i, int j) {
-        int help = values[i];
-        values[i] = values[j];
-        values[j] = help;
     }
 
     public static void printFirstAndLastElements(int[] arr) {
@@ -192,18 +160,4 @@ public class Help {
         String get(int index);
     }
 
-    private static class Tuple implements Comparable<Tuple> {
-        public int index;
-        public long value;
-
-        public Tuple(int index, long value) {
-            this.index = index;
-            this.value = value;
-        }
-
-        @Override
-        public int compareTo(Tuple o) {
-            return (int) (value - o.value);
-        }
-    }
 }

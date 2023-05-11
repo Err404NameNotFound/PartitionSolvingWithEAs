@@ -8,7 +8,7 @@ import java.util.Set;
 
 import static help.Help.intString;
 import static help.Help.printFirstAndLastElements;
-import static help.Help.swap;
+import static help.ArrayHelp.swap;
 
 public class Solution {
     private final int[] partition;
