@@ -5,13 +5,12 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static help.Printer.printf;
 import static java.lang.Math.max;
 
 public class ProgressPrinter {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    private long startTime;
+    private final long startTime;
     private boolean byTime;
     private long nextUpdate;
     private long stepSize;
@@ -43,7 +42,7 @@ public class ProgressPrinter {
     }
 
     public void printProgressIfNecessary(long i) {
-        if (byTime && Instant.now().toEpochMilli() <= nextUpdate || !byTime && i>= nextUpdate) {
+        if (byTime && Instant.now().toEpochMilli() >= nextUpdate || !byTime && i>= nextUpdate) {
             printProgress(i);
             nextUpdate += stepSize;
         }

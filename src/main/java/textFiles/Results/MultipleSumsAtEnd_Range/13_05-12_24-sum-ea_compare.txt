@@ -1,0 +1,30 @@
+Input: [20682, 1805, 24708, 39933, 3425, 1361, 41585, 30596, 28205, 29611, ..., 2447693, 2447693, 2447693, 2447693, 2447693, 2447693, 2447693, 2447693, 2447693, 2447693]
+input type:      uniform random values from given range except last x fields as sum of all other fields (6)
+array length:    10.000
+number of runs:  114
+Limit per run:   921.030
+ratio 100 * m/n: 0,21226 -> easy
+lowest value:    1
+highest value:   50.000
+Fields with sum: 100
+---------
+algo type:          EA-SM;   EA-SM;   EA-SM;   EA-SM;   EA-SM;      EA;   EA-SM;   EA-SM
+algo param:           4/n;     3/n;     2/n;     5/n;    10/n;       -;    50/n;   100/n
+avg mut/change:     4,006;   3,101;   2,297;   4,938;   9,820;   1,581;  49,533;  99,398
+avg mut/step:       4,000;   3,000;   2,000;   5,000;  10,001;   1,000;  50,001; 100,002
+---------
+total avg count:  111.954; 119.702; 136.373; 140.347; 214.189; 256.874; 446.135; 608.880
+avg eval count:   111.954; 112.611; 136.373; 140.347; 195.085; 219.976; 338.901; 337.668
+max eval count:   816.686; 797.496; 845.768; 808.329; 893.805; 854.277; 913.352; 893.611
+min eval count:       757;   2.457;     679;   4.009;     439;     555;   1.176;   2.425
+---------
+fails:                  0;       1;       0;       0;       3;       6;      21;      53
+fail ratio:         0,000;   0,009;   0,000;   0,000;   0,026;   0,053;   0,184;   0,465
+avg fail dif:          -1;       1;      -1;      -1;       1;       1;       1;       1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

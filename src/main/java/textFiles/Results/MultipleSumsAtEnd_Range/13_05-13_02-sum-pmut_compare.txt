@@ -1,0 +1,30 @@
+Input: [28788, 20889, 6902, 40024, 20862, 24304, 40529, 38930, 35842, 30845, ..., 2458918, 2458918, 2458918, 2458918, 2458918, 2458918, 2458918, 2458918, 2458918, 2458918]
+input type:      uniform random values from given range except last x fields as sum of all other fields (6)
+array length:    10.000
+number of runs:  1.000
+Limit per run:   921.030
+ratio 100 * m/n: 0,21224 -> easy
+lowest value:    1
+highest value:   50.000
+Fields with sum: 100
+---------
+algo type:           pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut
+algo param:         -2,25;   -1,75;   -2,00;   -2,50;   -3,00;   -2,75;   -1,50;   -3,25;   -1,25
+avg mut/change:     3,858;  14,280;   6,829;   2,748;   1,905;   2,202;  34,560;   1,712;  78,092
+avg mut/step:       4,361;  22,233;   8,478;   2,906;   1,934;   2,271;  70,652;   1,729; 224,493
+---------
+total avg count:  160.327; 160.801; 168.396; 171.377; 172.604; 174.391; 176.553; 190.483; 209.041
+avg eval count:   151.088; 153.121; 156.935; 157.635; 164.279; 159.154; 168.273; 168.664; 181.685
+max eval count:   860.943; 913.712; 893.852; 916.574; 862.059; 917.197; 916.606; 891.108; 918.805
+min eval count:       182;     128;      91;     162;     356;     192;      93;     394;      90
+---------
+fails:                 12;      10;      15;      18;      11;      20;      11;      29;      37
+fail ratio:         0,012;   0,010;   0,015;   0,018;   0,011;   0,020;   0,011;   0,029;   0,037
+avg fail dif:           1;       1;       1;       1;       1;       1;       1;       1;       1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

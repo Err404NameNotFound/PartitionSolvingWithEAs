@@ -8,7 +8,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.ProgressPrinter.printProgress;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.MathHelp.binomialK;
@@ -16,6 +15,7 @@ import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
 import static help.MathHelp.xlnx;
 import static help.Printer.setPrintToConsole;
+import static help.ProgressPrinter.printProgress;
 import static main.Evaluation.evaluate;
 import static main.InputGenerator.generateInput;
 
@@ -50,8 +50,8 @@ public class Main {
             case 10 ->
                     evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
-            case 12 -> evaluate(1000, 7, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
-            case 13 -> compareAllOnAllInstances(1000, 2);
+            case 12 -> evaluate(1000, 6, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
+            case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> evaluate(1000, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
@@ -72,17 +72,17 @@ public class Main {
 
     private static void compareAllOnAllInstances(int n, int start) {
         int[] inputLengths = new int[]{
-                2000, // Integer
-                20 * 1000, // range
-                0, // one Max
-                0, // one Max
-                10 * 1000, // two thirds
-                10 * 1000, // multi sum one
-                10 * 1000, // multi sum range
-                10 * 1000, // binomial
-                10 * 1000, // exponential
-                10 * 1000, // binomial shifted
-                20 * 1000, // power law distributed
+                2000,           // Integer
+                20 * 1000,      // range
+                1000 * 1000,    // one Max
+                0,              // one Max
+                100 * 1000,     // two thirds
+                100 * 1000,     // multi sum one
+                10 * 1000,      // multi sum range
+                10 * 1000,      // binomial
+                10 * 1000,      // exponential
+                10 * 1000,      // binomial shifted
+                20 * 1000,      // power law distributed
         };
         setPrintToConsole(false);
         for (int i = start; i < inputLengths.length; ++i) {

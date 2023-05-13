@@ -1,0 +1,28 @@
+input type:      uniform random values from given range (1)
+array length:    1.000
+number of runs:  181
+Limit per run:   69.080
+ratio 100 * m/n: 1,66096 -> hard
+lowest value:    1
+highest value:   100.000
+---------
+algo type:           fmut;    fmut;    fmut;    fmut;    fmut
+algo param:         0,100;   0,250;   0,500;   0,750;   0,900
+avg mut/change:   123,671; 112,793;  64,353;  44,730;  34,384
+avg mut/step:     225,275; 187,960; 125,267;  62,821;  26,030
+---------
+total avg count:   66.306;  65.760;  67.440;  68.093;  66.842
+avg eval count:    30.468;  29.029;  19.611;  39.306;  11.216
+max eval count:    66.840;  62.758;  50.233;  57.869;  43.198
+min eval count:     1.658;     970;   1.741;  22.563;     210
+---------
+fails:                168;     166;     175;     175;     174
+fail ratio:         0,928;   0,917;   0,967;   0,967;   0,961
+avg fail dif:          10;      11;      14;      23;      44
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

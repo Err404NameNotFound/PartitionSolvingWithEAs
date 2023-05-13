@@ -1,0 +1,28 @@
+input type:      powerlaw distributed (10)
+array length:    20.000
+number of runs:  1.000
+Limit per run:   1.980.700
+ratio 100 * m/n: 0,04431 -> easy
+lowest value:    1
+highest value:   50.000
+---------
+algo type:           pmut;   EA-SM;   RLS-N
+algo param:         -1,25;    50/n;     k=4
+avg mut/change:   216,029;  49,921;   4,000
+avg mut/step:     370,312;  50,022;   4,000
+---------
+total avg count:       56;      84;     181
+avg eval count:        56;      84;     181
+max eval count:     2.616;   1.244;   3.048
+min eval count:         0;       1;       0
+---------
+fails:                  0;       0;       0
+fail ratio:         0,000;   0,000;   0,000
+avg fail dif:          -1;      -1;      -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

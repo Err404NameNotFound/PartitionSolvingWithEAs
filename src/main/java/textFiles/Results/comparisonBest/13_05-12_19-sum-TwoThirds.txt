@@ -1,0 +1,27 @@
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 9248, 9248]
+input type:      Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...) (4)
+array length:    10.000
+number of runs:  1.000
+Limit per run:   921.030
+ratio 100 * m/n: 0,13175 -> easy
+---------
+algo type:           pmut;   EA-SM;   RLS-N
+algo param:         -1,25;   100/n;     k=3
+avg mut/change:   208,477;  99,891;   3,000
+avg mut/step:     228,998; 100,014;   3,000
+---------
+total avg count:       42;      68;   1.216
+avg eval count:        42;      68;   1.216
+max eval count:       231;     466;  13.896
+min eval count:         0;       0;       0
+---------
+fails:                  0;       0;       0
+fail ratio:         0,000;   0,000;   0,000
+avg fail dif:          -1;      -1;      -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
