@@ -1,12 +1,14 @@
 package main;
 
+import help.ProgressPrinter;
+
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.Help.printProgress;
+import static help.ProgressPrinter.printProgress;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.MathHelp.binomialK;
@@ -70,17 +72,17 @@ public class Main {
 
     private static void compareAllOnAllInstances(int n, int start) {
         int[] inputLengths = new int[]{
-                2000,
-                20 * 1000,
-                10 * 1000,
-                20 * 1000,
-                10 * 1000,
-                10 * 1000,
-                10 * 1000,
-                10 * 1000,
-                10 * 1000,
-                10 * 1000,
-                20 * 1000
+                2000, // Integer
+                20 * 1000, // range
+                0, // one Max
+                0, // one Max
+                10 * 1000, // two thirds
+                10 * 1000, // multi sum one
+                10 * 1000, // multi sum range
+                10 * 1000, // binomial
+                10 * 1000, // exponential
+                10 * 1000, // binomial shifted
+                20 * 1000, // power law distributed
         };
         setPrintToConsole(false);
         for (int i = start; i < inputLengths.length; ++i) {
@@ -279,8 +281,8 @@ public class Main {
         long[] avg = new long[ns.length];
         long[] max = new long[ns.length];
         long[] min = new long[ns.length];
-        long startTime = Instant.now().getEpochSecond();
         Arrays.fill(min, Integer.MAX_VALUE);
+        ProgressPrinter progress = new ProgressPrinter(ns.length, 1L);
         for (int t = 0; t < ns.length; ++t) {
             int val;
             int n = 100000000;
@@ -295,7 +297,7 @@ public class Main {
 //            System.out.println(val);
             }
             avg[t] /= n;
-            printProgress(t, ns.length, startTime);
+            progress.printProgress(t);
         }
         System.out.println();
         int digits = 6;

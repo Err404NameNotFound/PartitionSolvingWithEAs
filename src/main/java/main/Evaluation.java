@@ -1,16 +1,14 @@
 package main;
 
 import help.ArrayPrinter;
+import help.ProgressPrinter;
 
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import static help.Help.clearProgressBar;
 import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.Help.printProgress;
 import static help.Help.runCancellableTask;
 import static help.MathHelp.log;
 import static help.MathHelp.max;
@@ -22,23 +20,7 @@ import static help.Printer.println;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static main.InputGenerator.ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS;
-import static main.InputGenerator.ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
-import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
-import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
-import static main.InputGenerator.COMPLETE_INT_RANGE;
-import static main.InputGenerator.EXPONENTIAL_DISTRIBUTED;
-import static main.InputGenerator.LAST_SUM_WITH_RANGE;
-import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
-import static main.InputGenerator.PARTIAL_INT_RANGE;
 import static main.InputGenerator.generateInput;
-import static main.InputGenerator.getInputTypeDescription;
-import static main.Main.DEFAULT_BIGGEST_VALUE;
-import static main.Main.DEFAULT_LOWEST_VALUE;
-import static main.Main.DEFAULT_N;
-import static main.Main.DEFAULT_P_BINOMIAL;
-import static main.Main.DEFAULT_P_EXPONENTIAL;
-import static main.Main.DEFAULT_SUM_COUNT;
 
 public class Evaluation {
 
@@ -120,9 +102,7 @@ public class Evaluation {
 
     private int calculate(int n, int type, int length, long maxSteps, Solver[] solvers) {
         long[] input = generateInput(type, length);
-        long startTime = Instant.now().getEpochSecond();
-        long stepSize = Math.max(n / 100, 1);
-        long next = stepSize;
+        ProgressPrinter progress = new ProgressPrinter(n);
         for (int t = 0; t < n; ++t) {
             if (Thread.interrupted()) {
                 return t;
@@ -153,14 +133,11 @@ public class Evaluation {
                 }
             }
             println();
-            if (!isPrintToConsole() && t > next) {
-                setPrintToConsole(true);
-                printProgress(t, n, startTime);
-                next += stepSize;
-                setPrintToConsole(false);
+            if (!isPrintToConsole()) {
+                progress.printProgressIfNecessary(t);
             }
         }
-        clearProgressBar();
+        progress.clearProgressAndPrintElapsedTime();
         return n;
     }
 

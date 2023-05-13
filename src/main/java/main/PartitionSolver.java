@@ -1,5 +1,7 @@
 package main;
 
+import help.ProgressPrinter;
+
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -10,19 +12,19 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
-import static help.MathHelp.binomialK;
 import static help.ArrayHelp.findLargestK;
-import static help.MathHelp.nChooseK_double;
-import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.Help.printProgress;
 import static help.ArrayHelp.swap;
+import static help.ArrayPrinter.printFirstAndLastElements;
+import static help.MathHelp.binomialK;
+import static help.MathHelp.nChooseK_double;
 import static help.MathHelp.powerlawK;
+import static help.ProgressPrinter.printProgress;
 
 public class PartitionSolver {
 
     private static Random RNG = new Random();
 
-    private static Solution solve(long[] values, long maxSteps, KGenerator generator){
+    private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
         Random random = new Random();
         Solution sol = createStartingPoint(values, random);
         while (sol.isNotOptimal(maxSteps)) {
@@ -32,21 +34,17 @@ public class PartitionSolver {
         }
         return sol;
     }
-    private static Solution solveWithProgress(long[] values, long maxSteps, KGenerator generator){
+
+    private static Solution solveWithProgress(long[] values, long maxSteps, KGenerator generator) {
         Random random = new Random();
         Solution sol = createStartingPoint(values, random);
-        long stepSize = maxSteps/1000;
-        long next = stepSize;
         long steps = 0;
-        long startTime = Instant.now().getEpochSecond();
+        ProgressPrinter progress = new ProgressPrinter(maxSteps);
         while (sol.isNotOptimal(maxSteps)) {
             int k = generator.generateK(values.length);
             Set<Integer> indexes = randomKIndices(k, random, values);
             sol.updateIfImprovementMultiple(indexes);
-            if(steps >= next){
-                printProgress(steps, maxSteps, startTime);
-                next += stepSize;
-            }
+            progress.printProgressIfNecessary(steps);
             ++steps;
         }
         return sol;
@@ -57,7 +55,7 @@ public class PartitionSolver {
     }
 
     public static Solution solveRLS_UniformRing(long[] values, long maxSteps, int neighbours) {
-        return solve(values, maxSteps, (a) -> RNG.nextInt(1, neighbours+1));
+        return solve(values, maxSteps, (a) -> RNG.nextInt(1, neighbours + 1));
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours) {
@@ -97,11 +95,11 @@ public class PartitionSolver {
     }
 
     public static Solution solveFmut(long[] values, long maxSteps, double p) {
-        return solve(values, maxSteps, (a) -> RNG.nextDouble()<= p ? 1 : RNG.nextInt(1, a / 2));
+        return solve(values, maxSteps, (a) -> RNG.nextDouble() <= p ? 1 : RNG.nextInt(1, a / 2));
     }
 
     public static Solution solvePmut(long[] values, long maxSteps, double n) {
-        return solve(values, maxSteps, (a) -> powerlawK(1.0, a/2.0, n));
+        return solve(values, maxSteps, (a) -> powerlawK(1.0, a / 2.0, n));
     }
 
     public static Solution solveWithFirstK(long[] values, long maxSteps, int k) {
@@ -150,8 +148,6 @@ public class PartitionSolver {
                                               int start, int end, boolean print) {
         long count = 0;
         boolean notDone = true;
-        long increase = maxSteps / 100;
-        long next = maxSteps / 100;
         System.out.print("Input: ");
         printFirstAndLastElements(values);
         for (Solution s : solutions) {
@@ -159,7 +155,7 @@ public class PartitionSolver {
             s.printDistribution();
         }
         System.out.print("Progress:  0 %                    ");
-        long startTime = Instant.now().getEpochSecond();
+        ProgressPrinter progress = new ProgressPrinter(maxSteps);
         do {
             for (Solution sol : solutions) {
                 do {
@@ -168,10 +164,7 @@ public class PartitionSolver {
                     notDone = notDone && sol.isNotOptimal() && count < maxSteps;
                 } while (sol.lastImproveLessThanXStepsAway(100) && notDone);
             }
-            if (count > next) {
-                printProgress(count, maxSteps, startTime);
-                next += increase;
-            }
+            progress.printProgress(count);
         }
         while (notDone);
         System.out.println();
@@ -233,7 +226,7 @@ public class PartitionSolver {
         return set;
     }
 
-    private interface KGenerator{
+    private interface KGenerator {
         int generateK(int max);
     }
 }

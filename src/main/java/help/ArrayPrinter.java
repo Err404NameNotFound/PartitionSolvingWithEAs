@@ -75,16 +75,20 @@ public class ArrayPrinter {
         printResult(i -> solvers[i].description, solvers.length, digits);
     }
 
-    public static void printResult(String before, Help.Array array, int length, int digits) {
+    public static void printResult(String before, Array array, int length, int digits) {
         print(before);
         printResult(array, length, digits);
     }
 
-    public static void printResult(Help.Array array, int length, int digits) {
+    public static void printResult(Array array, int length, int digits) {
         printf("%" + digits + "s", array.get(0));
         for (int i = 1; i < length; ++i) {
             printf(";%" + digits + "s", array.get(i));
         }
         println();
+    }
+
+    public interface Array {
+        String get(int index);
     }
 }

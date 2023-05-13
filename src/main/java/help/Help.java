@@ -2,32 +2,8 @@ package help;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
-import java.text.NumberFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
-import java.util.Random;
-
-import static help.Printer.print;
-import static help.Printer.printf;
-import static help.Printer.println;
 
 public class Help {
-
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-
-    public static void printProgress(long current, long end, long startSeconds) {
-        ++current;
-        long expectedTime = (Instant.now().getEpochSecond() - startSeconds) * (end - current) / current;
-        printf("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b%3s%% | finished: %s",
-                (100 * current) / end, formatter.format(LocalDateTime.ofEpochSecond(expectedTime, 0, ZoneOffset.UTC)));
-    }
-
-    public static void clearProgressBar(){
-        System.out.println("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
-    }
 
     public static void runCancellableTask(Runnable task) {
         runCancellableTask(new Thread(task));
@@ -55,10 +31,6 @@ public class Help {
                 }
             }
         }
-    }
-
-    public interface Array {
-        String get(int index);
     }
 
 }
