@@ -33,7 +33,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 19;
+        int selection = 13;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -72,15 +72,15 @@ public class Main {
         int[] inputLengths = new int[]{
                 2000,
                 20 * 1000,
-                1000 * 1000,
+                10 * 1000,
                 20 * 1000,
-                1000 * 1000,
-                1000 * 1000,
                 10 * 1000,
                 10 * 1000,
-                100 * 1000,
                 10 * 1000,
-                200 * 1000
+                10 * 1000,
+                10 * 1000,
+                10 * 1000,
+                20 * 1000
         };
         setPrintToConsole(false);
         for (int i = start; i < inputLengths.length; ++i) {
