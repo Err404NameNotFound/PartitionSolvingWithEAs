@@ -49,7 +49,7 @@ public class Main {
                     evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
             case 12 -> evaluate(1000, 7, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
-            case 13 -> compareAllOnAllInstances(1000);
+            case 13 -> compareAllOnAllInstances(1000, 2);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> evaluate(1000, 6, 10000, Solver.getEAComparison(), "TODO_DELETE");
@@ -68,22 +68,22 @@ public class Main {
         System.out.printf("+++++++++ %d: %s -> %s +++++++++%n", type, Arrays.toString(solvers), best);
     }
 
-    private static void compareAllOnAllInstances(int n) {
+    private static void compareAllOnAllInstances(int n, int start) {
         int[] inputLengths = new int[]{
                 2000,
-                50 * 1000,
-                50 * 1000,
-                50 * 1000,
+                20 * 1000,
+                1000 * 1000,
+                20 * 1000,
                 1000 * 1000,
                 1000 * 1000,
                 10 * 1000,
                 10 * 1000,
+                100 * 1000,
                 10 * 1000,
-                10 * 1000,
-                10 * 1000
+                200 * 1000
         };
         setPrintToConsole(false);
-        for (int i = 0; i < inputLengths.length; ++i) {
+        for (int i = start; i < inputLengths.length; ++i) {
             evaluateMultiple(n, i, inputLengths[i]);
         }
         setPrintToConsole(true);

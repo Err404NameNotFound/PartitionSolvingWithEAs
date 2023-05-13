@@ -11,3 +11,8 @@ https://www.wolframalpha.com/input?i=1%2F2+*+erfc%280.000235702+%28-10000%29%29+
 
 P(of at least once the value)
 https://www.wolframalpha.com/input?i=P%28X+%3E%3D+1%29+where+X+is+binomial+distribution+n%3D10000%2C+p%3D0.000135867
+
+P(X = 2 or X = 4) for p = 2/n, 3/n, 4/n
+https://www.wolframalpha.com/input?i=P%28X+%3D+2+or+X+%3D+4%29+where+X+is+binomial+dist%2810000%2C+0.0002%29
+https://www.wolframalpha.com/input?i=P%28X+%3D+2+or+X+%3D+4%29+where+X+is+binomial+dist%2810000%2C+0.0003%29
+https://www.wolframalpha.com/input?i=P%28X+%3D+2+or+X+%3D+4%29+where+X+is+binomial+dist%2810000%2C+0.0004%29
