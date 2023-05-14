@@ -28,12 +28,12 @@ public class Solver {
         return new Solver("RLS", "-", PartitionSolver::solveRLS);
     }
 
-    public static Solver getRLSUniformNeighbour(int k) {
-        return new Solver("RLS-N", "k=" + k, (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, k));
+    public static Solver getRLSUniformNeighbour(int n) {
+        return new Solver("RLS-N", "n=" + n, (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, n));
     }
 
-    public static Solver getRLSUniformRing(int k) {
-        return new Solver("RLS-R", "k=" + k, (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, k));
+    public static Solver getRLSUniformRing(int r) {
+        return new Solver("RLS-R", "t=" + r, (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
     }
 
     public static Solver getEA() {

@@ -6,7 +6,7 @@ ratio 100 * m/n: 0,13288 -> easy
 ---------
 n value:         10.000
 p:               0,001000
-expected value:  10.000.000
+expected value:  1.000
 ---------
 algo type:           RLS;  RLS-N;  RLS-R;     EA;  EA-SM;   pmut
 algo param:            -;    k=2;    k=2;      -;    2/n;  -2,75

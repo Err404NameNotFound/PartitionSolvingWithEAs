@@ -263,10 +263,11 @@ public class Evaluation {
     private void printExplanation(String separation) {
         println(separation);
         println("RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1");
-        println("RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k");
-        println("RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}");
+        println("RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n");
+        println("RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}");
         println("EA      -> standard EA : each bit is flipped with prob 1/n");
         println("EA-SM   -> modified EA : each bit is flipped with prob c/n");
         println("fmut    -> 1 bit flip with prob p and uniform random amount with 1-p");
+        println("pmut    -> flips k random bits where k is chosen from powerlaw distribution");
     }
 }
