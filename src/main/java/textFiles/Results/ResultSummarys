@@ -24,27 +24,11 @@ total avg count:   91.171; 143.121; 231.082
 ----------------------------------------------------------------------------------------------------
 
 Uniform zwischen 1 und 50.000 bei Array Länge 50.000
-    -rls:
-    -ea:
-    -pmut:
-    - Besser mit steigender Mutationsrate aber ab 10,0 wieder schlechter 1,0 -> 1,5 -> 2,0 -> 3,0 -> 4,0 <- 10,0
-    - RLS deutlich schlechter als (1+1) EA -> 785 mal ans Limit statt 51 mal
-
-
-
-----------------------------------------------------------------------------------------------------
-
-Exponential verteilt mit p = 0,001
-    -rls: r=2;    r=3;    r=4;    n=2;    n=3;    n=4;      -
-    -ea: 2/n;       -;     3/n;     4/n;     5/n;    10/n;    50/n;   100/n
-    -pmut: -3,25;   -3,00;   -2,50;   -2,75;   -2,25;   -2,00;   -1,75;   -1,50;   -1,25
-    - ea: 3 und standard sind ähnlich gut
-    - allgemein wichtig Elemente tauschen zu können aber auch einzelne elemente zu verschieben -> tausch > einzeln
-    - Ähnlich Ergebnisse wie bei uniformer Verteilung? //TODO überprüfen
-algo type:         RLS-R;   pmut;  EA-SM
-algo param:          k=2;  -3,25;    2/n
-avg mut/change:    1,483;  1,693;  2,258
-total avg count:   2.407;  2.695;  3.421
+    -rls: n=2;       r=3;       r=4;       n=3;       r=2;       n=4;         -
+    -ea: 3/n;       2/n;       4/n;       5/n;      10/n;         -;      50/n;     100/n
+    -pmut: -2,25;     -2,00;     -3,00;     -2,75;     -2,50;     -1,75;     -1,50;     -3,25;     -1,25
+    - Ähnlich zu Binomialverteilung tauschen wichtig daher n=2 bzw p=3/n
+    - RLS deutlich schlechter als (1+1) EA -> 447 mal ans Limit statt 0 mal
 
 ----------------------------------------------------------------------------------------------------
 
@@ -61,6 +45,20 @@ algo type:        RLS-N; EA-SM;  pmut
 algo param:         k=2;   3/n; -2,25
 avg mut/change:   2,000; 3,092; 3,965
 total avg count:    302;   677;   691
+
+----------------------------------------------------------------------------------------------------
+
+Exponential verteilt mit p = 0,001
+    -rls: r=2;    r=3;    r=4;    n=2;    n=3;    n=4;      -
+    -ea: 2/n;       -;     3/n;     4/n;     5/n;    10/n;    50/n;   100/n
+    -pmut: -3,25;   -3,00;   -2,50;   -2,75;   -2,25;   -2,00;   -1,75;   -1,50;   -1,25
+    - ea: 3 und standard sind ähnlich gut
+    - allgemein wichtig Elemente tauschen zu können aber auch einzelne elemente zu verschieben -> tausch > einzeln
+    - Ähnlich Ergebnisse wie bei uniformer Verteilung? //TODO überprüfen
+algo type:         RLS-R;   pmut;  EA-SM
+algo param:          k=2;  -3,25;    2/n
+avg mut/change:    1,483;  1,693;  2,258
+total avg count:   2.407;  2.695;  3.421
 
 ----------------------------------------------------------------------------------------------------
 

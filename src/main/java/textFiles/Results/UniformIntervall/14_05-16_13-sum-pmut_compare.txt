@@ -1,0 +1,29 @@
+input type:      uniform random values from given range (1)
+array length:    50.000
+number of runs:  53
+Limit per run:   5.409.890
+ratio 100 * m/n: 0,03122 -> easy
+lowest value:    1
+highest value:   50.000
+---------
+algo type:             pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut
+algo param:           -2,25;     -2,00;     -3,00;     -2,75;     -2,50;     -1,75;     -1,50;     -3,25;     -1,25
+avg mut/change:       3,898;     5,603;     1,891;     2,259;     2,720;    28,035;    94,745;     1,724;   334,887
+avg mut/step:         4,568;    10,031;     1,933;     2,274;     2,933;    34,684;   158,937;     1,728;   718,814
+---------
+total avg count:    111.048;   115.812;   121.406;   122.184;   123.348;   149.182;   157.279;   157.451;   199.763
+avg eval count:     111.048;   115.812;   121.406;   122.184;   123.348;   149.182;   157.279;   157.451;   199.763
+max eval count:     854.290;   487.327;   773.065;   736.059;   695.178; 1.079.073; 1.927.473;   795.211; 1.243.407
+min eval count:         375;       746;     1.502;     3.103;       896;     4.047;       360;     1.516;       775
+---------
+fails:                    0;         0;         0;         0;         0;         0;         0;         0;         0
+fail ratio:           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
+avg fail dif:            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
