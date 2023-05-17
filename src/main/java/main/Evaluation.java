@@ -78,7 +78,7 @@ public class Evaluation {
             String startTime = formatter.format(LocalDateTime.now());
             String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
 //            startFilePrinting(folder + startTime + "-res" + append + ".csv");
-            setPrintToConsole(false);
+//            setPrintToConsole(false);
             int temp = calculate(n, type, length, steps, solvers);
 //            setPrintToConsole(true);
             stopWritingToFile();
