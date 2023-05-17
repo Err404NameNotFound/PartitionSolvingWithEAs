@@ -17,7 +17,6 @@ import static help.Printer.isPrintToConsole;
 import static help.Printer.print;
 import static help.Printer.printf;
 import static help.Printer.println;
-import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.generateInput;
@@ -221,20 +220,7 @@ public class Evaluation {
         for (int i = 0; i < indexes.length; ++i) {
             indexes[i] = i;
         }
-        Arrays.sort(indexes, (a, b) -> Long.compare(totalAverage[a], totalAverage[b]));
-//        Help.printResult("algo type:       ", solvers, digits);
-//        Help.printResult("algo param:      ", (i) -> solvers[i].parameter, solvers.length, digits);
-//        Help.printResult("avg mut/change:  ", mut, mutSuccess, digits);
-//        Help.printResult("avg mut/step:    ", mutTried, stepSum, digits);
-//        println(separation);
-//        Help.printResultWithDecimalPoint("total avg count: ", totalAverage, digits);
-//        Help.printResultWithDecimalPoint("avg eval count:  ", avg, digits);
-//        Help.printResultWithDecimalPoint("max eval count:  ", stepMax, digits);
-//        Help.printResultWithDecimalPoint("min eval count:  ", stepMin, digits);
-//        println(separation);
-//        Help.printResultWithDecimalPoint("fails:           ", failed, digits);
-//        Help.printResult("fail ratio:      ", failed, divisors, digits);
-//        Help.printResultWithDecimalPoint("avg fail dif:    ", failDif, digits);
+        Arrays.sort(indexes, this::compareSolver);
 
         ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
         ArrayPrinter.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
@@ -249,6 +235,11 @@ public class Evaluation {
         printRow("fails:           ", failed, indexes, digits);
         printRow("fail ratio:      ", failed, divisors, indexes, digits);
         printRow("avg fail dif:    ", failDif, indexes, digits);
+    }
+
+    private int compareSolver(int a, int b) {
+        int res = Long.compare(totalAverage[a], totalAverage[b]);
+        return res == 0 ? Long.compare(failDif[a], failDif[b]) : res;
     }
 
     private void printRow(String title, long[] values, Integer[] sorting, int digits) {
