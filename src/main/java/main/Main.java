@@ -10,6 +10,7 @@ import java.util.Scanner;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
+import static help.Help.runCancellableTasks;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
@@ -36,7 +37,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 19;
+        int selection = 21;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -59,8 +60,9 @@ public class Main {
             case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
-//            case 20 -> evaluateParallel(100, 7, 1000, Solver.getEAComparison(), 2);
+            case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
+            case 21 -> testParallelRun(6);
         }
     }
 
@@ -110,10 +112,6 @@ public class Main {
             evaluate(n, i, inputLengths[i], solvers, postfix);
             System.out.println(i + " done");
         }
-    }
-
-    private static void compareOnSpecificType() {
-//        evaluate(n);
     }
 
     private static void printSolutionOfOneInput() {
@@ -348,6 +346,39 @@ public class Main {
             remaining -= w[i];
         }
         w[w.length - 1] = remaining;
+    }
+
+    private static void testParallelRun(int numberOfThreads) {
+        long start = 0;
+        long end = (3L * Integer.MAX_VALUE / numberOfThreads) * numberOfThreads;
+        long stepSize = end / numberOfThreads;
+        Thread[] threads = new Thread[numberOfThreads];
+        long[] results = new long[threads.length];
+        for (int i = 0; i < threads.length; ++i) {
+            long s = i * stepSize;
+            int finalI = i;
+            threads[i] = new Thread(() -> results[finalI] = unnecessaryComputation(s, s + stepSize));
+        }
+        ProgressPrinter p = new ProgressPrinter(end);
+        System.out.println(unnecessaryComputation(start, end));
+        p.clearProgressAndPrintElapsedTime();
+        p = new ProgressPrinter(end);
+        runCancellableTasks(threads);
+        System.out.println(Arrays.stream(results).sum());
+        p.clearProgressAndPrintElapsedTime();
+    }
+
+    private static long unnecessaryComputation(long start, long end) {
+        long current = 0;
+//        long[] unnecessaryMemoryWaste = new long[50000000]; // increases the cost of context switching
+//        Random r = new Random(); // produce cache misses for more accurate comparison to real scenario
+        for (long i = start; i < end; ++i) {
+            current += i;
+//            unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] = i;
+        }
+        // hopefully compiler  does not remove the array due to this statement without any effets
+//        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] % 2);
+        return current;
     }
 
 }

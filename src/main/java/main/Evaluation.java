@@ -93,26 +93,23 @@ public class Evaluation {
         setPrintToConsole(false);
         int newN = n / runCount;
 
-        runCancellableTask(() ->
-        {
-            int[] runLengths = new int[evaluators.length];
-            Thread[] treads = new Thread[evaluators.length];
-            String folder = path + evaluators[0].generator.folder;
-            String startTime = formatter.format(LocalDateTime.now());
-            treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
-            for (int i = 1; i < treads.length; ++i) {
-                int finalI = i;
-                treads[i] = new Thread(() -> runLengths[finalI] = evaluators[finalI].calculate(newN, length, steps, false));
-            }
-            runCancellableTasks(treads);
-            setPrintToConsole(true);
-            Evaluation eval = merge(evaluators);
-            System.out.println();
-            startFilePrinting(folder + startTime + "-sum_parallel" + runCount + ".txt");
-            eval.printResult(Arrays.stream(runLengths).sum(), length, steps);
-            stopWritingToFile();
-            System.out.println("---------------Evaluation complete-------------");
-        });
+        int[] runLengths = new int[evaluators.length];
+        Thread[] treads = new Thread[evaluators.length];
+        String folder = path + evaluators[0].generator.folder;
+        String startTime = formatter.format(LocalDateTime.now());
+        treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
+        for (int i = 1; i < treads.length; ++i) {
+            int finalI = i;
+            treads[i] = new Thread(() -> runLengths[finalI] = evaluators[finalI].calculate(newN, length, steps, false));
+        }
+        runCancellableTasks(treads);
+        setPrintToConsole(true);
+        Evaluation eval = merge(evaluators);
+        System.out.println();
+        startFilePrinting(folder + startTime + "-sum_parallel" + runCount + ".txt");
+        eval.printResult(Arrays.stream(runLengths).sum(), length, steps);
+        stopWritingToFile();
+        System.out.println("---------------Evaluation complete-------------");
     }
 
     public static Solver evaluate(int n, int type, int length) {
