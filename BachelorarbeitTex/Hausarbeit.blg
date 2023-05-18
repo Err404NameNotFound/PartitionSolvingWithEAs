@@ -1,9 +1,9 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'Hausarbeit.blg'
-[129] biber-MSWIN64:340> INFO - === 
-[173] Biber.pm:419> INFO - Reading 'Hausarbeit.bcf'
-[326] Biber.pm:979> INFO - Found 0 citekeys in bib section 0
-[351] bbl.pm:660> INFO - Writing 'Hausarbeit.bbl' with encoding 'UTF-8'
-[351] bbl.pm:763> INFO - Output to Hausarbeit.bbl
-[351] Biber.pm:131> WARN - The file 'Hausarbeit.bcf' does not contain any citations!
-[351] Biber.pm:133> INFO - WARNINGS: 1
+[232] biber-MSWIN64:340> INFO - === 
+[304] Biber.pm:419> INFO - Reading 'Hausarbeit.bcf'
+[576] Biber.pm:979> INFO - Found 0 citekeys in bib section 0
+[625] bbl.pm:660> INFO - Writing 'Hausarbeit.bbl' with encoding 'UTF-8'
+[625] bbl.pm:763> INFO - Output to Hausarbeit.bbl
+[626] Biber.pm:131> WARN - The file 'Hausarbeit.bcf' does not contain any citations!
+[626] Biber.pm:133> INFO - WARNINGS: 1
