@@ -10,6 +10,7 @@ import java.util.Arrays;
 
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.runCancellableTask;
+import static help.Help.runCancellableTasks;
 import static help.MathHelp.log;
 import static help.MathHelp.max;
 import static help.MathHelp.xlnx;
@@ -17,9 +18,9 @@ import static help.Printer.isPrintToConsole;
 import static help.Printer.print;
 import static help.Printer.printf;
 import static help.Printer.println;
+import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static main.InputGenerator.generateInput;
 
 public class Evaluation {
 
@@ -31,10 +32,87 @@ public class Evaluation {
     private long[] avg, totalAverage;
     private long[] failed, failDif;
     private long[] mut, mutSuccess, mutTried;
-    private Solver best;
     private InputGenerator generator;
+    private Solver[] solvers;
+    private int bestSolver;
 
     private Evaluation() {
+    }
+
+    private void initialize(Solver[] solvers) {
+        this.solvers = solvers;
+        int length = solvers.length;
+        stepSum = new long[length];
+        stepMin = new long[length];
+        stepMax = new long[length];
+        avg = new long[length];
+        totalAverage = new long[length];
+        failed = new long[length];
+        failDif = new long[length];
+        mut = new long[length];
+        mutSuccess = new long[length];
+        mutTried = new long[length];
+        Arrays.fill(stepMin, Long.MAX_VALUE);
+    }
+
+    private static Evaluation merge(Evaluation... evals) {
+        for (int i = 1; i < evals.length; ++i) {
+            if (evals[i].totalAverage.length != evals[0].totalAverage.length) {
+                throw new IllegalArgumentException("Evaluators are not compatible due to different lengths");
+            }
+        }
+        Evaluation result = new Evaluation();
+        result.initialize(evals[0].solvers);
+        result.generator = evals[0].generator;
+        for (Evaluation e : evals) {
+            for (int i = 0; i < result.totalAverage.length; ++i) {
+                result.totalAverage[i] += e.totalAverage[i];
+                result.avg[i] += e.avg[i];
+                result.mut[i] += e.mut[i];
+                result.mutSuccess[i] += e.mutSuccess[i];
+                result.mutTried[i] += e.mutTried[i];
+                result.stepSum[i] += e.stepSum[i];
+                result.stepMax[i] = Math.max(result.stepMax[i], e.stepMax[i]);
+                result.stepMin[i] = Math.min(result.stepMin[i], e.stepMin[i]);
+                result.failDif[i] += e.failDif[i];
+                result.failed[i] += e.failed[i];
+            }
+        }
+        result.findBestSolver();
+        return result;
+    }
+
+    public static void evaluateParallel(int n, int type, int length, Solver[] solvers, int runCount) {
+        long steps = 100 * xlnx(length);
+        Evaluation[] evaluators = new Evaluation[runCount];
+        for (int i = 0; i < evaluators.length; ++i) {
+            evaluators[i] = new Evaluation();
+            evaluators[i].initialize(solvers);
+            evaluators[i].generator = InputGenerator.create(type);
+        }
+        setPrintToConsole(false);
+        int newN = n / runCount;
+
+        runCancellableTask(() ->
+        {
+            int[] runLengths = new int[evaluators.length];
+            Thread[] treads = new Thread[evaluators.length];
+            String folder = path + evaluators[0].generator.folder;
+            String startTime = formatter.format(LocalDateTime.now());
+            treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
+            for (int i = 1; i < treads.length; ++i) {
+                int finalI = i;
+                treads[i] = new Thread(() -> runLengths[finalI] = evaluators[finalI].calculate(newN, length, steps, false));
+            }
+            runCancellableTasks(treads);
+            setPrintToConsole(true);
+            Evaluation eval = merge(evaluators);
+            System.out.println();
+            startFilePrinting(folder + startTime + "-sum_parallel" + runCount + ".txt");
+            eval.printResult(Arrays.stream(runLengths).sum(), length, steps);
+            stopWritingToFile();
+            System.out.println("---------------Evaluation complete-------------");
+        });
     }
 
     public static Solver evaluate(int n, int type, int length) {
@@ -58,18 +136,8 @@ public class Evaluation {
     }
 
     private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
-        long steps = 1000 * xlnx(length);
-        stepSum = new long[solvers.length];
-        stepMin = new long[solvers.length];
-        stepMax = new long[solvers.length];
-        avg = new long[solvers.length];
-        totalAverage = new long[solvers.length];
-        failed = new long[solvers.length];
-        failDif = new long[solvers.length];
-        mut = new long[solvers.length];
-        mutSuccess = new long[solvers.length];
-        mutTried = new long[solvers.length];
-        Arrays.fill(stepMin, Long.MAX_VALUE);
+        long steps = 100 * xlnx(length);
+        initialize(solvers);
         generator = InputGenerator.create(type);
         runCancellableTask(() ->
         {
@@ -77,39 +145,40 @@ public class Evaluation {
             String startTime = formatter.format(LocalDateTime.now());
             String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
 //            startFilePrinting(folder + startTime + "-res" + append + ".csv");
-//            setPrintToConsole(false);
-            int temp = calculate(n, type, length, steps, solvers);
-//            setPrintToConsole(true);
+            setPrintToConsole(false);
+            int temp = calculate(n, length, steps, !isPrintToConsole());
+            setPrintToConsole(true);
             stopWritingToFile();
             println("***************************");
             startFilePrinting(folder + startTime + "-sum" + append + ".txt");
-            printResult(temp, type, length, steps, solvers);
+            printResult(temp, length, steps);
             stopWritingToFile();
-            int best = 0;
-            for (int i = 1; i < solvers.length; ++i) {
-                if (totalAverage[i] < totalAverage[best]) {
-                    best = i;
-                }
-            }
-            this.best = solvers[best];
+            bestSolver = findBestSolver();
             append = append.equals("") ? "" : append.substring(1);
             System.out.printf("---------------Evaluation %s complete-------------%n", append);
         });
+        return solvers[bestSolver];
+    }
+
+    private int findBestSolver() {
+        int best = 0;
+        for (int i = 1; i < solvers.length; ++i) {
+            if (compareSolver(i, best) < 0) {
+                best = i;
+            }
+        }
         return best;
     }
 
-
-    private int calculate(int n, int type, int length, long maxSteps, Solver[] solvers) {
-        long[] input = generateInput(type, length);
+    private int calculate(int n, int length, long maxSteps, boolean printProgress) {
+        long[] input;
         ProgressPrinter progress = new ProgressPrinter(n);
         for (int t = 0; t < n; ++t) {
             if (Thread.interrupted()) {
                 return t;
             }
             print(t);
-            if (type != 4 && type != 5) {
-                input = generateInput(type, length);
-            }
+            input = generator.generate(length);
             for (int i = 0; i < stepSum.length; ++i) {
                 Solution sol = solvers[i].solve(input, maxSteps);
                 if (sol.isNotOptimal()) {
@@ -132,18 +201,20 @@ public class Evaluation {
                 }
             }
             println();
-            if (!isPrintToConsole()) {
+            if (printProgress) {
                 progress.printProgressIfNecessary(t);
             }
         }
-        progress.clearProgressAndPrintElapsedTime();
+        if (printProgress) {
+            progress.clearProgressAndPrintElapsedTime();
+        }
         return n;
     }
 
-    private void printResult(int n, int type, int length, long maxSteps, Solver[] solvers) {
+    private void printResult(int n, int length, long maxSteps) {
         String separation = "---------";
-        if (type > 1 && type < 7) {
-            printFirstAndLastElements(generateInput(type, length), 10);
+        if (generator.type > 1 && generator.type < 7) {
+            printFirstAndLastElements(generator.generate(length), 10);
         }
         printf("input type:      %s (%d)%n", generator.description, generator.type);
         printf("array length:    %,d%n", length);
@@ -151,20 +222,20 @@ public class Evaluation {
         printf("Limit per run:   %,d%n", maxSteps);
         double ratio = 100 * log(max(generator.generate(length)), 2.0) / length;
         printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
-        if (type == 1 || type == 3 || type == 6 || type == 10) {
+        if (generator.hasBounds()) {
             printf("lowest value:    %,d%n", generator.bottom);
             printf("highest value:   %,d%n", generator.top);
         }
-        if (type == 5 || type == 6) {
+        if (generator.hasFieldWithSum()) {
             printf("Fields with sum: %,d%n", generator.sumCount);
         }
-        if (type == 7 || type == 8) {
+        if (generator.type == 7 || generator.type == 8) {
             println(separation);
             printf("n value:         %,d%n", generator.n);
             printf("p:               %.6f%n", generator.p);
             printf("expected value:  %,d%n", generator.expectedValue);
         }
-        printTable(separation, maxSteps, n, solvers);
+        printTable(separation, maxSteps, n);
         printExplanation(separation);
     }
 
@@ -196,8 +267,7 @@ public class Evaluation {
         return val + 1 + val / 3; // first digit + decimal points
     }
 
-
-    private void printTable(String separation, long maxSteps, int n, Solver[] solvers) {
+    private void printTable(String separation, long maxSteps, int n) {
         for (int i = 0; i < stepMin.length; ++i) {
             if (stepMin[i] == Long.MAX_VALUE) {
                 stepMin[i] = -1;

@@ -62,9 +62,9 @@ public class InputGenerator {
         bottom = DEFAULT_LOWEST_VALUE;
         top = DEFAULT_BIGGEST_VALUE;
         n = DEFAULT_N;
-        p = type == 7 ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL;
+        p = type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL;
         pMutParam = DEFAULT_PMUT_PARAM;
-        sumCount = DEFAULT_SUM_COUNT;
+        sumCount = type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT);
         expectedValue = Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL);
     }
 
@@ -89,6 +89,15 @@ public class InputGenerator {
             case EXPONENTIAL_DISTRIBUTED -> "Exponential";
             default -> "other";
         } + "\\";
+    }
+
+    public boolean hasBounds() {
+        return type == PARTIAL_INT_RANGE || type == LAST_SUM_WITH_RANGE
+                || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS || type == POWERLAW_DISTRIBUTED;
+    }
+
+    public boolean hasFieldWithSum() {
+        return type >= 2 && type <= 6;
     }
 
     public static long[] generateInput(int selection, int length) {

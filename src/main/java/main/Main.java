@@ -17,6 +17,7 @@ import static help.MathHelp.xlnx;
 import static help.Printer.setPrintToConsole;
 import static help.ProgressPrinter.printProgress;
 import static main.Evaluation.evaluate;
+import static main.Evaluation.evaluateParallel;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -35,7 +36,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 16;
+        int selection = 19;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -54,10 +55,12 @@ public class Main {
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1000, 0, 100 * 1000, Solver.getEAComparison(), "TODO_DELETE");
+            case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "TODO_DELETE");
             case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
+//            case 20 -> evaluateParallel(100, 7, 1000, Solver.getEAComparison(), 2);
+//            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
         }
     }
 

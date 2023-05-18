@@ -3,7 +3,6 @@ package main;
 import help.ProgressPrinter;
 
 import java.math.BigInteger;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -18,31 +17,28 @@ import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.nChooseK_double;
 import static help.MathHelp.powerlawK;
-import static help.ProgressPrinter.printProgress;
 
 public class PartitionSolver {
 
     private static Random RNG = new Random();
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
-        Random random = new Random();
-        Solution sol = createStartingPoint(values, random);
+        Solution sol = createStartingPoint(values, RNG);
         while (sol.isNotOptimal(maxSteps)) {
             int k = generator.generateK(values.length);
-            Set<Integer> indexes = randomKIndices(k, random, values);
+            Set<Integer> indexes = randomKIndices(k, RNG, values);
             sol.updateIfImprovementMultiple(indexes);
         }
         return sol;
     }
 
     private static Solution solveWithProgress(long[] values, long maxSteps, KGenerator generator) {
-        Random random = new Random();
-        Solution sol = createStartingPoint(values, random);
+        Solution sol = createStartingPoint(values, RNG);
         long steps = 0;
         ProgressPrinter progress = new ProgressPrinter(maxSteps);
         while (sol.isNotOptimal(maxSteps)) {
             int k = generator.generateK(values.length);
-            Set<Integer> indexes = randomKIndices(k, random, values);
+            Set<Integer> indexes = randomKIndices(k, RNG, values);
             sol.updateIfImprovementMultiple(indexes);
             progress.printProgressIfNecessary(steps);
             ++steps;
@@ -62,8 +58,7 @@ public class PartitionSolver {
         if (neighbours == 1) {
             return solveRLS(values, maxSteps);
         }
-        Random random = new Random();
-        Solution sol = createStartingPoint(values, random);
+        Solution sol = createStartingPoint(values, RNG);
         double[] stepSizes = new double[neighbours];
         stepSizes[0] = values.length;
         for (int i = 1; i < stepSizes.length; ++i) {
@@ -73,12 +68,12 @@ public class PartitionSolver {
             stepSizes[i] = stepSizes[i] / stepSizes[stepSizes.length - 1];
         }
         while (sol.isNotOptimal(maxSteps)) {
-            double r = random.nextDouble();
+            double r = RNG.nextDouble();
             int k = 0;
             while (k < stepSizes.length && stepSizes[k] < r) {
                 ++k;
             }
-            sol.updateIfImprovementMultiple(randomKIndices(k + 1, random, values));
+            sol.updateIfImprovementMultiple(randomKIndices(k + 1, RNG, values));
         }
         return sol;
     }
@@ -103,13 +98,12 @@ public class PartitionSolver {
     }
 
     public static Solution solveWithFirstK(long[] values, long maxSteps, int k) {
-        Random random = new Random();
         int[] largestK = findLargestK(values, k);
         // swap values so that largest k are in front
         for (int i = 0; i < k; ++i) {
             swap(values, i, largestK[i]);
         }
-        List<Solution> solutions = createStartingPoints(values, random, (int) Math.pow(2, k - 1));
+        List<Solution> solutions = createStartingPoints(values, RNG, (int) Math.pow(2, k - 1));
 
         // adjust permutation of highest k elements
         for (int i = 0; i < Math.pow(2, k - 1); ++i) {
@@ -121,7 +115,7 @@ public class PartitionSolver {
                 }
             }
         }
-        Solution ret = solveWithProgress(solutions, random, maxSteps, values, k, values.length, false);
+        Solution ret = solveWithProgress(solutions, RNG, maxSteps, values, k, values.length, false);
 
         // restore original sorting of the array
         for (int i = k - 1; i >= 0; --i) {
@@ -135,9 +129,8 @@ public class PartitionSolver {
     }
 
     public static Solution solvePopulation(long[] values, long maxSteps, int populationSize) {
-        Random random = new Random();
-        List<Solution> solutions = createStartingPoints(values, random, populationSize);
-        return solvePopulation(solutions, random, maxSteps, values);
+        List<Solution> solutions = createStartingPoints(values, RNG, populationSize);
+        return solvePopulation(solutions, RNG, maxSteps, values);
     }
 
     private static Solution solvePopulation(List<Solution> solutions, Random random, long maxSteps, long[] values) {
