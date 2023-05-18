@@ -58,7 +58,7 @@ public class Evaluation {
     }
 
     private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
-        long steps = 10 * xlnx(length);
+        long steps = 1000 * xlnx(length);
         stepSum = new long[solvers.length];
         stepMin = new long[solvers.length];
         stepMax = new long[solvers.length];
