@@ -37,7 +37,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 21;
+        int selection = 22;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -63,6 +63,7 @@ public class Main {
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
             case 21 -> testParallelRun(6);
+            case 22 -> testParallelRun2(6);
         }
     }
 
@@ -379,6 +380,33 @@ public class Main {
         // hopefully compiler  does not remove the array due to this statement without any effets
 //        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] % 2);
         return current;
+    }
+
+    private static void testParallelRun2(int numberOfThreads) {
+        Thread[] threads = new Thread[numberOfThreads];
+        for (int i = 0; i < threads.length; ++i) {
+            threads[i] = new Thread(Main::timeWasteCalculation);
+        }
+        ProgressPrinter p = new ProgressPrinter(1);
+        for (int i = 0; i < numberOfThreads; ++i) {
+            timeWasteCalculation();
+            System.out.println(i);
+        }
+        p.clearProgressAndPrintElapsedTime();
+        p = new ProgressPrinter(1);
+        runCancellableTasks(threads);
+        p.clearProgressAndPrintElapsedTime();
+    }
+
+    private static void timeWasteCalculation(){
+        InputGenerator generator = InputGenerator.create(10);
+        int length = 10 * 1000 * 1000;
+        long steps = 10 * xlnx(length);
+        PartitionSolver.solveEA(generator.generate(length), steps);
+        PartitionSolver.solveEA(generator.generate(length), steps);
+        PartitionSolver.solveEA(generator.generate(length), steps);
+        PartitionSolver.solveEA(generator.generate(length), steps);
+        PartitionSolver.solveEA(generator.generate(length), steps);
     }
 
 }
