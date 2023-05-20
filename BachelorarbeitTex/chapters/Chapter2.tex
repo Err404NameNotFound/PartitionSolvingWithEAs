@@ -3,7 +3,7 @@
 If $w_1 \ge W/2$  then the RSH reaches the optimal value in expected time $\Theta(n\log{}n)$
 \end{lemma}
 \begin{proof}
-The optimal solution is putting $w_1$ in one bin and all other elements in the other bin. So the problem is almost identical to OneMax/ZeroMax. A flip of the first bit can only happen if the emptier bin has a weight of at most $\frac {W-w_1}{2}$. After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another flip of $w_1$ can only happen before a different bit is flipped. After a different bit has been flipped, the RSH wont flip the first bit again, because it will never result in an improvement. So the run can be devided into three phases:
+The optimal solution is putting $w_1$ in one bin and all other elements in the other bin. So the problem is almost identical to OneMax/ZeroMax. A flip of only the first bit can only happen if the emptier bin has a weight of at most $\frac {W-w_1}{2}$. After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before a different bit is flipped. After a different bit has been flipped, the RSH wont flip the first bit alone again, because it will never result in an improvement. The first bit could also be flipped with multiple other bits, TODO. So the run can be devided into three phases:
 \begin{itemize}
     \item[Phase 1:] The RSH behaves exactly like OneMax/ZeroMax and flips every bit to the opposite of the first bit (except for the first bit).
     \item[Phase 2:] The RSH flips only the first bit or bits that do not result in an improvement.
