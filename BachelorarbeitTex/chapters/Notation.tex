@@ -1,13 +1,15 @@
 \section{Notations}
 \begin{enumerate}
     \item \textbf{RLS:} Randomised local Search
-    \item \textbf{(1+1) EA:} The Standard (1+1) EA
     \item \textbf{RSH:} Randomised Search Heuristics referring to all in this context analysed Evolutionary algorithms
+    \item \textbf{SRSHs:} The Standard Randomised Search Heuristics (RLS, (1+1) EA) $w_i$
+    \item \textbf{n:} The input length of the problem
+    \item \textbf{x:} A vector $x \in {\{0, 1\}}^n$ describing a solution
+    \item \textbf{$w_i$:} The i-th object. If not mentioned otherwise the weights are sorted in non increasing order so \(w_1 \ge w_2 \ge \ldots \ge w_{n-1} \ge w_{n}\)
+    \item \textbf{W:} The sum of all values $\sum_{i=1}^{n}w_i$
     \item \textbf{bin:} When solving Partition a set of numbers is divided into to distinct subsets and in this paper both subsets are referred to as bins
     \item \textbf{$b_F$:} The fuller bin
     \item \textbf{$b_F$:} The emptier bin
-    \item \textbf{$b_{w_i}$:} The bin containig the object $w_i$
-    \item \textbf{n:} The input length of the problem
-    \item \textbf{x:} A vector $x \in {\{0, 1\}}^n$ describing a solution
-    \item \textbf{W:} The sum of all values $\sum_{i=1}^{n}w_i$
+    \item \textbf{$b_{w_i}$:} The bin containig the object
+    \item \textbf{opt:} The optimal solution for a given partition instance.
 \end{enumerate}
