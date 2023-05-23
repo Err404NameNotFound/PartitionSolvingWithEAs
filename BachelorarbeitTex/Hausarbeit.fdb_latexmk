@@ -1,23 +1,25 @@
 # Fdb version 4
-["biber Hausarbeit"] 0 "Hausarbeit.bcf" "Hausarbeit.bbl" "Hausarbeit" 1684749003 -1
-  "Hausarbeit.bcf" 1684749003 132514 3004aa35d5c432e20633bd4c4b5b9b85 "pdflatex"
+["biber Hausarbeit"] 0 "Hausarbeit.bcf" "Hausarbeit.bbl" "Hausarbeit" 1684836323 -1
+  "Hausarbeit.bcf" 1684836322 132514 3004aa35d5c432e20633bd4c4b5b9b85 "pdflatex"
   (generated)
   "Hausarbeit.bbl"
   "Hausarbeit.blg"
   (rewritten before read)
-["pdflatex"] 1684748998 "c:/Users/Dani/Workspaces/IntelliJ/Sonstiges/PartitionSolvingWithEAs/BachelorarbeitTex/Hausarbeit.tex" "Hausarbeit.pdf" "Hausarbeit" 1684749003 0
-  "Hausarbeit.aux" 1684749003 1615 a6acbd80eeee9cee9afad2bdabfa5358 "pdflatex"
+["pdflatex"] 1684836320 "c:/Users/Dani/Workspaces/IntelliJ/Sonstiges/PartitionSolvingWithEAs/BachelorarbeitTex/Hausarbeit.tex" "Hausarbeit.pdf" "Hausarbeit" 1684836323 0
+  "Hausarbeit.aux" 1684836322 1548 f3c3708f472bff7461349ed759621f8f "pdflatex"
   "Hausarbeit.bbl" 1684401042 486 ee04f40f768daeed26442158e95aba61 "biber Hausarbeit"
   "Hausarbeit.cls" 1684350199 2631 e93afce879d492defa20842371bab772 ""
-  "Hausarbeit.out" 1684749003 331 35dda146951f78c1173ff4a07c140b3e "pdflatex"
-  "Hausarbeit.run.xml" 1684749003 2471 a2a7752728b96dd0a591273993b212ba "pdflatex"
-  "Hausarbeit.tex" 1684396181 1746 f02432306079f8bae4b12846dddb7274 ""
-  "Hausarbeit.toc" 1684749003 188 0f1aa3ef07babba0913280fb8efd7cb9 "pdflatex"
-  "c:/Users/Dani/Workspaces/IntelliJ/Sonstiges/PartitionSolvingWithEAs/BachelorarbeitTex/Hausarbeit.tex" 1684396181 1746 f02432306079f8bae4b12846dddb7274 ""
+  "Hausarbeit.out" 1684836322 331 35dda146951f78c1173ff4a07c140b3e "pdflatex"
+  "Hausarbeit.run.xml" 1684836322 2471 a2a7752728b96dd0a591273993b212ba "pdflatex"
+  "Hausarbeit.tex" 1684834290 1802 d77c24ef4c60d0bd8bf9feea2a8818cd ""
+  "Hausarbeit.toc" 1684836322 188 0f1aa3ef07babba0913280fb8efd7cb9 "pdflatex"
+  "c:/Users/Dani/Workspaces/IntelliJ/Sonstiges/PartitionSolvingWithEAs/BachelorarbeitTex/Hausarbeit.tex" 1684834290 1802 d77c24ef4c60d0bd8bf9feea2a8818cd ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/roboto/rbto_b5rac7.enc" 1684362468 3075 0696ceafc85b8352a913efb9ba64bc17 ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1684357848 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-Bold-lf-t1--base.tfm" 1684362468 1840 1834297dad21c65d0f959ffe1bfe4fbd ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-Bold-lf-t1.tfm" 1684362468 19236 85987f923c1581c8950d7394f58a8506 ""
+  "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-BoldItalic-lf-t1--base.tfm" 1684362468 1980 2287f56bfb12d95041456932c30f2329 ""
+  "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-BoldItalic-lf-t1.tfm" 1684362468 19376 83300963657feb406bfb294a11902cd1 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-Italic-lf-t1--base.tfm" 1684362468 1916 97abf78b9ad367c488d8676aaae93540 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-Italic-lf-t1.tfm" 1684362468 19136 8f0a6bce6b7c437dc2eb9a7bd5b79ab0 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/google/roboto/Roboto-Regular-lf-t1--base.tfm" 1684362468 1784 cc050d6ef8035429518218306a7dbf9d ""
@@ -32,6 +34,7 @@
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1684355777 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1684355777 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/google/roboto/Roboto-Bold.pfb" 1684362469 200063 245de0c7fc32bda3719356345b171c2b ""
+  "c:/texlive/2023/texmf-dist/fonts/type1/google/roboto/Roboto-BoldItalic.pfb" 1684362469 217849 a1cac5d3a5a61b29ea076490aad8d1b2 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/google/roboto/Roboto-Italic.pfb" 1684362469 224430 691d4680ab1e20489b2cce3f0bbef11c ""
   "c:/texlive/2023/texmf-dist/fonts/type1/google/roboto/Roboto-Regular.pfb" 1684362469 212275 217cd2e51f1f00c5c0134826e30936ae ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1684354084 30251 6afa5cb1d0204815a708a080681d4674 ""
@@ -44,6 +47,7 @@
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1684354085 32569 5e5ddc8df908dea60932f3c484a54c0d ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb" 1684354085 32626 5abc8bb2f28aa647d4c70f8ea38cc0d3 ""
   "c:/texlive/2023/texmf-dist/fonts/vf/google/roboto/Roboto-Bold-lf-t1.vf" 1684362470 1752 10f701f4d31b7e0acdc3f8b9dc833b2d ""
+  "c:/texlive/2023/texmf-dist/fonts/vf/google/roboto/Roboto-BoldItalic-lf-t1.vf" 1684362470 1756 f47022326410631f9513f24af876c2f1 ""
   "c:/texlive/2023/texmf-dist/fonts/vf/google/roboto/Roboto-Italic-lf-t1.vf" 1684362470 1752 6c68cdeafcce5558dbd9f2de68b5c2b5 ""
   "c:/texlive/2023/texmf-dist/fonts/vf/google/roboto/Roboto-Regular-lf-t1.vf" 1684362470 1756 c18d4e19a33f0a1a1d05fe5eb9d0fa2c ""
   "c:/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii" 1684360461 71627 94eb9990bed73c364d7f53f960cc8c5b ""
@@ -148,13 +152,8 @@
   "c:/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1684365333 4606529 6f5dc711f39608283d2c4113041715f8 ""
   "c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1684365475 7003499 d89bccee0bbcf5d6ffd421fc19976422 ""
   "c:/texlive/2023/texmf.cnf" 1684365307 713 e69b156964470283e0530f5060668171 ""
-  "chapters/Chapter2.tex" 1684748997 5235 c3c59a35cac63ab34bf2f20d9524c833 ""
-  "chapters/Notation.tex" 1684746829 1045 4ef94ad6ae9230733d8d3ec81c4d804f ""
-  "chapters/Redlichkeit.aux" 1684749003 4530 3ac8a5ef4ac5b41e073463e8061e3c0f "pdflatex"
-  "chapters/Redlichkeit.tex" 1684350199 537 be32c9b6fe8488bae23cc2405dc04b21 ""
-  "chapters/Titelblatt.aux" 1684749003 4527 3eaca52af01954396874e583a26ec877 "pdflatex"
-  "chapters/Titelblatt.tex" 1684350199 670 700f7d18f4edf062eb79722c7c788763 ""
-  "img/logo.png" 1684350199 59831 d251c5a28ef869593f7ee1c8681dacbd ""
+  "chapters/Chapter2.tex" 1684836318 6076 998de8eb1358093ef6059019177aed44 ""
+  "chapters/Notation.tex" 1684834461 1047 1733fe7d8b4af9913f4299c248210fbe ""
   (generated)
   "Hausarbeit.aux"
   "Hausarbeit.bcf"
@@ -163,6 +162,4 @@
   "Hausarbeit.pdf"
   "Hausarbeit.run.xml"
   "Hausarbeit.toc"
-  "chapters/Redlichkeit.aux"
-  "chapters/Titelblatt.aux"
   (rewritten before read)
