@@ -7,7 +7,7 @@ optimal solutions: 16
 
 Experiment repeated twice with result 15 and 16 ->
 
-Probably 15/1.000.000 = 0,0015% of the solutions are optimal -> exponentially many
+Probably 15/1.000.000 = 0,0015% of the solutions are optimal ->
 
 log2(0.000015) = -16.02468...
 
@@ -47,3 +47,50 @@ max  : 1016
 sum  : 236146
 avg  : 236
 count: 1000
+
+-----------------------------------------------------------------
+testRandomBinomialPartition(100, 10.000, 0.1, 10.0000)
+desc : dif from expected val;  dif form opt (fail);steps count (success)
+count:                100000;                  334;                99666
+min  :                 49361;                    1;                    0
+max  :                 50689;                  140;                 9220
+sum  :            5000096542;                 9163;             34056729
+avg  :                 50000;                   27;                  341
+RLS-N(2) did not find a solution but EA-SM(3/n): 334
+
+-----------------------------------------------------------------
+testRandomBinomialPartition(100, 10.000, 0,500, 10.000)
+desc : dif from expected val;  dif form opt (fail);steps count (success)
+count:                 10000;                    0;                10000
+min  :                249146;                    -;                    0
+max  :                250847;                    -;                 5538
+sum  :            2500043292;                    -;              3997953
+avg  :                250004;                    -;                  399
+-----------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,100, 10.000)
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                 10000;                  222;                 9778
+min  :                 24393;                    1;                    0
+max  :                 25633;                  452;                 4533
+sum  :             249995064;                71364;              2455408
+avg  :                 24999;                  321;                  251
+RLS-N(2) did not find a solution but EA-SM(3/n): 222
+-----------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,500, 10.000)
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                 10000;                  188;                 9812
+min  :                124290;                    1;                    0
+max  :                125592;                    1;                 7044
+sum  :            1250000934;                  188;              4071756
+avg  :                125000;                    1;                  414
+RLS-N(2) did not find a solution but EA-SM(3/n): 187
+-----------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,250, 10.000)
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                 10000;                  100;                 9900
+min  :                 61884;                    1;                    0
+max  :                 63056;                    1;                 8582
+sum  :             625002972;                  100;              3626270
+avg  :                 62500;                    1;                  366
+RLS-N(2) did not find a solution but EA-SM(3/n): 100
+-----------------------------------------------------------------

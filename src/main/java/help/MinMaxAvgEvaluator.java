@@ -1,5 +1,7 @@
 package help;
 
+import static help.ArrayPrinter.printResult;
+
 public class MinMaxAvgEvaluator {
 
     private long min;
@@ -43,11 +45,11 @@ public class MinMaxAvgEvaluator {
         if (count == 0) {
             System.out.println("Nothing to evaluate, because count == 0");
         } else {
+            System.out.printf("count: %d%n", count);
             System.out.printf("min  : %d%n", min);
             System.out.printf("max  : %d%n", max);
             System.out.printf("sum  : %d%n", sum);
             System.out.printf("avg  : %d%n", sum / count);
-            System.out.printf("count: %d%n", count);
             if (canBeNegative) {
                 System.out.println("Stats of absolute values:");
                 System.out.printf("min  : %d%n", absMin);
@@ -56,6 +58,13 @@ public class MinMaxAvgEvaluator {
                 System.out.printf("avg  : %d%n", absSum / count);
             }
         }
+    }
 
+    public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult("count: ", (i) -> String.valueOf(evaluators[i].count), evaluators.length, digits);
+        printResult("min  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].min), evaluators.length, digits);
+        printResult("max  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].max), evaluators.length, digits);
+        printResult("sum  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].sum), evaluators.length, digits);
+        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].sum / evaluators[i].count), evaluators.length, digits);
     }
 }

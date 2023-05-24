@@ -5,6 +5,7 @@ import help.ProgressPrinter;
 
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class Main {
             case 4 -> readAndSolveInput();
             case 5 -> printSolutionOfOneInput();
             case 6 -> testRandomBinomial(100000000, 1000);
-            case 7 -> printBinomialDistribution();
+            case 7 -> printBinomialDistribution(10000, 10000000, 0.0001);
             case 8 -> testRandomNextBoolean();
             case 9 -> evaluateMultiple(3, 2, 1000);
             case 10 ->
@@ -65,7 +66,7 @@ public class Main {
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
             case 21 -> testParallelRun(6);
             case 22 -> testParallelRun2(6);
-            case 23 -> testRandomBinomialPartition(100, 10000, 0.1, 10000);
+            case 23 -> testRandomBinomialPartition(50, 10000, 0.25, 10000);
         }
     }
 
@@ -155,8 +156,8 @@ public class Main {
         printResult(counts, 5);
     }
 
-    public static void printBinomialDistribution() {
-        long[] input = generateInput(7, 10 * 1000);
+    public static void printBinomialDistribution(int length, int n, double p) {
+        long[] input = InputGenerator.binomialDistributed(length, n, p);
         long min = input[0];
         long max = input[0];
         //finding borders
@@ -169,7 +170,7 @@ public class Main {
         }
 
         //counting
-        int expected = (int) Math.round(DEFAULT_P_BINOMIAL * DEFAULT_N);
+        int expected = (int) Math.round(p * n);
         int range = (int) Math.max(expected - min, max - expected);
         long[] amount = new long[2 * range + 1];
         int offset = expected - range;
@@ -276,6 +277,7 @@ public class Main {
     }
 
     private static void testRandomBinomialPartition(long m, int n, double p, int k) {
+        System.out.printf("testRandomBinomialPartition(%,d, %,d, %.3f, %,d)%n", m, n, p, k);
         MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
         MinMaxAvgEvaluator evalDif = new MinMaxAvgEvaluator(false);
         MinMaxAvgEvaluator evalSteps = new MinMaxAvgEvaluator(false);
@@ -291,22 +293,19 @@ public class Main {
             long dif = sol.getDif().longValue();
             if (dif != 0) {
                 evalDif.insert(sol.getDif().longValue());
-                if(!PartitionSolver.solveEA(input, maxSteps, 3.0 / m).isNotOptimal()){
+                if (!PartitionSolver.solveEA(input, maxSteps, 3.0 / m).isNotOptimal()) {
                     ++countRLSN_fail;
                 }
             } else {
                 evalSteps.insert(sol.getTries());
             }
         }
-        System.out.println("------ Difference from Expected value of the sum of all values ------");
-        evaluator.printEvaluation();
-        System.out.println("------ Dif if algo did not find a perfect solution ------");
-        evalDif.printEvaluation();
-        System.out.println("------ Amount of steps if Algo found a perfect solution ------");
-        evalSteps.printEvaluation();
-        if(countRLSN_fail > 0){
-            System.out.println("------");
-            System.out.printf("Times where RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
+        String[] temp = new String[]{"dif from expected val", "dif from opt (fail)", "steps count (success)"};
+        int digits = Arrays.stream(temp).max(Comparator.comparingInt(String::length)).get().length();
+        printResult("desc : ", (i) -> temp[i], temp.length, digits);
+        MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluator, evalDif, evalSteps);
+        if (countRLSN_fail > 0) {
+            System.out.printf("RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
         }
 
     }
