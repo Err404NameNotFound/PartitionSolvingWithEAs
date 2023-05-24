@@ -25,3 +25,25 @@ uniform           921.030;   1.112;     641;   2.799;   1.684
 binomial          920.108;     474;     312;   1.159;     710
 
 -> Binomial distributed input (10000, 0.1) seems easier than uniform distributed input(800, 1200)
+
+---------------------------------------------
+testRandomBinomial(10000, 10000, 0.1, 1000); ->
+min  : 4
+max  : 10343
+sum  : 2330372
+avg  : 2330
+count: 1000
+
+testRandomBinomial(1000, 10000, 0.1, 1000); ->
+min  : 1
+max  : 3374
+sum  : 746985
+avg  : 746
+count: 1000
+
+testRandomBinomial(100, 10000, 0.1, 1000); ->
+min  : 0
+max  : 1016
+sum  : 236146
+avg  : 236
+count: 1000

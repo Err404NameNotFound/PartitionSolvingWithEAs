@@ -1,5 +1,6 @@
 package main;
 
+import help.MinMaxAvgEvaluator;
 import help.ProgressPrinter;
 
 import java.time.Instant;
@@ -12,9 +13,9 @@ import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.binomialK;
+import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
-import static help.MathHelp.nlogn;
 import static help.Printer.setPrintToConsole;
 import static help.ProgressPrinter.printProgress;
 import static main.Evaluation.evaluate;
@@ -37,7 +38,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 22;
+        int selection = 23;
         switch (selection) {
             case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -64,6 +65,7 @@ public class Main {
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
             case 21 -> testParallelRun(6);
             case 22 -> testParallelRun2(6);
+            case 23 -> testRandomBinomialPartition(100, 10000, 0.1, 10000);
         }
     }
 
@@ -265,13 +267,48 @@ public class Main {
         testRandomBinomial(m, n, 1.0 / n);
     }
 
-    private static void testRandomBinomial(long m, int n, double p) {
+    private static long testRandomBinomial(long m, int n, double p) {
         long sum = 0;
         for (int i = 0; i < m; ++i) {
             sum += binomialK(n, p);
         }
-        System.out.printf("Expected: %.5f%n", m * (n * p));
-        System.out.printf("actual  : %d%n", sum);
+        return Math.abs(Math.round(m * (n * p)) - sum);
+    }
+
+    private static void testRandomBinomialPartition(long m, int n, double p, int k) {
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
+        MinMaxAvgEvaluator evalDif = new MinMaxAvgEvaluator(false);
+        MinMaxAvgEvaluator evalSteps = new MinMaxAvgEvaluator(false);
+        long expected = Math.round(m * n * p);
+        long[] input;
+        int countRLSN_fail = 0;
+        long maxSteps = 10000;
+        for (int i = 0; i < k; ++i) {
+            input = InputGenerator.binomialDistributed((int) m, n, p);
+            Solution sol = PartitionSolver.solveRLS_UniformNeighbour(input, maxSteps, 2);
+//            Solution sol = PartitionSolver.solveEA(input, 100000, 3.0 / m);
+            evaluator.insert(Math.abs(sol.getSum().longValue() - expected));
+            long dif = sol.getDif().longValue();
+            if (dif != 0) {
+                evalDif.insert(sol.getDif().longValue());
+                if(!PartitionSolver.solveEA(input, maxSteps, 3.0 / m).isNotOptimal()){
+                    ++countRLSN_fail;
+                }
+            } else {
+                evalSteps.insert(sol.getTries());
+            }
+        }
+        System.out.println("------ Difference from Expected value of the sum of all values ------");
+        evaluator.printEvaluation();
+        System.out.println("------ Dif if algo did not find a perfect solution ------");
+        evalDif.printEvaluation();
+        System.out.println("------ Amount of steps if Algo found a perfect solution ------");
+        evalSteps.printEvaluation();
+        if(countRLSN_fail > 0){
+            System.out.println("------");
+            System.out.printf("Times where RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
+        }
+
     }
 
     private static void testRandomPowerLaw() {
@@ -398,7 +435,7 @@ public class Main {
         p.clearProgressAndPrintElapsedTime();
     }
 
-    private static void timeWasteCalculation(){
+    private static void timeWasteCalculation() {
         InputGenerator generator = InputGenerator.create(10);
         int length = 10 * 1000 * 1000;
         long steps = 10 * nlogn(length);

@@ -238,4 +238,8 @@ public class Solution {
     public long getChanges() {
         return changes;
     }
+
+    public BigInteger getSum() {
+        return sum;
+    }
 }

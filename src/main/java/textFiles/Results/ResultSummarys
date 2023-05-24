@@ -41,6 +41,7 @@ Binomial verteilt mit p = 0,01 und n = 10.000
     - RLS kommt nur mit Glück durch initialer Verteilung auf exaktes Ergebnis
     - EA: 2 und 4 ähnlich gut aber optimum bei 3,0 wegen größter Chance auf 2 oder 4 bit flip
     - pmut: alle recht ähnlich und keine großen Sprünge aber optimum eher zwischen 2 und 3
+    - RLS-N(k=2) ist am schnellsten aber findet manchmal Lösungen nicht, obwohl sie EA-SM(3/n) findet
 algo type:        RLS-N; EA-SM;  pmut
 algo param:         k=2;   3/n; -2,25
 avg mut/change:   2,000; 3,092; 3,965
