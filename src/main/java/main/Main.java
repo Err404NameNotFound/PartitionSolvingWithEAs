@@ -14,7 +14,7 @@ import static help.Help.runCancellableTasks;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
-import static help.MathHelp.xlnx;
+import static help.MathHelp.nlogn;
 import static help.Printer.setPrintToConsole;
 import static help.ProgressPrinter.printProgress;
 import static main.Evaluation.evaluate;
@@ -25,7 +25,7 @@ public class Main {
 
     //default params
     public static final int DEFAULT_LENGTH = 10 * 1000 * 1000;
-    public static final long DEFAULT_TIME = Math.round(10 * xlnx(DEFAULT_LENGTH));
+    public static final long DEFAULT_TIME = Math.round(10 * nlogn(DEFAULT_LENGTH));
     public static final int DEFAULT_LOWEST_VALUE = 1;
     public static final int DEFAULT_BIGGEST_VALUE = 50 * 1000;
     public static final int DEFAULT_SUM_COUNT = 100;
@@ -118,7 +118,7 @@ public class Main {
     private static void printSolutionOfOneInput() {
         int length = 200000;
         long[] temp = generateInput(0, length);
-        Solution sol = PartitionSolver.solvePmut(temp, 100 * xlnx(length), -2.0);
+        Solution sol = PartitionSolver.solvePmut(temp, 100 * nlogn(length), -2.0);
 //        Solution sol = PartitionSolver.solveRLS(temp, 100 * xlnx(length));
         sol.printResult();
     }
@@ -401,7 +401,7 @@ public class Main {
     private static void timeWasteCalculation(){
         InputGenerator generator = InputGenerator.create(10);
         int length = 10 * 1000 * 1000;
-        long steps = 10 * xlnx(length);
+        long steps = 10 * nlogn(length);
         PartitionSolver.solveEA(generator.generate(length), steps);
         PartitionSolver.solveEA(generator.generate(length), steps);
         PartitionSolver.solveEA(generator.generate(length), steps);

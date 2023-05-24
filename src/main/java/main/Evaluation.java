@@ -13,7 +13,7 @@ import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.log;
 import static help.MathHelp.max;
-import static help.MathHelp.xlnx;
+import static help.MathHelp.nlogn;
 import static help.Printer.isPrintToConsole;
 import static help.Printer.print;
 import static help.Printer.printf;
@@ -83,7 +83,7 @@ public class Evaluation {
     }
 
     public static void evaluateParallel(int n, int type, int length, Solver[] solvers, int runCount) {
-        long steps = 100 * xlnx(length);
+        long steps = 100 * nlogn(length);
         Evaluation[] evaluators = new Evaluation[runCount];
         for (int i = 0; i < evaluators.length; ++i) {
             evaluators[i] = new Evaluation();
@@ -133,7 +133,7 @@ public class Evaluation {
     }
 
     private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
-        long steps = 100 * xlnx(length);
+        long steps = 100 * nlogn(length);
         initialize(solvers);
         generator = InputGenerator.create(type);
         runCancellableTask(() ->

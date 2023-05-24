@@ -12,7 +12,7 @@ public class MathHelp {
         return java.lang.Math.log(value) / java.lang.Math.log(base);
     }
 
-    public static long xlnx(long x) {
+    public static long nlogn(long x) {
         return Math.round(x * Math.log(x));
     }
 
