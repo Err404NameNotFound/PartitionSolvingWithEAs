@@ -4,7 +4,7 @@
 \contentsline {chapter}{\numberline {2}Preliminaries}{3}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Notations}{3}{section.2.1}%
 \contentsline {chapter}{\numberline {3}Content Chapters}{5}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Improving bounds on the Standard RSHs}{5}{section.3.1}%
+\contentsline {section}{\numberline {3.1}Improving bounds on the RLS and the (1+1) EA}{5}{section.3.1}%
 \contentsline {chapter}{\numberline {4}Conclusion}{7}{chapter.4}%
 \contentsline {chapter}{Bibliography}{9}{section*.2}%
 \contentsline {chapter}{\nonumberline Appendix}{11}{chapter*.4}%

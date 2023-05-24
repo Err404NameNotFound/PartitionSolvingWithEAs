@@ -1,4 +1,4 @@
-\section{Improving bounds on the Standard RSHs}
+\section{Improving bounds on the RLS and the (1+1) EA}
 \begin{lemma}\label{OneMaxResult}
     If $w_1 \ge \frac W 2$  then the RLS and the (1+1) EA reach the optimal value in expected time $\Theta(n\log{}n)$
 \end{lemma}
@@ -34,7 +34,7 @@
     \end{itemize}
     Proof of (5): \newline
     In time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{1}{3}$ to the emptier bin as long as $b_F \ge \frac{2}{3}$ (4). So in Time $\mathcal{O}(n\log{}n)$ the solution can be shifted to $w_1$ being in one bin and all other objects in the other bin. The RSH will only stop moving the elements if the condition $b_F \ge \frac{2}{3}$ is no longer satisfied (4). If \(w_1 \ge \frac{1}{3}\) and every object was moved to the bin without $w_1$, then \(b_F = \max\{1-w_1, w_1\} = 1-w_1 \le \frac{2}{3}\). So either the RSH moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2}{3}$ both resulting in $b_F \le \frac{2}{3}$. If $w_1$ is not in the fuller bin, then the result follows by (2)\newline
-    Now assume \(w_1 < \frac{1}{3}\). In this case the RLS will move one object per step to the emptier bin. Each object has weight $< \frac{1}{3}$ and therefore one step can not decrease the weight of the fuller bin from $> \frac{2}{3}$ to $\le \frac{1}{3}$. If all objects except the biggest where moved the other bin, the other bin would have a weight of at least \(1-w_1 > \frac{2}{3}\). Therefore the RLS will find a solution with $b_F < \frac{2}{3}$ before moving all elements from the first to the second bin. \textbf{\textit{TODO insert proof for (1+1) EA}}
+    Now assume \(w_1 < \frac{1}{3}\). In this case the RLS will move one object per step to the emptier bin. Each object has weight $< \frac{1}{3}$ and therefore one step can not decrease the weight of the fuller bin from $> \frac{2}{3}$ to $\le \frac{1}{3}$. If all objects except the biggest where moved the other bin, the other bin would have a weight of at least \(1-w_1 > \frac{2}{3}\). Therefore the RLS will find a solution with $b_F < \frac{2}{3}$ before moving all elements from the first to the second bin. \textbf{\textit{TODO: insert proof for (1+1) EA}}
 
 
     Proof of the Lemma:\newline
