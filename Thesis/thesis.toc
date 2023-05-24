@@ -2,11 +2,11 @@
 \babel@toc {english}{}\relax 
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {chapter}{\numberline {2}Preliminaries}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Notations}{3}{section.2.1}%
 \contentsline {chapter}{\numberline {3}Content Chapters}{5}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Notations}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Improving bounds on the Standard RSHs}{6}{section.3.2}%
-\contentsline {chapter}{\numberline {4}Conclusion}{9}{chapter.4}%
-\contentsline {chapter}{Bibliography}{11}{section*.2}%
-\contentsline {chapter}{\nonumberline Appendix}{13}{chapter*.4}%
-\contentsline {section}{\numberline {A}Appendix Section 1}{13}{section.4.1}%
+\contentsline {section}{\numberline {3.1}Improving bounds on the Standard RSHs}{5}{section.3.1}%
+\contentsline {chapter}{\numberline {4}Conclusion}{7}{chapter.4}%
+\contentsline {chapter}{Bibliography}{9}{section*.2}%
+\contentsline {chapter}{\nonumberline Appendix}{11}{chapter*.4}%
+\contentsline {section}{\numberline {A}Appendix Section 1}{11}{section.4.1}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

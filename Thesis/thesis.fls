@@ -673,13 +673,6 @@ INPUT ./preliminaries.tex
 INPUT ./preliminaries.tex
 INPUT preliminaries.tex
 INPUT preliminaries.tex
-INPUT ./content.tex
-INPUT ./content.tex
-OUTPUT content.aux
-INPUT ./content.tex
-INPUT ./content.tex
-INPUT content.tex
-INPUT content.tex
 INPUT ./chapters/Notation.tex
 INPUT chapters/Notation.tex
 INPUT ./chapters/Notation.tex
@@ -689,6 +682,13 @@ INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
+INPUT ./content.tex
+INPUT ./content.tex
+OUTPUT content.aux
+INPUT ./content.tex
+INPUT ./content.tex
+INPUT content.tex
+INPUT content.tex
 INPUT ./chapters/Chapter2.tex
 INPUT chapters/Chapter2.tex
 INPUT ./chapters/Chapter2.tex
