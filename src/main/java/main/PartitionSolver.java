@@ -24,6 +24,10 @@ public class PartitionSolver {
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
         Solution sol = createStartingPoint(values, RNG);
+        return solve(values, maxSteps, generator, sol);
+    }
+
+    private static Solution solve(long[] values, long maxSteps, KGenerator generator, Solution sol) {
         while (sol.isNotOptimal(maxSteps)) {
             int k = generator.generateK(values.length);
             Set<Integer> indexes = randomKIndices(k, RNG, values);
@@ -78,6 +82,29 @@ public class PartitionSolver {
         return sol;
     }
 
+    public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours, Solution sol) {
+        if (neighbours == 1) {
+            return solveRLS(values, maxSteps);
+        }
+        double[] stepSizes = new double[neighbours];
+        stepSizes[0] = values.length;
+        for (int i = 1; i < stepSizes.length; ++i) {
+            stepSizes[i] = nChooseK_double(values.length, i + 1) + stepSizes[i - 1];
+        }
+        for (int i = 0; i < stepSizes.length; ++i) {
+            stepSizes[i] = stepSizes[i] / stepSizes[stepSizes.length - 1];
+        }
+        while (sol.isNotOptimal(maxSteps)) {
+            double r = RNG.nextDouble();
+            int k = 0;
+            while (k < stepSizes.length && stepSizes[k] < r) {
+                ++k;
+            }
+            sol.updateIfImprovementMultiple(randomKIndices(k + 1, RNG, values));
+        }
+        return sol;
+    }
+
     public static Solution solveEA(long[] values, long maxSteps) {
         return solveEA(values, maxSteps, 1.0 / values.length);
     }
@@ -87,6 +114,13 @@ public class PartitionSolver {
             throw new IllegalArgumentException("Illegal mutation rate");
         }
         return solve(values, maxSteps, (a) -> binomialK(a, mutationRate));
+    }
+
+    public static Solution solveEA(long[] values, long maxSteps, double mutationRate, Solution sol) {
+        if (mutationRate > values.length || mutationRate <= 0) {
+            throw new IllegalArgumentException("Illegal mutation rate");
+        }
+        return solve(values, maxSteps, (a) -> binomialK(a, mutationRate), sol);
     }
 
     public static Solution solveFmut(long[] values, long maxSteps, double p) {

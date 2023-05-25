@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayHelp.swap;
+import static help.ArrayPrinter.printFirstAndLastElements;
 
 public class Solution {
     private final int[] partition;
@@ -80,7 +80,7 @@ public class Solution {
 
     public void updateIfImprovementMultiple(Set<Integer> indexes) {
         ++tries;
-        if(indexes.size() > 0){
+        if (indexes.size() > 0) {
             //TODO Verzerrung des Durchschnittswert entfernen
             ++lastImprove;
             bitsTried += indexes.size();
@@ -241,5 +241,9 @@ public class Solution {
 
     public BigInteger getTotalSum() {
         return totalSum;
+    }
+
+    public int[] getPartition() {
+        return partition;
     }
 }
