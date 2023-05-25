@@ -14,6 +14,7 @@ import static help.ArrayPrinter.printResult;
 import static help.MathHelp.binomialK;
 import static help.Printer.printf;
 import static help.Printer.println;
+import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static help.ProgressPrinter.printProgress;
@@ -28,7 +29,7 @@ public class BinomialTesting {
         int count = p.length;
         long[] ms = new long[]{100, 100, 50, 50, 50};
         long[] ns = fill(count, (i) -> 10000);
-        long[] ks = fill(count, (i) -> 1000);
+        long[] ks = fill(count, (i) -> 10000);
         testMultipleRandomBinomialWithSolution(ms, ns, p, ks);
     }
 
@@ -154,10 +155,14 @@ public class BinomialTesting {
         MinMaxAvgEvaluator evalSteps = new MinMaxAvgEvaluator(false);
         long expected = Math.round(m * n * p);
         printf("Expected value: %,d%n", expected);
+        setPrintToConsole(false);
         long[] input;
         int countRLSN_fail = 0;
         int countDouble_fail = 0;
-        long maxSteps = 100000;
+        long maxSteps = 100 * 1000;
+        long[] failed_BitFlipAmountNecessary = new long[10];
+        int changedBitMax = failed_BitFlipAmountNecessary.length - 1;
+        int unsolvableCount = 0;
         for (int i = 0; i < k; ++i) {
             input = InputGenerator.binomialDistributed((int) m, (int) n, p);
             Solution sol = PartitionSolver.solveRLS_UniformNeighbour(input, maxSteps, 2);
@@ -165,14 +170,33 @@ public class BinomialTesting {
             evaluator.insert(Math.abs(sol.getTotalSum().longValue() - expected));
             long dif = sol.getDif().longValue();
             if (dif != 0) {
-                if(dif == 1){
-                    System.out.println("GEFUNDEN!!11!1!111!!");
-                }
                 evalDif.insert(sol.getDif().longValue());
                 if (PartitionSolver.solveEA(input, maxSteps, 3.0 / m).isNotOptimal()) {
                     ++countDouble_fail;
                 } else {
                     ++countRLSN_fail;
+                }
+                if (dif == 1) {
+                    /*
+                    if (PartitionSolver.solveRLS_UniformNeighbour(input, 10 * maxSteps, 2, sol).isNotOptimal()) {
+                        System.out.println("Seems unsolvable");
+                        ++unsolvableCount;
+                        printSeeminglyNotPossibleInput(input, sol, Math.round(n * p));
+                    } else {
+                        System.out.println("algo just did not have enough time");
+                    }
+                    /*/
+                    long flippedBits = sol.getFlippedBits();
+                    long changes = sol.getChanges();
+                    if (PartitionSolver.solveEA(input, 100 * maxSteps, 3.0 / m, sol).isNotOptimal()) {
+//                        System.out.println("Seems unsolvable");
+                        ++unsolvableCount;
+                    } else {
+                        flippedBits = sol.getFlippedBits() - flippedBits;
+//                        System.out.printf("algo needed to flip %d bits in %d steps%n", flippedBits, sol.getChanges() - changes);
+                        ++failed_BitFlipAmountNecessary[(int) Math.min(flippedBits, changedBitMax)];
+                    }
+                    //*/
                 }
             } else {
                 evalSteps.insert(sol.getTries());
@@ -184,10 +208,56 @@ public class BinomialTesting {
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluator, evalDif, evalSteps);
         if (countRLSN_fail > 0) {
             printf("RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
+            if (Arrays.stream(failed_BitFlipAmountNecessary).sum() > 0) {
+                digits = 4;
+                printResult("Bits that needed to be flipped when dif was 1:   ", (i) -> i < changedBitMax ? String.valueOf(i) : changedBitMax + "+", failed_BitFlipAmountNecessary.length, digits);
+                printResult("                                        Count:   ", failed_BitFlipAmountNecessary, digits);
+            }
         }
         if (countDouble_fail > 0) {
             printf("both did not find a solution:                    %d%n", countRLSN_fail);
         }
+        if (unsolvableCount > 0) {
+            printf("unsolvable inputs: %,d", unsolvableCount);
+        }
+        setPrintToConsole(true);
+    }
 
+    private static void printSeeminglyNotPossibleInput(long[] input, Solution sol, long expected) {
+        long min = input[0];
+        long max = input[0];
+        //finding borders
+        for (int i = 1; i < input.length; ++i) {
+            if (input[i] > max) {
+                max = input[i];
+            } else if (input[i] < min) {
+                min = input[i];
+            }
+        }
+
+        //counting
+        int range = (int) Math.max(expected - min, max - expected);
+        long[] amount0 = new long[2 * range + 1];
+        long[] amount1 = new long[2 * range + 1];
+        int offset = (int) expected - range;
+        int[] partition = sol.getPartition();
+        for (int i = 0; i < input.length; ++i) {
+            if (partition[i] == 0) {
+                amount0[(int) input[i] - offset]++;
+            } else {
+                amount1[(int) input[i] - offset]++;
+            }
+        }
+        long[] values = new long[amount0.length];
+        for (int i = 0; i < values.length; ++i) {
+            values[i] = offset + i;
+        }
+        printResult(values, 4);
+        printResult(amount0, 4);
+        printResult(amount1, 4);
+        for (int i = 0; i < values.length; ++i) {
+            values[i] -= expected;
+        }
+        printResult(values, 4);
     }
 }
