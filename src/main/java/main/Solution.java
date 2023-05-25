@@ -239,7 +239,7 @@ public class Solution {
         return changes;
     }
 
-    public BigInteger getSum() {
-        return sum;
+    public BigInteger getTotalSum() {
+        return totalSum;
     }
 }

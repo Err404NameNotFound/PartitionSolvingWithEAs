@@ -61,10 +61,10 @@ public class MinMaxAvgEvaluator {
     }
 
     public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult("count: ", (i) -> String.valueOf(evaluators[i].count), evaluators.length, digits);
-        printResult("min  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].min), evaluators.length, digits);
-        printResult("max  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].max), evaluators.length, digits);
-        printResult("sum  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].sum), evaluators.length, digits);
-        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.valueOf(evaluators[i].sum / evaluators[i].count), evaluators.length, digits);
+        printResult("count: ", (i) -> String.format("%,d", evaluators[i].count), evaluators.length, digits);
+        printResult("min  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
+        printResult("max  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
+        printResult("sum  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
+        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum / evaluators[i].count), evaluators.length, digits);
     }
 }
