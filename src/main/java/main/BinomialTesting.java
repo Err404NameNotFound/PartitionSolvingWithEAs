@@ -29,7 +29,7 @@ public class BinomialTesting {
         int count = p.length;
         long[] ms = new long[]{100, 100, 50, 50, 50};
         long[] ns = fill(count, (i) -> 10000);
-        long[] ks = fill(count, (i) -> 10000);
+        long[] ks = fill(count, (i) -> 100);
         testMultipleRandomBinomialWithSolution(ms, ns, p, ks);
     }
 
@@ -137,7 +137,7 @@ public class BinomialTesting {
     }
 
     public static void testRandomBinomial(long m, int n) {
-        testRandomBinomial(m, n, 1.0 / n);
+        System.out.println(testRandomBinomial(m, n, 1.0 / n));
     }
 
     public static long testRandomBinomial(long m, int n, double p) {
@@ -187,7 +187,7 @@ public class BinomialTesting {
                     }
                     /*/
                     long flippedBits = sol.getFlippedBits();
-                    long changes = sol.getChanges();
+//                    long changes = sol.getChanges();
                     if (PartitionSolver.solveEA(input, 100 * maxSteps, 3.0 / m, sol).isNotOptimal()) {
 //                        System.out.println("Seems unsolvable");
                         ++unsolvableCount;
@@ -210,8 +210,8 @@ public class BinomialTesting {
             printf("RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
             if (Arrays.stream(failed_BitFlipAmountNecessary).sum() > 0) {
                 digits = 4;
-                printResult("Bits that needed to be flipped when dif was 1:   ", (i) -> i < changedBitMax ? String.valueOf(i) : changedBitMax + "+", failed_BitFlipAmountNecessary.length, digits);
-                printResult("                                        Count:   ", failed_BitFlipAmountNecessary, digits);
+                printResult("Bits that needed to be flipped when dif was 1: ", (i) -> i < changedBitMax ? String.valueOf(i) : changedBitMax + "+", failed_BitFlipAmountNecessary.length, digits);
+                printResult("                                        Count: ", failed_BitFlipAmountNecessary, digits);
             }
         }
         if (countDouble_fail > 0) {
