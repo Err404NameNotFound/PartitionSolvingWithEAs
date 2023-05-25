@@ -1,0 +1,55 @@
+testRandomBinomialPartition(100, 10.000, 0,100, 10.000)
+Expected value: 100.000
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                10.000;                   27;                9.973
+min  :                     0;                    4;                    0
+max  :                 1.144;                   83;                9.089
+sum  :             2.401.030;                  718;            3.420.844
+avg  :                   240;                   26;                  343
+RLS-N(2) did not find a solution but EA-SM(3/n): 27
+------------------------------------------------------------------------
+testRandomBinomialPartition(100, 10.000, 0,500, 10.000)
+Expected value: 500.000
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                10.000;                    0;               10.000
+min  :                     0;                    -;                    0
+max  :                 1.990;                    -;                4.932
+sum  :             4.010.786;                    -;            3.979.278
+avg  :                   401;                    -;                  397
+------------------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,100, 10.000)
+Expected value: 50.000
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                10.000;                  235;                9.765
+min  :                     0;                    1;                    0
+max  :                   915;                  451;                5.163
+sum  :             1.720.792;               75.939;            2.512.138
+avg  :                   172;                  323;                  257
+RLS-N(2) did not find a solution but EA-SM(3/n): 235
+Bits that needed to be flipped when dif was 1:  0;   1;   2;   3;   4;   5;   6;   7;   8;  9+
+                                        Count:  0;   0;   0;   0;  13;   0;   4;   0;   1;   0
+------------------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,500, 10.000)
+Expected value: 250.000
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                10.000;                  198;                9.802
+min  :                     0;                    1;                    0
+max  :                 1.335;                    2;               12.637
+sum  :             2.802.253;                  199;            3.946.324
+avg  :                   280;                    1;                  402
+RLS-N(2) did not find a solution but EA-SM(3/n): 198
+Bits that needed to be flipped when dif was 1:  0;   1;   2;   3;   4;   5;   6;   7;   8;  9+
+                                        Count:  0;   0;   0;   0; 161;   0;  34;   0;   2;   0
+------------------------------------------------------------------------
+testRandomBinomialPartition(50, 10.000, 0,250, 10.000)
+Expected value: 125.000
+desc : dif from expected val;  dif from opt (fail);steps count (success)
+count:                10.000;                  108;                9.892
+min  :                     0;                    1;                    0
+max  :                 1.215;                    1;                7.888
+sum  :             2.423.126;                  108;            3.593.395
+avg  :                   242;                    1;                  363
+RLS-N(2) did not find a solution but EA-SM(3/n): 108
+Bits that needed to be flipped when dif was 1:  0;   1;   2;   3;   4;   5;   6;   7;   8;  9+
+                                        Count:  0;   0;   0;   0;  84;   0;  21;   0;   3;   0
+------------------------------------------------------------------------
