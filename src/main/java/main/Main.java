@@ -1,24 +1,21 @@
 package main;
 
-import help.MinMaxAvgEvaluator;
 import help.ProgressPrinter;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Random;
 import java.util.Scanner;
 
+import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
-import static help.MathHelp.binomialK;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
 import static help.Printer.setPrintToConsole;
-import static help.ProgressPrinter.printProgress;
 import static main.Evaluation.evaluate;
 import static main.Evaluation.evaluateParallel;
 import static main.InputGenerator.generateInput;
@@ -39,16 +36,16 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 23;
+        int selection = 25;
         switch (selection) {
-            case 0 -> runCancellableTask(() -> researchBinomialInput(1000));
-            case 1 -> runCancellableTask(() -> estimateOptimalSolutionCount(1000 * 1000, 1000));
+            case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
+            case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
             case 2 -> evaluate(1000, 5, 100 * 1000);
             case 3 -> tryGeneratingWorstCaseInput();
             case 4 -> readAndSolveInput();
             case 5 -> printSolutionOfOneInput();
-            case 6 -> testRandomBinomial(100000000, 1000);
-            case 7 -> printBinomialDistribution(10000, 10000000, 0.0001);
+            case 6 -> BinomialTesting.testRandomBinomial(100000000, 1000);
+            case 7 -> BinomialTesting.printBinomialDistribution(10000, 10000000, 0.0001);
             case 8 -> testRandomNextBoolean();
             case 9 -> evaluateMultiple(3, 2, 1000);
             case 10 ->
@@ -66,7 +63,9 @@ public class Main {
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
             case 21 -> testParallelRun(6);
             case 22 -> testParallelRun2(6);
-            case 23 -> testRandomBinomialPartition(50, 10000, 0.25, 10000);
+            case 23 -> BinomialTesting.testRandomBinomialPartition(50, 10000, 0.25, 10000);
+            case 24 -> BinomialTesting.testMultipleRandomBinomialWithSolution(50,10000, 100);
+            case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
         }
     }
 
@@ -126,91 +125,6 @@ public class Main {
         sol.printResult();
     }
 
-    public static void researchBinomialInput(int T) {
-        int expected = (int) Math.round(DEFAULT_P_BINOMIAL * DEFAULT_N);
-        long sum = 0;
-        long sumAbs = 0;
-        int intervallLength = 200;
-        long[] counts = new long[12000 / intervallLength];
-        int t;
-        for (t = 0; t < T && !Thread.interrupted(); ++t) {
-            long[] input = generateInput(7, 10 * 1000);
-            for (int i = 0; i < input.length; ++i) {
-                input[i] -= expected;
-            }
-            long temp = Arrays.stream(input).sum();
-            System.out.printf("%d;%d%n", t, temp);
-            int abs = (int) Math.abs(temp);
-            sum += temp;
-            sumAbs += abs;
-            ++counts[abs / intervallLength];
-        }
-        System.out.println("*******************");
-        System.out.println("avg: " + (sum / t));
-        System.out.println("avg: " + (sumAbs / t));
-        long[] countsM = new long[counts.length];
-        for (int i = 0; i < countsM.length; ++i) {
-            countsM[i] = i * intervallLength;
-        }
-        printResult(countsM, 5);
-        printResult(counts, 5);
-    }
-
-    public static void printBinomialDistribution(int length, int n, double p) {
-        long[] input = InputGenerator.binomialDistributed(length, n, p);
-        long min = input[0];
-        long max = input[0];
-        //finding borders
-        for (int i = 1; i < input.length; ++i) {
-            if (input[i] > max) {
-                max = input[i];
-            } else if (input[i] < min) {
-                min = input[i];
-            }
-        }
-
-        //counting
-        int expected = (int) Math.round(p * n);
-        int range = (int) Math.max(expected - min, max - expected);
-        long[] amount = new long[2 * range + 1];
-        int offset = expected - range;
-        for (long l : input) {
-            amount[(int) l - offset]++;
-        }
-        long[] values = new long[amount.length];
-        for (int i = 0; i < values.length; ++i) {
-            values[i] = offset + i;
-        }
-        printResult(values, 4);
-        printResult(amount, 4);
-        for (int i = 0; i < values.length; ++i) {
-            values[i] -= expected;
-        }
-        printResult(values, 4);
-    }
-
-    public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
-        long[] input = generateInput(7, 10000);
-        int counter = 0;
-        int stepSize = m / amountOfArrays;
-        int next = stepSize;
-        System.out.print("  0%");
-        long startTime = Instant.now().getEpochSecond();
-        int i;
-        for (i = 0; i < m && !Thread.interrupted(); ++i) {
-            if (!PartitionSolver.solveRLS(input, 0).isNotOptimal()) {
-                ++counter;
-            }
-            if (i == next) {
-                printProgress(i, m, startTime);
-                next += stepSize;
-                input = generateInput(7, 10000);
-            }
-        }
-        printProgress(i, m, startTime);
-        System.out.printf("%n%d out of %,d solutions were optimal", counter, i);
-    }
-
     private static void readAndSolveInput() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Zahl eingeben: ");
@@ -262,52 +176,6 @@ public class Main {
         }
         System.out.println("--------------");
         System.out.printf("%d %d %d%n", sumT, sumE, sumLE);
-    }
-
-    private static void testRandomBinomial(long m, int n) {
-        testRandomBinomial(m, n, 1.0 / n);
-    }
-
-    private static long testRandomBinomial(long m, int n, double p) {
-        long sum = 0;
-        for (int i = 0; i < m; ++i) {
-            sum += binomialK(n, p);
-        }
-        return Math.abs(Math.round(m * (n * p)) - sum);
-    }
-
-    private static void testRandomBinomialPartition(long m, int n, double p, int k) {
-        System.out.printf("testRandomBinomialPartition(%,d, %,d, %.3f, %,d)%n", m, n, p, k);
-        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
-        MinMaxAvgEvaluator evalDif = new MinMaxAvgEvaluator(false);
-        MinMaxAvgEvaluator evalSteps = new MinMaxAvgEvaluator(false);
-        long expected = Math.round(m * n * p);
-        long[] input;
-        int countRLSN_fail = 0;
-        long maxSteps = 10000;
-        for (int i = 0; i < k; ++i) {
-            input = InputGenerator.binomialDistributed((int) m, n, p);
-            Solution sol = PartitionSolver.solveRLS_UniformNeighbour(input, maxSteps, 2);
-//            Solution sol = PartitionSolver.solveEA(input, 100000, 3.0 / m);
-            evaluator.insert(Math.abs(sol.getSum().longValue() - expected));
-            long dif = sol.getDif().longValue();
-            if (dif != 0) {
-                evalDif.insert(sol.getDif().longValue());
-                if (!PartitionSolver.solveEA(input, maxSteps, 3.0 / m).isNotOptimal()) {
-                    ++countRLSN_fail;
-                }
-            } else {
-                evalSteps.insert(sol.getTries());
-            }
-        }
-        String[] temp = new String[]{"dif from expected val", "dif from opt (fail)", "steps count (success)"};
-        int digits = Arrays.stream(temp).max(Comparator.comparingInt(String::length)).get().length();
-        printResult("desc : ", (i) -> temp[i], temp.length, digits);
-        MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluator, evalDif, evalSteps);
-        if (countRLSN_fail > 0) {
-            System.out.printf("RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
-        }
-
     }
 
     private static void testRandomPowerLaw() {
