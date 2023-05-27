@@ -10,7 +10,7 @@
         \item[Phase 3:] The RLS behaves exactly like ZeroMax/OneMax and flips every bit to the opposite of the first bit (except for the first bit).
     \end{itemize}
 
-    The expected length of the first phase is $\mathcal{O}(n)$ because the probability of flipping the first bit is at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{ne}$ and therefore the expected time for such a step is at most $\mathcal{O}(\frac{1}{ne}^{-1}) = \mathcal{O}(ne) = \mathcal{O}(n)$.\newline
+    The expected length of the first phase is $\mathcal{O}(n)$ because the probability of flipping the first bit is at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\mathcal{O}(\frac{1}{en}^{-1}) = \mathcal{O}(ne) = \mathcal{O}(n)$.\newline
     The length of the second phase is $\mathcal{O}(n)$ because the solution is either optimal or there is at least one bit that needs to be flipped for an optimal solution. Since the expected length of Phase 1 is $\mathcal{O}(n)$ the solution produced by the RLS won't be optimal in expectation due to the bound of $\Theta(n\log{}n)$ for OneMax/ZeroMax. This again results in expected time $\mathcal{O}(n)$.\newline
     The length of the third phase is identical to a run of the RLS on OneMax/ZeroMax where flips of the first bit are ignored as if it was already correctly flipped and therefore the expected time is $\Theta(n\log{}n)$
 
@@ -19,26 +19,47 @@
     The (1+1) EA can do multiple bit flips in a single step so the first bit can be flipped multiple times if the combined moved weight \(y \le b_F-b_E\). \textbf{\textit{TODO: insert proof for (1+1) EA}}.
 \end{proof}
 
+\begin{lemma}\label{approximationLemmaHelp1}
+    If \(b_F \le \frac{2}{3} \cdot W\) the approximation ratio is at most $\frac{4}{3}$
+\end{lemma}
+\begin{proof}
+    \(\frac{b_F}{opt} \le \frac{(2/3) \cdot W}{opt} \le \frac{(2/3) \cdot W}{(1/2) \cdot W} = \frac{4}{3}\), since \(opt \ge \frac{W}{2}\)
+\end{proof}
+
+\begin{corollary}\label{approximationCorollaryHelp2}
+    If \(w_1 \ge \frac{W}{3}\) and \(w_1\) is in the emptier bin, then the approximation ratio is at most $\frac{4}{3}$
+\end{corollary}
+\begin{proof}
+    $w_1$ is in the emptier bin, so \( b_F \le W - w_1 \le W - \frac{W}{3} = \frac{2W}{3} \) and with Lemma~\ref{approximationLemmaHelp1} the assumption follows.
+\end{proof}
+
+\begin{lemma}\label{movingObjectsLemma}
+    Any object of weight at most $v$ can be moved from $b_F$ to $b_E$ if \(b_F - b_E \ge v\)
+\end{lemma}
+\begin{proof}
+    \(b_F - b_E \ge v \Leftrightarrow b_F \ge b_E + v\), so after moving an object with weight at most $v$ from $b_F$ to $b_E$, the new weight of $b_E$ is at most the weight of $b_F$ before moving the object, thus the RSH accepts the step.
+\end{proof}
+
+\begin{corollary}\label{movingObjectsCorollary}
+    Every object \(\le \frac{W}{3}\) can be moved from $b_F$ to $b_E$ if \(b_F \ge \frac{2W}{3}\)
+\end{corollary}
+\begin{proof}
+    \(b_F \ge \frac{2W}{3} \Rightarrow b_E \le W - \frac{2W}{3} \le \frac{W}{3} \Rightarrow b_F - b_E \ge \frac{2W}{3} - \frac{W}{3} = \frac{W}{3}\) and with Lemma~\ref{movingObjectsLemma} the assumption follows.
+\end{proof}
+
+\begin{lemma}\label{movingObjectsLemma2}
+    In expected Time $\mathcal{O}(n\log{}n)$ the weight of the fuller bin can be decreased to \(\le \frac{2W}{3}\) if every object besides the biggest in the fuller bin is at most $\frac{W}{3}$ and \(w_1 \le \frac{W}{2}\).
+\end{lemma}
+\begin{proof}
+    In expected time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{W}{3}$ to the emptier bin as long as $b_F \ge \frac{2W}{3}$ due to Corollary~\ref{movingObjectsCorollary} and results for OneMax. So in Time $\mathcal{O}(n\log{}n)$ the solution can be shifted to $w_1$ being in one bin and all other objects in the other bin. The RSH will only stop moving the elements if the condition $b_F \ge \frac{2W}{3}$ is no longer satisfied (Corollary~\ref{movingObjectsCorollary}). If \(w_1 \ge \frac{W}{3}\) and every object was moved to the bin without $w_1$, then \(b_F = \max\{W-w_1, w_1\} = W-w_1 \le \frac{2W}{3}\), because \(w_1 \le \frac{W}{2}\). So either the RSH moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2W}{3}$ both resulting in $b_F \le \frac{2W}{3}$. If $w_1$ is not in the fuller bin, then the result follows by Corollary~\ref{approximationCorollaryHelp2}\newline
+    Now assume \(w_1 < \frac{W}{3}\). In this case the RLS will move one object per step to the emptier bin. Each object has weight $< \frac{W}{3}$ and therefore one step can not decrease the weight of the fuller bin from $> \frac{2W}{3}$ to $\le \frac{W}{3}$. If all objects except the biggest where moved the other bin, the other bin would have a weight of at least \(W-w_1 > \frac{2W}{3}\). Therefore the RLS will find a solution with $b_F < \frac{2W}{3}$ before moving all elements from the first to the second bin. \textbf{\textit{TODO: insert proof for (1+1) EA}}
+\end{proof}
+
 \begin{lemma}\label{approximationLemma}
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ in expected time $\mathcal{O}(n\log{}n)$ if $w_1 < W/2$
 \end{lemma}
-\begin{proof}
-    W.l.o.g. the weights are normalized to a total weight W = 1.
-    \newline Helpful statements
-    \begin{itemize}
-        \item[(1)]\label{helpPoint1} If \(b_F \le \frac{2}{3}\) the approximation ratio is at most \(\frac{b_F}{opt} \le \frac{2/3}{opt} \le \frac{2/3}{1/2} = \frac{4}{3}\)
-        \item[(2)]\label{helpPoint2} If \(w_1 \ge \frac{1}{3}\) and \(w_1\) is in the emptier bin, then \( b_F \le 1 - w_1 \le 1 - \frac{1}{3} = \frac{2}{3} \) \newline $\Rightarrow$ approximation \(\le \frac{4}{3}\) (1)
-        \item[(3)]\label{helpPoint3} \(b_F - b_E \ge v \Leftrightarrow b_F \ge b_E + v\) and therefore any object of weight at most $v$ can be moved from $b_F$ to $b_E$ if \(b_F - b_E \ge v\)
-        \item[(4)]\label{helpPoint4} \(b_F \ge \frac{2}{3} \Rightarrow b_E \le \frac{1}{3} \Rightarrow b_F - b_E \ge \frac{2}{3} - \frac{1}{3} = \frac{1}{3} \Rightarrow\) Every object \(\le \frac{1}{3}\) can be moved from $b_F$ to $b_E$ as long as \(b_F \ge \frac{2}{3}\) (3)
-        \item[(5)]\label{helpPoint5} In Time $\mathcal{O}(n\log{}n)$ the weight of the fuller bin can be decreased to \(\le \frac{2}{3}\) if every object besides the biggest in the fuller bin is at most $\frac{1}{3}$ and \(w_1 \le \frac{W}{2}\).
-    \end{itemize}
-    Proof of (5): \newline
-    In time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{1}{3}$ to the emptier bin as long as $b_F \ge \frac{2}{3}$ (4). So in Time $\mathcal{O}(n\log{}n)$ the solution can be shifted to $w_1$ being in one bin and all other objects in the other bin. The RSH will only stop moving the elements if the condition $b_F \ge \frac{2}{3}$ is no longer satisfied (4). If \(w_1 \ge \frac{1}{3}\) and every object was moved to the bin without $w_1$, then \(b_F = \max\{1-w_1, w_1\} = 1-w_1 \le \frac{2}{3}\). So either the RSH moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2}{3}$ both resulting in $b_F \le \frac{2}{3}$. If $w_1$ is not in the fuller bin, then the result follows by (2)\newline
-    Now assume \(w_1 < \frac{1}{3}\). In this case the RLS will move one object per step to the emptier bin. Each object has weight $< \frac{1}{3}$ and therefore one step can not decrease the weight of the fuller bin from $> \frac{2}{3}$ to $\le \frac{1}{3}$. If all objects except the biggest where moved the other bin, the other bin would have a weight of at least \(1-w_1 > \frac{2}{3}\). Therefore the RLS will find a solution with $b_F < \frac{2}{3}$ before moving all elements from the first to the second bin. \textbf{\textit{TODO: insert proof for (1+1) EA}}
-
-
-    Proof of the Lemma:\newline
-    If \(w_1+w_2 > \frac{2}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated (Proof by C.Witt) and will remain separated afterwards. From then on the following holds. If $w_1$ is in the emptier bin, then the result follows directly by (2). Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by (5) and (1). If \(w_1+w_2 \le \frac{2}{3}\) the result follows directly by (5) and (1).
+\begin{proof}    
+    If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (Proof by C.Witt). From then on the following holds. If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{approximationCorollaryHelp2}. Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}. If \(w_1+w_2 \le \frac{2W}{3}\) the result follows directly by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}.
 \end{proof}
 
 \begin{corollary}
