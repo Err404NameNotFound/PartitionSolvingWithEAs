@@ -2,12 +2,12 @@ package main;
 
 import help.ProgressPrinter;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
@@ -36,7 +36,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 25;
+        int selection = 27;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -63,9 +63,11 @@ public class Main {
 //            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
             case 21 -> testParallelRun(6);
             case 22 -> testParallelRun2(6);
-            case 23 -> BinomialTesting.testRandomBinomialPartition(50, 10000, 0.25, 10000);
-            case 24 -> BinomialTesting.testMultipleRandomBinomialWithSolution(50,10000, 100);
+            case 23 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
+            case 24 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
             case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
+            case 26 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
+            case 27 -> bruteForceAll();
         }
     }
 
@@ -313,4 +315,42 @@ public class Main {
         PartitionSolver.solveEA(generator.generate(length), steps);
     }
 
+    private static void bruteForceInput(long[] input) {
+        String format = "%0" + input.length + "d: -> dif = %d%n";
+        long sum = Arrays.stream(input).sum();
+        long best = sum;
+        long optimal = sum / 2 + sum % 2;
+        long dif = sum - optimal;
+        long end = Math.round(Math.pow(2, input.length - 1));
+        for (int i = 0; i < end; ++i) {
+            long current = (i & 1) * input[1];
+            for (int j = 2; j < input.length; ++j) {
+                current += ((i >> (j - 1)) & 1) * input[j];
+            }
+            current = Math.max(current, sum - current);
+            if (current < best) {
+                best = current;
+                dif = best - optimal;
+                System.out.printf(format, new BigInteger(Integer.toBinaryString(i)), dif);
+                if (dif == 0) {
+                    break;
+                }
+            }
+        }
+        System.out.printf("sum:     %d%n", sum);
+        System.out.printf("optimal: %d%n", optimal);
+        System.out.printf("best:    %d%n", best);
+        System.out.printf("dif:     %d%n", dif);
+        System.out.printf("optimal:     %b%n", dif == 0);
+    }
+
+    private static void bruteForceAll() {
+        long[][] unsolvableInputs = new long[][]{
+                new long[]{983, 997, 997, 943, 1017, 977, 1013, 944, 999, 1017, 1036, 977, 977, 999},
+                new long[]{966, 1012, 1036, 1010, 1049, 1062, 995, 1054, 927, 1059, 958, 958, 979, 989}
+        };
+        for (long[] input : unsolvableInputs) {
+            bruteForceInput(input);
+        }
+    }
 }
