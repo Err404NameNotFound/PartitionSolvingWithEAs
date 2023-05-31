@@ -41,7 +41,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 28;
+        int selection = 17;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -61,7 +61,7 @@ public class Main {
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "TODO_DELETE");
-            case 17 -> evaluate(1000, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
+            case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);

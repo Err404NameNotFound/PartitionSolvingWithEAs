@@ -72,6 +72,17 @@ public class MathHelp {
         return Math.max(a, b);
     }
 
+    public static long max(long[]... arrays) {
+        long max = max(arrays[0]);
+        for (int i = 1; i < arrays.length; ++i) {
+            long current = max(arrays[i]);
+            if (current > max) {
+                max = current;
+            }
+        }
+        return max;
+    }
+
     public static int powerlawK(int bottom, int top, double n) {
         double y = Math.random();
         return (int) Math.pow(y * Math.pow(top, (n + 1)) - Math.pow(bottom, n + 1), 1 / (n + 1));

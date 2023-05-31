@@ -61,11 +61,54 @@ public class MinMaxAvgEvaluator {
         }
     }
 
+    public long getMin() {
+        return min;
+    }
+
+    public long getMax() {
+        return max;
+    }
+
+    public long getSum() {
+        return sum;
+    }
+
+    public long getCount() {
+        return count;
+    }
+
     public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult("count: ", (i) -> String.format("%,d", evaluators[i].count), evaluators.length, digits);
-        printResult("min  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
-        printResult("max  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
-        printResult("sum  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
-        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
+        printCount("count: ", digits, evaluators);
+        printMin("min  : ", digits, evaluators);
+        printMax("max  : ", digits, evaluators);
+        printAvg("avg  : ", digits, evaluators);
+        printSum("sum  : ", digits, evaluators);
+    }
+
+    public static void printMultipleNonNegative(String min, String max, String avg, int digits, MinMaxAvgEvaluator... evaluators) {
+        printAvg(avg, digits, evaluators);
+        printMax(max, digits, evaluators);
+        printMin(min, digits, evaluators);
+    }
+
+    private static void printSum(String sum, int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult(sum, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
+
+    }
+
+    private static void printCount(String count, int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult(count, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].count), evaluators.length, digits);
+    }
+
+    private static void printMin(String min, int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult(min, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
+    }
+
+    private static void printMax(String max, int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult(max, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
+    }
+
+    private static void printAvg(String avg, int digits, MinMaxAvgEvaluator... evaluators) {
+        printResult(avg, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
     }
 }
