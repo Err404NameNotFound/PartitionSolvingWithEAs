@@ -23,6 +23,8 @@ public class Solution {
     private long bitsTried;
     private boolean sumIsEven;
     private int lastImprove;
+    private int lastBitFlippedCount;
+    private int lastBitFlippedTried;
 
     Solution(long[] values) {
         this.values = values;
@@ -75,6 +77,12 @@ public class Solution {
             ++changes;
             lastImprove = 0;
             ++bitsFlipped;
+            if (index == partition.length - 1) {
+                ++lastBitFlippedCount;
+            }
+        }
+        if (index == partition.length - 1) {
+            ++lastBitFlippedTried;
         }
     }
 
@@ -102,9 +110,14 @@ public class Solution {
                 ++changes;
                 lastImprove = 0;
                 bitsFlipped += indexes.size();
+                if (indexes.contains(partition.length - 1)) {
+                    ++lastBitFlippedCount;
+                }
             }
         }
-
+        if (indexes.contains(partition.length - 1)) {
+            ++lastBitFlippedTried;
+        }
     }
 
     public void update(int index) {
@@ -128,6 +141,10 @@ public class Solution {
         } else {
             return tries < maxSteps;
         }
+    }
+
+    public boolean isOptimal() {
+        return !isNotOptimal();
     }
 
     boolean isNotOptimal() {
@@ -245,5 +262,13 @@ public class Solution {
 
     public int[] getPartition() {
         return partition;
+    }
+
+    public int getLastBitFlippedCount() {
+        return lastBitFlippedCount;
+    }
+
+    public int getLastBitFlippedTried() {
+        return lastBitFlippedTried;
     }
 }

@@ -51,7 +51,7 @@ public class ArrayPrinter {
 
     public static void printResult(String before, Solver[] solvers, int digits) {
         print(before);
-        printResult(solvers, digits);
+        printSolverDescription(solvers, digits);
     }
 
     public static void printResult(String before, long[] result, long[] count, int digits) {
@@ -71,8 +71,12 @@ public class ArrayPrinter {
         printResult(i -> String.format("%.3f", ((double) result[i]) / count[i]), result.length, digits);
     }
 
-    public static void printResult(Solver[] solvers, int digits) {
+    public static void printSolverDescription(Solver[] solvers, int digits) {
         printResult(i -> solvers[i].description, solvers.length, digits);
+    }
+
+    public static void printResult(String before, String[] strings, int digits) {
+        printResult(before, i -> strings[i], strings.length, digits);
     }
 
     public static void printResult(String before, Array array, int length, int digits) {

@@ -8,7 +8,7 @@ public class MinMaxAvgEvaluator {
     private long max;
     private long sum;
     private long count;
-    private boolean canBeNegative;
+    private final boolean canBeNegative;
     private long absMin;
     private long absMax;
     private long absSum;
@@ -18,6 +18,7 @@ public class MinMaxAvgEvaluator {
         max = Long.MIN_VALUE;
         sum = 0;
         count = 0;
+        this.canBeNegative = canBeNegative;
     }
 
     public void insert(long value) {

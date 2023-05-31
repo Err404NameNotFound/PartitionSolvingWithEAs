@@ -68,7 +68,7 @@ Mehrere Felder mit Summe am Ende (Rest 1) mit 100 Felder mit Summe
     -ea: 50/n;  100/n;   10/n;    5/n;    4/n;    3/n;    2/n;      -
     -pmut: -1,25;   -1,50;   -1,75;   -2,00;   -2,25;   -2,50;   -2,75;   -3,00;   -3,25
     - allgemein je höher desto besser ( je nach anzahl der Summenfelder)
-    - rls n 2,4 tuen sich schwerer vermutlich weil nur sehr wenig ungerade bit flips passieren
+    - rls n 2,4 tun sich schwerer vermutlich weil nur sehr wenig ungerade bit flips passieren
     - Für 100 Felder mit Summe 1,0 -> 1,5 -> 2,0 -> 3,0 -> 4,0 -> 10,0 -> 50 <- 100
     - Für 10  Felder mit Summe 1,0 -> 1,5 -> 2,0 -> 3,0 -> 4,0 -> 10,0 -> 50 -> 100
     - Für 5   Felder mit Summe 1,0 -> 1,5 -> 2,0 -> 3,0 -> 4,0 -> 10,0 -> 50 <- 100

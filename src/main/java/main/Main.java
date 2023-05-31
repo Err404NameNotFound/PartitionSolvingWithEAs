@@ -1,5 +1,7 @@
 package main;
 
+import help.ArrayPrinter;
+import help.MinMaxAvgEvaluator;
 import help.ProgressPrinter;
 
 import java.math.BigInteger;
@@ -8,6 +10,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
@@ -15,6 +18,8 @@ import static help.Help.runCancellableTasks;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
+import static help.Printer.printf;
+import static help.Printer.println;
 import static help.Printer.setPrintToConsole;
 import static main.Evaluation.evaluate;
 import static main.Evaluation.evaluateParallel;
@@ -36,7 +41,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 27;
+        int selection = 28;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -68,6 +73,7 @@ public class Main {
             case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
             case 26 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
             case 27 -> bruteForceAll();
+            case 28 -> checkLastBitFlippedCount();
         }
     }
 
@@ -315,7 +321,7 @@ public class Main {
         PartitionSolver.solveEA(generator.generate(length), steps);
     }
 
-    private static void bruteForceInput(long[] input) {
+    private static boolean bruteForceInput(long[] input) {
         String format = "%0" + input.length + "d: -> dif = %d%n";
         long sum = Arrays.stream(input).sum();
         long best = sum;
@@ -331,17 +337,18 @@ public class Main {
             if (current < best) {
                 best = current;
                 dif = best - optimal;
-                System.out.printf(format, new BigInteger(Integer.toBinaryString(i)), dif);
+                printf(format, new BigInteger(Integer.toBinaryString(i)), dif);
                 if (dif == 0) {
                     break;
                 }
             }
         }
-        System.out.printf("sum:     %d%n", sum);
-        System.out.printf("optimal: %d%n", optimal);
-        System.out.printf("best:    %d%n", best);
-        System.out.printf("dif:     %d%n", dif);
-        System.out.printf("optimal:     %b%n", dif == 0);
+        printf("sum:     %d%n", sum);
+        printf("optimal: %d%n", optimal);
+        printf("best:    %d%n", best);
+        printf("dif:     %d%n", dif);
+        printf("optimal:     %b%n", dif == 0);
+        return dif == 0;
     }
 
     private static void bruteForceAll() {
@@ -349,8 +356,48 @@ public class Main {
                 new long[]{983, 997, 997, 943, 1017, 977, 1013, 944, 999, 1017, 1036, 977, 977, 999},
                 new long[]{966, 1012, 1036, 1010, 1049, 1062, 995, 1054, 927, 1059, 958, 958, 979, 989}
         };
+        setPrintToConsole(false);
         for (long[] input : unsolvableInputs) {
-            bruteForceInput(input);
+            System.out.println(bruteForceInput(input));
         }
+        setPrintToConsole(true);
+    }
+
+    private static void checkLastBitFlippedCount() {
+        long[] inputLengths = fill(3, (i) -> Math.round(Math.pow(10, i + 3)));
+//        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000, 5 * 1000 * 1000,};
+        long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
+        Solver[] solvers = new Solver[]{Solver.getEA(), Solver.getEA(2), Solver.getRLS(), Solver.getRLSUniformRing(2)};
+        MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[2 * solvers.length];
+        for (int i = 0; i < evaluators.length; ++i) {
+            evaluators[i] = new MinMaxAvgEvaluator(false);
+        }
+        int countPerArray = 10;
+        long[] inputArray;
+        for (int input = 0; input < inputLengths.length; ++input) {
+            inputArray = InputGenerator.oneMaxEquivalentUniformRange((int) inputLengths[input], 1, 10000);
+            println(String.valueOf(inputLengths[input]));
+            for (int i = 0; i < solvers.length; ++i) {
+                for (int run = 0; run < countPerArray; ++run) {
+                    Solution sol = solvers[i].solve(inputArray, maxSteps[input]);
+                    evaluators[i].insert(sol.getLastBitFlippedCount());
+                    evaluators[i + solvers.length].insert(sol.getLastBitFlippedTried());
+                    printf("run %2d, %5s -> %2d, %3d, %b%n", run, solvers[i].description,
+                            sol.getLastBitFlippedCount(), sol.getLastBitFlippedTried(), sol.isOptimal());
+                }
+            }
+        }
+        int digits = 7;
+        String[] evalDescriptions1 = new String[evaluators.length];
+        String[] evalDescriptions2 = new String[evaluators.length];
+        for (int i = 0; i < solvers.length; ++i) {
+            evalDescriptions1[i] = solvers[i].description;
+            evalDescriptions2[i] = "flips";
+            evalDescriptions1[i + solvers.length] = solvers[i].description;
+            evalDescriptions2[i + solvers.length] = "tries";
+        }
+        ArrayPrinter.printResult("algo:  ", evalDescriptions1, digits);
+        ArrayPrinter.printResult("type:  ", evalDescriptions2, digits);
+        MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
     }
 }
