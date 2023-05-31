@@ -66,6 +66,6 @@ public class MinMaxAvgEvaluator {
         printResult("min  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
         printResult("max  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
         printResult("sum  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
-        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum / evaluators[i].count), evaluators.length, digits);
+        printResult("avg  : ", (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
     }
 }

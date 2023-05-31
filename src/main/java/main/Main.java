@@ -365,14 +365,14 @@ public class Main {
 
     private static void checkLastBitFlippedCount() {
         long[] inputLengths = fill(3, (i) -> Math.round(Math.pow(10, i + 3)));
-//        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000, 5 * 1000 * 1000,};
+//        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
-        Solver[] solvers = new Solver[]{Solver.getEA(), Solver.getEA(2), Solver.getRLS(), Solver.getRLSUniformRing(2)};
+        Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
         MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[2 * solvers.length];
         for (int i = 0; i < evaluators.length; ++i) {
             evaluators[i] = new MinMaxAvgEvaluator(false);
         }
-        int countPerArray = 10;
+        int countPerArray = 100;
         long[] inputArray;
         for (int input = 0; input < inputLengths.length; ++input) {
             inputArray = InputGenerator.oneMaxEquivalentUniformRange((int) inputLengths[input], 1, 10000);

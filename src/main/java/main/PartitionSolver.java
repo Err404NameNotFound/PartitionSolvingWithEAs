@@ -213,7 +213,7 @@ public class PartitionSolver {
         for (int i = 0; i < values.length; ++i) {
             inputSum = inputSum.add(BigInteger.valueOf(values[i]));
             if (random.nextBoolean()) {
-                sol.setValueToOne(i);
+//                sol.setValueToOne(i);
             }
         }
         sol.setInputSum(inputSum);
