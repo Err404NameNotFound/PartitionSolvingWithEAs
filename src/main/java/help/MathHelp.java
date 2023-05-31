@@ -68,10 +68,6 @@ public class MathHelp {
         return result.getAsLong();
     }
 
-    public static long max(long a, long b) {
-        return Math.max(a, b);
-    }
-
     public static long max(long[]... arrays) {
         long max = max(arrays[0]);
         for (int i = 1; i < arrays.length; ++i) {

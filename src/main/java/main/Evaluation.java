@@ -57,16 +57,16 @@ public class Evaluation {
         }
     }
 
-    private static Evaluation merge(Evaluation... evals) {
-        for (int i = 1; i < evals.length; ++i) {
-            if (evals[i].totalAverage.length != evals[0].totalAverage.length) {
+    private static Evaluation merge(Evaluation... evaluations) {
+        for (int i = 1; i < evaluations.length; ++i) {
+            if (evaluations[i].totalAverage.length != evaluations[0].totalAverage.length) {
                 throw new IllegalArgumentException("Evaluators are not compatible due to different lengths");
             }
         }
         Evaluation result = new Evaluation();
-        result.initialize(evals[0].solvers);
-        result.generator = evals[0].generator;
-        for (Evaluation e : evals) {
+        result.initialize(evaluations[0].solvers);
+        result.generator = evaluations[0].generator;
+        for (Evaluation e : evaluations) {
             for (int i = 0; i < result.totalAverage.length; ++i) {
                 result.totalAverage[i] += e.totalAverage[i];
                 result.avg[i] += e.avg[i];

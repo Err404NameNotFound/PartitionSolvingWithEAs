@@ -129,7 +129,6 @@ public class Main {
         int length = 200000;
         long[] temp = generateInput(0, length);
         Solution sol = PartitionSolver.solvePmut(temp, 100 * nlogn(length), -2.0);
-//        Solution sol = PartitionSolver.solveRLS(temp, 100 * xlnx(length));
         sol.printResult();
     }
 
@@ -141,10 +140,7 @@ public class Main {
         if (temp != null) {
             System.out.println("Solving for the given input");
             long start = Instant.now().toEpochMilli();
-//            main.Solution sol = main.PartitionSolver.solve(temp);
-//            main.Solution sol = main.PartitionSolver.solveHeavy(temp, 2.0);
-            Solution sol = PartitionSolver.solvePopulation(temp, DEFAULT_TIME, 1);
-//            main.Solution sol = main.PartitionSolver.solveWithFirstK(temp, 3);
+            Solution sol = PartitionSolver.solveEA(temp, DEFAULT_TIME);
             System.out.printf("elapsed time: %dms%n", Instant.now().toEpochMilli() - start);
             printFirstAndLastElements(temp);
             System.out.print("main.Solution: ");
@@ -283,14 +279,14 @@ public class Main {
 
     private static long unnecessaryComputation(long start, long end) {
         long current = 0;
-//        long[] unnecessaryMemoryWaste = new long[50000000]; // increases the cost of context switching
-//        Random r = new Random(); // produce cache misses for more accurate comparison to real scenario
+        long[] unnecessaryMemoryWaste = new long[50000000]; // increases the cost of context switching
+        Random r = new Random(); // produce cache misses for more accurate comparison to real scenario
         for (long i = start; i < end; ++i) {
             current += i;
-//            unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] = i;
+            unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] = i;
         }
         // hopefully compiler  does not remove the array due to this statement without any effets
-//        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] % 2);
+        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] % 2);
         return current;
     }
 

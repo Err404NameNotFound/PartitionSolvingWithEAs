@@ -55,20 +55,13 @@ public class ArrayHelp {
     }
 
 
-    private static class Tuple implements Comparable<Tuple> {
-        public int index;
-        public long value;
-
-        public Tuple(int index, long value) {
-            this.index = index;
-            this.value = value;
-        }
+    private record Tuple(int index, long value) implements Comparable<Tuple> {
 
         @Override
-        public int compareTo(Tuple o) {
-            return (int) (value - o.value);
+            public int compareTo(Tuple o) {
+                return (int) (value - o.value);
+            }
         }
-    }
 
     public interface NumberGenerator {
         long generate(int index);

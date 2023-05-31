@@ -123,15 +123,4 @@ public class Solver {
                 getPmut(-2.75)
         };
     }
-
-    public static Solver[] getComparison(double pmut){
-        return new Solver[]{
-                getRLS(),
-                getRLSUniformRing(2),
-                getRLSUniformNeighbour(2),
-                getEA(),
-                getEA(4),
-                getPmut(pmut),
-        };
-    }
 }

@@ -9,13 +9,16 @@ public class Printer {
 
     public static boolean printToConsole = true;
     public static boolean printToFile = false;
-    public static String linebreak = "\n";
+    public static final String linebreak = "\n";
 
     private static BufferedWriter writer;
 
     public static void startFilePrinting(String file) {
         try {
-            new File(file).createNewFile();
+            boolean didNotExist = new File(file).createNewFile();
+            if(!didNotExist){
+                System.out.printf("WARNING: file %s already existed%n", file);
+            }
             writer = new BufferedWriter(new FileWriter(file));
             printToFile = true;
         } catch (IOException e) {

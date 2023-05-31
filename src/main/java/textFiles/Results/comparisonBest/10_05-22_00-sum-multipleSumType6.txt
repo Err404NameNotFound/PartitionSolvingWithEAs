@@ -30,4 +30,4 @@ EA-SM   -> modified EA : each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
 
 
-TODO NEU machen weil mutation rates nicht passen
+TODO NEU machen, weil mutation rates nicht passen

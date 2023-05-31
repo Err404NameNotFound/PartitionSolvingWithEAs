@@ -36,11 +36,6 @@ public class ProgressPrinter {
         nextUpdate = millis + Instant.now().toEpochMilli();
     }
 
-    public void setUpdateAfterSteps(int stepSize) {
-        byTime = false;
-        this.stepSize = stepSize;
-    }
-
     public void printProgressIfNecessary(long i) {
         if (byTime && Instant.now().toEpochMilli() >= nextUpdate || !byTime && i>= nextUpdate) {
             printProgress(i);
@@ -61,10 +56,6 @@ public class ProgressPrinter {
         long expectedTime = (Instant.now().getEpochSecond() - startSeconds) * (end - current) / current;
         System.out.printf("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b%3s%% | finished: %s",
                 (100 * current) / end, formatter.format(LocalDateTime.ofEpochSecond(expectedTime, 0, ZoneOffset.UTC)));
-    }
-
-    public static void clearProgressBar() {
-        System.out.println("\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b");
     }
 
     public static void clearProgressAndPrintElapsedTime(long start) {

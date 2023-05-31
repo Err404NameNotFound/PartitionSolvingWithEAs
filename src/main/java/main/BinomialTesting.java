@@ -81,8 +81,7 @@ public class BinomialTesting {
         printResult(counts, 5);
     }
 
-    public static void printBinomialDistribution(int length, int n, double p) {
-        long[] input = InputGenerator.binomialDistributed(length, n, p);
+    private static int calculateRange(long[] input, long expected){
         long min = input[0];
         long max = input[0];
         //finding borders
@@ -93,10 +92,15 @@ public class BinomialTesting {
                 min = input[i];
             }
         }
+        return (int) Math.max(expected - min, max - expected);
+    }
+
+    public static void printBinomialDistribution(int length, int n, double p) {
+        long[] input = InputGenerator.binomialDistributed(length, n, p);
 
         //counting
         int expected = (int) Math.round(p * n);
-        int range = (int) Math.max(expected - min, max - expected);
+        int range = calculateRange(input, expected);
         long[] amount = new long[2 * range + 1];
         int offset = expected - range;
         for (long l : input) {
@@ -241,19 +245,7 @@ public class BinomialTesting {
     }
 
     private static void printSeeminglyNotPossibleInput(long[] input, Solution sol, long expected) {
-        long min = input[0];
-        long max = input[0];
-        //finding borders
-        for (int i = 1; i < input.length; ++i) {
-            if (input[i] > max) {
-                max = input[i];
-            } else if (input[i] < min) {
-                min = input[i];
-            }
-        }
-
-        //counting
-        int range = (int) Math.max(expected - min, max - expected);
+        int range = calculateRange(input, expected);
         long[] amount0 = new long[2 * range + 1];
         long[] amount1 = new long[2 * range + 1];
         int offset = (int) expected - range;

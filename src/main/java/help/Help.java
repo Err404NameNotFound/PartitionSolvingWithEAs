@@ -28,7 +28,7 @@ public class Help {
                 try {
                     t.join();
                 } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+//                    throw new RuntimeException(e);
                 }
             }
         }

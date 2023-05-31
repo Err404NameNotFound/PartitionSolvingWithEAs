@@ -1,6 +1,8 @@
 package help;
 
 import static help.ArrayPrinter.printResult;
+import static help.Printer.printf;
+import static help.Printer.println;
 
 public class MinMaxAvgEvaluator {
 
@@ -44,19 +46,19 @@ public class MinMaxAvgEvaluator {
 
     public void printEvaluation() {
         if (count == 0) {
-            System.out.println("Nothing to evaluate, because count == 0");
+            println("Nothing to evaluate, because count == 0");
         } else {
-            System.out.printf("count: %d%n", count);
-            System.out.printf("min  : %d%n", min);
-            System.out.printf("max  : %d%n", max);
-            System.out.printf("sum  : %d%n", sum);
-            System.out.printf("avg  : %d%n", sum / count);
+            printf("count: %d%n", count);
+            printf("min  : %d%n", min);
+            printf("max  : %d%n", max);
+            printf("sum  : %d%n", sum);
+            printf("avg  : %d%n", sum / count);
             if (canBeNegative) {
-                System.out.println("Stats of absolute values:");
-                System.out.printf("min  : %d%n", absMin);
-                System.out.printf("max  : %d%n", absMax);
-                System.out.printf("sum  : %d%n", absSum);
-                System.out.printf("avg  : %d%n", absSum / count);
+                println("Stats of absolute values:");
+                printf("min  : %d%n", absMin);
+                printf("max  : %d%n", absMax);
+                printf("sum  : %d%n", absSum);
+                printf("avg  : %d%n", absSum / count);
             }
         }
     }
@@ -71,10 +73,6 @@ public class MinMaxAvgEvaluator {
 
     public long getSum() {
         return sum;
-    }
-
-    public long getCount() {
-        return count;
     }
 
     public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
