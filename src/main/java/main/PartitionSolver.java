@@ -161,7 +161,7 @@ public class PartitionSolver {
                     notDone = notDone && sol.isNotOptimal() && count < maxSteps;
                 } while (sol.lastImproveLessThanXStepsAway(100) && notDone);
             }
-            progress.printProgress(count);
+            progress.printProgressIfNecessary(count);
         }
         while (notDone);
         System.out.println();

@@ -41,7 +41,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 17;
+        int selection = 29;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -65,7 +65,7 @@ public class Main {
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
-            case 21 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
+            case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
             case 23 -> testParallelRun2(6);
             case 24 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
@@ -207,7 +207,7 @@ public class Main {
 //            System.out.println(val);
             }
             avg[t] /= n;
-            progress.printProgress(t);
+            progress.printProgressIfNecessary(t);
         }
         System.out.println();
         int digits = 6;
@@ -364,25 +364,39 @@ public class Main {
 //        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
         Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
-        MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[2 * solvers.length];
-        for (int i = 0; i < evaluators.length; ++i) {
-            evaluators[i] = new MinMaxAvgEvaluator(false);
-        }
         int countPerArray = 100;
-        long[] inputArray;
         for (int input = 0; input < inputLengths.length; ++input) {
-            inputArray = InputGenerator.oneMaxEquivalentUniformRange((int) inputLengths[input], 1, 10000);
-            println(String.valueOf(inputLengths[input]));
+            long[] inputArray = InputGenerator.oneMaxEquivalentUniformRange((int) inputLengths[input], 1, 10000);
+            long steps = maxSteps[input];
+            runCancellableTask(() -> checkLastBitFlippedCount(inputArray, solvers, countPerArray, steps));
+        }
+    }
+
+    private static void checkLastBitFlippedCount(long[] input, Solver[] solvers, int countPerArray, long maxSteps) {
+        println(String.valueOf(input.length));
+        MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[2 * solvers.length];
+        fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
+        ProgressPrinter p = new ProgressPrinter((long) solvers.length * countPerArray, solvers.length);
+        long pCounter = 0;
+        for (int run = 0; run < countPerArray; ++run) {
+            if (Thread.interrupted()) {
+                break;
+            }
             for (int i = 0; i < solvers.length; ++i) {
-                for (int run = 0; run < countPerArray; ++run) {
-                    Solution sol = solvers[i].solve(inputArray, maxSteps[input]);
-                    evaluators[i].insert(sol.getLastBitFlippedCount());
-                    evaluators[i + solvers.length].insert(sol.getLastBitFlippedTried());
-                    printf("run %2d, %5s -> %2d, %3d, %b%n", run, solvers[i].description,
-                            sol.getLastBitFlippedCount(), sol.getLastBitFlippedTried(), sol.isOptimal());
-                }
+                Solution sol = solvers[i].solve(input, maxSteps);
+                evaluators[i].insert(sol.getLastBitFlippedCount());
+                evaluators[i + solvers.length].insert(sol.getLastBitFlippedTried());
+//                    printf("run %2d, %5s -> %2d, %3d, %b%n", run, solvers[i].description,
+//                            sol.getLastBitFlippedCount(), sol.getLastBitFlippedTried(), sol.isOptimal());
+                p.printProgressIfNecessary(pCounter);
+                ++pCounter;
             }
         }
+        p.clearProgressAndPrintElapsedTime();
+        print(solvers, evaluators);
+    }
+
+    private static void print(Solver[] solvers, MinMaxAvgEvaluator[] evaluators) {
         int digits = 7;
         String[] evalDescriptions1 = new String[evaluators.length];
         String[] evalDescriptions2 = new String[evaluators.length];

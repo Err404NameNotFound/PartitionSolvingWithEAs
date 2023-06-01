@@ -1,6 +1,7 @@
 package main;
 
 import help.MinMaxAvgEvaluator;
+import help.ProgressPrinter;
 
 import java.nio.file.Paths;
 import java.time.Instant;
@@ -17,7 +18,6 @@ import static help.Printer.println;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static help.ProgressPrinter.printProgress;
 import static main.InputGenerator.generateInput;
 
 public class BinomialTesting {
@@ -120,19 +120,19 @@ public class BinomialTesting {
         int stepSize = m / amountOfArrays;
         int next = stepSize;
         System.out.print("  0%");
-        long startTime = Instant.now().getEpochSecond();
+        ProgressPrinter p = new ProgressPrinter(m, stepSize);
         int i;
         for (i = 0; i < m && !Thread.interrupted(); ++i) {
             if (!PartitionSolver.solveRLS(input, 0).isNotOptimal()) {
                 ++counter;
             }
             if (i == next) {
-                printProgress(i, m, startTime);
+                p.printProgressIfNecessary(i);
                 next += stepSize;
                 input = generateInput(7, 10000);
             }
         }
-        printProgress(i, m, startTime);
+        p.printProgressIfNecessary(i);
         System.out.printf("%n%d out of %,d solutions were optimal", counter, i);
     }
 
