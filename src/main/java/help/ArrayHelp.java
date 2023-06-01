@@ -44,6 +44,16 @@ public class ArrayHelp {
         }
     }
 
+    public static <T> void fill(T[] values, ObjectGenerator<T> generator) {
+        fill(values, generator, 0, values.length);
+    }
+
+    public static <T> void fill(T[] values, ObjectGenerator<T> generator, int start, int end) {
+        for (int i = start; i < end; ++i) {
+            values[i] = generator.generate(i);
+        }
+    }
+
     public static long[] fill(int length, NumberGenerator generator) {
         return fill(length, generator, 0, length);
     }
@@ -58,12 +68,16 @@ public class ArrayHelp {
     private record Tuple(int index, long value) implements Comparable<Tuple> {
 
         @Override
-            public int compareTo(Tuple o) {
-                return (int) (value - o.value);
-            }
+        public int compareTo(Tuple o) {
+            return (int) (value - o.value);
         }
+    }
 
     public interface NumberGenerator {
         long generate(int index);
+    }
+
+    public interface ObjectGenerator<T> {
+        T generate(int index);
     }
 }

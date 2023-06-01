@@ -52,9 +52,7 @@ public class Evaluation {
         mutSuccess = new long[length];
         mutTried = new long[length];
         evaluators = new MinMaxAvgEvaluator[length];
-        for (int i = 0; i < length; ++i) {
-            evaluators[i] = new MinMaxAvgEvaluator(false);
-        }
+        fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
     }
 
     private static Evaluation merge(Evaluation... evaluations) {
@@ -75,6 +73,7 @@ public class Evaluation {
                 result.mutTried[i] += e.mutTried[i];
                 result.failDif[i] += e.failDif[i];
                 result.failed[i] += e.failed[i];
+                result.evaluators[i].merge(e.evaluators[i]);
                 //TODO merge MinMaxEvaluators
             }
         }
@@ -261,11 +260,7 @@ public class Evaluation {
         long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
         for (int i = 0; i < stepSum.length; ++i) {
             totalAverage[i] = (stepSum[i] + failed[i] * maxSteps) / n;
-        }
-        for (int i = 0; i < stepSum.length; ++i) {
             avg[i] = failed[i] == n ? -1 : stepSum[i] / (n - failed[i]);
-        }
-        for (int i = 0; i < stepSum.length; ++i) {
             failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
         }
         long[] divisors = new long[failed.length];
@@ -273,9 +268,7 @@ public class Evaluation {
         int digits = tableLength(avg, totalAverage, stepSum, stepMax, stepMin);
         println(separation);
         Integer[] indexes = new Integer[totalAverage.length];
-        for (int i = 0; i < indexes.length; ++i) {
-            indexes[i] = i;
-        }
+        fill(indexes, (i) -> i);
         Arrays.sort(indexes, this::compareSolver);
 
         ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);

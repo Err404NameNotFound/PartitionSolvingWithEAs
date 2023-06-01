@@ -55,7 +55,8 @@ Exponential verteilt mit p = 0,001
     -pmut: -3,25;   -3,00;   -2,50;   -2,75;   -2,25;   -2,00;   -1,75;   -1,50;   -1,25
     - ea: 3 und standard sind ähnlich gut
     - allgemein wichtig Elemente tauschen zu können aber auch einzelne elemente zu verschieben -> tausch > einzeln
-    - Ähnlich Ergebnisse wie bei uniformer Verteilung? //TODO überprüfen
+    - Ähnlich Ergebnisse wie bei uniformer Verteilung aber hier bit flips ungerader Anzahl wichtiger (vermutlich
+      wegen vielen kleinen Elementen die verschoben werden können.
 algo type:         RLS-R;   pmut;  EA-SM
 algo param:          k=2;  -3,25;    2/n
 avg mut/change:    1,483;  1,693;  2,258

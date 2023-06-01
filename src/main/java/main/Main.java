@@ -56,24 +56,24 @@ public class Main {
             case 10 ->
                     evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
-            case 12 -> evaluate(1000, 6, 10 * 1000, Solver.getComparison(), "TODO_DELETE");
+            case 12 -> evaluate(1000, 6, 10 * 1000, Solver.getComparison(), "DELETE_TEMP_RESULT");
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "TODO_DELETE");
+            case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
-//            case 20 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
-            case 21 -> testParallelRun(6);
-            case 22 -> testParallelRun2(6);
-            case 23 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
-            case 24 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
-            case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
-            case 26 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
-            case 27 -> bruteForceAll();
-            case 28 -> checkLastBitFlippedCount();
+            case 21 -> evaluate(1000, 7,  1000,  Solver.getEAComparison());
+            case 22 -> testParallelRun(6);
+            case 23 -> testParallelRun2(6);
+            case 24 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
+            case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
+            case 26 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
+            case 27 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
+            case 28 -> bruteForceAll();
+            case 29 -> checkLastBitFlippedCount();
         }
     }
 

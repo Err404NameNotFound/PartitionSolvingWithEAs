@@ -74,14 +74,12 @@ public class BinomialTesting {
         System.out.println("avg: " + (sum / t));
         System.out.println("avg: " + (sumAbs / t));
         long[] countsM = new long[counts.length];
-        for (int i = 0; i < countsM.length; ++i) {
-            countsM[i] = i * intervallLength;
-        }
+        fill(countsM, (i) -> (long) i * intervallLength);
         printResult(countsM, 5);
         printResult(counts, 5);
     }
 
-    private static int calculateRange(long[] input, long expected){
+    private static int calculateRange(long[] input, long expected) {
         long min = input[0];
         long max = input[0];
         //finding borders
@@ -107,9 +105,7 @@ public class BinomialTesting {
             amount[(int) l - offset]++;
         }
         long[] values = new long[amount.length];
-        for (int i = 0; i < values.length; ++i) {
-            values[i] = offset + i;
-        }
+        fill(values, (i) -> offset + i);
         printResult(values, 4);
         printResult(amount, 4);
         for (int i = 0; i < values.length; ++i) {
@@ -258,9 +254,7 @@ public class BinomialTesting {
             }
         }
         long[] values = new long[amount0.length];
-        for (int i = 0; i < values.length; ++i) {
-            values[i] = offset + i;
-        }
+        fill(values, (i) -> offset + i);
         printResult(values, 4);
         printResult(amount0, 4);
         printResult(amount1, 4);

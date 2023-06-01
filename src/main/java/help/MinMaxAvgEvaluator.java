@@ -109,4 +109,14 @@ public class MinMaxAvgEvaluator {
     private static void printAvg(String avg, int digits, MinMaxAvgEvaluator... evaluators) {
         printResult(avg, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
     }
+
+    public void merge(MinMaxAvgEvaluator evaluator) {
+        min = Math.min(min, evaluator.min);
+        max = Math.max(max, evaluator.max);
+        sum += evaluator.sum;
+        count += evaluator.count;
+        absMin = Math.min(absMin, evaluator.absMin);
+        absMax = Math.max(absMax, evaluator.absMax);
+        absSum += evaluator.absSum;
+    }
 }
