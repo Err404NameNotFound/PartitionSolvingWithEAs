@@ -33,7 +33,6 @@ public class ProgressPrinter {
         nextUpdate = this.stepSize - 1;
         startTime = Instant.now().getEpochSecond();
         buffer = new RingBufferFifo<>(BUFFER_SIZE, startTime);
-        System.out.println(startTime + ", " + end);
     }
 
     public void setUpdateMillis(long millis) {
