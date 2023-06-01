@@ -53,13 +53,10 @@ public class ProgressPrinter {
         ++i;
         long now = Instant.now().getEpochSecond();
         long elapsedTime = now - startTime;
-//        long expectedTime = elapsedTime * (end - i) / i // average over all partial runs
-
-        long expectedTime = (now - buffer.peek()) * (end - i) / buffer.getSize() / stepSize; // average over last BUFFER_SIZE partial runs
+        long expectedTime = (now - buffer.peek()) * (end - i) / buffer.getSize() / stepSize;
         buffer.insert(now);
-//        System.out.printf(clearString + "%3s%% | elapsed: %s | finished: %s",
-//                (100 * i) / end, timeString(elapsedTime), timeString(expectedTime));
-        System.out.printf("n: %d, i: %d, bs: %d, bv: %d, e1: %d, e2: %d%n", now, i, buffer.getSize(), buffer.peek(), expectedTime, elapsedTime * (end - i) / i);
+        System.out.printf(clearString + "%3s%% | elapsed: %s | finished: %s",
+                (100 * i) / end, timeString(elapsedTime), timeString(expectedTime));
     }
 
     public void clearProgressAndPrintElapsedTime() {
