@@ -11,10 +11,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
+import static help.ArrayPrinter.getNeededDigits;
+import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
+import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
@@ -364,21 +367,23 @@ public class Main {
 //        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
         Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
-        int countPerArray = 100;
         for (int input = 0; input < inputLengths.length; ++input) {
-            long[] inputArray = InputGenerator.oneMaxEquivalentUniformRange((int) inputLengths[input], 1, 10000);
+            int length = (int) inputLengths[input];
+            long[] inputArray = InputGenerator.oneMaxEquivalentUniformRange(length, 1, 10000);
             long steps = maxSteps[input];
-            runCancellableTask(() -> checkLastBitFlippedCount(inputArray, solvers, countPerArray, steps));
+            inputArray[length - 2] = inputArray[length - 1] - 1;
+            inputArray[length - 1] = 2 * inputArray[length - 2];
+            runCancellableTask(() -> checkLastBitFlippedCount(inputArray, steps, solvers, 10000));
         }
     }
 
-    private static void checkLastBitFlippedCount(long[] input, Solver[] solvers, int countPerArray, long maxSteps) {
+    private static void checkLastBitFlippedCount(long[] input, long maxSteps, Solver[] solvers, int runs) {
         println(String.valueOf(input.length));
         MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[2 * solvers.length];
         fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
-        ProgressPrinter p = new ProgressPrinter((long) solvers.length * countPerArray, solvers.length);
+        ProgressPrinter p = new ProgressPrinter((long) solvers.length * runs, solvers.length);
         long pCounter = 0;
-        for (int run = 0; run < countPerArray; ++run) {
+        for (int run = 0; run < runs; ++run) {
             if (Thread.interrupted()) {
                 break;
             }
@@ -397,7 +402,8 @@ public class Main {
     }
 
     private static void print(Solver[] solvers, MinMaxAvgEvaluator[] evaluators) {
-        int digits = 7;
+        int digits = (int) getNeededDigitsSpaced(max((i) -> evaluators[i].getSum(), evaluators.length));
+        digits = Math.max(7, digits);
         String[] evalDescriptions1 = new String[evaluators.length];
         String[] evalDescriptions2 = new String[evaluators.length];
         for (int i = 0; i < solvers.length; ++i) {

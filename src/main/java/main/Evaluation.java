@@ -231,10 +231,10 @@ public class Evaluation {
     }
 
 
-    private int tableLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
-        long highestMutRate = 1 + 3 + getNeededDigits(getHighestMutationRate(stepSum));
-        long max = max(avg, totalAvg, stepSum, stepMax, stepMin, failed, failDif);
-        max = Math.max(getNeededDigits(max), highestMutRate);
+    private int columnLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
+        long highestMutRate = 1 + 3 + ArrayPrinter.getNeededDigits(getHighestMutationRate(stepSum));
+        long max = ArrayPrinter.getNeededDigits(avg, totalAvg, stepSum, stepMax, stepMin, failed, failDif);
+        max = Math.max(max, highestMutRate);
         return Math.max(1 + (int) max, 6);
     }
 
@@ -249,11 +249,6 @@ public class Evaluation {
         return max;
     }
 
-    private long getNeededDigits(long val) {
-        val = (long) Math.log10((double) val); // without decimal point
-        return val + 1 + val / 3; // first digit + decimal points
-    }
-
     private void printTable(String separation, long maxSteps, int n) {
         long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
         long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax());
@@ -265,7 +260,7 @@ public class Evaluation {
         }
         long[] divisors = new long[failed.length];
         Arrays.fill(divisors, n);
-        int digits = tableLength(avg, totalAverage, stepSum, stepMax, stepMin);
+        int digits = columnLength(avg, totalAverage, stepSum, stepMax, stepMin);
         println(separation);
         Integer[] indexes = new Integer[totalAverage.length];
         fill(indexes, (i) -> i);

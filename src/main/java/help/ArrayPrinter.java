@@ -2,6 +2,7 @@ package help;
 
 import main.Solver;
 
+import static help.MathHelp.max;
 import static help.Printer.print;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -90,6 +91,25 @@ public class ArrayPrinter {
             printf(";%" + digits + "s", array.get(i));
         }
         println();
+    }
+
+    public static long getNeededDigits(long val) {
+        val = (long) Math.ceil(Math.log10((double) val)); // without decimal point
+        return val + val / 3; // + decimal points
+    }
+
+    public static long getNeededDigitsSpaced(long val) {
+        return 1 + getNeededDigits(val); // + 1 for spacing
+    }
+
+    public static long getNeededDigits(long[]... values) {
+        long max = max(values);
+        return getNeededDigits(max);
+    }
+
+    public static long getNeededDigits(long min, long[]... values) {
+        long max = max(values);
+        return getNeededDigits(Math.max(max, min));
     }
 
     public interface Array {

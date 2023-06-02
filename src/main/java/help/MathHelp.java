@@ -68,6 +68,17 @@ public class MathHelp {
         return result.getAsLong();
     }
 
+    public static long max(NumberArray array, int length) {
+        long max = array.get(0);
+        for (int i = 1; i < length; ++i) {
+            long next = array.get(i);
+            if (next > max) {
+                max = next;
+            }
+        }
+        return max;
+    }
+
     public static long max(long[]... arrays) {
         long max = max(arrays[0]);
         for (int i = 1; i < arrays.length; ++i) {
@@ -93,5 +104,9 @@ public class MathHelp {
         f = (a - b) * y + b;
         x = Math.pow(f, e);
         return (int) Math.round(x);
+    }
+
+    public interface NumberArray {
+        long get(int index);
     }
 }
