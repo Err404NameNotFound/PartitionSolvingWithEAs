@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
-import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
@@ -363,8 +362,9 @@ public class Main {
     }
 
     private static void checkLastBitFlippedCount() {
-        long[] inputLengths = fill(3, (i) -> Math.round(Math.pow(10, i + 3)));
+//        long[] inputLengths = fill(3, (i) -> Math.round(Math.pow(10, i + 3)));
 //        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
+        long[] inputLengths = new long[]{10000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
         Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
         for (int input = 0; input < inputLengths.length; ++input) {

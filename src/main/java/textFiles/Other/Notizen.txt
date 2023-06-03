@@ -1,0 +1,68 @@
+Potential anpassen, sodass der Flip berücksichtigt wird
+
+31 09 07 06 05 03 01
+
+
+Zeigen, dass in Expectation das höherwertigste Bit nicht häufiger als einmal geflipped wird, weil davor die Differenz zu klein wird.
+- je größer  zweitgrößtes, desto unwahrscheinlicher mit kleinen einen weiteren Flip zu erzwingen
+- je kleiner zweitgrößtes, desto schneller sind sie besser verteilt
+- selbst bei schlechtest möglichen Startpunkt wird nicht mehr als einmal das größte Bit geflipped
+-
+
+wy = W-w_1
+wenn w2 > y/2
+	Nach Zeit O(n) sind w1 und w2 getrennt und werden nicht mehr in den gleichen Bin gesteckt
+	Danch kann kein Flip mehr passieren
+		- single Flip bringt keinen Vorteil
+		- tausch von w1 und w2 erst nach Zeit O(n^2) aber linear function ist in O(nlogn) maximiert
+		- tausch von w1 und allen außer w2 bringt auch keinen Vorteil, weil
+			Emptier bin davor  > y/2, weil w2 im emptier bin
+			Emptier bin danach < y/2, weil w1 und w2 im gleichen Bin sind
+wenn w2 <= y/2 & w2 + w3 >= y/2
+    - nach Zeit O(n) passiert flip von w1 und danach muss b_E >= y/2 gelten
+    - case 1: bf = w1 + ..., bE = w2+w3+...
+        - entweder ist mindestens 1 weiteres Element in bE oder in Zeit O(e), weil bF n-3 weitere Elemente enthält
+        - damit kein single Bit Flip von w1 mehr möglich, weil bE > y/2
+        - Für einen Flip von w1 muss entweder w2 oder w3 auch noch geflipped werden oder alle anderen Elemente
+          aber dafür braucht es Zeit Omega(n^2)
+        - In Zeit O(nlogn) wird die linear function minimiert -> Lösung in O(n) + O(nlogn) = O(nlogn)
+    - case 2: bF = w1 + w2 +w3
+        - nur flips von bF nach bE werden akzeptiert
+        - in O(n) entweder w1, w2 oder w3 in bE
+        - case 2.1 -> w1 wird geflipped
+            - case 1 gilt
+        - case 2.2 -> w2 wird geflipped
+            - Es werden weiterhin nur flips von bF nach bE akzeptiert
+            - Nach Zeit O(n) wird w3 geflipped und damit ist die Lösung optimal
+            - TODO ab hier nochmal genauer anschauen.
+            - w1 wird nur geflipped, wenn w2 oder alle anderen Elemente aus bE getauscht wird/werden -> Omega(n^2)
+            -> Lösung optimal in O(nlogn)
+        - case 2.3 -> w3 wird geflipped
+            - analog zu case 2.2
+    - case 3: w2 und w3 aufgeteilt.
+
+
+    Sonstige Notizen.
+    - damit ist mindestens w2 oder w3 in b_E
+    - falls beide in gleichen bin sind
+        - nächster flip von w1 frühestens in O(n^2)
+        - linear function wird in O(nlogn) optimiert
+        -> Loesung wird in O(nlogn) gefunden mit Gesamtzeit O(nlogn)
+    - Es wird kein Schritt mehr passieren, der
+    - nach weiterer Zeit O(n) ist w1 in bF und w2 und w3 in bE
+    - danach ist ein flip von w1 und w2 oder w3 erst in O(n^2) -> linear function in O(nlogn) optimiert -> fertig
+
+wenn w2 <= y/2 & w2 + w3 < y/2
+    - nach O(n) ist w1 geflipped und damit gilt bF >= y/2
+    - damit ist w2 und w3 in bE
+    - für einen Tausch von w1 müssen w2, w3 und weitere Elemente nach bF verschoben werden -> Zeit Omega(n^3)
+    - In Zeit O(nlogn) ist die lineare Funktion minimiert -> optimal in O(nlogn)
+
+
+b_F = f(x) = w_1 + W/2 * 1/n <= w_1 + w_1/n = w_1(1+1/n)
+b_E >= W - w_1(1+1/n) = w_y - w_1/n
+
+Wkeiten
+- 0 Bits werden geflipped = 1/e
+- 1 Bit wird geflipped = 1/e
+- 1 bestimmtes Bit wird geflipped und minstens 1 anderes = 1/en

@@ -6,7 +6,6 @@ Binomialverteilte Eingabe
 
 Implementieren
     - Heavy-tailed mit Population
-    - pMut mit powerlaw distribution implementieren
 
 
 Gemacht
@@ -14,3 +13,4 @@ Implementieren
     - RLS-v1-k implementieren
     - RLS-v2-k implementieren
     - fmut implementieren
+    - pMut mit powerlaw distribution implementieren
