@@ -40,6 +40,13 @@
     \(b_F - b_E \ge v \Leftrightarrow b_F \ge b_E + v\), so after moving an object with weight at most $v$ from $b_F$ to $b_E$, the new weight of $b_E$ is at most the weight of $b_F$ before moving the object, thus the RSH accepts the step.
 \end{proof}
 
+\begin{corollary}
+    The RLS is stuck in a local optima if \(b_F-b_E < w_n\) holds and \(b_F > opt\).
+\end{corollary}
+\begin{proof}
+    A single bit flip of weight $v$ can only happen if \(b_F - b_E \ge v\). If \(b_F-b_E < w_n\) there is no weight which satisfies the condition and therefore no single bit flip is possible. Since the RLS can only move one bit at a time and only if it results in an improvement, the RLS is stuck.
+\end{proof}
+
 \begin{corollary}\label{movingObjectsCorollary}
     Every object \(\le \frac{W}{3}\) can be moved from $b_F$ to $b_E$ if \(b_F \ge \frac{2W}{3}\)
 \end{corollary}
@@ -67,4 +74,32 @@
 \end{corollary}
 \begin{proof}
     This follows directly from Lemma~\ref{OneMaxResult} and Lemma~\ref{approximationLemma}
+\end{proof}
+
+\section{Binomial distributed input}
+\begin{lemma}\label{lemma:BinomialSolvable}
+    A binomial distributed input \~B(m,p) has an optimal solution with high probability if n is large enough.
+\end{lemma}
+\begin{proof}
+    Sketch:
+    \begin{itemize}
+        \item The initial distribution is likely rather close to the optimum
+        \item The difference between the bins is probably not more than 10 expected values
+        \item the large values  
+    \end{itemize}
+\end{proof}
+
+
+\begin{lemma}
+    With high probability the RLS does not find an optimal solution for an input with distribution \~B(m,p) if n and m are large enough.
+\end{lemma}
+\begin{proof}
+    Sketch:
+    \begin{itemize}
+        \item There exists an optimal solution with high probability due to last lemma
+        \item probability for a value to be very low is almost 0 if m is huge
+        \item The RLS only moves one element per step and will step below bF-bE < wn without bF = opt being true
+        \item -> RLS cant make another step and is stuck in a local optimum.
+    \end{itemize}
+    Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability.
 \end{proof}

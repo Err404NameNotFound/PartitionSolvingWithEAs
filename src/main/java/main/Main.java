@@ -373,7 +373,7 @@ public class Main {
             long steps = maxSteps[input];
             inputArray[length - 2] = inputArray[length - 1] - 1;
             inputArray[length - 1] = 2 * inputArray[length - 2];
-            runCancellableTask(() -> checkLastBitFlippedCount(inputArray, steps, solvers, 10000));
+            runCancellableTask(() -> checkLastBitFlippedCount(inputArray, steps, solvers, 10));
         }
     }
 
@@ -404,16 +404,20 @@ public class Main {
     private static void print(Solver[] solvers, MinMaxAvgEvaluator[] evaluators) {
         int digits = (int) getNeededDigitsSpaced(max((i) -> evaluators[i].getSum(), evaluators.length));
         digits = Math.max(7, digits);
-        String[] evalDescriptions1 = new String[evaluators.length];
-        String[] evalDescriptions2 = new String[evaluators.length];
+        String[] evalSolverDesc = new String[evaluators.length];
+        String[] evalSolverParam = new String[evaluators.length];
+        String[] evalType = new String[evaluators.length];
         for (int i = 0; i < solvers.length; ++i) {
-            evalDescriptions1[i] = solvers[i].description;
-            evalDescriptions2[i] = "flips";
-            evalDescriptions1[i + solvers.length] = solvers[i].description;
-            evalDescriptions2[i + solvers.length] = "tries";
+            evalSolverDesc[i] = solvers[i].description;
+            evalSolverDesc[i + solvers.length] = solvers[i].description;
+            evalType[i] = "flips";
+            evalType[i + solvers.length] = "tries";
+            evalSolverParam[i] = solvers[i].parameter;
+            evalSolverParam[i + solvers.length] = solvers[i].parameter;
         }
-        ArrayPrinter.printResult("algo:  ", evalDescriptions1, digits);
-        ArrayPrinter.printResult("type:  ", evalDescriptions2, digits);
+        ArrayPrinter.printResult("algo:  ", evalSolverDesc, digits);
+        ArrayPrinter.printResult("algo:  ", evalSolverParam, digits);
+        ArrayPrinter.printResult("type:  ", evalType, digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
     }
 }

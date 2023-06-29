@@ -33,7 +33,7 @@ public class Solver {
     }
 
     public static Solver getRLSUniformRing(int r) {
-        return new Solver("RLS-R", "t=" + r, (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
+        return new Solver("RLS-R", "r=" + r, (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
     }
 
     public static Solver getEA() {

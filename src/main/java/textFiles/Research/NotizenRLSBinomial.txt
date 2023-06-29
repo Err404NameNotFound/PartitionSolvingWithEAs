@@ -1,0 +1,9 @@
+- RLS kann nur ein element pro step tauschen
+- Sobald RLS eine bestimmte Grenze unterschritten hat, gehen keine Optimierungen mehr mit 1 Bit flip
+- Wahrscheinlichkeit für Grenze Unterschreiten ist klein.
+
+Lemma 2: ab einem bestimmten fitness value sind 1 bit flips nicht mehr zielführend.
+    - Schritt wird nur akzeptiert wenn bF - bE >= w_i
+    - Sobald fitness < w_n kann ein single bit flip nicht mehr akzeptiert werden
+
+Corolar
