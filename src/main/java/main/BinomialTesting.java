@@ -4,13 +4,13 @@ import help.MinMaxAvgEvaluator;
 import help.ProgressPrinter;
 
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import static help.ArrayHelp.fill;
+import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.printResult;
 import static help.MathHelp.binomialK;
 import static help.Printer.printf;
@@ -106,12 +106,14 @@ public class BinomialTesting {
         }
         long[] values = new long[amount.length];
         fill(values, (i) -> offset + i);
-        printResult(values, 4);
-        printResult(amount, 4);
+        int digits = (int) getNeededDigits(amount);
+        System.out.printf("n:      %d%np:      %.3f%nexp:    %d%n", n, p, expected);
+        printResult("value:  ", values, digits);
+        printResult("count:  ", amount, digits);
         for (int i = 0; i < values.length; ++i) {
             values[i] -= expected;
         }
-        printResult(values, 4);
+        printResult("offset: ", values, digits);
     }
 
     public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
