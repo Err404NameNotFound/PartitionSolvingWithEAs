@@ -10,7 +10,7 @@ public class RingBufferFifo<T> {
     public RingBufferFifo(int size, T initialValue) {
         this.size = 1;
         capacity = size;
-        first = new Node<>(initialValue);;
+        first = new Node<>(initialValue);
         last = first;
     }
 
@@ -18,7 +18,7 @@ public class RingBufferFifo<T> {
         Node<T> next = new Node<>(value);
         first.next = next;
         first = next;
-        if (size > capacity) {
+        if (size >= capacity) {
             last = last.next;
         } else {
             ++size;

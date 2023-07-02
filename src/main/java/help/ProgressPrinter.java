@@ -16,14 +16,16 @@ public class ProgressPrinter {
     private long nextUpdate;
     private long stepSize;
     private final long end;
-    private final RingBufferFifo<Long> buffer;
-    private final static int BUFFER_SIZE = 100;
+    private final RingBufferFifo<Long> timeBuffer;
+    private final RingBufferFifo<Long> iterationBuffer;
+    private final static int BUFFER_SIZE = 5;
     private static final long UPDATE_EVERY_SECOND = 1000;
 
     private ProgressPrinter(long end, boolean byTime) {
         this.end = end;
         startTime = now();
-        buffer = new RingBufferFifo<>(BUFFER_SIZE, startTime);
+        timeBuffer = new RingBufferFifo<>(BUFFER_SIZE, startTime);
+        iterationBuffer = new RingBufferFifo<>(BUFFER_SIZE, 0L);
         this.byTime = byTime;
     }
 
@@ -61,11 +63,12 @@ public class ProgressPrinter {
         ++i;
         long now = now();
         long elapsedTime = now - startTime;
-        long expectedTime = (now - buffer.peek()) * (end - i) / buffer.getSize() / stepSize;
-        buffer.insert(now);
+        long expectedTime = (now - timeBuffer.peek()) * (end - i) / (i-iterationBuffer.peek());
+        timeBuffer.insert(now);
+        iterationBuffer.insert(i);
         System.out.printf(clearString + "%5s%% | elapsed: %s | finished: %s",
                 (100.0 * i) / end, timeString(elapsedTime), timeString(expectedTime));
-//        System.out.printf("n: %d, i: %d, bs: %d, bv: %d, e1: %d, e2: %d%n", now, i, buffer.getSize(), buffer.peek(), expectedTime, elapsedTime * (end - i) / i);
+//        System.out.printf("now: %d, i: %d, bufSize: %d, bufVal: %d, exp1: %d, exp2: %d, exp3: %d%n", now, i, timeBuffer.getSize(), timeBuffer.peek(), expectedTime, elapsedTime * (end - i) / i, expectedTime*stepSize);
     }
 
     public void clearProgressAndPrintElapsedTime() {
