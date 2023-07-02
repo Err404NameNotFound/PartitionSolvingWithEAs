@@ -128,14 +128,22 @@ public class Evaluation {
         return new Evaluation().solveMultiple(n, type, length, solvers, postfix);
     }
 
+    public static Solver evaluate(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
+        return new Evaluation().solveMultiple(n, generator, length, solvers, postfix);
+    }
+
     private Solver solveMultiple(int n, int type, int length, String postfix) {
         return solveMultiple(n, type, length, Solver.getComparison(), postfix);
     }
 
     private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
+        return solveMultiple(n, InputGenerator.create(type), length, solvers, postfix);
+    }
+
+    private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
         long steps = 100 * nlogn(length);
         initialize(solvers);
-        generator = InputGenerator.create(type);
+        this.generator = generator;
         runCancellableTask(() ->
         {
             String folder = path + generator.folder;
@@ -251,7 +259,7 @@ public class Evaluation {
 
     private void printTable(String separation, long maxSteps, int n) {
         long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
-        long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax());
+        long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMin());
         long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
         for (int i = 0; i < stepSum.length; ++i) {
             totalAverage[i] = (stepSum[i] + failed[i] * maxSteps) / n;
