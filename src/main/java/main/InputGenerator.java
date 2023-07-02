@@ -53,19 +53,29 @@ public class InputGenerator {
 
 
     private InputGenerator(int type, Generator generator) {
+        this(type, generator, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE,
+                type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),
+                DEFAULT_N,
+                type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL,
+                Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL),
+                DEFAULT_PMUT_PARAM);
+    }
+
+    private InputGenerator(int type, Generator generator, int bottom, int top, int sumCount, int n, double p,
+                           long expectedValue, double pMutParam) {
         this.type = type;
         this.generator = generator;
-        this.folder = getFolder(type);
-        this.description = getInputTypeDescription(type);
+        this.bottom = bottom;
+        this.top = top;
+        this.sumCount = sumCount;
+        this.n = n;
+        this.p = p;
+        this.expectedValue = expectedValue;
+        this.pMutParam = pMutParam;
+        folder = getFolder(type);
+        description = getInputTypeDescription(type);
         outputConstant = type == ALL_SAME_AND_LAST_SUM
                 || type == LAST_TWO_SUM_REST_ONE || type == ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
-        bottom = DEFAULT_LOWEST_VALUE;
-        top = DEFAULT_BIGGEST_VALUE;
-        n = DEFAULT_N;
-        p = type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL;
-        pMutParam = DEFAULT_PMUT_PARAM;
-        sumCount = type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT);
-        expectedValue = Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL);
     }
 
     public long[] generate(int length) {
@@ -226,5 +236,11 @@ public class InputGenerator {
 
     public static InputGenerator create(int type) {
         return new InputGenerator(type, (a) -> generateInput(type, a));
+    }
+
+    public static InputGenerator createBinomial(int n, double p) {
+        long expectedValue = Math.round(n * p);
+        return new InputGenerator(BINOMIAL_DISTRIBUTED, (a) -> binomialDistributed(a, n, p), 0,
+                (int) expectedValue, 0, n, p, expectedValue, DEFAULT_PMUT_PARAM);
     }
 }

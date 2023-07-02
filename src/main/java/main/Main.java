@@ -76,6 +76,7 @@ public class Main {
             case 27 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
             case 28 -> bruteForceAll();
             case 29 -> checkLastBitFlippedCount();
+            case 30 -> evaluate(100, InputGenerator.createBinomial(1000, 0.5), 1000, Solver.getRLSComparison(), null);
         }
     }
 
@@ -364,7 +365,7 @@ public class Main {
     private static void checkLastBitFlippedCount() {
 //        long[] inputLengths = fill(3, (i) -> Math.round(Math.pow(10, i + 3)));
 //        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
-        long[] inputLengths = new long[]{10000};
+        long[] inputLengths = new long[]{10000, 100000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
         Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
         for (int input = 0; input < inputLengths.length; ++input) {
