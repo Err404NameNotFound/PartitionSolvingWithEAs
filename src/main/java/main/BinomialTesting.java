@@ -106,8 +106,8 @@ public class BinomialTesting {
         }
         long[] values = new long[amount.length];
         fill(values, (i) -> offset + i);
-        int digits = (int) getNeededDigits(amount);
-        System.out.printf("n:      %d%np:      %.3f%nexp:    %d%n", n, p, expected);
+        int digits = (int) getNeededDigits(amount, values);
+        System.out.printf("n:      %,d%np:      %.3f%nexp:    %,d%n", n, p, expected);
         printResult("value:  ", values, digits);
         printResult("count:  ", amount, digits);
         for (int i = 0; i < values.length; ++i) {

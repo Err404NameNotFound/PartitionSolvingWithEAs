@@ -5,9 +5,12 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
+import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.exponentialK;
 import static help.MathHelp.powerlawK;
+import static help.Printer.printf;
+import static help.Printer.println;
 import static main.Main.DEFAULT_BIGGEST_VALUE;
 import static main.Main.DEFAULT_BINOMIAL_SHIFT;
 import static main.Main.DEFAULT_LOWEST_VALUE;
@@ -104,6 +107,33 @@ public class InputGenerator {
     public boolean hasBounds() {
         return type == PARTIAL_INT_RANGE || type == LAST_SUM_WITH_RANGE
                 || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS || type == POWERLAW_DISTRIBUTED;
+    }
+
+    public void printDescription() {
+        printDescription(null);
+    }
+
+
+    public void printDescription(String separation) {
+        printf("input type:      %s (%d)%n", description, type);
+        if (hasBounds()) {
+            printf("lowest value:    %,d%n", bottom);
+            printf("highest value:   %,d%n", top);
+        }
+        if (hasFieldWithSum()) {
+            printf("Fields with sum: %,d%n", sumCount);
+        }
+        if (type == 7 || type == 8) {
+            if (separation != null) {
+                println(separation);
+            }
+            printf("n value:         %,d%n", n);
+            printf("p:               %.6f%n", p);
+            printf("expected value:  %,d%n", expectedValue);
+        }
+        if (outputConstant && output != null) {
+            printFirstAndLastElements(output, 10);
+        }
     }
 
     public boolean hasFieldWithSum() {

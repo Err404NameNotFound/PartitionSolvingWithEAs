@@ -18,7 +18,7 @@ public class ProgressPrinter {
     private final long end;
     private final RingBufferFifo<Long> timeBuffer;
     private final RingBufferFifo<Long> iterationBuffer;
-    private final static int BUFFER_SIZE = 5;
+    private final static int BUFFER_SIZE = 60;
     private static final long UPDATE_EVERY_SECOND = 1000;
 
     private ProgressPrinter(long end, boolean byTime) {

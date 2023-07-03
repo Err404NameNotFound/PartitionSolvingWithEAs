@@ -75,6 +75,10 @@ public class MinMaxAvgEvaluator {
         return sum;
     }
 
+    public long getAvg() {
+        return count == 0 ? 0 : sum / count;
+    }
+
     public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
         printCount("count: ", digits, evaluators);
         printMin("min  : ", digits, evaluators);

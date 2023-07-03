@@ -2,6 +2,7 @@ package main;
 
 import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
+import help.Printer;
 import help.ProgressPrinter;
 
 import java.math.BigInteger;
@@ -20,9 +21,13 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
+import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
+import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
+import static help.Printer.startFilePrinting;
+import static help.Printer.stopWritingToFile;
 import static main.Evaluation.evaluate;
 import static main.Evaluation.evaluateParallel;
 import static main.InputGenerator.generateInput;
@@ -43,7 +48,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 29;
+        int selection = 33;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -76,7 +81,10 @@ public class Main {
             case 27 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
             case 28 -> bruteForceAll();
             case 29 -> checkLastBitFlippedCount();
-            case 30 -> evaluate(100, InputGenerator.createBinomial(1000, 0.5), 1000, Solver.getRLSComparison(), null);
+            case 30 -> evaluate(1000, InputGenerator.createBinomial(10, 0.3), 10000, Solver.getRLSComparison(), null);
+            case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
+            case 32 -> BinomialTesting.printBinomialDistribution(100 * 1000 * 1000, 1000 * 1000, 0.000003);
+            case 33 -> runCancellableTask(Main::bruteForceMultiple);
         }
     }
 
@@ -320,7 +328,7 @@ public class Main {
         PartitionSolver.solveEA(generator.generate(length), steps);
     }
 
-    private static boolean bruteForceInput(long[] input) {
+    private static long bruteForceInput(long[] input) {
         String format = "%0" + input.length + "d: -> dif = %d%n";
         long sum = Arrays.stream(input).sum();
         long best = sum;
@@ -347,7 +355,7 @@ public class Main {
         printf("best:    %d%n", best);
         printf("dif:     %d%n", dif);
         printf("optimal:     %b%n", dif == 0);
-        return dif == 0;
+        return dif;
     }
 
     private static void bruteForceAll() {
@@ -355,11 +363,83 @@ public class Main {
                 new long[]{983, 997, 997, 943, 1017, 977, 1013, 944, 999, 1017, 1036, 977, 977, 999},
                 new long[]{966, 1012, 1036, 1010, 1049, 1062, 995, 1054, 927, 1059, 958, 958, 979, 989}
         };
+        bruteForceAll(unsolvableInputs);
+    }
+
+    private static void bruteForceAll(InputGenerator generator, int n, int length) {
+        long[][] unsolvableInputs = new long[n][];
+        ProgressPrinter p = new ProgressPrinter(unsolvableInputs.length);
+        for (int i = 0; i < n; ++i) {
+            unsolvableInputs[i] = generator.generate(length);
+            p.printProgressIfNecessary(i);
+        }
+        p.clearProgressAndPrintElapsedTime();
+        generator.printDescription();
+        bruteForceAll(unsolvableInputs);
+    }
+
+    private static void bruteForceMultiple() {
+        int[] ns = new int[]{10, 100, 1000, 10 * 1000, 100 * 1000};
+        double[] ps = new double[]{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+        long[] inputLengths = fill(19, (i) -> i + 2);
+        int count = 1000;
+        startFilePrinting(Printer.PATH_AUTO_GENERATED + "other\\"
+                + Printer.getTodayAsString() + "binomialInputs_" + ".csv");
+        println("id;length;n;p;count;minDif;maxDif;avgDif;solvable;solvablePercent");
+        int id = 0;
+        for (long length : inputLengths) {
+            for (double p : ps) {
+                for (int n : ns) {
+                    bruteForceInputWithStats((int) length, n, p, count, id++);
+                    if (Thread.interrupted()) {
+                        stopWritingToFile();
+                        return;
+                    }
+                }
+            }
+        }
+        stopWritingToFile();
+    }
+
+    private static void bruteForceInputWithStats(int length, int n, double p, int count, int id) {
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
+        ProgressPrinter printer = new ProgressPrinter(count);
+        int solvealbe = 0;
         setPrintToConsole(false);
-        for (long[] input : unsolvableInputs) {
-            System.out.println(bruteForceInput(input));
+        pauseFileWriting();
+        for (int i = 0; i < count; ++i) {
+            long current = bruteForceInput(InputGenerator.binomialDistributed(length, n, p));
+            evaluator.insert(current);
+            if (current == 0) {
+                ++solvealbe;
+            }
+            printer.printProgressIfNecessary(i);
         }
         setPrintToConsole(true);
+        resumeFileWriting();
+        printer.clearProgressAndPrintElapsedTime();
+        printf("%d;%d;%d;%.2f;%d;%d;%d;%d;%d;%.3f%n", id, length, n, p, count, evaluator.getMin(),
+                evaluator.getMax(), evaluator.getAvg(), solvealbe, (double) solvealbe / count);
+    }
+
+    private static void bruteForceAll(long[][] unsolvableInputs) {
+        setPrintToConsole(false);
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
+        System.out.println("Starting brute force of all inputs...");
+        ProgressPrinter p = new ProgressPrinter(unsolvableInputs.length);
+        int solvealbe = 0;
+        for (int i = 0; i < unsolvableInputs.length; ++i) {
+            long current = bruteForceInput(unsolvableInputs[i]);
+            evaluator.insert(current);
+            if (current == 0) {
+                ++solvealbe;
+            }
+            p.printProgressIfNecessary(i);
+        }
+        p.clearProgressAndPrintElapsedTime();
+        setPrintToConsole(true);
+        evaluator.printEvaluation();
+        System.out.println("solvable: " + solvealbe);
     }
 
     private static void checkLastBitFlippedCount() {
