@@ -1,8 +1,13 @@
-\begin{thebibliography}{Die05}
+\begin{thebibliography}{FGQW18}
 
 \bibitem[Die05]{diekert2005stacs}
 Volker Diekert.
 \newblock {\em STACS 2005: 22nd Annual Symposium on Theoretical Aspects of Computer Science, Stuttgart, Germany, February 24-26, 2004, Proceedings}, volume 3404.
 \newblock Springer Science \& Business Media, 2005.
+
+\bibitem[FGQW18]{friedrich2018evolutionary}
+Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
+\newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.
+\newblock {\em arXiv preprint arXiv:1805.10902}, 2018.
 
 \end{thebibliography}

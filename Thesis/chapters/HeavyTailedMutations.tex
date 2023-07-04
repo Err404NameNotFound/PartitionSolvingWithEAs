@@ -1,0 +1,87 @@
+\chapter{Heavy Tailed Mutations}\label{ch:heavyMut}
+
+\section{Algorithms}
+Heavy tailed mutations are mutations that flip more than one bit in expectation.
+For the (1+1) EA this can be achieved by simply changing the mutation rate 1/n to c/n for any constant c.
+\begin{algorithm}[bt]
+      \caption{\textsc{(1+1) EA with static mutation rate}}\label{alg:EA_SM}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow x$\;
+      flip every bit of $x'$ with probability $c/n$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+For the RLS it is not that simple, as the RLS chooses a random bit and flips it. Instead of flipping c bits in every step
+there should be the possibility to flip different amounts of bits in every step. The standard RLS chooses a random neighbour
+with hamming distance one. So the heavy tailed version could simply choose neighbours that have a hamming distance larger than one.
+The selection should still be uniform random to keep the idea of the RLS intact. One possible way is to choose a random
+neighbour with hamming distance $\le k$. The amount of neighbours with hamming distance x is given by $\binom{n}{x}$. For
+k = 4, this results in n neighbours with hamming distance 1, n(n-1)/2 neighbours with hamming distance 2, n(n-1)(n-2)/6
+and n(n-1)(n-2)(n-3)/24. The probability to choose a random neighbour with hamming distance $x \le k$ is given by
+\[P(\text{RLS-N(k) flips x bits}) = \frac{\binom{n}{x}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\mathcal{O}(n^x)}{\sum_{i=1}^k \mathcal{O}(n^i)}
+      = \frac{\mathcal{O}(n^x)}{\mathcal{O}(n^k)} = \mathcal{O}(n^{x-k}) = \mathcal{O}(\frac{1}{n^{k-x}})\]
+This variant of the RLS is likely to choose a neighbour with hamming distance k as the number of neighbours with hamming
+distance k rises with k for $k \le n/2$. The probability of flipping only one bit is therefore $\mathcal{O}(\frac{1}{n^{k-1}})$. For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.\newline
+\begin{algorithm}[bt]
+      \caption{\textsc{RLS-N}}\label{alg:rlsN}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow \text{uniform random neighbour of x with hamming distance} \le k$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+An alternative way of changing the RLS is to first choose $x \in {1, \dots, k}$ uniform random and then choose a neighbour with hamming distance $x$ uniform random. Here the probability of flipping $x \le k$ is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
+
+\begin{algorithm}[bt]
+      \caption{\textsc{RLS-R}}\label{alg:rlsR}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $y \leftarrow \text{uniform random value }\in \{1,\dots,k\}$\;
+      $x' \leftarrow \text{uniform random neighbour of x with hamming distance } y$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+Both variants of the RLS change at most k bits in each step and therefore only a constant amount of bits. For the (1+1) EA the algorithm will also flip mostly $\mathcal{O}(c)$ bits which is also constant. So neither of the new variants is likely to change up to n bits. Quinzan \textit{et al.} therefore introduced another mutation operator in~\cite{friedrich2018evolutionary} called $pmut_\beta$. This operator chooses $k$ from a powerlaw distribution with parameter $\lambda$ and then $k$ bits uniform random bits are flipped. This algorithm will mostly flip a small number of bits but occasionally up to n bits.

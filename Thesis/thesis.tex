@@ -33,6 +33,11 @@
 \newcommand{\timeend}{14th August 2023}
 
 
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{amsmath}
+\newcommand{\probP}{\text{I\kern-0.15em P}}
+
 %% ---------------------------------
 %% | Commands                      |
 %% ---------------------------------
@@ -75,7 +80,9 @@
 titlepage,
 introduction,
 preliminaries,
-content,
+chapters/Chapter2,
+chapters/ExperimentalResults,
+chapters/HeavyTailedMutations,
 conclusion,
 appendix
 }
@@ -153,7 +160,9 @@ Kurze Inhaltsangabe auf deutsch.
 \pagenumbering{arabic}
 \include{introduction}
 \include{preliminaries}
-\include{content}
+\include{chapters/Chapter2}
+\include{chapters/HeavyTailedMutations}
+\include{chapters/ExperimentalResults}
 \include{conclusion}
 
 
