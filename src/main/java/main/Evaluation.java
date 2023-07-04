@@ -136,8 +136,8 @@ public class Evaluation {
     }
 
     private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
-//        long steps = 100 * nlogn(length);
-        long steps = 50 * 1000;
+        long steps = 100 * nlogn(length);
+//        long steps = 50 * 1000;
         initialize(solvers);
         this.generator = generator;
         runCancellableTask(() ->

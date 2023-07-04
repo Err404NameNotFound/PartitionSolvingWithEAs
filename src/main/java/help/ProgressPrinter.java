@@ -67,7 +67,7 @@ public class ProgressPrinter {
         timeBuffer.insert(now);
         iterationBuffer.insert(i);
         System.out.printf(clearString + "%5s%% | elapsed: %s | finished: %s",
-                (100.0 * i) / end, timeString(elapsedTime), timeString(expectedTime));
+                String.format("%.1f", (100.0 * i) / end), timeString(elapsedTime), timeString(expectedTime));
 //        System.out.printf("now: %d, i: %d, bufSize: %d, bufVal: %d, exp1: %d, exp2: %d, exp3: %d%n", now, i, timeBuffer.getSize(), timeBuffer.peek(), expectedTime, elapsedTime * (end - i) / i, expectedTime*stepSize);
     }
 

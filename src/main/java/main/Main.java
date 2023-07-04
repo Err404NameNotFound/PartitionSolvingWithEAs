@@ -48,7 +48,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 33;
+        int selection = 19;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -70,7 +70,8 @@ public class Main {
             case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, 1, 50 * 1000);
+            case 19 -> evaluateMultiple(1000, InputGenerator.OVERLAPPED, 10 * 1000);
+//            case 19 -> evaluateMultiple(1000, InputGenerator.MIXED_AND_OVERLAPPED, 100 * 1000);
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
@@ -85,6 +86,8 @@ public class Main {
             case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 32 -> BinomialTesting.printBinomialDistribution(100 * 1000 * 1000, 1000 * 1000, 0.000003);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
+            case 34 ->
+                    System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.MIXED_AND_OVERLAPPED, 20)));
         }
     }
 
@@ -379,18 +382,25 @@ public class Main {
     }
 
     private static void bruteForceMultiple() {
-        int[] ns = new int[]{10, 100, 1000, 10 * 1000, 100 * 1000};
+//        int[] ns = new int[]{10, 100, 1000, 10 * 1000, 100 * 1000};
+//        double[] ps = new double[]{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+//        long[] inputLengths = fill(19, (i) -> i + 2);
+        int[] ns = new int[]{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10 * 1000, 50 * 1000};
         double[] ps = new double[]{0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
-        long[] inputLengths = fill(19, (i) -> i + 2);
+        long[] inputLengths = fill(10, (i) -> 2L * (i + 1));
         int count = 1000;
         startFilePrinting(Printer.PATH_AUTO_GENERATED + "other\\"
                 + Printer.getTodayAsString() + "binomialInputs_" + ".csv");
         println("id;length;n;p;count;minDif;maxDif;avgDif;solvable;solvablePercent");
-        int id = 0;
-        for (long length : inputLengths) {
+        int idOffset = 1000;
+        int id = idOffset;
+        ProgressPrinter printer = new ProgressPrinter((long) ns.length * ps.length * inputLengths.length, 1);
             for (double p : ps) {
                 for (int n : ns) {
-                    bruteForceInputWithStats((int) length, n, p, count, id++);
+                    for (long length : inputLengths) {
+                    bruteForceInputWithStats((int) length, (int) (n / p), p, count, id);
+                    printer.printProgressIfNecessary(id - idOffset);
+                    ++id;
                     if (Thread.interrupted()) {
                         stopWritingToFile();
                         return;
@@ -403,7 +413,7 @@ public class Main {
 
     private static void bruteForceInputWithStats(int length, int n, double p, int count, int id) {
         MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
-        ProgressPrinter printer = new ProgressPrinter(count);
+//        ProgressPrinter printer = new ProgressPrinter(count);
         int solvealbe = 0;
         setPrintToConsole(false);
         pauseFileWriting();
@@ -413,11 +423,11 @@ public class Main {
             if (current == 0) {
                 ++solvealbe;
             }
-            printer.printProgressIfNecessary(i);
+//            printer.printProgressIfNecessary(i);
         }
-        setPrintToConsole(true);
+//        setPrintToConsole(true);
         resumeFileWriting();
-        printer.clearProgressAndPrintElapsedTime();
+//        printer.clearProgressAndPrintElapsedTime();
         printf("%d;%d;%d;%.2f;%d;%d;%d;%d;%d;%.3f%n", id, length, n, p, count, evaluator.getMin(),
                 evaluator.getMax(), evaluator.getAvg(), solvealbe, (double) solvealbe / count);
     }

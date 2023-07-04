@@ -35,6 +35,9 @@ public class InputGenerator {
     public static final int EXPONENTIAL_DISTRIBUTED = 8;
     public static final int BINOMIAL_DISTRIBUTED_SHIFT = 9;
     public static final int POWERLAW_DISTRIBUTED = 10;
+    public static final int MIXED = 11;
+    public static final int OVERLAPPED = 12;
+    public static final int MIXED_AND_OVERLAPPED = 13;
 
     private interface Generator {
         long[] generate(int length);
@@ -100,6 +103,9 @@ public class InputGenerator {
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
             case BINOMIAL_DISTRIBUTED -> "Binomial";
             case EXPONENTIAL_DISTRIBUTED -> "Exponential";
+            case MIXED -> "Mixed";
+            case OVERLAPPED -> "Overlapped";
+            case MIXED_AND_OVERLAPPED -> "MixedAndOverlapped";
             default -> "other";
         } + "\\";
     }
@@ -174,6 +180,12 @@ public class InputGenerator {
                     binomialDistributedShifted(length, DEFAULT_N, DEFAULT_P_BINOMIAL, DEFAULT_BINOMIAL_SHIFT);
             case POWERLAW_DISTRIBUTED ->
                     powerlawDistributed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_PMUT_PARAM);
+            case MIXED -> mixed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
+                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+            case OVERLAPPED -> overlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
+                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+            case MIXED_AND_OVERLAPPED -> mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
+                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
             default -> null;
         };
     }
@@ -263,6 +275,50 @@ public class InputGenerator {
     public static long[] powerlawDistributed(int length, double bottom, double top, double n) {
         return fill(length, (i) -> powerlawK(bottom, top, n));
     }
+
+
+    private static long overlappedValue(double bottom, double top, double pBin, int nBin, double pExp, double nPmut) {
+        return RANDOM.nextInt((int) bottom, (int) top) + binomialK(nBin, pBin) + exponentialK((int) top, pExp)
+                + powerlawK(bottom, top, nPmut);
+    }
+
+    private static long mixedOrOverlappedValue(int index, double bottom, double top, int nBin, double pBin, double pExp, double nPmut) {
+        return switch (index) {
+            case 0 -> RANDOM.nextInt((int) bottom, (int) top);
+            case 1 -> binomialK(nBin, pBin);
+            case 2 -> exponentialK((int) top, pExp);
+            case 3 -> powerlawK(bottom, top, nPmut);
+            default -> overlappedValue(bottom, top, pBin, nBin, pExp, nPmut);
+        };
+    }
+
+    public static long[] mixed(int length, double bottom, double top, int nBin, double pBin, double pExp, double nPmut) {
+        long[] ret = new long[length];
+        for (int i = 0; i < length; ++i) {
+            int rgn = RANDOM.nextInt(0, 4);
+            ret[i] = mixedOrOverlappedValue(rgn, bottom, top, nBin, pBin, pExp, nPmut);
+        }
+        return ret;
+    }
+
+
+    public static long[] overlapped(int length, double bottom, double top, int pBin, double nBin, double pExp, double nPmut) {
+        long[] ret = new long[length];
+        for (int i = 0; i < length; ++i) {
+            ret[i] = overlappedValue(bottom, top, nBin, pBin, pExp, nBin);
+        }
+        return ret;
+    }
+
+    public static long[] mixedAndOverlapped(int length, double bottom, double top, int nBin, double pBin, double pExp, double nPmut) {
+        long[] ret = new long[length];
+        for (int i = 0; i < length; ++i) {
+            int rgn = RANDOM.nextInt(0, 8);
+            ret[i] = mixedOrOverlappedValue(rgn, bottom, top, nBin, pBin, pExp, nPmut);
+        }
+        return ret;
+    }
+
 
     public static InputGenerator create(int type) {
         return new InputGenerator(type, (a) -> generateInput(type, a));
