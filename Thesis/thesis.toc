@@ -13,22 +13,22 @@
 \contentsline {subsection}{\numberline {5.1.1}The Algorithms}{11}{subsection.5.1.1}%
 \contentsline {section}{\numberline {5.2}Do inputs have perfect partitions?}{12}{section.5.2}%
 \contentsline {subsection}{\numberline {5.2.1}Binomial Inputs}{12}{subsection.5.2.1}%
-\contentsline {section}{\numberline {5.3}Binomial distributed inputs}{15}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}RLS Comparison}{15}{subsection.5.3.1}%
-\contentsline {subsection}{\numberline {5.3.2}(1+1) EA Comparison}{15}{subsection.5.3.2}%
-\contentsline {subsection}{\numberline {5.3.3}pmut Comparison}{15}{subsection.5.3.3}%
-\contentsline {subsection}{\numberline {5.3.4}Comparison of the best variants}{15}{subsection.5.3.4}%
-\contentsline {section}{\numberline {5.4}Uniform distributed inputs}{15}{section.5.4}%
-\contentsline {subsection}{\numberline {5.4.1}RLS Comparison}{15}{subsection.5.4.1}%
-\contentsline {subsection}{\numberline {5.4.2}(1+1) EA Comparison}{15}{subsection.5.4.2}%
-\contentsline {subsection}{\numberline {5.4.3}pmut Comparison}{15}{subsection.5.4.3}%
-\contentsline {subsection}{\numberline {5.4.4}Comparison of the best variants}{15}{subsection.5.4.4}%
-\contentsline {section}{\numberline {5.5}Exponential distributed inputs}{15}{section.5.5}%
-\contentsline {subsection}{\numberline {5.5.1}RLS Comparison}{15}{subsection.5.5.1}%
-\contentsline {subsection}{\numberline {5.5.2}(1+1) EA Comparison}{15}{subsection.5.5.2}%
-\contentsline {subsection}{\numberline {5.5.3}pmut Comparison}{15}{subsection.5.5.3}%
-\contentsline {subsection}{\numberline {5.5.4}Comparison of the best variants}{15}{subsection.5.5.4}%
-\contentsline {section}{\numberline {5.6}OneMax Equivalent for PARTITION}{15}{section.5.6}%
+\contentsline {section}{\numberline {5.3}Binomial distributed inputs}{14}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}RLS Comparison}{14}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}(1+1) EA Comparison}{14}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}pmut Comparison}{14}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Comparison of the best variants}{14}{subsection.5.3.4}%
+\contentsline {section}{\numberline {5.4}Uniform distributed inputs}{14}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}RLS Comparison}{14}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}(1+1) EA Comparison}{14}{subsection.5.4.2}%
+\contentsline {subsection}{\numberline {5.4.3}pmut Comparison}{14}{subsection.5.4.3}%
+\contentsline {subsection}{\numberline {5.4.4}Comparison of the best variants}{14}{subsection.5.4.4}%
+\contentsline {section}{\numberline {5.5}Exponential distributed inputs}{14}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}RLS Comparison}{14}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}(1+1) EA Comparison}{14}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}pmut Comparison}{14}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Comparison of the best variants}{14}{subsection.5.5.4}%
+\contentsline {section}{\numberline {5.6}OneMax Equivalent for PARTITION}{14}{section.5.6}%
 \contentsline {subsection}{\numberline {5.6.1}RLS Comparison}{15}{subsection.5.6.1}%
 \contentsline {subsection}{\numberline {5.6.2}(1+1) EA Comparison}{16}{subsection.5.6.2}%
 \contentsline {subsection}{\numberline {5.6.3}pmut Comparison}{16}{subsection.5.6.3}%

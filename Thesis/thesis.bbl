@@ -1,5 +1,10 @@
 \begin{thebibliography}{FGQW18}
 
+\bibitem[BCP01]{borgs2001phase}
+Christian Borgs, Jennifer Chayes, and Boris Pittel.
+\newblock Phase transition and finite-size scaling for the integer partitioning problem.
+\newblock {\em Random Structures \& Algorithms}, 19(3-4):247--288, 2001.
+
 \bibitem[Die05]{diekert2005stacs}
 Volker Diekert.
 \newblock {\em STACS 2005: 22nd Annual Symposium on Theoretical Aspects of Computer Science, Stuttgart, Germany, February 24-26, 2004, Proceedings}, volume 3404.
