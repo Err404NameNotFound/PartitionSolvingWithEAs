@@ -1,0 +1,27 @@
+number of runs:  1.000
+Limit per run:   50.000
+array length:    10.000
+ratio 100 * m/n: 0,15609 -> easy
+input type:      invalid input (11)
+---------
+algo type:           RLS-R;     pmut;    EA-SM
+algo param:            r=2;    -3,25;      2/n
+avg mut/change:      1,442;    1,584;    2,099
+avg mut/step:        1,499;    1,721;    2,000
+---------
+total avg count:       320;      323;      408
+avg eval count:        320;      323;      408
+max eval count:        800;      775;    1.048
+min eval count:         42;       42;       58
+---------
+fails:                   0;        0;        0
+fail ratio:          0,000;    0,000;    0,000
+avg fail dif:           -1;       -1;       -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
