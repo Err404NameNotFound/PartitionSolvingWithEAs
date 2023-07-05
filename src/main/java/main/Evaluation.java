@@ -34,20 +34,6 @@ public class Evaluation {
     private Evaluation() {
     }
 
-    private void initialize(Solver[] solvers) {
-        this.solvers = solvers;
-        int length = solvers.length;
-        avg = new long[length];
-        totalAverage = new long[length];
-        failed = new long[length];
-        failDif = new long[length];
-        mut = new long[length];
-        mutSuccess = new long[length];
-        mutTried = new long[length];
-        evaluators = new MinMaxAvgEvaluator[length];
-        fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
-    }
-
     public static Solver evaluate(int n, int type, int length) {
         return new Evaluation().solveMultiple(n, type, length, null);
     }
@@ -66,6 +52,77 @@ public class Evaluation {
 
     public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String postfix) {
         new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, postfix);
+    }
+
+    private static Evaluation merge(Evaluation... evaluations) {
+        for (int i = 1; i < evaluations.length; ++i) {
+            if (evaluations[i].totalAverage.length != evaluations[0].totalAverage.length) {
+                throw new IllegalArgumentException("Evaluators are not compatible due to different lengths");
+            }
+        }
+        Evaluation result = new Evaluation();
+        result.initialize(evaluations[0].solvers);
+        result.generator = evaluations[0].generator;
+        for (Evaluation e : evaluations) {
+            for (int i = 0; i < result.totalAverage.length; ++i) {
+                result.totalAverage[i] += e.totalAverage[i];
+                result.avg[i] += e.avg[i];
+                result.mut[i] += e.mut[i];
+                result.mutSuccess[i] += e.mutSuccess[i];
+                result.mutTried[i] += e.mutTried[i];
+                result.failDif[i] += e.failDif[i];
+                result.failed[i] += e.failed[i];
+                result.evaluators[i].merge(e.evaluators[i]);
+                //TODO merge MinMaxEvaluators
+            }
+        }
+        System.out.println("MinMaxEvaluatorsMerging is missing");
+        result.findBestSolver();
+        return result;
+    }
+
+    public static void evaluateParallel(int n, int type, int length, Solver[] solvers, int runCount) {
+        long steps = 100 * nlogn(length);
+        Evaluation[] evaluators = new Evaluation[runCount];
+        for (int i = 0; i < evaluators.length; ++i) {
+            evaluators[i] = new Evaluation();
+            evaluators[i].initialize(solvers);
+            evaluators[i].generator = InputGenerator.create(type);
+        }
+        setPrintToConsole(false);
+        int newN = n / runCount;
+
+        int[] runLengths = new int[evaluators.length];
+        Thread[] treads = new Thread[evaluators.length];
+        String folder = Printer.PATH_AUTO_GENERATED + evaluators[0].generator.folder;
+        String startTime = Printer.getTodayAsString();
+        treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
+        for (int i = 1; i < treads.length; ++i) {
+            int finalI = i;
+            treads[i] = new Thread(() -> runLengths[finalI] = evaluators[finalI].calculate(newN, length, steps, false));
+        }
+        runCancellableTasks(treads);
+        setPrintToConsole(true);
+        Evaluation eval = merge(evaluators);
+        System.out.println();
+        startFilePrinting(folder + startTime + "-sum_parallel" + runCount + ".txt");
+        eval.printResult(Arrays.stream(runLengths).sum(), length, steps);
+        stopWritingToFile();
+        System.out.println("---------------Evaluation complete-------------");
+    }
+
+    private void initialize(Solver[] solvers) {
+        this.solvers = solvers;
+        int length = solvers.length;
+        avg = new long[length];
+        totalAverage = new long[length];
+        failed = new long[length];
+        failDif = new long[length];
+        mut = new long[length];
+        mutSuccess = new long[length];
+        mutTried = new long[length];
+        evaluators = new MinMaxAvgEvaluator[length];
+        fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
     }
 
     private Solver solveMultiple(int n, int type, int length, String postfix) {
@@ -278,63 +335,6 @@ public class Evaluation {
         println("EA-SM   -> modified EA : each bit is flipped with prob c/n");
         println("fmut    -> 1 bit flip with prob p and uniform random amount with 1-p");
         println("pmut    -> flips k random bits where k is chosen from powerlaw distribution");
-    }
-
-    private static Evaluation merge(Evaluation... evaluations) {
-        for (int i = 1; i < evaluations.length; ++i) {
-            if (evaluations[i].totalAverage.length != evaluations[0].totalAverage.length) {
-                throw new IllegalArgumentException("Evaluators are not compatible due to different lengths");
-            }
-        }
-        Evaluation result = new Evaluation();
-        result.initialize(evaluations[0].solvers);
-        result.generator = evaluations[0].generator;
-        for (Evaluation e : evaluations) {
-            for (int i = 0; i < result.totalAverage.length; ++i) {
-                result.totalAverage[i] += e.totalAverage[i];
-                result.avg[i] += e.avg[i];
-                result.mut[i] += e.mut[i];
-                result.mutSuccess[i] += e.mutSuccess[i];
-                result.mutTried[i] += e.mutTried[i];
-                result.failDif[i] += e.failDif[i];
-                result.failed[i] += e.failed[i];
-                result.evaluators[i].merge(e.evaluators[i]);
-                //TODO merge MinMaxEvaluators
-            }
-        }
-        System.out.println("MinMaxEvaluatorsMerging is missing");
-        result.findBestSolver();
-        return result;
-    }
-
-    public static void evaluateParallel(int n, int type, int length, Solver[] solvers, int runCount) {
-        long steps = 100 * nlogn(length);
-        Evaluation[] evaluators = new Evaluation[runCount];
-        for (int i = 0; i < evaluators.length; ++i) {
-            evaluators[i] = new Evaluation();
-            evaluators[i].initialize(solvers);
-            evaluators[i].generator = InputGenerator.create(type);
-        }
-        setPrintToConsole(false);
-        int newN = n / runCount;
-
-        int[] runLengths = new int[evaluators.length];
-        Thread[] treads = new Thread[evaluators.length];
-        String folder = Printer.PATH_AUTO_GENERATED + evaluators[0].generator.folder;
-        String startTime = Printer.getTodayAsString();
-        treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
-        for (int i = 1; i < treads.length; ++i) {
-            int finalI = i;
-            treads[i] = new Thread(() -> runLengths[finalI] = evaluators[finalI].calculate(newN, length, steps, false));
-        }
-        runCancellableTasks(treads);
-        setPrintToConsole(true);
-        Evaluation eval = merge(evaluators);
-        System.out.println();
-        startFilePrinting(folder + startTime + "-sum_parallel" + runCount + ".txt");
-        eval.printResult(Arrays.stream(runLengths).sum(), length, steps);
-        stopWritingToFile();
-        System.out.println("---------------Evaluation complete-------------");
     }
 
     private interface IResultPrinter {

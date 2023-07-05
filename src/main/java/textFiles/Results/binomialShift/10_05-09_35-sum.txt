@@ -1,26 +1,26 @@
-input type:      binomial distributed with shift (9)
-array length:    40
-number of runs:  1
-Limit per run:   1.480.000
-ratio 100 * m/n: 116,26748 -> hard
+input type;      binomial distributed with shift (9)
+array length;    40
+number of runs;  1
+Limit per run;   1.480.000
+ratio 100 * m/n; 116,26748 -> hard
 ---------
-algo type:              RLS;     RLS-N;     RLS-N;     RLS-N;     RLS-R;     RLS-R;     RLS-R
-algo param:               -;       k=2;       k=3;       k=4;       k=2;       k=3;       k=4
-avg mut/change:         NaN;       NaN;       NaN;     3,933;       NaN;       NaN;     3,100
-avg mut/step:           NaN;       NaN;       NaN;     3,892;       NaN;       NaN;     2,499
+algo type;              RLS;     RLS-N;     RLS-N;     RLS-N;     RLS-R;     RLS-R;     RLS-R
+algo param;               -;       k=2;       k=3;       k=4;       k=2;       k=3;       k=4
+avg mut/change;         NaN;       NaN;       NaN;     3,933;       NaN;       NaN;     3,100
+avg mut/step;           NaN;       NaN;       NaN;     3,892;       NaN;       NaN;     2,499
 ---------
-total avg count:  1.480.000; 1.480.000; 1.480.000;    15.332; 1.480.000; 1.480.000;   194.020
-avg eval count:          -1;        -1;        -1;    15.332;        -1;        -1;   194.020
-max eval count:           0;         0;         0;    15.332;         0;         0;   194.020
-min eval count:          -1;        -1;        -1;    15.332;        -1;        -1;   194.020
+total avg count;  1.480.000; 1.480.000; 1.480.000;    15.332; 1.480.000; 1.480.000;   194.020
+avg eval count;          -1;        -1;        -1;    15.332;        -1;        -1;   194.020
+max eval count;           0;         0;         0;    15.332;         0;         0;   194.020
+min eval count;          -1;        -1;        -1;    15.332;        -1;        -1;   194.020
 ---------
-fails:                    1;         1;         1;         0;         1;         1;         0
-fail ratio:           1,000;     1,000;     1,000;     0,000;     1,000;     1,000;     0,000
-avg fail dif:         9.588;         7;         4;        -1;        16;         2;        -1
+fails;                    1;         1;         1;         0;         1;         1;         0
+fail ratio;           1,000;     1,000;     1,000;     0,000;     1,000;     1,000;     0,000
+avg fail dif;         9.588;         7;         4;        -1;        16;         2;        -1
 ---------
-RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
-RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
-EA      -> standard EA : each bit is flipped with prob 1/n
-EA-SM   -> modified EA : each bit is flipped with prob c/n
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

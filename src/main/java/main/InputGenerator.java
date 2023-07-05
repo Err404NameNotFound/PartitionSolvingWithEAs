@@ -38,15 +38,9 @@ public class InputGenerator {
     public static final int MIXED = 11;
     public static final int OVERLAPPED = 12;
     public static final int MIXED_AND_OVERLAPPED = 13;
-
-    private interface Generator {
-        long[] generate(int length);
-    }
-
     public final int type;
     public final String folder;
     public final String description;
-    private final Generator generator;
     public final int bottom;
     public final int top;
     public final int sumCount;
@@ -54,10 +48,9 @@ public class InputGenerator {
     public final double p;
     public final long expectedValue;
     public final double pMutParam;
-    private long[] output;
+    private final Generator generator;
     private final boolean outputConstant;
-
-
+    private long[] output;
     private InputGenerator(int type, Generator generator) {
         this(type, generator, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE,
                 type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),
@@ -66,6 +59,7 @@ public class InputGenerator {
                 Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL),
                 DEFAULT_PMUT_PARAM);
     }
+
 
     private InputGenerator(int type, Generator generator, int bottom, int top, int sumCount, int n, double p,
                            long expectedValue, double pMutParam) {
@@ -82,68 +76,6 @@ public class InputGenerator {
         description = getInputTypeDescription(type);
         outputConstant = type == ALL_SAME_AND_LAST_SUM
                 || type == LAST_TWO_SUM_REST_ONE || type == ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
-    }
-
-    public long[] generate(int length) {
-        if (outputConstant) {
-            if (output == null) {
-                output = generator.generate(length);
-            }
-            return output;
-        }
-        return generator.generate(length);
-    }
-
-    private String getFolder(int type) {
-        return switch (type) {
-            case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
-            case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
-            case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
-            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
-            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
-            case BINOMIAL_DISTRIBUTED -> "Binomial";
-            case EXPONENTIAL_DISTRIBUTED -> "Exponential";
-            case MIXED -> "Mixed";
-            case OVERLAPPED -> "Overlapped";
-            case MIXED_AND_OVERLAPPED -> "MixedAndOverlapped";
-            default -> "other";
-        } + "\\";
-    }
-
-    public boolean hasBounds() {
-        return type == PARTIAL_INT_RANGE || type == LAST_SUM_WITH_RANGE
-                || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS || type == POWERLAW_DISTRIBUTED;
-    }
-
-    public void printDescription() {
-        printDescription(null);
-    }
-
-
-    public void printDescription(String separation) {
-        printf("input type;      %s (%d)%n", description, type);
-        if (hasBounds()) {
-            printf("lowest value;    %,d%n", bottom);
-            printf("highest value;   %,d%n", top);
-        }
-        if (hasFieldWithSum()) {
-            printf("Fields with sum; %,d%n", sumCount);
-        }
-        if (type == 7 || type == 8) {
-            if (separation != null) {
-                println(separation);
-            }
-            printf("n value;         %,d%n", n);
-            printf("p;               %.6f%n", p);
-            printf("expected value;  %,d%n", expectedValue);
-        }
-        if (outputConstant && output != null) {
-            printFirstAndLastElements(output, 10);
-        }
-    }
-
-    public boolean hasFieldWithSum() {
-        return type >= 2 && type <= 6;
     }
 
     public static long[] generateInput(int selection, int length) {
@@ -182,10 +114,12 @@ public class InputGenerator {
                     powerlawDistributed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_PMUT_PARAM);
             case MIXED -> mixed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
                     DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
-            case OVERLAPPED -> overlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
-                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
-            case MIXED_AND_OVERLAPPED -> mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
-                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+            case OVERLAPPED ->
+                    overlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
+                            DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+            case MIXED_AND_OVERLAPPED ->
+                    mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
+                            DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
             default -> null;
         };
     }
@@ -279,7 +213,6 @@ public class InputGenerator {
         return fill(length, (i) -> powerlawK(bottom, top, n));
     }
 
-
     private static long overlappedValue(double bottom, double top, double pBin, int nBin, double pExp, double nPmut) {
         return RANDOM.nextInt((int) bottom, (int) top) + binomialK(nBin, pBin) + exponentialK((int) top, pExp)
                 + powerlawK(bottom, top, nPmut);
@@ -304,7 +237,6 @@ public class InputGenerator {
         return ret;
     }
 
-
     public static long[] overlapped(int length, double bottom, double top, int pBin, double nBin, double pExp, double nPmut) {
         long[] ret = new long[length];
         for (int i = 0; i < length; ++i) {
@@ -322,7 +254,6 @@ public class InputGenerator {
         return ret;
     }
 
-
     public static InputGenerator create(int type) {
         return new InputGenerator(type, (a) -> generateInput(type, a));
     }
@@ -331,5 +262,70 @@ public class InputGenerator {
         long expectedValue = Math.round(n * p);
         return new InputGenerator(BINOMIAL_DISTRIBUTED, (a) -> binomialDistributed(a, n, p), 0,
                 (int) expectedValue, 0, n, p, expectedValue, DEFAULT_PMUT_PARAM);
+    }
+
+    public long[] generate(int length) {
+        if (outputConstant) {
+            if (output == null) {
+                output = generator.generate(length);
+            }
+            return output;
+        }
+        return generator.generate(length);
+    }
+
+    private String getFolder(int type) {
+        return switch (type) {
+            case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
+            case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
+            case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
+            case BINOMIAL_DISTRIBUTED -> "Binomial";
+            case EXPONENTIAL_DISTRIBUTED -> "Exponential";
+            case MIXED -> "Mixed";
+            case OVERLAPPED -> "Overlapped";
+            case MIXED_AND_OVERLAPPED -> "MixedAndOverlapped";
+            default -> "other";
+        } + "\\";
+    }
+
+    public boolean hasBounds() {
+        return type == PARTIAL_INT_RANGE || type == LAST_SUM_WITH_RANGE
+                || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS || type == POWERLAW_DISTRIBUTED;
+    }
+
+    public void printDescription() {
+        printDescription(null);
+    }
+
+    public void printDescription(String separation) {
+        printf("input type;      %s (%d)%n", description, type);
+        if (hasBounds()) {
+            printf("lowest value;    %,d%n", bottom);
+            printf("highest value;   %,d%n", top);
+        }
+        if (hasFieldWithSum()) {
+            printf("Fields with sum; %,d%n", sumCount);
+        }
+        if (type == 7 || type == 8) {
+            if (separation != null) {
+                println(separation);
+            }
+            printf("n value;         %,d%n", n);
+            printf("p;               %.6f%n", p);
+            printf("expected value;  %,d%n", expectedValue);
+        }
+        if (outputConstant && output != null) {
+            printFirstAndLastElements(output, 10);
+        }
+    }
+
+    public boolean hasFieldWithSum() {
+        return type >= 2 && type <= 6;
+    }
+
+    private interface Generator {
+        long[] generate(int length);
     }
 }

@@ -1,30 +1,30 @@
-Input: [24883, 15568, 49423, 971, 40588, 1605, 14326, 21393, 39450, 25983, ..., 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188]
-input type:      uniform random values from given range except last x fields as sum of all other fields (6)
-array length:    10.000
-number of runs:  1.000
-Limit per run:   921.030
-ratio 100 * m/n: 0,21218 -> easy
-lowest value:    1
-highest value:   50.000
-Fields with sum: 100
+Input; [24883, 15568, 49423, 971, 40588, 1605, 14326, 21393, 39450, 25983, ..., 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188, 2452188]
+input type;      uniform random values from given range except last x fields as sum of all other fields (6)
+array length;    10.000
+number of runs;  1.000
+Limit per run;   921.030
+ratio 100 * m/n; 0,21218 -> easy
+lowest value;    1
+highest value;   50.000
+Fields with sum; 100
 ---------
-algo type:          RLS-N;   EA-SM;    pmut
-algo param:           k=2;     3/n;   -2,25
-avg mut/change:     2,000;   3,114;   3,788
-avg mut/step:       2,000;   3,000;   4,363
+algo type;          RLS-N;   EA-SM;    pmut
+algo param;           k=2;     3/n;   -2,25
+avg mut/change;     2,000;   3,114;   3,788
+avg mut/step;       2,000;   3,000;   4,363
 ---------
-total avg count:   87.117; 129.591; 153.384
-avg eval count:    87.117; 121.597; 145.630
-max eval count:   721.589; 908.033; 919.981
-min eval count:       247;     261;      32
+total avg count;   87.117; 129.591; 153.384
+avg eval count;    87.117; 121.597; 145.630
+max eval count;   721.589; 908.033; 919.981
+min eval count;       247;     261;      32
 ---------
-fails:                  0;      10;      10
-fail ratio:         0,000;   0,010;   0,010
-avg fail dif:          -1;       1;       1
+fails;                  0;      10;      10
+fail ratio;         0,000;   0,010;   0,010
+avg fail dif;          -1;       1;       1
 ---------
-RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= k
-RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
-EA      -> standard EA : each bit is flipped with prob 1/n
-EA-SM   -> modified EA : each bit is flipped with prob c/n
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

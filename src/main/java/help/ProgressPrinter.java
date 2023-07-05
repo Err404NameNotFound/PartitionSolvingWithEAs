@@ -10,16 +10,15 @@ import static java.lang.Math.max;
 public class ProgressPrinter {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
     private static final String clearString = "\b".repeat(47);
-
+    private final static int BUFFER_SIZE = 60;
+    private static final long UPDATE_EVERY_SECOND = 1000;
     private final long startTime;
     private final boolean byTime;
-    private long nextUpdate;
-    private long stepSize;
     private final long end;
     private final RingBufferFifo<Long> timeBuffer;
     private final RingBufferFifo<Long> iterationBuffer;
-    private final static int BUFFER_SIZE = 60;
-    private static final long UPDATE_EVERY_SECOND = 1000;
+    private long nextUpdate;
+    private long stepSize;
 
     private ProgressPrinter(long end, boolean byTime) {
         this.end = end;
@@ -48,31 +47,8 @@ public class ProgressPrinter {
         this(end, stepSize, false);
     }
 
-    public void printProgressIfNecessary(long i) {
-        if (byTime && Instant.now().toEpochMilli() >= nextUpdate || !byTime && i >= nextUpdate) {
-            printProgress(i);
-            nextUpdate += stepSize;
-        }
-    }
-
     private static long now() {
         return Instant.now().toEpochMilli();
-    }
-
-    private void printProgress(long i) {
-        ++i;
-        long now = now();
-        long elapsedTime = now - startTime;
-        long expectedTime = (now - timeBuffer.peek()) * (end - i) / (i-iterationBuffer.peek());
-        timeBuffer.insert(now);
-        iterationBuffer.insert(i);
-        System.out.printf(clearString + "%5s%% | elapsed: %s | finished: %s",
-                String.format("%.1f", (100.0 * i) / end), timeString(elapsedTime), timeString(expectedTime));
-//        System.out.printf("now: %d, i: %d, bufSize: %d, bufVal: %d, exp1: %d, exp2: %d, exp3: %d%n", now, i, timeBuffer.getSize(), timeBuffer.peek(), expectedTime, elapsedTime * (end - i) / i, expectedTime*stepSize);
-    }
-
-    public void clearProgressAndPrintElapsedTime() {
-        clearProgressAndPrintElapsedTime(startTime);
     }
 
     private static String timeString(long epochSeconds) {
@@ -82,5 +58,28 @@ public class ProgressPrinter {
     public static void clearProgressAndPrintElapsedTime(long start) {
         System.out.printf(clearString + "Elapsed time: %s%n",
                 timeString(now() - start));
+    }
+
+    public void printProgressIfNecessary(long i) {
+        if (byTime && Instant.now().toEpochMilli() >= nextUpdate || !byTime && i >= nextUpdate) {
+            printProgress(i);
+            nextUpdate += stepSize;
+        }
+    }
+
+    private void printProgress(long i) {
+        ++i;
+        long now = now();
+        long elapsedTime = now - startTime;
+        long expectedTime = (now - timeBuffer.peek()) * (end - i) / (i - iterationBuffer.peek());
+        timeBuffer.insert(now);
+        iterationBuffer.insert(i);
+        System.out.printf(clearString + "%5s%% | elapsed: %s | finished: %s",
+                String.format("%.1f", (100.0 * i) / end), timeString(elapsedTime), timeString(expectedTime));
+//        System.out.printf("now: %d, i: %d, bufSize: %d, bufVal: %d, exp1: %d, exp2: %d, exp3: %d%n", now, i, timeBuffer.getSize(), timeBuffer.peek(), expectedTime, elapsedTime * (end - i) / i, expectedTime*stepSize);
+    }
+
+    public void clearProgressAndPrintElapsedTime() {
+        clearProgressAndPrintElapsedTime(startTime);
     }
 }

@@ -1,27 +1,13 @@
 package main;
 
 public class Solver {
-    public interface ISolver {
-        Solution solve(long[] values, long maxSteps);
-    }
-
     public final ISolver solver;
     public final String description;
     public final String parameter;
-
     private Solver(String description, String parameter, ISolver solver) {
         this.parameter = parameter;
         this.solver = solver;
         this.description = description;
-    }
-
-    Solution solve(long[] values, long maxSteps) {
-        return solver.solve(values, maxSteps);
-    }
-
-    @Override
-    public String toString() {
-        return description + " with " + parameter;
     }
 
     public static Solver getRLS() {
@@ -51,7 +37,6 @@ public class Solver {
     public static Solver getPmut(double n) {
         return new Solver("pmut", String.format("%.2f", n), (a, b) -> PartitionSolver.solvePmut(a, b, n));
     }
-
 
     public static Solver[] getRLSComparison() {
         return new Solver[]{
@@ -113,7 +98,7 @@ public class Solver {
         };
     }
 
-    public static Solver[] getComparison(){
+    public static Solver[] getComparison() {
         return new Solver[]{
                 getRLS(),
                 getRLSUniformRing(2),
@@ -122,5 +107,18 @@ public class Solver {
                 getEA(2),
                 getPmut(-2.75)
         };
+    }
+
+    Solution solve(long[] values, long maxSteps) {
+        return solver.solve(values, maxSteps);
+    }
+
+    @Override
+    public String toString() {
+        return description + " with " + parameter;
+    }
+
+    public interface ISolver {
+        Solution solve(long[] values, long maxSteps);
     }
 }

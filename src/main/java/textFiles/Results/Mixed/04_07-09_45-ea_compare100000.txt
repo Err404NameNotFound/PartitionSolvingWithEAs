@@ -21,7 +21,7 @@ avg fail dif;             -1;         -1;         -1;         -1;         -1;   
 RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
 RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= n
 RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
-EA      -> standard EA : each bit is flipped with prob 1/n
-EA-SM   -> modified EA : each bit is flipped with prob c/n
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
 pmut    -> flips k random bits where k is chosen from powerlaw distribution

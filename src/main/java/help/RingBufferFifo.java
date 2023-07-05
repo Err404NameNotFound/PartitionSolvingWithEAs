@@ -2,8 +2,8 @@ package help;
 
 public class RingBufferFifo<T> {
 
-    private int size;
     private final int capacity;
+    private int size;
     private Node<T> first;
     private Node<T> last;
 

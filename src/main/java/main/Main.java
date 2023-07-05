@@ -12,11 +12,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
-import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
-import static help.ArrayPrinter.printResultWithDecimalPoint;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.max;

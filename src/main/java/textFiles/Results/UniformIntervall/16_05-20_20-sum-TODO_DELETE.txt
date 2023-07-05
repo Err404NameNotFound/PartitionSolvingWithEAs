@@ -1,27 +1,27 @@
-input type:      uniform random values from complete int range (0)
-array length:    50.000
-number of runs:  126
-Limit per run:   5.409.890
-ratio 100 * m/n: 0,06200 -> easy
+input type;      uniform random values from complete int range (0)
+array length;    50.000
+number of runs;  126
+Limit per run;   5.409.890
+ratio 100 * m/n; 0,06200 -> easy
 ---------
-algo type:               EA;     EA-SM;     EA-SM;     EA-SM;     EA-SM;     EA-SM
-algo param:               -;       2/n;       3/n;       4/n;       5/n;      10/n
-avg mut/change:         NaN;       NaN;       NaN;       NaN;       NaN;       NaN
-avg mut/step:           NaN;       NaN;       NaN;       NaN;       NaN;       NaN
+algo type;               EA;     EA-SM;     EA-SM;     EA-SM;     EA-SM;     EA-SM
+algo param;               -;       2/n;       3/n;       4/n;       5/n;      10/n
+avg mut/change;         NaN;       NaN;       NaN;       NaN;       NaN;       NaN
+avg mut/step;           NaN;       NaN;       NaN;       NaN;       NaN;       NaN
 ---------
-total avg count:  5.409.890; 5.409.890; 5.409.890; 5.409.890; 5.409.890; 5.409.890
-avg eval count:          -1;        -1;        -1;        -1;        -1;        -1
-max eval count:           0;         0;         0;         0;         0;         0
-min eval count:          -1;        -1;        -1;        -1;        -1;        -1
+total avg count;  5.409.890; 5.409.890; 5.409.890; 5.409.890; 5.409.890; 5.409.890
+avg eval count;          -1;        -1;        -1;        -1;        -1;        -1
+max eval count;           0;         0;         0;         0;         0;         0
+min eval count;          -1;        -1;        -1;        -1;        -1;        -1
 ---------
-fails:                  126;       126;       126;       126;       126;       126
-fail ratio:           1,000;     1,000;     1,000;     1,000;     1,000;     1,000
-avg fail dif:         1.567;       668;       654;       664;       573;       870
+fails;                  126;       126;       126;       126;       126;       126
+fail ratio;           1,000;     1,000;     1,000;     1,000;     1,000;     1,000
+avg fail dif;         1.567;       668;       654;       664;       573;       870
 ---------
-RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
-RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
-EA      -> standard EA : each bit is flipped with prob 1/n
-EA-SM   -> modified EA : each bit is flipped with prob c/n
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
 pmut    -> flips k random bits where k is chosen from powerlaw distribution

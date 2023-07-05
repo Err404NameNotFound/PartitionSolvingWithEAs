@@ -211,7 +211,7 @@ public class PartitionSolver {
         return solutions;
     }
 
-    private static Set<Integer> randomKIndices(int k,long[] values) {
+    private static Set<Integer> randomKIndices(int k, long[] values) {
         return randomKIndices(k, 0, values.length);
     }
 
@@ -227,11 +227,12 @@ public class PartitionSolver {
         int generateK(int max);
     }
 
-    private static class UniformNeighbourGenerator implements KGenerator{
+    private static class UniformNeighbourGenerator implements KGenerator {
 
-        private final int neighbours;
         final double[] stepSizes;
-        private UniformNeighbourGenerator(int k, int length){
+        private final int neighbours;
+
+        private UniformNeighbourGenerator(int k, int length) {
             neighbours = k;
             stepSizes = new double[neighbours];
             stepSizes[0] = length;
@@ -245,9 +246,9 @@ public class PartitionSolver {
 
         @Override
         public int generateK(int max) {
-            if(neighbours == 1){
+            if (neighbours == 1) {
                 return 1;
-            }else{
+            } else {
                 double r = RNG.nextDouble();
                 int k = 0;
                 while (k < stepSizes.length && stepSizes[k] < r) {

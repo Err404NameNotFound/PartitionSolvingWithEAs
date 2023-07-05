@@ -1,29 +1,29 @@
-input type:      uniform random values from given range (1)
-array length:    50.000
-number of runs:  315
-Limit per run:   5.409.890
-ratio 100 * m/n: 0,03122 -> easy
-lowest value:    1
-highest value:   50.000
+input type;      uniform random values from given range (1)
+array length;    50.000
+number of runs;  315
+Limit per run;   5.409.890
+ratio 100 * m/n; 0,03122 -> easy
+lowest value;    1
+highest value;   50.000
 ---------
-algo type:            EA-SM;     EA-SM;     EA-SM;     EA-SM;     EA-SM;        EA;     EA-SM;     EA-SM
-algo param:             3/n;       2/n;       4/n;       5/n;      10/n;         -;      50/n;     100/n
-avg mut/change:       3,126;     2,276;     4,011;     4,922;     9,861;     1,580;    49,713;    99,731
-avg mut/step:         3,000;     2,000;     4,000;     5,001;    10,001;     1,000;    50,000;   100,000
+algo type;            EA-SM;     EA-SM;     EA-SM;     EA-SM;     EA-SM;        EA;     EA-SM;     EA-SM
+algo param;             3/n;       2/n;       4/n;       5/n;      10/n;         -;      50/n;     100/n
+avg mut/change;       3,126;     2,276;     4,011;     4,922;     9,861;     1,580;    49,713;    99,731
+avg mut/step;         3,000;     2,000;     4,000;     5,001;    10,001;     1,000;    50,000;   100,000
 ---------
-total avg count:    108.349;   113.676;   114.482;   123.041;   165.670;   187.613;   426.491;   565.896
-avg eval count:     108.349;   113.676;   114.482;   123.041;   165.670;   187.613;   426.491;   565.896
-max eval count:     895.221;   717.374;   690.933;   939.598;   900.270; 2.212.414; 2.875.109; 4.343.354
-min eval count:          72;       793;       529;       104;       501;       152;       404;     1.156
+total avg count;    108.349;   113.676;   114.482;   123.041;   165.670;   187.613;   426.491;   565.896
+avg eval count;     108.349;   113.676;   114.482;   123.041;   165.670;   187.613;   426.491;   565.896
+max eval count;     895.221;   717.374;   690.933;   939.598;   900.270; 2.212.414; 2.875.109; 4.343.354
+min eval count;          72;       793;       529;       104;       501;       152;       404;     1.156
 ---------
-fails:                    0;         0;         0;         0;         0;         0;         0;         0
-fail ratio:           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
-avg fail dif:            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+fails;                    0;         0;         0;         0;         0;         0;         0;         0
+fail ratio;           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
+avg fail dif;            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
 ---------
-RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
-RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
-EA      -> standard EA : each bit is flipped with prob 1/n
-EA-SM   -> modified EA : each bit is flipped with prob c/n
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
 pmut    -> flips k random bits where k is chosen from powerlaw distribution

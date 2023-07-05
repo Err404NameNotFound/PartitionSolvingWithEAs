@@ -5,9 +5,10 @@ import java.util.Queue;
 
 public class ArrayHelp {
 
-    public static long[] cast(int[] input){
+    public static long[] cast(int[] input) {
         return fill(input.length, (i) -> input[i]);
     }
+
     public static int[] findLargestK(long[] arr, int k) {
         Queue<Tuple> queue = new PriorityQueue<>(Tuple::compareTo);
 
@@ -69,19 +70,19 @@ public class ArrayHelp {
     }
 
 
-    private record Tuple(int index, long value) implements Comparable<Tuple> {
-
-        @Override
-        public int compareTo(Tuple o) {
-            return (int) (value - o.value);
-        }
-    }
-
     public interface NumberGenerator {
         long generate(int index);
     }
 
     public interface ObjectGenerator<T> {
         T generate(int index);
+    }
+
+    private record Tuple(int index, long value) implements Comparable<Tuple> {
+
+        @Override
+        public int compareTo(Tuple o) {
+            return (int) (value - o.value);
+        }
     }
 }
