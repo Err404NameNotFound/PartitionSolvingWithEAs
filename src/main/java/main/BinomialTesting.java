@@ -111,13 +111,13 @@ public class BinomialTesting {
         long[] values = new long[amount.length];
         fill(values, (i) -> offset + i);
         int digits = (int) getNeededDigits(amount, values);
-        System.out.printf("n:      %,d%np:      %.3f%nexp:    %,d%n", n, p, expected);
-        printResult("value:  ", values, digits);
-        printResult("count:  ", amount, digits);
+        System.out.printf("n;      %,d%np;      %.3f%nexp;    %,d%n", n, p, expected);
+        printResult("value;  ", values, digits);
+        printResult("count;  ", amount, digits);
         for (int i = 0; i < values.length; ++i) {
             values[i] -= expected;
         }
-        printResult("offset: ", values, digits);
+        printResult("offset; ", values, digits);
     }
 
     public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
@@ -164,8 +164,8 @@ public class BinomialTesting {
         long expected = Math.round(m * n * p);
         long[] input;
         long maxSteps = 100 * 1000;
-        printf("Expected value: %,d%n", expected);
-        printf("Max steps:      %,d%n", maxSteps);
+        printf("Expected value; %,d%n", expected);
+        printf("Max steps;      %,d%n", maxSteps);
 //        setPrintToConsole(false);
         long[] failed_BitFlipAmountNecessary = new long[22];
         int changedBitMax = failed_BitFlipAmountNecessary.length - 1;
@@ -303,11 +303,17 @@ public class BinomialTesting {
         double[] ps = new double[]{0.1, 0.5, 0.9};
         int[] lengths = new int[]{10, 12, 14, 16, 18, 20};
         int[] ns = new int[]{10, 100, 1000, 10000};
-        startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString() + "_temp.csv");
+        startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString()
+                + "-binomialPerfectPartitionCount.csv");
         for (double p : ps) {
             for (int n : ns) {
+                printf("n: %,d%np: %.2f%n--------------%n", n, p);
                 testBinomialSolutionCount(count, lengths, n, p);
                 println("***************");
+                if (Thread.interrupted()) {
+                    stopWritingToFile();
+                    return;
+                }
             }
         }
         stopWritingToFile();
@@ -330,8 +336,8 @@ public class BinomialTesting {
         printResult("length:", cast(lengths), digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
         printResultWithDecimalPoint("total: ", possibilities, digits);
-        printResult("total%:", fill(evaluators.length, (i) -> evaluators[i].getMax()), possibilities, digits);
+        printResult("total%:", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilities, digits);
         printResultWithDecimalPoint("half01:", possibilitiesHalf, digits);
-        printResult("half01%", fill(evaluators.length, (i) -> evaluators[i].getMax()), possibilitiesHalf, digits);
+        printResult("half01%", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilitiesHalf, digits);
     }
 }

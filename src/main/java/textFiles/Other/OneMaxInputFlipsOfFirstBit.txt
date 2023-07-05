@@ -1,4 +1,4 @@
-algo:       EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R
+algo;       EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R
 type:    flips;  flips;  flips;  flips;  tries;  tries;  tries;  tries
 count:     300;    300;    300;    300;    300;    300;    300;    300
 min  :       0;      0;      0;      0;      4;     20;      0;      6
@@ -8,7 +8,7 @@ avg  :       1;      1;      1;      1;     23;     61;      9;     25
 
 ----------------------------------------------------------------------
 
-algo:      RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM
+algo;      RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM
 type:    flips;  flips;  flips;  flips;  tries;  tries;  tries;  tries
 count:     300;    300;    300;    300;    300;    300;    300;    300
 min  :       0;      0;      0;      0;      2;      4;      1;     20
@@ -18,7 +18,7 @@ avg  :       0;      1;      1;      1;      9;     25;     23;     60
 
 ----------------------------------------------------------------------
 
-algo:      RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM
+algo;      RLS;  RLS-R;     EA;  EA-SM;    RLS;  RLS-R;     EA;  EA-SM
 type:    flips;  flips;  flips;  flips;  tries;  tries;  tries;  tries
 count:  30.000; 30.000; 30.000; 30.000; 30.000; 30.000; 30.000; 30.000
 min  :       0;      0;      0;      0;      0;      2;      3;     12

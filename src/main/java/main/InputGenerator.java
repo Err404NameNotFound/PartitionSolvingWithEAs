@@ -121,21 +121,21 @@ public class InputGenerator {
 
 
     public void printDescription(String separation) {
-        printf("input type:      %s (%d)%n", description, type);
+        printf("input type;      %s (%d)%n", description, type);
         if (hasBounds()) {
-            printf("lowest value:    %,d%n", bottom);
-            printf("highest value:   %,d%n", top);
+            printf("lowest value;    %,d%n", bottom);
+            printf("highest value;   %,d%n", top);
         }
         if (hasFieldWithSum()) {
-            printf("Fields with sum: %,d%n", sumCount);
+            printf("Fields with sum; %,d%n", sumCount);
         }
         if (type == 7 || type == 8) {
             if (separation != null) {
                 println(separation);
             }
-            printf("n value:         %,d%n", n);
-            printf("p:               %.6f%n", p);
-            printf("expected value:  %,d%n", expectedValue);
+            printf("n value;         %,d%n", n);
+            printf("p;               %.6f%n", p);
+            printf("expected value;  %,d%n", expectedValue);
         }
         if (outputConstant && output != null) {
             printFirstAndLastElements(output, 10);

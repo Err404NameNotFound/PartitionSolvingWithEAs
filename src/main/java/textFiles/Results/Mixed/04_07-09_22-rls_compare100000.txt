@@ -1,18 +1,18 @@
-number of runs:  1.000
-Limit per run:   115.129.300
-array length:    100.000
-ratio 100 * m/n: 0,01561 -> easy
-input type:      mixed (11)
+number of runs;  1.000
+Limit per run;   115.129.300
+array length;    100.000
+ratio 100 * m/n; 0,01561 -> easy
+input type;      mixed (11)
 ---------
-algo type:           RLS-R;    RLS-R;    RLS-R;    RLS-N;    RLS-N;      RLS;    RLS-N
-algo param:            r=4;      r=3;      r=2;      n=3;      n=2;        -;      n=4
-avg mut/change:      2,413;    1,951;    1,478;    2,000;    1,000;    1,000;    3,000
-avg mut/step:        2,503;    2,000;    1,500;    2,000;    1,000;    1,000;    3,000
+algo type;           RLS-R;    RLS-R;    RLS-R;    RLS-N;    RLS-N;      RLS;    RLS-N
+algo param;            r=4;      r=3;      r=2;      n=3;      n=2;        -;      n=4
+avg mut/change;      2,413;    1,951;    1,478;    2,000;    1,000;    1,000;    3,000
+avg mut/step;        2,503;    2,000;    1,500;    2,000;    1,000;    1,000;    3,000
 ---------
-total avg count:       539;      546;      608;      612;      729;      733;      930
-avg eval count:        539;      546;      608;      612;      729;      733;      930
-max eval count:      1.579;    1.661;    1.883;    2.629;    2.623;    2.371;    4.591
-min eval count:         15;        8;       42;       53;       80;       59;       73
+total avg count;       539;      546;      608;      612;      729;      733;      930
+avg eval count;        539;      546;      608;      612;      729;      733;      930
+max eval count;      1.579;    1.661;    1.883;    2.629;    2.623;    2.371;    4.591
+min eval count;         15;        8;       42;       53;       80;       59;       73
 ---------
 fails:                   0;        0;        0;        0;        0;        0;        0
 fail ratio:          0,000;    0,000;    0,000;    0,000;    0,000;    0,000;    0,000

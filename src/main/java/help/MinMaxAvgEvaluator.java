@@ -48,17 +48,17 @@ public class MinMaxAvgEvaluator {
         if (count == 0) {
             println("Nothing to evaluate, because count == 0");
         } else {
-            printf("count: %,d%n", count);
-            printf("min  : %,d%n", min);
-            printf("max  : %,d%n", max);
-            printf("sum  : %,d%n", sum);
-            printf("avg  : %,d%n", sum / count);
+            printf("count; %,d%n", count);
+            printf("min  ; %,d%n", min);
+            printf("max  ; %,d%n", max);
+            printf("sum  ; %,d%n", sum);
+            printf("avg  ; %,d%n", sum / count);
             if (canBeNegative) {
-                println("Stats of absolute values:");
-                printf("min  : %,d%n", absMin);
-                printf("max  : %,d%n", absMax);
-                printf("sum  : %,d%n", absSum);
-                printf("avg  : %,d%n", absSum / count);
+                println("Stats of absolute values;");
+                printf("min  ; %,d%n", absMin);
+                printf("max  ; %,d%n", absMax);
+                printf("sum  ; %,d%n", absSum);
+                printf("avg  ; %,d%n", absSum / count);
             }
         }
     }
@@ -80,11 +80,11 @@ public class MinMaxAvgEvaluator {
     }
 
     public static void printMultipleNonNegative(int digits, MinMaxAvgEvaluator... evaluators) {
-        printCount("count: ", digits, evaluators);
-        printMin("min  : ", digits, evaluators);
-        printMax("max  : ", digits, evaluators);
-        printAvg("avg  : ", digits, evaluators);
-        printSum("sum  : ", digits, evaluators);
+        printCount("count; ", digits, evaluators);
+        printMin("min  ; ", digits, evaluators);
+        printMax("max  ; ", digits, evaluators);
+        printAvg("avg  ; ", digits, evaluators);
+        printSum("sum  ; ", digits, evaluators);
     }
 
     public static void printMultipleNonNegative(String min, String max, String avg, int digits, MinMaxAvgEvaluator... evaluators) {

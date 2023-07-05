@@ -176,11 +176,11 @@ public class Evaluation {
 
     private void printResult(int n, int length, long maxSteps) {
         String separation = "---------";
-        printf("number of runs:  %,d%n", n);
-        printf("Limit per run:   %,d%n", maxSteps);
-        printf("array length:    %,d%n", length);
+        printf("number of runs;  %,d%n", n);
+        printf("Limit per run;   %,d%n", maxSteps);
+        printf("array length;    %,d%n", length);
         double ratio = 100 * log(max(generator.generate(length)), 2.0) / length;
-        printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
+        printf("ratio 100 * m/n; %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
         generator.printDescription(separation);
         printTable(separation, maxSteps, n);
         printExplanation(separation);
@@ -188,7 +188,7 @@ public class Evaluation {
 
     private void printResult(int n, int[] inputLengths, long[] stepSizes) {
         String separation = "---------";
-        printf("number of runs:  %,d%n", n);
+        printf("number of runs;  %,d%n", n);
         generator.printDescription(separation);
         printTable(separation, inputLengths, stepSizes, n);
         printExplanation(separation);

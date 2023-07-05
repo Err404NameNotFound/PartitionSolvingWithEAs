@@ -94,7 +94,7 @@ public class Main {
                     evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
-            case 38 -> BinomialTesting.testBinomialSolutionCount(1000);
+            case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
         }
     }
 
@@ -236,10 +236,10 @@ public class Main {
         }
         System.out.println();
         int digits = 6;
-        printResult("n  : ", (i) -> String.format("%.2f", ns[i]), ns.length, digits);
-        printResult("avg: ", avg, digits);
-        printResult("max: ", max, digits);
-        printResult("min: ", min, digits);
+        printResult("n  ; ", (i) -> String.format("%.2f", ns[i]), ns.length, digits);
+        printResult("avg; ", avg, digits);
+        printResult("max; ", max, digits);
+        printResult("min; ", min, digits);
     }
 
     private static void tryGeneratingWorstCaseInput() {
