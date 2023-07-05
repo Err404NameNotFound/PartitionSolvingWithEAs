@@ -300,7 +300,7 @@ public class BinomialTesting {
     }
 
     public static void testBinomialSolutionCount(int count) {
-        double[] ps = new double[]{0.1, 0.5, 0.9};
+        double[] ps = new double[]{0.2, 0.8};
         int[] lengths = new int[]{10, 12, 14, 16, 18, 20};
         int[] ns = new int[]{10, 100, 1000, 10000};
         startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString()
