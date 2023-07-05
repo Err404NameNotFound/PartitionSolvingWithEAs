@@ -53,12 +53,62 @@ The (1+1) EA variants behave a differently on the first impression as there ever
       }
 \end{algorithm}
 
+\subsection{Random number generation}
+
+Java only provides a random number generator for uniform distributed values for any integer interval or random double values $\in [0,1]$. 
+For this project this does not suffice as for an efficient way of implementing the (1+1) EA or simply for generating a binomial distributed input another random number generator is needed. One of the needed distributions is a binomial distribution. The simplest way to generate a number \textasciitilde$B(m,p)$ would be to run a loop $m$ times and add 1 to the generated number if a uniform random value $\in [0,1]$ is at most $p$. This works perfectly fine and generates numbers according to the distribution. With low values for p this approach is rather inefficient and especially for values of $p=1/m$. The expected value in this case is 1 but generating a random number takes time $\mathcal{O}(n)$. Another more efficient way was implemented by StackOverflow user \href{https://stackoverflow.com/users/2166798/pjs}{pjs} on \href{https://stackoverflow.com/questions/23561551/a-efficient-binomial-random-number-generator-code-in-java}{stackoverflow} inspired by Devroyes method introduced in~\cite{devroye2006nonuniform}. This method has an expected running time of $mp$ which is equal to the expected value of the distribution. For the case of $p=1/m$ this runs in expected constant time in comparison to $\mathcal{O}(n)$ for the naive way. This number generation was also used for the implementation of the (1+1) EA instead of running a for loop in every step.
+
+\begin{algorithm}[bt]
+      \caption{\textsc{Binomial random number generator}}\label{alg:binomialRNG}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+      $q \leftarrow \ln(1.0 - p)$\;
+      $x = 0$\;
+      $sum = 0$\;
+      \While{true}
+      {
+            $sum = sum +\ln(\text{random()}) / (n - x)$\; \tcp{random() generates a random value $\in \left[0, 1\right)$}
+            \If{sum < q}
+            {
+                return $x$\;
+            }
+            $x \leftarrow x + 1$\;
+      }
+\end{algorithm}
+
+The next generator needed is for exponentially distributed values. This generator is only necessary for the generation of exponentially distributed inputs but not for the algorithms itself. The easiest way to generate exponentially distributed values is the naive way: generating a uniform random value until the generated value is greater than the probability. The expected running time of this algorithm is equal to the expected value of the distribution $1/p$. So this method is comparably effective to the approach used for binomial random number generation. 
+
+\begin{algorithm}[bt]
+      \caption{\textsc{Exponential random number generator}}\label{alg:exponentialRNG}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+      $sum = 0$\; \tcp{random() generates a random value $\in \left[0, 1\right)$}
+      \While{\text{random()} < q}
+      {
+            $sum = sum+1$\;
+      }
+      return $sum$\;
+\end{algorithm}
+
+The last generator need is for powerlaw distributed values. This generator is in contrast to the exponential number generator only needed for the algorithm with the $pmut_\beta$ mutation operator. The generator used for all experiments is also from stackoverflow. The user \href{https://stackoverflow.com/users/52738/gnovice}{gnovice} provided the following formula on \href{https://stackoverflow.com/questions/918736/random-number-generator-that-produces-a-power-law-distribution}{this} page on stackoverflow: 
+\[
+      x = {[(b^{n+1} - q^{n+1})*y + a^{n+1}]}^{1/(n+1)}      
+\]
+$a$ is the lower bound, $b$ the upper bound, $n$ the parameter of the distribution and $y$ the number generated uniform random $\in \left[0, 1\right)$. The idea behind the formula and the formula itself is explained in a \text{https://mathworld.wolfram.com/RandomNumber.html}{mathworld} page.
+
+
 \section{Do inputs have perfect partitions?}
 \subsection{Binomial Inputs}
 
-Lemma~\ref{lemma:BinomialSolvable} is only valid for larger n. In practice the bound is much smaller depending on the expected value of a single value. Another factor deciding how likely an input is to have a perfect partition is if n is even or odd. Here is conducted two experiments. The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition. So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{and} n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were generated and tested for a perfect partition. Due to the small values for $n$ it was possible to brute force the results in a short amount of time. The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref{fig:lastBinPercentage}. 
-On the x-axis is the size of the input and on the y-axis the percentage of inputs that had a perfect partition. The different graphs in one figure are for the different values of p uses for generating the inputs. The graph for 0.1 resembles the percentage of inputs that had a perfect partition that were generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure. For figure~\ref{fig:firstBinPercentage} $m=10$.\newline
-It is easy to see that for small inputs sizes it is relevant if n is even or odd as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\%. For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$. So for expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed. Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}). Another visible effect is the decreasing percentage with rising p. This may be a direct result of the value chosen for p but can also be an indirect result as the value for p changes the expected value for a constant m. The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input. For uniform distributed inputs Borgs showed that the coefficient of \#number of bits needed to encode the max value/number of elements has a huge impact on the number of perfect partitions~\cite{borgs2001phase}. For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0. This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input. This leads to the second experiment.
+Lemma~\ref{lemma:BinomialSolvable} is only valid for larger n. In practice the bound is much smaller depending on the expected value of a single value. Another factor deciding how likely an input is to have a perfect partition is if n is even or odd. To determine the influence of both factors two experiments were conducted. The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd. So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were generated and tested for a perfect partition. Due to the small values for $n$ it was possible to brute force the results in a short amount of time. The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref{fig:lastBinPercentage}. 
+On the x-axis is the size of the input and on the y-axis the percentage of inputs that had a perfect partition. The different graphs in one figure resemble the different values of p used for generating the inputs. The graph for 0.1 resembles the percentage of inputs that had a perfect partition that were generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure. For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
+It is easy to see that for small inputs sizes it is relevant if n is even or odd as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$. For uneven inputs the probability of a perfect partition decreases much more drastically with m as for even inputs because the expected value of a single number increases with m. If all values are much higher the small differences between the values can no longer even out the fact of one set has more elements than the other. The oscillation therefore increases with increasing m. For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds lead to at least one out of 1000 having a perfect partition. For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
+Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}). Another visible effect is the decreasing percentage with rising p. This may be a direct result of the value chosen for p but can also be an indirect result as the value for p changes the expected value for a constant m. The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
+For uniform distributed inputs Borgs showed that the coefficient of \#bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}. For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0. This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input. This leads to the second experiment.
 
 \begin{figure}[h]
       \centering
@@ -93,7 +143,7 @@ It is easy to see that for small inputs sizes it is relevant if n is even or odd
 \end{figure}
 
 
-In the second experiment the inputs were generated a bit differently. Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$. With this setup the influence of the expected value is almost isolated from the other parameters. The probability is still linked $p$ as p also influences the variance $mp(1-p)$. By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value. For a fixed expected value and a fixed input size a higher value for $p$ seems to increase the percentage of inputs with a perfect partition. 
+In the second experiment the inputs were generated a bit differently. Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$. With this setup the influence of the expected value is almost isolated from the other parameters. The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$. By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value. For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition. The expected value influences the percentage significantly more. For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$. For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor of 2.
 
 \begin{figure}[h]
       \centering

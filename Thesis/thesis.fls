@@ -740,6 +740,11 @@ INPUT chapters/ExperimentalResults.tex
 INPUT chapters/ExperimentalResults.tex
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmr12.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
+INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/t1lmtt.fd
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmtt10.tfm
 INPUT ./figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png
 INPUT ./figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png
 INPUT figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png
@@ -853,4 +858,5 @@ INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmro10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy6.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy8.pfb
+INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmtt10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb

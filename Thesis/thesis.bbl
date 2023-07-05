@@ -5,6 +5,11 @@ Christian Borgs, Jennifer Chayes, and Boris Pittel.
 \newblock Phase transition and finite-size scaling for the integer partitioning problem.
 \newblock {\em Random Structures \& Algorithms}, 19(3-4):247--288, 2001.
 
+\bibitem[Dev06]{devroye2006nonuniform}
+Luc Devroye.
+\newblock Nonuniform random variate generation.
+\newblock {\em Handbooks in operations research and management science}, 13:83--121, 2006.
+
 \bibitem[Die05]{diekert2005stacs}
 Volker Diekert.
 \newblock {\em STACS 2005: 22nd Annual Symposium on Theoretical Aspects of Computer Science, Stuttgart, Germany, February 24-26, 2004, Proceedings}, volume 3404.
