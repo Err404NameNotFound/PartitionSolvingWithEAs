@@ -12,9 +12,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
+import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.ArrayPrinter.printResult;
+import static help.ArrayPrinter.printResultWithDecimalPoint;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.max;
@@ -48,7 +50,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 19;
+        int selection = 38;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -88,7 +90,16 @@ public class Main {
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
             case 34 ->
                     System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.MIXED_AND_OVERLAPPED, 20)));
+            case 35 ->
+                    evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
+            case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
+            case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
+            case 38 -> BinomialTesting.testBinomialSolutionCount(1000);
         }
+    }
+
+    private static void evaluateSameSolver(int n, int[] lengths, InputGenerator generator) {
+        evaluate(n, generator, lengths, fill(lengths.length, (i) -> 100 * nlogn(lengths[i])), Solver.getEA(3), "EA_3_DiffLengths");
     }
 
     private static void evaluateMultiple(int n, int type, int length) {
@@ -395,9 +406,9 @@ public class Main {
         int idOffset = 1000;
         int id = idOffset;
         ProgressPrinter printer = new ProgressPrinter((long) ns.length * ps.length * inputLengths.length, 1);
-            for (double p : ps) {
-                for (int n : ns) {
-                    for (long length : inputLengths) {
+        for (double p : ps) {
+            for (int n : ns) {
+                for (long length : inputLengths) {
                     bruteForceInputWithStats((int) length, (int) (n / p), p, count, id);
                     printer.printProgressIfNecessary(id - idOffset);
                     ++id;

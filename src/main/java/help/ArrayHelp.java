@@ -4,6 +4,10 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class ArrayHelp {
+
+    public static long[] cast(int[] input){
+        return fill(input.length, (i) -> input[i]);
+    }
     public static int[] findLargestK(long[] arr, int k) {
         Queue<Tuple> queue = new PriorityQueue<>(Tuple::compareTo);
 

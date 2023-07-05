@@ -48,17 +48,17 @@ public class MinMaxAvgEvaluator {
         if (count == 0) {
             println("Nothing to evaluate, because count == 0");
         } else {
-            printf("count: %d%n", count);
-            printf("min  : %d%n", min);
-            printf("max  : %d%n", max);
-            printf("sum  : %d%n", sum);
-            printf("avg  : %d%n", sum / count);
+            printf("count: %,d%n", count);
+            printf("min  : %,d%n", min);
+            printf("max  : %,d%n", max);
+            printf("sum  : %,d%n", sum);
+            printf("avg  : %,d%n", sum / count);
             if (canBeNegative) {
                 println("Stats of absolute values:");
-                printf("min  : %d%n", absMin);
-                printf("max  : %d%n", absMax);
-                printf("sum  : %d%n", absSum);
-                printf("avg  : %d%n", absSum / count);
+                printf("min  : %,d%n", absMin);
+                printf("max  : %,d%n", absMax);
+                printf("sum  : %,d%n", absSum);
+                printf("avg  : %,d%n", absSum / count);
             }
         }
     }

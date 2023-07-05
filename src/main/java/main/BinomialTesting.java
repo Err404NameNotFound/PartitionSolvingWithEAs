@@ -1,6 +1,7 @@
 package main;
 
 import help.MinMaxAvgEvaluator;
+import help.Printer;
 import help.ProgressPrinter;
 
 import java.nio.file.Paths;
@@ -9,10 +10,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import static help.ArrayHelp.cast;
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.printResult;
+import static help.ArrayPrinter.printResultWithDecimalPoint;
 import static help.MathHelp.binomialK;
+import static help.MathHelp.nChooseK;
 import static help.Printer.printf;
 import static help.Printer.println;
 import static help.Printer.setPrintToConsole;
@@ -264,5 +268,70 @@ public class BinomialTesting {
             values[i] -= expected;
         }
         printResult(values, 4);
+    }
+
+    private static int perfectPartitionCount(long[] input) {
+        long sum = Arrays.stream(input).sum();
+        long optimal = sum / 2 + sum % 2;
+        int count = 0;
+        long end = Math.round(Math.pow(2, input.length - 1));
+        for (int i = 0; i < end; ++i) {
+            long current = (i & 1) * input[1];
+            for (int j = 2; j < input.length; ++j) {
+                current += ((i >> (j - 1)) & 1) * input[j];
+            }
+            if (current == optimal) {
+                ++count;
+            }
+        }
+        return 2 * count;
+    }
+
+    public static void testBinomialSolutionCount(int count, int length, int n, double p) {
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
+        ProgressPrinter printer = new ProgressPrinter(count, 10);
+        for (int i = 0; i < count; ++i) {
+            evaluator.insert(perfectPartitionCount(InputGenerator.binomialDistributed(length, n, p)));
+            printer.printProgressIfNecessary(i);
+        }
+        printer.clearProgressAndPrintElapsedTime();
+        evaluator.printEvaluation();
+        System.out.printf("total: %,d", Math.round(Math.pow(2, length)));
+    }
+
+    public static void testBinomialSolutionCount(int count) {
+        double[] ps = new double[]{0.1, 0.5, 0.9};
+        int[] lengths = new int[]{10, 12, 14, 16, 18, 20};
+        int[] ns = new int[]{10, 100, 1000, 10000};
+        startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString() + "_temp.csv");
+        for (double p : ps) {
+            for (int n : ns) {
+                testBinomialSolutionCount(count, lengths, n, p);
+                println("***************");
+            }
+        }
+        stopWritingToFile();
+    }
+
+    public static void testBinomialSolutionCount(int count, int[] lengths, int n, double p) {
+        MinMaxAvgEvaluator[] evaluators = new MinMaxAvgEvaluator[lengths.length];
+        fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
+        long[] possibilities = fill(lengths.length, (i) -> Math.round(Math.pow(2, lengths[i])));
+        long[] possibilitiesHalf = fill(lengths.length, (i) -> nChooseK(lengths[i], lengths[i] / 2));
+        ProgressPrinter printer = new ProgressPrinter(count, 10);
+        for (int i = 0; i < count; ++i) {
+            for (int e = 0; e < lengths.length; ++e) {
+                evaluators[e].insert(perfectPartitionCount(InputGenerator.binomialDistributed(lengths[e], n, p)));
+            }
+            printer.printProgressIfNecessary(i);
+        }
+        printer.clearProgressAndPrintElapsedTime();
+        int digits = (int) getNeededDigits(possibilities, fill(evaluators.length, (i) -> evaluators[i].getSum()));
+        printResult("length:", cast(lengths), digits);
+        MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
+        printResultWithDecimalPoint("total: ", possibilities, digits);
+        printResult("total%:", fill(evaluators.length, (i) -> evaluators[i].getMax()), possibilities, digits);
+        printResultWithDecimalPoint("half01:", possibilitiesHalf, digits);
+        printResult("half01%", fill(evaluators.length, (i) -> evaluators[i].getMax()), possibilitiesHalf, digits);
     }
 }

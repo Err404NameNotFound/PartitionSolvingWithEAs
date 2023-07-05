@@ -18,7 +18,7 @@ public class MathHelp {
 
     public static int exponentialK(int n, double p) {
         int k = 0;
-        while (random.nextDouble() > p && k < n) {
+        while (random.nextDouble() < p && k < n) {
             ++k;
         }
         return k;
@@ -88,11 +88,6 @@ public class MathHelp {
             }
         }
         return max;
-    }
-
-    public static int powerlawK(int bottom, int top, double n) {
-        double y = Math.random();
-        return (int) Math.pow(y * Math.pow(top, (n + 1)) - Math.pow(bottom, n + 1), 1 / (n + 1));
     }
 
     public static int powerlawK(double bottom, double top, double n) {

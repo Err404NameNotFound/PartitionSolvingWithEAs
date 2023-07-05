@@ -5,11 +5,9 @@ import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static help.ArrayHelp.fill;
-import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.log;
@@ -48,6 +46,238 @@ public class Evaluation {
         mutTried = new long[length];
         evaluators = new MinMaxAvgEvaluator[length];
         fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
+    }
+
+    public static Solver evaluate(int n, int type, int length) {
+        return new Evaluation().solveMultiple(n, type, length, null);
+    }
+
+    public static Solver evaluate(int n, int type, int length, Solver[] solvers) {
+        return new Evaluation().solveMultiple(n, type, length, solvers, null);
+    }
+
+    public static Solver evaluate(int n, int type, int length, Solver[] solvers, String postfix) {
+        return new Evaluation().solveMultiple(n, type, length, solvers, postfix);
+    }
+
+    public static Solver evaluate(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
+        return new Evaluation().solveMultiple(n, generator, length, solvers, postfix);
+    }
+
+    public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String postfix) {
+        new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, postfix);
+    }
+
+    private Solver solveMultiple(int n, int type, int length, String postfix) {
+        return solveMultiple(n, type, length, Solver.getComparison(), postfix);
+    }
+
+    private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
+        return solveMultiple(n, InputGenerator.create(type), length, solvers, postfix);
+    }
+
+    private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
+        long steps = 100 * nlogn(length);
+//        long steps = 50 * 1000;
+        long[] maxStepsArray = fill(solvers.length, (i) -> steps);
+        int[] lengthArray = new int[solvers.length];
+        Arrays.fill(lengthArray, length);
+        return solveMultiple(n, lengthArray, maxStepsArray, generator, solvers, postfix, (a) -> printResult(a, length, steps));
+    }
+
+    private void solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver solver, String postfix) {
+        Solver[] solvers = new Solver[inputLengths.length];
+        fill(solvers, (i) -> solver);
+        solveMultiple(n, inputLengths, stepSizes, generator, solvers, postfix, (a) -> printResult(a, inputLengths, stepSizes));
+    }
+
+    private Solver solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix, IResultPrinter resultPrinter) {
+        initialize(solvers);
+        this.generator = generator;
+        runCancellableTask(() ->
+        {
+            String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
+            String startTime = Printer.getTodayAsString();
+            String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
+//            startFilePrinting(folder + startTime + "-res" + append + ".csv");
+            setPrintToConsole(false);
+            int temp = calculate(n, inputLengths, stepSizes, !isPrintToConsole());
+            setPrintToConsole(true);
+            stopWritingToFile();
+            println("***************************");
+            startFilePrinting(folder + startTime + append + ".txt");
+            resultPrinter.printResult(temp);
+            stopWritingToFile();
+            bestSolver = findBestSolver();
+            append = append.equals("") ? "" : append.substring(1);
+            System.out.printf("---------------Evaluation %s complete-------------%n", append);
+        });
+        return solvers[bestSolver];
+    }
+
+    private int findBestSolver() {
+        int best = 0;
+        for (int i = 1; i < solvers.length; ++i) {
+            if (compareSolver(i, best) < 0) {
+                best = i;
+            }
+        }
+        return best;
+    }
+
+    private void evaluateSolution(int i, long[] input, long maxSteps) {
+        Solution sol = solvers[i].solve(input, maxSteps);
+        if (sol.isNotOptimal()) {
+            ++failed[i];
+            failDif[i] += sol.getDif().longValue();
+            print(";fail");
+        } else {
+            long tries = sol.getTries();
+            mut[i] += sol.getFlippedBits();
+            mutSuccess[i] += sol.getChanges();
+            mutTried[i] += sol.getTriedFlips();
+            evaluators[i].insert(sol.getTries());
+            print(";" + tries);
+        }
+    }
+
+    private int calculate(int n, int length, long maxSteps, boolean printProgress) {
+        long[] maxStepsArray = fill(solvers.length, (i) -> maxSteps);
+        int[] lengthArray = new int[solvers.length];
+        Arrays.fill(lengthArray, length);
+        return calculate(n, lengthArray, maxStepsArray, printProgress);
+    }
+
+    private int calculate(int n, int[] lengths, long[] maxSteps, boolean printProgress) {
+        long[] input;
+        ProgressPrinter progress = new ProgressPrinter(n);
+        for (int t = 0; t < n; ++t) {
+            if (Thread.interrupted()) {
+                return t;
+            }
+            print(t);
+            input = generator.generate(lengths[0]);
+            for (int i = 0; i < solvers.length; ++i) {
+                if (input.length != lengths[i]) {
+                    input = generator.generate(lengths[i]);
+                }
+                evaluateSolution(i, input, maxSteps[i]);
+            }
+            println();
+            if (printProgress) {
+                progress.printProgressIfNecessary(t);
+            }
+        }
+        if (printProgress) {
+            progress.clearProgressAndPrintElapsedTime();
+        }
+        return n;
+    }
+
+    private void printResult(int n, int length, long maxSteps) {
+        String separation = "---------";
+        printf("number of runs:  %,d%n", n);
+        printf("Limit per run:   %,d%n", maxSteps);
+        printf("array length:    %,d%n", length);
+        double ratio = 100 * log(max(generator.generate(length)), 2.0) / length;
+        printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
+        generator.printDescription(separation);
+        printTable(separation, maxSteps, n);
+        printExplanation(separation);
+    }
+
+    private void printResult(int n, int[] inputLengths, long[] stepSizes) {
+        String separation = "---------";
+        printf("number of runs:  %,d%n", n);
+        generator.printDescription(separation);
+        printTable(separation, inputLengths, stepSizes, n);
+        printExplanation(separation);
+    }
+
+    private int columnLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
+        long highestMutRate = 1 + 3 + ArrayPrinter.getNeededDigits(getHighestMutationRate(stepSum));
+        long max = ArrayPrinter.getNeededDigits(avg, totalAvg, stepSum, stepMax, stepMin, failed, failDif);
+        max = Math.max(max, highestMutRate);
+        return Math.max(1 + (int) max, 6);
+    }
+
+    private long getHighestMutationRate(long[] stepSum) {
+        long max = -1;
+        for (int i = 0; i < mutTried.length; ++i) {
+            long temp = Math.max(stepSum[i] == 0 ? -1 : mutTried[i] / stepSum[i], mutSuccess[i] == 0 ? -1 : mut[i] / mutSuccess[i]);
+            if (temp > max) {
+                max = temp;
+            }
+        }
+        return max;
+    }
+
+    private void printTable(String separation, long maxSteps, int n) {
+        printTable(separation, null, fill(solvers.length, (i) -> maxSteps), n);
+    }
+
+    private void printTable(String separation, int[] lengths, long[] stepSizes, int n) {
+        long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
+        long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMax());
+        long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
+        for (int i = 0; i < stepSum.length; ++i) {
+            totalAverage[i] = (stepSum[i] + failed[i] * stepSizes[i]) / n;
+            avg[i] = failed[i] == n ? -1 : stepSum[i] / (n - failed[i]);
+            failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
+        }
+        long[] divisors = new long[failed.length];
+        Arrays.fill(divisors, n);
+        int digits = columnLength(avg, totalAverage, stepSum, stepMax, stepMin);
+        println(separation);
+        Integer[] indexes = new Integer[totalAverage.length];
+        fill(indexes, (i) -> i);
+        Arrays.sort(indexes, this::compareSolver);
+
+        if (lengths != null) {
+            long[] castedArray = fill(lengths.length, (i) -> lengths[i]);
+            digits = (int) Math.max(ArrayPrinter.getNeededDigits(max(stepSizes, castedArray)), digits);
+            printRow("Limit per run:   ", stepSizes, indexes, digits);
+            printRow("array length:    ", castedArray, indexes, digits);
+            println(separation);
+        }
+        ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
+        ArrayPrinter.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
+        printRow("avg mut/change:  ", mut, mutSuccess, indexes, digits);
+        printRow("avg mut/step:    ", mutTried, stepSum, indexes, digits);
+        println(separation);
+        printRow("total avg count: ", totalAverage, indexes, digits);
+        printRow("avg eval count:  ", avg, indexes, digits);
+        printRow("max eval count:  ", stepMax, indexes, digits);
+        printRow("min eval count:  ", stepMin, indexes, digits);
+        println(separation);
+        printRow("fails:           ", failed, indexes, digits);
+        printRow("fail ratio:      ", failed, divisors, indexes, digits);
+        printRow("avg fail dif:    ", failDif, indexes, digits);
+    }
+
+    private int compareSolver(int a, int b) {
+        int res = Long.compare(totalAverage[a], totalAverage[b]);
+        return res == 0 ? Long.compare(failDif[a], failDif[b]) : res;
+    }
+
+    private void printRow(String title, long[] values, Integer[] sorting, int digits) {
+        ArrayPrinter.printResult(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
+    }
+
+    private void printRow(String title, long[] values, long[] divisors, Integer[] sorting, int digits) {
+        ArrayPrinter.printResult(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
+                sorting.length, digits);
+    }
+
+    private void printExplanation(String separation) {
+        println(separation);
+        println("RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1");
+        println("RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n");
+        println("RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}");
+        println("EA      -> standard EA : each bit is flipped with prob 1/n");
+        println("EA-SM   -> modified EA : each bit is flipped with prob c/n");
+        println("fmut    -> 1 bit flip with prob p and uniform random amount with 1-p");
+        println("pmut    -> flips k random bits where k is chosen from powerlaw distribution");
     }
 
     private static Evaluation merge(Evaluation... evaluations) {
@@ -107,190 +337,7 @@ public class Evaluation {
         System.out.println("---------------Evaluation complete-------------");
     }
 
-    public static Solver evaluate(int n, int type, int length) {
-        return new Evaluation().solveMultiple(n, type, length, null);
-    }
-
-    public static Solver evaluate(int n, int type, int length, Solver[] solvers) {
-        return new Evaluation().solveMultiple(n, type, length, solvers, null);
-    }
-
-    public static Solver evaluate(int n, int type, int length, String postfix) {
-        return new Evaluation().solveMultiple(n, type, length, postfix);
-    }
-
-    public static Solver evaluate(int n, int type, int length, Solver[] solvers, String postfix) {
-        return new Evaluation().solveMultiple(n, type, length, solvers, postfix);
-    }
-
-    public static Solver evaluate(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
-        return new Evaluation().solveMultiple(n, generator, length, solvers, postfix);
-    }
-
-    private Solver solveMultiple(int n, int type, int length, String postfix) {
-        return solveMultiple(n, type, length, Solver.getComparison(), postfix);
-    }
-
-    private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
-        return solveMultiple(n, InputGenerator.create(type), length, solvers, postfix);
-    }
-
-    private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
-        long steps = 100 * nlogn(length);
-//        long steps = 50 * 1000;
-        initialize(solvers);
-        this.generator = generator;
-        runCancellableTask(() ->
-        {
-            String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
-            String startTime = Printer.getTodayAsString();
-            String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
-//            startFilePrinting(folder + startTime + "-res" + append + ".csv");
-            setPrintToConsole(false);
-            int temp = calculate(n, length, steps, !isPrintToConsole());
-            setPrintToConsole(true);
-            stopWritingToFile();
-            println("***************************");
-            startFilePrinting(folder + startTime + append + ".txt");
-            printResult(temp, length, steps);
-            stopWritingToFile();
-            bestSolver = findBestSolver();
-            append = append.equals("") ? "" : append.substring(1);
-            System.out.printf("---------------Evaluation %s complete-------------%n", append);
-        });
-        return solvers[bestSolver];
-    }
-
-    private int findBestSolver() {
-        int best = 0;
-        for (int i = 1; i < solvers.length; ++i) {
-            if (compareSolver(i, best) < 0) {
-                best = i;
-            }
-        }
-        return best;
-    }
-
-    private int calculate(int n, int length, long maxSteps, boolean printProgress) {
-        long[] input;
-        ProgressPrinter progress = new ProgressPrinter(n);
-        for (int t = 0; t < n; ++t) {
-            if (Thread.interrupted()) {
-                return t;
-            }
-            print(t);
-            input = generator.generate(length);
-            for (int i = 0; i < solvers.length; ++i) {
-                Solution sol = solvers[i].solve(input, maxSteps);
-                if (sol.isNotOptimal()) {
-                    ++failed[i];
-                    failDif[i] += sol.getDif().longValue();
-                    print(";fail");
-                } else {
-                    long tries = sol.getTries();
-                    mut[i] += sol.getFlippedBits();
-                    mutSuccess[i] += sol.getChanges();
-                    mutTried[i] += sol.getTriedFlips();
-                    evaluators[i].insert(sol.getTries());
-                    print(";" + tries);
-                }
-            }
-            println();
-            if (printProgress) {
-                progress.printProgressIfNecessary(t);
-            }
-        }
-        if (printProgress) {
-            progress.clearProgressAndPrintElapsedTime();
-        }
-        return n;
-    }
-
-    private void printResult(int n, int length, long maxSteps) {
-        String separation = "---------";
-        printf("number of runs:  %,d%n", n);
-        printf("Limit per run:   %,d%n", maxSteps);
-        printf("array length:    %,d%n", length);
-        double ratio = 100 * log(max(generator.generate(length)), 2.0) / length;
-        printf("ratio 100 * m/n: %.5f -> %s%n", ratio, ratio > 1.0 ? "hard" : "easy");
-        generator.printDescription(separation);
-        printTable(separation, maxSteps, n);
-        printExplanation(separation);
-    }
-
-
-    private int columnLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
-        long highestMutRate = 1 + 3 + ArrayPrinter.getNeededDigits(getHighestMutationRate(stepSum));
-        long max = ArrayPrinter.getNeededDigits(avg, totalAvg, stepSum, stepMax, stepMin, failed, failDif);
-        max = Math.max(max, highestMutRate);
-        return Math.max(1 + (int) max, 6);
-    }
-
-    private long getHighestMutationRate(long[] stepSum) {
-        long max = -1;
-        for (int i = 0; i < mutTried.length; ++i) {
-            long temp = Math.max(stepSum[i] == 0 ? -1 : mutTried[i] / stepSum[i], mutSuccess[i] == 0 ? -1 : mut[i] / mutSuccess[i]);
-            if (temp > max) {
-                max = temp;
-            }
-        }
-        return max;
-    }
-
-    private void printTable(String separation, long maxSteps, int n) {
-        long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
-        long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMax());
-        long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
-        for (int i = 0; i < stepSum.length; ++i) {
-            totalAverage[i] = (stepSum[i] + failed[i] * maxSteps) / n;
-            avg[i] = failed[i] == n ? -1 : stepSum[i] / (n - failed[i]);
-            failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
-        }
-        long[] divisors = new long[failed.length];
-        Arrays.fill(divisors, n);
-        int digits = columnLength(avg, totalAverage, stepSum, stepMax, stepMin);
-        println(separation);
-        Integer[] indexes = new Integer[totalAverage.length];
-        fill(indexes, (i) -> i);
-        Arrays.sort(indexes, this::compareSolver);
-
-        ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
-        ArrayPrinter.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
-        printRow("avg mut/change:  ", mut, mutSuccess, indexes, digits);
-        printRow("avg mut/step:    ", mutTried, stepSum, indexes, digits);
-        println(separation);
-        printRow("total avg count: ", totalAverage, indexes, digits);
-        printRow("avg eval count:  ", avg, indexes, digits);
-        printRow("max eval count:  ", stepMax, indexes, digits);
-        printRow("min eval count:  ", stepMin, indexes, digits);
-        println(separation);
-        printRow("fails:           ", failed, indexes, digits);
-        printRow("fail ratio:      ", failed, divisors, indexes, digits);
-        printRow("avg fail dif:    ", failDif, indexes, digits);
-    }
-
-    private int compareSolver(int a, int b) {
-        int res = Long.compare(totalAverage[a], totalAverage[b]);
-        return res == 0 ? Long.compare(failDif[a], failDif[b]) : res;
-    }
-
-    private void printRow(String title, long[] values, Integer[] sorting, int digits) {
-        ArrayPrinter.printResult(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
-    }
-
-    private void printRow(String title, long[] values, long[] divisors, Integer[] sorting, int digits) {
-        ArrayPrinter.printResult(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
-                sorting.length, digits);
-    }
-
-    private void printExplanation(String separation) {
-        println(separation);
-        println("RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1");
-        println("RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n");
-        println("RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}");
-        println("EA      -> standard EA : each bit is flipped with prob 1/n");
-        println("EA-SM   -> modified EA : each bit is flipped with prob c/n");
-        println("fmut    -> 1 bit flip with prob p and uniform random amount with 1-p");
-        println("pmut    -> flips k random bits where k is chosen from powerlaw distribution");
+    private interface IResultPrinter {
+        void printResult(int n);
     }
 }
