@@ -210,6 +210,9 @@ public class InputGenerator {
             case EXPONENTIAL_DISTRIBUTED -> "exponential distributed";
             case BINOMIAL_DISTRIBUTED_SHIFT -> "binomial distributed with shift";
             case POWERLAW_DISTRIBUTED -> "powerlaw distributed";
+            case MIXED -> "mixed";
+            case OVERLAPPED -> "overlapped";
+            case MIXED_AND_OVERLAPPED -> "mixed and overlapped";
             default -> "invalid input";
         };
     }

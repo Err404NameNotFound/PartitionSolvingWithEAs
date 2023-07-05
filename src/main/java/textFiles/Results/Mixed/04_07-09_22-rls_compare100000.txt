@@ -2,7 +2,7 @@ number of runs:  1.000
 Limit per run:   115.129.300
 array length:    100.000
 ratio 100 * m/n: 0,01561 -> easy
-input type:      invalid input (11)
+input type:      mixed (11)
 ---------
 algo type:           RLS-R;    RLS-R;    RLS-R;    RLS-N;    RLS-N;      RLS;    RLS-N
 algo param:            r=4;      r=3;      r=2;      n=3;      n=2;        -;      n=4
