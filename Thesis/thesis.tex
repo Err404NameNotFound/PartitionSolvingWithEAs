@@ -77,9 +77,9 @@
 % Only files listed here will be included!
 % Userful command for partially translating the document (for bug-fixing e.g.)
 \includeonly{
-titlepage,
-introduction,
-preliminaries,
+chapters/titlepage,
+chapters/introduction,
+chapters/preliminaries,
 chapters/Chapter2,
 chapters/ExperimentalResults,
 chapters/HeavyTailedMutations,
@@ -131,15 +131,15 @@ I hereby declare that this document has been composed by myself and describes my
 
 \begin{addmargin}{0.5cm}
 
-\centerline{\textbf{Abstract}}
+      \centerline{\textbf{Abstract}}
 
-A short summary of what is going on here.
+      A short summary of what is going on here.
 
-\vskip 2cm
+      \vskip 2cm
 
-\centerline{\textbf{Deutsche Zusammenfassung}}
+      \centerline{\textbf{Deutsche Zusammenfassung}}
 
-Kurze Inhaltsangabe auf deutsch.
+      Kurze Inhaltsangabe auf deutsch.
 
 \end{addmargin}
 
@@ -158,8 +158,8 @@ Kurze Inhaltsangabe auf deutsch.
 
 \mainmatter
 \pagenumbering{arabic}
-\include{introduction}
-\include{preliminaries}
+\include{chapters/introduction}
+\include{chapters/preliminaries}
 \include{chapters/Chapter2}
 \include{chapters/HeavyTailedMutations}
 \include{chapters/ExperimentalResults}
@@ -186,7 +186,7 @@ Kurze Inhaltsangabe auf deutsch.
 %% ----------------
 
 \cleardoublepage
-\input{appendix}
+\input{chapters/appendix}
 
 
 \end{document}

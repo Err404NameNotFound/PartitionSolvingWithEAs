@@ -2,8 +2,8 @@ This is BibTeX, Version 0.99d (TeX Live 2023)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: thesis.aux
 A level-1 auxiliary file: titlepage.aux
-A level-1 auxiliary file: introduction.aux
-A level-1 auxiliary file: preliminaries.aux
+A level-1 auxiliary file: chapters/introduction.aux
+A level-1 auxiliary file: chapters/preliminaries.aux
 A level-1 auxiliary file: chapters/Chapter2.aux
 A level-1 auxiliary file: chapters/HeavyTailedMutations.aux
 A level-1 auxiliary file: chapters/ExperimentalResults.aux
@@ -14,7 +14,7 @@ Reallocated str_pool (elt_size=1) to 130000 items from 65000.
 Reallocated str_pool (elt_size=1) to 195000 items from 130000.
 You've used 4 entries,
             2543 wiz_defined-function locations,
-            8489 strings with 137883 characters,
+            8489 strings with 137901 characters,
 and the built_in function-call counts, 1502 in all, are:
 = -- 146
 > -- 72
