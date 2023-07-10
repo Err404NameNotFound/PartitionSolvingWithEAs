@@ -48,7 +48,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 38;
+        int selection = 39;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -70,8 +70,7 @@ public class Main {
             case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, InputGenerator.OVERLAPPED, 10 * 1000);
-//            case 19 -> evaluateMultiple(1000, InputGenerator.MIXED_AND_OVERLAPPED, 100 * 1000);
+            case 19 -> evaluateMultiple(1000, InputGenerator.MIXED_AND_OVERLAPPED, 100 * 1000);
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
@@ -93,7 +92,19 @@ public class Main {
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
+            case 39 -> temp();
         }
+    }
+
+    private static void temp(){
+        evaluate(1000, new int[]{20,50,100,500,1000,5000,10000}, fill(5, (i) -> 50000),
+                InputGenerator.createBinomial(10000, 0.1),
+                new Solver[]{
+                        Solver.getRLSUniformNeighbour(2),
+                        Solver.getRLSUniformRing(2),
+                        Solver.getEA(3),
+                        Solver.getPmut(-2.5)
+                }, null);
     }
 
     private static void evaluateSameSolver(int n, int[] lengths, InputGenerator generator) {

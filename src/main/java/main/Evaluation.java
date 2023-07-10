@@ -8,6 +8,7 @@ import help.ProgressPrinter;
 import java.util.Arrays;
 
 import static help.ArrayHelp.fill;
+import static help.ArrayHelp.generateIntArray;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.log;
@@ -52,6 +53,15 @@ public class Evaluation {
 
     public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String postfix) {
         new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, postfix);
+    }
+
+    public static Solver evaluate(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix) {
+        Evaluation e = new Evaluation();
+        int[] inputLengths2 = generateIntArray(inputLengths.length * solvers.length, (i) -> inputLengths[i / solvers.length]);
+        long[] stepSizes2 = fill(inputLengths2.length, (i) -> stepSizes[i % stepSizes.length]);
+        Solver[] solvers2 = new Solver[inputLengths2.length];
+        fill(solvers2, (i) -> solvers[i % solvers.length]);
+        return e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, postfix, (a) -> e.printResult(a, inputLengths2, stepSizes2));
     }
 
     private static Evaluation merge(Evaluation... evaluations) {
@@ -293,23 +303,23 @@ public class Evaluation {
         if (lengths != null) {
             long[] castedArray = fill(lengths.length, (i) -> lengths[i]);
             digits = (int) Math.max(ArrayPrinter.getNeededDigits(max(stepSizes, castedArray)), digits);
-            printRow("Limit per run:   ", stepSizes, indexes, digits);
-            printRow("array length:    ", castedArray, indexes, digits);
+            printRow("Limit per run;   ", stepSizes, indexes, digits);
+            printRow("array length;    ", castedArray, indexes, digits);
             println(separation);
         }
-        ArrayPrinter.printResult("algo type:       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
-        ArrayPrinter.printResult("algo param:      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
-        printRow("avg mut/change:  ", mut, mutSuccess, indexes, digits);
-        printRow("avg mut/step:    ", mutTried, stepSum, indexes, digits);
+        ArrayPrinter.printResult("algo type;       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
+        ArrayPrinter.printResult("algo param;      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
+        printRow("avg mut/change;  ", mut, mutSuccess, indexes, digits);
+        printRow("avg mut/step;    ", mutTried, stepSum, indexes, digits);
         println(separation);
-        printRow("total avg count: ", totalAverage, indexes, digits);
-        printRow("avg eval count:  ", avg, indexes, digits);
-        printRow("max eval count:  ", stepMax, indexes, digits);
-        printRow("min eval count:  ", stepMin, indexes, digits);
+        printRow("total avg count; ", totalAverage, indexes, digits);
+        printRow("avg eval count;  ", avg, indexes, digits);
+        printRow("max eval count;  ", stepMax, indexes, digits);
+        printRow("min eval count;  ", stepMin, indexes, digits);
         println(separation);
-        printRow("fails:           ", failed, indexes, digits);
-        printRow("fail ratio:      ", failed, divisors, indexes, digits);
-        printRow("avg fail dif:    ", failDif, indexes, digits);
+        printRow("fails;           ", failed, indexes, digits);
+        printRow("fail ratio;      ", failed, divisors, indexes, digits);
+        printRow("avg fail dif;    ", failDif, indexes, digits);
     }
 
     private int compareSolver(int a, int b) {
