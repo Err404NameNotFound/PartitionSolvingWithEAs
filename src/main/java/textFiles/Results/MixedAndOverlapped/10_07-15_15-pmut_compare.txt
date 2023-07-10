@@ -1,0 +1,27 @@
+number of runs;  1.000
+Limit per run;   115.129.300
+array length;    100.000
+ratio 100 * m/n; 0,01564 -> easy
+input type;      mixed and overlapped (13)
+---------
+algo type:             pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut
+algo param:           -2,50;     -2,25;     -2,75;     -2,00;     -3,25;     -3,00;     -1,75;     -1,50;     -1,25
+avg mut/change:       2,500;     3,777;     2,053;     7,773;     1,622;     1,785;    22,640;    97,028;   310,342
+avg mut/step:         2,914;     4,680;     2,271;    10,908;     1,733;     1,928;    41,606;   222,441;  1196,549
+---------
+total avg count:      1.368;     1.395;     1.418;     1.422;     1.423;     1.428;     1.554;     1.797;     2.493
+avg eval count:       1.368;     1.395;     1.418;     1.422;     1.423;     1.428;     1.554;     1.797;     2.493
+max eval count:       4.195;     4.235;     4.599;     4.348;     4.609;     4.040;     4.775;     5.609;     8.303
+min eval count:         133;        90;        49;        23;        95;        99;        94;       134;        87
+---------
+fails:                    0;         0;         0;         0;         0;         0;         0;         0;         0
+fail ratio:           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
+avg fail dif:            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
