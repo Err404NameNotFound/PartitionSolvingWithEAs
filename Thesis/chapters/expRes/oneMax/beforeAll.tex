@@ -1,0 +1,8 @@
+This kind of input is more or less equivalent to the OneMax problem. All values except the last are either 1 or uniform
+random in any interval. The last value is the sum of all other values. The optimal solution is therefore the 000\dots01 or
+the 111\dots01 string. So the best solution is almost identical to OneMax. In the previous chapter the $\mathcal{O}(nlogn)$ bound was
+proven for the (1+1) EA and the RLS. This seems to hold in practice:
+TODO: insert Graph showing RLS and (1+1) EA need time O(nlogn)
+
+For OneMax the mutation rate of 1/n is proven to be optimal for the (1+1) EA (TODO insert cite). This seems to be also
+true for the equivalent for PARTITION. For Both the (1+1) EA and both new Variants of the RLS
