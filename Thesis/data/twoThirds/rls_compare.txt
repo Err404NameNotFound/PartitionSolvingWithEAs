@@ -1,0 +1,27 @@
+Input; [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 9248, 9248]
+input type;      Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...) (4)
+array length;    10.000
+number of runs;  1.000
+Limit per run;   921.030
+ratio 100 * m/n; 0,13175 -> easy
+---------
+algo type;         RLS-N;  RLS-R;  RLS-R;  RLS-R;  RLS-N;    RLS;  RLS-N
+algo param;          k=3;    k=4;    k=3;    k=2;    k=4;      -;    k=2
+avg mut/change;    3,000;  2,379;  1,985;  1,327;  3,997;  1,000;  1,998
+avg mut/step;      3,000;  2,500;  2,000;  1,500;  4,000;  1,000;  2,000
+---------
+total avg count;   1.436;  1.641;  1.905;  2.856;  4.420;  6.507;  6.693
+avg eval count;    1.436;  1.641;  1.905;  2.856;  4.420;  3.755;  6.693
+max eval count;   12.521; 15.338; 22.394; 26.297; 42.702; 31.837; 74.281
+min eval count;        0;      0;      0;      0;      0;      0;      0
+---------
+fails;                 0;      0;      0;      0;      0;      3;      0
+fail ratio;        0,000;  0,000;  0,000;  0,000;  0,000;  0,003;  0,000
+avg fail dif;         -1;     -1;     -1;     -1;     -1;  4.249;     -1
+---------
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p

@@ -1,0 +1,27 @@
+Input; [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 9248, 9248]
+input type;      Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...) (4)
+array length;    10.000
+number of runs;  1.000
+Limit per run;   921.030
+ratio 100 * m/n; 0,13175 -> easy
+---------
+algo type;           pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut
+algo param;         -1,25;   -1,50;   -1,75;   -2,00;   -2,25;   -2,50;   -2,75;   -3,00;   -3,25
+avg mut/change;   197,675;  69,384;  23,211;   8,999;   4,259;   2,819;   2,133;   1,802;   1,598
+avg mut/step;     226,848;  69,933;  22,429;   8,747;   4,313;   2,911;   2,268;   1,934;   1,725
+---------
+total avg count;       41;      85;     222;     536;     922;   1.368;   1.723;   2.080;   2.339
+avg eval count;        41;      85;     222;     536;     922;   1.368;   1.723;   2.080;   2.339
+max eval count;       226;     682;   2.033;   4.760;   9.749;  16.271;  18.953;  18.794;  25.383
+min eval count;         0;       0;       0;       0;       0;       0;       0;       0;       0
+---------
+fails;                  0;       0;       0;       0;       0;       0;       0;       0;       0
+fail ratio;         0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000
+avg fail dif;          -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1
+---------
+RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
+RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
+EA      -> standard EA ; each bit is flipped with prob 1/n
+EA-SM   -> modified EA ; each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
