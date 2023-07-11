@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,10 +21,21 @@ public class Printer {
     private static BufferedWriter writer;
 
     public static void startFilePrinting(String file) {
+        startFilePrinting(file, false);
+    }
+
+    public static void startFilePrinting(String file, boolean delete) {
         try {
-            boolean didNotExist = new File(file).createNewFile();
+            File f = new File(file);
+            boolean didNotExist = f.createNewFile();
             if (!didNotExist) {
-                System.out.printf("WARNING: file %s already existed%n", file);
+                if (delete) {
+                    try (PrintWriter writer = new PrintWriter(file)) {
+                        writer.print("");
+                    }
+                } else {
+                    System.out.printf("WARNING: file %s already existed%n", file);
+                }
             }
             writer = new BufferedWriter(new FileWriter(file));
             printToFile = true;

@@ -1,17 +1,13 @@
 package main;
 
 import Evaluation.BinomialTesting;
+import Evaluation.ResultsChapterPrinter;
 import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 
-import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Random;
@@ -100,101 +96,8 @@ public class Main {
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
             case 39 -> temp();
-            case 40 -> printCompleteEvaluation();
+            case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
         }
-    }
-
-    private static String convertTxtFileToLatexText(String text) {
-        text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     -> standard RLS"));
-        text = text.replace("---------\n", "\\hline");
-        text = text.replace(';', '&');
-        text = text.replace("\n", "\\\\\n");
-        text = text.replace("\\hline", "\\hline\n");
-        return text;
-    }
-
-    private static String convertFileWithPath(String path) {
-        String text;
-        try {
-            text = Files.readString(Paths.get(path), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return convertTxtFileToLatexText(text);
-    }
-
-    private static int getTableLengthForCSVFile(String file) {
-        int count = 1;
-        int index = 0;
-        while (index < file.length()) {
-            if (file.charAt(index) == '\n') {
-                return count;
-            } else if (file.charAt(index) == '&') {
-                ++count;
-            }
-            ++index;
-        }
-        return count;
-    }
-
-    private static void printTable(String path) {
-        String text = convertFileWithPath(path);
-        StringBuilder builder = new StringBuilder();
-        builder.append("\\begin{tabular}[h]{");
-        builder.append("c".repeat(getTableLengthForCSVFile(text)));
-        builder.append("}\n");
-        builder.append(text);
-        builder.append("\\end{tabular}");
-        System.out.println(builder);
-    }
-
-    private static void printCompleteEvaluation() {
-        createFilesForEvaluation();
-        String[] sections = new String[]{
-                "\\section{Binomial distributed values}", "binomial",
-                "\\section{Exponential distributed values}", "exponential",
-                "\\section{Uniform distributed inputs}", "uniform",
-                "\\section{OneMax Equivalent for PARTITION}", "onemax",
-                "\\section{Carsten Witts worst case input}", "twoThirds",
-                "\\section{Multiple distributions overlapped}", "mixed",
-                "\\section{Multiple distributions mixed}", "overlapped",
-                "\\section{Multiple distributions mixed \\& overlapped}", "mixedAndOverlapped",
-        };
-        String[] subsections = new String[]{
-                "\\subsection{RLS Comparison}", "rls_compare.txt",
-                "\\subsection{(1+1) EA Comparison}", "ea_compare.txt",
-                "\\subsection{pmut Comparison}", "pmut_compare.txt",
-                "\\subsection{Comparison of the best variants}", "best.txt"
-        };
-        for (int i = 0; i < sections.length; i += 2) {
-            System.out.println(sections[i]);
-            for (int e = 0; e < subsections.length; e += 2) {
-                System.out.println(subsections[e]);
-                printTable(PATH_THESIS + "data\\" + sections[i + 1] + "\\" + subsections[e + 1]);
-            }
-        }
-    }
-
-    private static void createFilesForEvaluation() {
-        String[] folders = new String[]{"binomial", "exponential", "uniform", "onemax",
-                "twoThirds", "mixed", "overlapped", "mixedAndOverlapped"};
-        String[] files = new String[]{"beforeAll","beforeRLS","afterRLS","beforeEA","afterEA", "beforePmut", "afterPmut", "beforeBest", "afterBest"};
-        for (String folder : folders) {
-            for (String file : files) {
-                String path = PATH_THESIS + "\\chapters\\expRes\\" + folder + "\\" + file + ".tex";
-                try {
-                    File f = new File(path);
-                    if (!f.exists()) {
-                        f.createNewFile();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                }
-            }
-
-        }
-
     }
 
     private static void temp() {
