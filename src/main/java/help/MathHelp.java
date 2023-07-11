@@ -16,9 +16,9 @@ public class MathHelp {
         return Math.round(x * Math.log(x));
     }
 
-    public static int exponentialK(int n, double p) {
+    public static int geometricK(int n, double p) {
         int k = 0;
-        while (random.nextDouble() < p && k < n) {
+        while (random.nextDouble() >= p && k < n) {
             ++k;
         }
         return k;

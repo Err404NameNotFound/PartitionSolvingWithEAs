@@ -1,4 +1,4 @@
-input type;      exponential distributed (8)
+input type;      geometric distributed (8)
 array length;    1.000
 number of runs;  1.000
 Limit per run;   69.080

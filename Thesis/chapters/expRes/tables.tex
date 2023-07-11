@@ -72,10 +72,10 @@ fail ratio&       0,000& 0,000& 0,000\\
 avg fail dif&        -1&    -1&    -1\\
 \end{tabular}
 \input{chapters/expRes/binomial/afterBest}
-\section{Exponential distributed values}
-\input{chapters/expRes/exponential/beforeAll}
+\section{Geometric distributed values}
+\input{chapters/expRes/geometric/beforeAll}
 \subsection{RLS Comparison}
-\input{chapters/expRes/exponential/beforeRLS}
+\input{chapters/expRes/geometric/beforeRLS}
 \begin{tabular}[h]{cccccccc}
 algo type&         RLS-R&  RLS-R&  RLS-R&  RLS-N&  RLS-N&  RLS-N&    RLS\\
 algo param&          k=2&    k=3&    k=4&    k=2&    k=3&    k=4&      -\\
@@ -91,9 +91,9 @@ fails&                 0&      0&      0&      0&      0&      0&      5\\
 fail ratio&        0,000&  0,000&  0,000&  0,000&  0,000&  0,000&  0,005\\
 avg fail dif&         -1&     -1&     -1&     -1&     -1&     -1&      1\\
 \end{tabular}
-\input{chapters/expRes/exponential/afterRLS}
+\input{chapters/expRes/geometric/afterRLS}
 \subsection{(1+1) EA Comparison}
-\input{chapters/expRes/exponential/beforeEA}
+\input{chapters/expRes/geometric/beforeEA}
 \begin{tabular}[h]{ccccccccc}
 algo type&          EA-SM&      EA&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM\\
 algo param&           2/n&       -&     3/n&     4/n&     5/n&    10/n&    50/n&   100/n\\
@@ -109,9 +109,9 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
-\input{chapters/expRes/exponential/afterEA}
+\input{chapters/expRes/geometric/afterEA}
 \subsection{pmut Comparison}
-\input{chapters/expRes/exponential/beforePmut}
+\input{chapters/expRes/geometric/beforePmut}
 \begin{tabular}[h]{cccccccccc}
 algo type&           pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut\\
 algo param&         -3,25&   -3,00&   -2,50&   -2,75&   -2,25&   -2,00&   -1,75&   -1,50&   -1,25\\
@@ -127,9 +127,9 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
-\input{chapters/expRes/exponential/afterPmut}
+\input{chapters/expRes/geometric/afterPmut}
 \subsection{Comparison of the best variants}
-\input{chapters/expRes/exponential/beforeBest}
+\input{chapters/expRes/geometric/beforeBest}
 \begin{tabular}[h]{cccc}
 algo type&         RLS-R&   pmut&  EA-SM\\
 algo param&          k=2&  -3,25&    2/n\\
@@ -145,7 +145,7 @@ fails&                 0&      0&      0\\
 fail ratio&        0,000&  0,000&  0,000\\
 avg fail dif&         -1&     -1&     -1\\
 \end{tabular}
-\input{chapters/expRes/exponential/afterBest}
+\input{chapters/expRes/geometric/afterBest}
 \section{Uniform distributed inputs}
 \input{chapters/expRes/uniform/beforeAll}
 \subsection{RLS Comparison}
@@ -590,3 +590,4 @@ fail ratio&           0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1\\
 \end{tabular}
 \input{chapters/expRes/mixedAndOverlapped/afterBest}
+test hier steht etwas

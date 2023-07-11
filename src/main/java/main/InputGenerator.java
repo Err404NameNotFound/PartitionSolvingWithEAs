@@ -7,7 +7,7 @@ import java.util.Scanner;
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.MathHelp.binomialK;
-import static help.MathHelp.exponentialK;
+import static help.MathHelp.geometricK;
 import static help.MathHelp.powerlawK;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -17,7 +17,7 @@ import static main.Main.DEFAULT_LOWEST_VALUE;
 import static main.Main.DEFAULT_N;
 import static main.Main.DEFAULT_PMUT_PARAM;
 import static main.Main.DEFAULT_P_BINOMIAL;
-import static main.Main.DEFAULT_P_EXPONENTIAL;
+import static main.Main.DEFAULT_P_GEOMETRIC;
 import static main.Main.DEFAULT_SUM_COUNT;
 
 public class InputGenerator {
@@ -32,7 +32,7 @@ public class InputGenerator {
     public static final int ALL_ONE_EXCEPT_LAST_X_ELEMENTS = 5;
     public static final int ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS = 6;
     public static final int BINOMIAL_DISTRIBUTED = 7;
-    public static final int EXPONENTIAL_DISTRIBUTED = 8;
+    public static final int GEOMETRIC_DISTRIBUTED = 8;
     public static final int BINOMIAL_DISTRIBUTED_SHIFT = 9;
     public static final int POWERLAW_DISTRIBUTED = 10;
     public static final int MIXED = 11;
@@ -55,8 +55,8 @@ public class InputGenerator {
         this(type, generator, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE,
                 type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),
                 DEFAULT_N,
-                type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_EXPONENTIAL,
-                Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_EXPONENTIAL),
+                type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_GEOMETRIC,
+                Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_GEOMETRIC),
                 DEFAULT_PMUT_PARAM);
     }
 
@@ -107,19 +107,19 @@ public class InputGenerator {
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestOne(length, sumCount);
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestUniformRange(length, low, high, sumCount);
             case BINOMIAL_DISTRIBUTED -> binomialDistributed(length, DEFAULT_N, DEFAULT_P_BINOMIAL);
-            case EXPONENTIAL_DISTRIBUTED -> exponentialDistributed(length, DEFAULT_P_EXPONENTIAL, DEFAULT_N);
+            case GEOMETRIC_DISTRIBUTED -> geometricDistributed(length, DEFAULT_P_GEOMETRIC, DEFAULT_N);
             case BINOMIAL_DISTRIBUTED_SHIFT ->
                     binomialDistributedShifted(length, DEFAULT_N, DEFAULT_P_BINOMIAL, DEFAULT_BINOMIAL_SHIFT);
             case POWERLAW_DISTRIBUTED ->
                     powerlawDistributed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_PMUT_PARAM);
             case MIXED -> mixed(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
-                    DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+                    DEFAULT_P_GEOMETRIC, DEFAULT_PMUT_PARAM);
             case OVERLAPPED ->
                     overlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
-                            DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+                            DEFAULT_P_GEOMETRIC, DEFAULT_PMUT_PARAM);
             case MIXED_AND_OVERLAPPED ->
                     mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
-                            DEFAULT_P_EXPONENTIAL, DEFAULT_PMUT_PARAM);
+                            DEFAULT_P_GEOMETRIC, DEFAULT_PMUT_PARAM);
             default -> null;
         };
     }
@@ -141,7 +141,7 @@ public class InputGenerator {
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS ->
                     "uniform random values from given range except last x fields as sum of all other fields";
             case BINOMIAL_DISTRIBUTED -> "binomial distributed";
-            case EXPONENTIAL_DISTRIBUTED -> "exponential distributed";
+            case GEOMETRIC_DISTRIBUTED -> "geometric distributed";
             case BINOMIAL_DISTRIBUTED_SHIFT -> "binomial distributed with shift";
             case POWERLAW_DISTRIBUTED -> "powerlaw distributed";
             case MIXED -> "mixed";
@@ -201,8 +201,8 @@ public class InputGenerator {
         return fill(length, (i) -> binomialK(n, p));
     }
 
-    public static long[] exponentialDistributed(int length, double p, int highestVal) {
-        return fill(length, (i) -> exponentialK(highestVal, p));
+    public static long[] geometricDistributed(int length, double p, int highestVal) {
+        return fill(length, (i) -> geometricK(highestVal, p));
     }
 
     public static long[] binomialDistributedShifted(int length, int n, double p, long shift) {
@@ -214,7 +214,7 @@ public class InputGenerator {
     }
 
     private static long overlappedValue(double bottom, double top, double pBin, int nBin, double pExp, double nPmut) {
-        return RANDOM.nextInt((int) bottom, (int) top) + binomialK(nBin, pBin) + exponentialK((int) top, pExp)
+        return RANDOM.nextInt((int) bottom, (int) top) + binomialK(nBin, pBin) + geometricK((int) top, pExp)
                 + powerlawK(bottom, top, nPmut);
     }
 
@@ -222,7 +222,7 @@ public class InputGenerator {
         return switch (index) {
             case 0 -> RANDOM.nextInt((int) bottom, (int) top);
             case 1 -> binomialK(nBin, pBin);
-            case 2 -> exponentialK((int) top, pExp);
+            case 2 -> geometricK((int) top, pExp);
             case 3 -> powerlawK(bottom, top, nPmut);
             default -> overlappedValue(bottom, top, pBin, nBin, pExp, nPmut);
         };
@@ -282,7 +282,7 @@ public class InputGenerator {
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
             case BINOMIAL_DISTRIBUTED -> "Binomial";
-            case EXPONENTIAL_DISTRIBUTED -> "Exponential";
+            case GEOMETRIC_DISTRIBUTED -> "Geometric";
             case MIXED -> "Mixed";
             case OVERLAPPED -> "Overlapped";
             case MIXED_AND_OVERLAPPED -> "MixedAndOverlapped";

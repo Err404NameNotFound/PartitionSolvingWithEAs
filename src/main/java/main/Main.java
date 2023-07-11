@@ -13,6 +13,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+import static Evaluation.Evaluation.evaluate;
+import static Evaluation.Evaluation.evaluateParallel;
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
@@ -23,7 +25,6 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
-import static help.Printer.PATH_THESIS;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -31,8 +32,6 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static Evaluation.Evaluation.evaluate;
-import static Evaluation.Evaluation.evaluateParallel;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -45,13 +44,13 @@ public class Main {
     public static final int DEFAULT_SUM_COUNT = 100;
     public static final int DEFAULT_N = 10000;
     public static final double DEFAULT_P_BINOMIAL = 0.1;
-    public static final double DEFAULT_P_EXPONENTIAL = 0.001;
+    public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -2.75;
 
 
     public static void main(String[] args) {
-        int selection = 40;
+        int selection = 19;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -62,7 +61,7 @@ public class Main {
             case 6 -> BinomialTesting.testRandomBinomial(100000000, 1000);
             case 7 -> BinomialTesting.printBinomialDistribution(10000, 10000000, 0.0001);
             case 8 -> testRandomNextBoolean();
-            case 9 -> evaluateMultiple(3, 2, 1000);
+            case 9 -> evaluateMultiple(3, InputGenerator.ALL_SAME_AND_LAST_SUM, 1000, "onemaxOne");
             case 10 ->
                     evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
             case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
@@ -73,7 +72,7 @@ public class Main {
             case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, InputGenerator.MIXED_AND_OVERLAPPED, 100 * 1000);
+            case 19 -> evaluateMultiple(1000, InputGenerator.GEOMETRIC_DISTRIBUTED, 10 * 1000, "geometric");
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
@@ -89,7 +88,7 @@ public class Main {
             case 32 -> BinomialTesting.printBinomialDistribution(100 * 1000 * 1000, 1000 * 1000, 0.000003);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
             case 34 ->
-                    System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.MIXED_AND_OVERLAPPED, 20)));
+                    System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.GEOMETRIC_DISTRIBUTED, 20)));
             case 35 ->
                     evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
@@ -115,12 +114,12 @@ public class Main {
         evaluate(n, generator, lengths, fill(lengths.length, (i) -> 100 * nlogn(lengths[i])), Solver.getEA(3), "EA_3_DiffLengths");
     }
 
-    private static void evaluateMultiple(int n, int type, int length) {
+    private static void evaluateMultiple(int n, int type, int length, String postfixBest) {
         Solver[] solvers = new Solver[3];
         solvers[0] = evaluate(n, type, length, Solver.getRLSComparison(), "rls_compare");
         solvers[1] = evaluate(n, type, length, Solver.getEAComparison(), "ea_compare");
         solvers[2] = evaluate(n, type, length, Solver.getPmutComparison(), "pmut_compare");
-        Solver best = evaluate(n, type, length, solvers, "T_comparingBest");
+        Solver best = evaluate(n, type, length, solvers, postfixBest);
         System.out.printf("+++++++++ %d: %s -> %s +++++++++%n", type, Arrays.toString(solvers), best);
     }
 
@@ -134,13 +133,13 @@ public class Main {
                 100 * 1000,     // multi sum one
                 10 * 1000,      // multi sum range
                 10 * 1000,      // binomial
-                10 * 1000,      // exponential
+                10 * 1000,      // geometric
                 10 * 1000,      // binomial shifted
                 20 * 1000,      // power law distributed
         };
         setPrintToConsole(false);
         for (int i = start; i < inputLengths.length; ++i) {
-            evaluateMultiple(n, i, inputLengths[i]);
+            evaluateMultiple(n, i, inputLengths[i], "");
         }
         setPrintToConsole(true);
     }

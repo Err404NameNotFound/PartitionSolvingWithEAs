@@ -76,23 +76,23 @@ Java only provides a random number generator for uniform distributed values for 
       }
 \end{algorithm}
 
-The next generator needed is for exponentially distributed values. This generator is only necessary for the generation of exponentially distributed inputs but not for the algorithms itself. The easiest way to generate exponentially distributed values is the naive way: generating a uniform random value until the generated value is at least as big as the probability. The expected running time of this algorithm is equal to the expected value of the distribution $1/p$. So this method is comparably effective to the approach used for binomial random number generation.
+The next generator needed is for geometric distributed values. This generator is only necessary for the generation of geometric distributed inputs but not for the algorithms itself. The easiest way to generate geometric distributed values is the naive way: generating a uniform random value until the generated value is at least as big as the probability. The expected running time of this algorithm is equal to the expected value of the distribution $1/p$. So this method is comparably effective to the approach used for binomial random number generation.
 
 \begin{algorithm}[h]
-      \caption{\textsc{Exponential random number generator}}\label{alg:exponentialRNG}
+      \caption{\textsc{Geometric random number generator}}\label{alg:geometricRNG}
 
       % Some settings
       \DontPrintSemicolon %dontprintsemicolon
       \SetFuncSty{textsc}
       $sum \leftarrow 0$\; \tcp{random() generates a random value $\in \left[0, 1\right)$}
-      \While{\text{random()} < q}
+      \While{\text{random()} $\ge$ q}
       {
             $sum \leftarrow sum+1$\;
       }
       return $sum$\;
 \end{algorithm}
 
-The last generator needed is for powerlaw distributed values. This generator is in contrast to the exponential number generator only needed for the algorithm with the $pmut_\beta$ mutation operator. This implementation is also from stackoverflow. The user \href{https://stackoverflow.com/users/52738/gnovice}{gnovice} provided the following formula on \href{https://stackoverflow.com/questions/918736/random-number-generator-that-produces-a-power-law-distribution}{this} page on stackoverflow:
+The last generator needed is for powerlaw distributed values. This generator is in contrast to the geometric number generator only needed for the algorithm with the $pmut_\beta$ mutation operator. This implementation is also from stackoverflow. The user \href{https://stackoverflow.com/users/52738/gnovice}{gnovice} provided the following formula on \href{https://stackoverflow.com/questions/918736/random-number-generator-that-produces-a-power-law-distribution}{this} page on stackoverflow:
 \[
       x = {[(b^{n+1} - q^{n+1})*y + a^{n+1}]}^{1/(n+1)}
 \]
@@ -200,3 +200,5 @@ The last experiment showed that for $n=20$ 1000/1000 inputs had a perfect partit
 % BEGIN RESULTS
 
 \input{chapters/expRes/tables.tex}
+
+\subsection{Conclusion of empirical results}
