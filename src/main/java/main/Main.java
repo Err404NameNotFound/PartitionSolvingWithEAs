@@ -1,10 +1,12 @@
 package main;
 
+import Evaluation.BinomialTesting;
 import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -33,8 +35,8 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static main.Evaluation.evaluate;
-import static main.Evaluation.evaluateParallel;
+import static Evaluation.Evaluation.evaluate;
+import static Evaluation.Evaluation.evaluateParallel;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -147,6 +149,7 @@ public class Main {
     }
 
     private static void printCompleteEvaluation() {
+        createFilesForEvaluation();
         String[] sections = new String[]{
                 "\\section{Binomial distributed values}", "binomial",
                 "\\section{Exponential distributed values}", "exponential",
@@ -170,6 +173,28 @@ public class Main {
                 printTable(PATH_THESIS + "data\\" + sections[i + 1] + "\\" + subsections[e + 1]);
             }
         }
+    }
+
+    private static void createFilesForEvaluation() {
+        String[] folders = new String[]{"binomial", "exponential", "uniform", "onemax",
+                "twoThirds", "mixed", "overlapped", "mixedAndOverlapped"};
+        String[] files = new String[]{"beforeAll","beforeRLS","afterRLS","beforeEA","afterEA", "beforePmut", "afterPmut", "beforeBest", "afterBest"};
+        for (String folder : folders) {
+            for (String file : files) {
+                String path = PATH_THESIS + "\\chapters\\expRes\\" + folder + "\\" + file + ".tex";
+                try {
+                    File f = new File(path);
+                    if (!f.exists()) {
+                        f.createNewFile();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    throw new RuntimeException();
+                }
+            }
+
+        }
+
     }
 
     private static void temp() {

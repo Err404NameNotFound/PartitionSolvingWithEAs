@@ -109,7 +109,7 @@ public class Solver {
         };
     }
 
-    Solution solve(long[] values, long maxSteps) {
+    public Solution solve(long[] values, long maxSteps) {
         return solver.solve(values, maxSteps);
     }
 

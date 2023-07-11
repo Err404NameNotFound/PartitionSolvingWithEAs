@@ -1,8 +1,12 @@
-package main;
+package Evaluation;
 
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
+import main.InputGenerator;
+import main.Main;
+import main.PartitionSolver;
+import main.Solution;
 
 import java.nio.file.Paths;
 import java.time.LocalDateTime;

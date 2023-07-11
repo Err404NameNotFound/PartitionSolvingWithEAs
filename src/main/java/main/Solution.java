@@ -132,7 +132,7 @@ public class Solution {
         dif = dif(sum);
     }
 
-    boolean isNotOptimal(long maxSteps) {
+    public boolean isNotOptimal(long maxSteps) {
         if (sum.equals(optimalValue)) {
             return false;
         } else if (!sumIsEven && sum.subtract(optimalValue).equals(BigInteger.ONE)) {
@@ -147,7 +147,7 @@ public class Solution {
         return !isNotOptimal();
     }
 
-    boolean isNotOptimal() {
+    public boolean isNotOptimal() {
         if (sum.equals(optimalValue)) {
             return false;
         } else if (!sumIsEven && sum.subtract(optimalValue).equals(BigInteger.ONE)) {
