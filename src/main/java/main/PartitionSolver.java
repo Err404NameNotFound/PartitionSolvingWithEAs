@@ -254,7 +254,7 @@ public class PartitionSolver {
                 while (k < stepSizes.length && stepSizes[k] < r) {
                     ++k;
                 }
-                return k;
+                return k + 1;
             }
         }
     }

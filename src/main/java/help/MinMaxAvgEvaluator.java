@@ -1,6 +1,5 @@
 package help;
 
-import static help.ArrayPrinter.printResult;
 import static help.Printer.printf;
 import static help.Printer.println;
 
@@ -38,24 +37,24 @@ public class MinMaxAvgEvaluator {
     }
 
     private static void printSum(String sum, int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult(sum, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
+        ArrayPrinter.printArray(sum, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].sum), evaluators.length, digits);
 
     }
 
     private static void printCount(String count, int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult(count, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].count), evaluators.length, digits);
+        ArrayPrinter.printArray(count, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].count), evaluators.length, digits);
     }
 
     private static void printMin(String min, int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult(min, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
+        ArrayPrinter.printArray(min, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].min), evaluators.length, digits);
     }
 
     private static void printMax(String max, int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult(max, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
+        ArrayPrinter.printArray(max, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", evaluators[i].max), evaluators.length, digits);
     }
 
     private static void printAvg(String avg, int digits, MinMaxAvgEvaluator... evaluators) {
-        printResult(avg, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
+        ArrayPrinter.printArray(avg, (i) -> evaluators[i].count == 0 ? "-" : String.format("%,d", Math.round((float) evaluators[i].sum / evaluators[i].count)), evaluators.length, digits);
     }
 
     public void insert(long value) {

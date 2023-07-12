@@ -40,55 +40,75 @@ public class ArrayPrinter {
         println("]");
     }
 
-    public static void printResult(String before, long[] result, int digits) {
-        print(before);
-        printResult(result, digits);
+    public static void printArray(long[] input) {
+        printArray(i -> String.valueOf(input[i]), input.length);
     }
 
-    public static void printResultWithDecimalPoint(String before, long[] result, int digits) {
-        print(before);
-        printResultWithDecimalPoint(result, digits);
+    public static void printArray(int[] input) {
+        printArray(i -> String.valueOf(input[i]), input.length);
     }
 
-    public static void printResult(String before, Solver[] solvers, int digits) {
+    public static void printArray(long[] input, int[] sorting) {
+        printArray(i -> String.valueOf(input[sorting[i]]), sorting.length);
+    }
+
+    public static void printArray(String before, long[] result, int digits) {
+        print(before);
+        printArray(result, digits);
+    }
+
+    public static void printArrayWithDecimalPoint(String before, long[] result, int digits) {
+        print(before);
+        printArrayWithDecimalPoint(result, digits);
+    }
+
+    public static void printArray(String before, Solver[] solvers, int digits) {
         print(before);
         printSolverDescription(solvers, digits);
     }
 
-    public static void printResult(String before, long[] result, long[] count, int digits) {
+    public static void printArray(String before, long[] result, long[] count, int digits) {
         print(before);
-        printResult(result, count, digits);
+        printArray(result, count, digits);
     }
 
-    public static void printResult(long[] result, int digits) {
-        printResult(i -> String.valueOf(result[i]), result.length, digits);
+    public static void printArray(long[] result, int digits) {
+        printArray(i -> String.valueOf(result[i]), result.length, digits);
     }
 
-    public static void printResultWithDecimalPoint(long[] result, int digits) {
-        printResult(i -> String.format("%,d", result[i]), result.length, digits);
+    public static void printArrayWithDecimalPoint(long[] result, int digits) {
+        printArray(i -> String.format("%,d", result[i]), result.length, digits);
     }
 
-    public static void printResult(long[] result, long[] count, int digits) {
-        printResult(i -> String.format("%.3f", ((double) result[i]) / count[i]), result.length, digits);
+    public static void printArray(long[] result, long[] count, int digits) {
+        printArray(i -> String.format("%.3f", ((double) result[i]) / count[i]), result.length, digits);
     }
 
     public static void printSolverDescription(Solver[] solvers, int digits) {
-        printResult(i -> solvers[i].description, solvers.length, digits);
+        printArray(i -> solvers[i].description, solvers.length, digits);
     }
 
-    public static void printResult(String before, String[] strings, int digits) {
-        printResult(before, i -> strings[i], strings.length, digits);
+    public static void printArray(String before, String[] strings, int digits) {
+        printArray(before, i -> strings[i], strings.length, digits);
     }
 
-    public static void printResult(String before, Array array, int length, int digits) {
+    public static void printArray(String before, Array array, int length, int digits) {
         print(before);
-        printResult(array, length, digits);
+        printArray(array, length, digits);
     }
 
-    public static void printResult(Array array, int length, int digits) {
+    public static void printArray(Array array, int length, int digits) {
         printf("%" + digits + "s", array.get(0));
         for (int i = 1; i < length; ++i) {
             printf(";%" + digits + "s", array.get(i));
+        }
+        println();
+    }
+
+    public static void printArray(Array array, int length) {
+        printf("%s", array.get(0));
+        for (int i = 1; i < length; ++i) {
+            printf(";%s", array.get(i));
         }
         println();
     }

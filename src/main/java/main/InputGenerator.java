@@ -51,6 +51,7 @@ public class InputGenerator {
     private final Generator generator;
     private final boolean outputConstant;
     private long[] output;
+
     private InputGenerator(int type, Generator generator) {
         this(type, generator, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE,
                 type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),

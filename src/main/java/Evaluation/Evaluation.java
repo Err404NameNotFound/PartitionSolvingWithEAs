@@ -1,5 +1,6 @@
 package Evaluation;
 
+import help.ArrayHelp;
 import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 import static help.ArrayHelp.fill;
 import static help.ArrayHelp.generateIntArray;
+import static help.ArrayPrinter.printArray;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.log;
@@ -262,6 +264,37 @@ public class Evaluation {
         generator.printDescription(separation);
         printTable(separation, inputLengths, stepSizes, n);
         printExplanation(separation);
+        String file = Printer.getCurrenFileName().replace("txt", "csv");
+        stopWritingToFile();
+        startFilePrinting(file);
+        printCsvForMultipleN(inputLengths);
+    }
+
+    private void printCsvForMultipleN(int[] inputLengths) {
+        int solverCount = 1;
+        while (solverCount < solvers.length && solvers[solverCount] != solvers[0]) {
+            ++solverCount;
+        }
+        int finalSolverCount = solverCount;
+        int[] lengths = generateIntArray(solvers.length / solverCount, (i) -> inputLengths[i * finalSolverCount]);
+        int[][] indexes = new int[solverCount][];
+        for (int i = 0; i < solverCount; ++i) {
+            long finalI = i;
+            indexes[i] = ArrayHelp.generateIntArray(lengths.length, (a) -> finalI * finalSolverCount + a);
+        }
+        printPartialCsvForMultipleN(solverCount, lengths, avg, indexes);
+        printPartialCsvForMultipleN(solverCount, lengths, failed, indexes);
+        printPartialCsvForMultipleN(solverCount, lengths, totalAverage, indexes);
+    }
+
+    private void printPartialCsvForMultipleN(int solverCount, int[] lengths, long[] values, int[][] indexes) {
+        print(";");
+        printArray(lengths);
+        for (int i = 0; i < solverCount; ++i) {
+            print(solvers[i].fullName + ";");
+            printArray(values, indexes[i]);
+        }
+        println();
     }
 
     private int columnLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
@@ -310,8 +343,8 @@ public class Evaluation {
             printRow("array length;    ", castedArray, indexes, digits);
             println(separation);
         }
-        ArrayPrinter.printResult("algo type;       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
-        ArrayPrinter.printResult("algo param;      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
+        printArray("algo type;       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
+        printArray("algo param;      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
         printRow("avg mut/change;  ", mut, mutSuccess, indexes, digits);
         printRow("avg mut/step;    ", mutTried, stepSum, indexes, digits);
         println(separation);
@@ -331,11 +364,11 @@ public class Evaluation {
     }
 
     private void printRow(String title, long[] values, Integer[] sorting, int digits) {
-        ArrayPrinter.printResult(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
+        printArray(title, (i) -> String.format("%,d", values[sorting[i]]), sorting.length, digits);
     }
 
     private void printRow(String title, long[] values, long[] divisors, Integer[] sorting, int digits) {
-        ArrayPrinter.printResult(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
+        printArray(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
                 sorting.length, digits);
     }
 

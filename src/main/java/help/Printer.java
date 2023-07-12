@@ -19,6 +19,7 @@ public class Printer {
     private static boolean printToConsole = true;
     private static boolean printToFile = false;
     private static BufferedWriter writer;
+    private static String path;
 
     public static void startFilePrinting(String file) {
         startFilePrinting(file, false);
@@ -39,6 +40,7 @@ public class Printer {
             }
             writer = new BufferedWriter(new FileWriter(file));
             printToFile = true;
+            path = file;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -48,6 +50,7 @@ public class Printer {
     public static void stopWritingToFile() {
         if (printToFile) {
             printToFile = false;
+            path = null;
             try {
                 writer.close();
                 writer = null;
@@ -77,6 +80,10 @@ public class Printer {
         if (writer != null) {
             printToFile = true;
         }
+    }
+
+    public static String getCurrenFileName() {
+        return path;
     }
 
     public static boolean isPrintToConsole() {

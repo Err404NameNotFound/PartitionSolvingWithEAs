@@ -39,9 +39,9 @@ public class ArrayHelp {
         values[j] = help;
     }
 
-    public static int[] generateIntArray(int length, NumberGenerator generator){
+    public static int[] generateIntArray(int length, NumberGenerator generator) {
         int[] ret = new int[length];
-        for (int i = 0;i<ret.length;++i){
+        for (int i = 0; i < ret.length; ++i) {
             ret[i] = (int) generator.generate(i);
         }
         return ret;

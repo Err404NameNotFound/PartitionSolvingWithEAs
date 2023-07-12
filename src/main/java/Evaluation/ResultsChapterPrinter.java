@@ -45,27 +45,33 @@ public class ResultsChapterPrinter {
             "beforePmut", "afterPmut", "beforeBest", "afterBest"
     };
 
-    private static void printTable(String path) {
+    private static void printTable(String path, boolean wrapTable) {
         String text = convertFileWithPath(path);
         String content = "\\begin{tabular}[h]{" +
                 "c".repeat(getTableLengthForCSVFile(text)) +
                 "}\n" +
                 text +
                 "\\end{tabular}";
+        if (wrapTable) {
+            content = "\\begin{wraptable}\n" + content + "\\end{wraptable}\n";
+        }
         println(content);
     }
 
     public static void printCompleteEvaluation() {
-        startFilePrinting(PATH_THESIS+"chapters/expRes/tables.tex", true);
+        startFilePrinting(PATH_THESIS + "chapters/expRes/tables.tex", true);
         createFilesForEvaluation();
         for (int i = 0; i < SECTIONS.length; ++i) {
             println(SECTIONS[i]);
             int remainingTextIndex = 0;
-            includeTexFile(i,0);
+            includeTexFile(i, 0);
             for (int e = 0; e < SUBSECTIONS.length; ++e) {
                 println(SUBSECTIONS[e]);
                 includeTexFile(i, ++remainingTextIndex);
-                printTable(PATH_THESIS + "data\\" + FOLDERS[i] + "\\" + RESULTS_FILE_NAMES[e]);
+                println();
+                printTable(PATH_THESIS + "data\\" + FOLDERS[i] + "\\" + RESULTS_FILE_NAMES[e],
+                        e == SUBSECTIONS.length - 1);
+                println();
                 includeTexFile(i, ++remainingTextIndex);
             }
         }
@@ -73,7 +79,7 @@ public class ResultsChapterPrinter {
         stopWritingToFile();
     }
 
-    private static void includeTexFile(int folder, int file){
+    private static void includeTexFile(int folder, int file) {
         println("\\input{chapters/expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + "}");
     }
 

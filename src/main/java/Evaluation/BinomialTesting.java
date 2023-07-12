@@ -1,5 +1,6 @@
 package Evaluation;
 
+import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
@@ -17,8 +18,7 @@ import java.util.Comparator;
 import static help.ArrayHelp.cast;
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.getNeededDigits;
-import static help.ArrayPrinter.printResult;
-import static help.ArrayPrinter.printResultWithDecimalPoint;
+import static help.ArrayPrinter.printArrayWithDecimalPoint;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.nChooseK;
 import static help.Printer.printf;
@@ -83,8 +83,8 @@ public class BinomialTesting {
         System.out.println("avg: " + (sumAbs / t));
         long[] countsM = new long[counts.length];
         fill(countsM, (i) -> (long) i * intervallLength);
-        printResult(countsM, 5);
-        printResult(counts, 5);
+        ArrayPrinter.printArray(countsM, 5);
+        ArrayPrinter.printArray(counts, 5);
     }
 
     private static int calculateRange(long[] input, long expected) {
@@ -116,12 +116,12 @@ public class BinomialTesting {
         fill(values, (i) -> offset + i);
         int digits = (int) getNeededDigits(amount, values);
         System.out.printf("n;      %,d%np;      %.3f%nexp;    %,d%n", n, p, expected);
-        printResult("value;  ", values, digits);
-        printResult("count;  ", amount, digits);
+        ArrayPrinter.printArray("value;  ", values, digits);
+        ArrayPrinter.printArray("count;  ", amount, digits);
         for (int i = 0; i < values.length; ++i) {
             values[i] -= expected;
         }
-        printResult("offset; ", values, digits);
+        ArrayPrinter.printArray("offset; ", values, digits);
     }
 
     public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
@@ -228,16 +228,16 @@ public class BinomialTesting {
         }
         String[] temp = new String[]{"dif from expected val", "dif from opt (fail)", "steps count (success)"};
         int digits = Arrays.stream(temp).max(Comparator.comparingInt(String::length)).get().length();
-        printResult("desc : ", (i) -> temp[i], temp.length, digits);
+        ArrayPrinter.printArray("desc : ", (i) -> temp[i], temp.length, digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluator, evalDif, evalSteps);
         if (countRLSN_fail > 0) {
             printf("RLS-N(2) did not find a solution but EA-SM(3/n): %d%n", countRLSN_fail);
             if (Arrays.stream(failed_BitFlipAmountNecessary).sum() > 0) {
                 digits = 4;
-                printResult("Bits that needed to be flipped when dif > 0: ", (i) -> i < changedBitMax ? String.valueOf(i) : changedBitMax + "+", failed_BitFlipAmountNecessary.length, digits);
-                printResult("                                      Count: ", failed_BitFlipAmountNecessary, digits);
-                printResult("Necessary amount of changes when dif > 0:    ", (i) -> i < changedNeededMax ? String.valueOf(i) : changedNeededMax + "+", failed_ChangesNecessary.length, digits);
-                printResult("                                      Count: ", failed_ChangesNecessary, digits);
+                ArrayPrinter.printArray("Bits that needed to be flipped when dif > 0: ", (i) -> i < changedBitMax ? String.valueOf(i) : changedBitMax + "+", failed_BitFlipAmountNecessary.length, digits);
+                ArrayPrinter.printArray("                                      Count: ", failed_BitFlipAmountNecessary, digits);
+                ArrayPrinter.printArray("Necessary amount of changes when dif > 0:    ", (i) -> i < changedNeededMax ? String.valueOf(i) : changedNeededMax + "+", failed_ChangesNecessary.length, digits);
+                ArrayPrinter.printArray("                                      Count: ", failed_ChangesNecessary, digits);
             }
         }
         if (countDouble_fail > 0) {
@@ -265,13 +265,13 @@ public class BinomialTesting {
         }
         long[] values = new long[amount0.length];
         fill(values, (i) -> offset + i);
-        printResult(values, 4);
-        printResult(amount0, 4);
-        printResult(amount1, 4);
+        ArrayPrinter.printArray(values, 4);
+        ArrayPrinter.printArray(amount0, 4);
+        ArrayPrinter.printArray(amount1, 4);
         for (int i = 0; i < values.length; ++i) {
             values[i] -= expected;
         }
-        printResult(values, 4);
+        ArrayPrinter.printArray(values, 4);
     }
 
     private static int perfectPartitionCount(long[] input) {
@@ -337,11 +337,11 @@ public class BinomialTesting {
         }
         printer.clearProgressAndPrintElapsedTime();
         int digits = (int) getNeededDigits(possibilities, fill(evaluators.length, (i) -> evaluators[i].getSum()));
-        printResult("length:", cast(lengths), digits);
+        ArrayPrinter.printArray("length:", cast(lengths), digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
-        printResultWithDecimalPoint("total: ", possibilities, digits);
-        printResult("total%:", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilities, digits);
-        printResultWithDecimalPoint("half01:", possibilitiesHalf, digits);
-        printResult("half01%", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilitiesHalf, digits);
+        printArrayWithDecimalPoint("total: ", possibilities, digits);
+        ArrayPrinter.printArray("total%:", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilities, digits);
+        printArrayWithDecimalPoint("half01:", possibilitiesHalf, digits);
+        ArrayPrinter.printArray("half01%", fill(evaluators.length, (i) -> evaluators[i].getAvg()), possibilitiesHalf, digits);
     }
 }

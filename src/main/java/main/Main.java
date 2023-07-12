@@ -18,7 +18,6 @@ import static Evaluation.Evaluation.evaluateParallel;
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.ArrayPrinter.printResult;
 import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.max;
@@ -32,6 +31,7 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
+import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -50,7 +50,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 19;
+        int selection = 39;
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -69,7 +69,8 @@ public class Main {
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1000, 0, 50 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
+            case 16 ->
+                    evaluate(100, BINOMIAL_DISTRIBUTED, 10 * 1000, Solver.getRLSNeighbourComparison(new int[]{2, 3, 4}), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, InputGenerator.GEOMETRIC_DISTRIBUTED, 10 * 1000, "geometric");
@@ -104,7 +105,9 @@ public class Main {
                 InputGenerator.createBinomial(10000, 0.1),
                 new Solver[]{
                         Solver.getRLSUniformNeighbour(2),
+                        Solver.getRLSUniformNeighbour(4),
                         Solver.getRLSUniformRing(2),
+                        Solver.getRLSUniformRing(4),
                         Solver.getEA(3),
                         Solver.getPmut(-2.5)
                 }, null);
@@ -163,9 +166,9 @@ public class Main {
     }
 
     private static void printSolutionOfOneInput() {
-        int length = 200000;
-        long[] temp = generateInput(0, length);
-        Solution sol = PartitionSolver.solvePmut(temp, 100 * nlogn(length), -2.0);
+        int length = 10000;
+        long[] temp = generateInput(BINOMIAL_DISTRIBUTED, length);
+        Solution sol = PartitionSolver.solveRLS_UniformNeighbour(temp, 100 * nlogn(length), 2);
         sol.printResult();
     }
 
@@ -248,10 +251,10 @@ public class Main {
         }
         System.out.println();
         int digits = 6;
-        printResult("n  ; ", (i) -> String.format("%.2f", ns[i]), ns.length, digits);
-        printResult("avg; ", avg, digits);
-        printResult("max; ", max, digits);
-        printResult("min; ", min, digits);
+        ArrayPrinter.printArray("n  ; ", (i) -> String.format("%.2f", ns[i]), ns.length, digits);
+        ArrayPrinter.printArray("avg; ", avg, digits);
+        ArrayPrinter.printArray("max; ", max, digits);
+        ArrayPrinter.printArray("min; ", min, digits);
     }
 
     private static void tryGeneratingWorstCaseInput() {
@@ -529,9 +532,9 @@ public class Main {
             evalSolverParam[i] = solvers[i].parameter;
             evalSolverParam[i + solvers.length] = solvers[i].parameter;
         }
-        ArrayPrinter.printResult("algo:  ", evalSolverDesc, digits);
-        ArrayPrinter.printResult("algo:  ", evalSolverParam, digits);
-        ArrayPrinter.printResult("type:  ", evalType, digits);
+        ArrayPrinter.printArray("algo:  ", evalSolverDesc, digits);
+        ArrayPrinter.printArray("algo:  ", evalSolverParam, digits);
+        ArrayPrinter.printArray("type:  ", evalType, digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
     }
 }
