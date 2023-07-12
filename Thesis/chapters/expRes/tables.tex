@@ -2,9 +2,10 @@
 \input{chapters/expRes/binomial/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/binomial/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&          RLS-N&   RLS-N&   RLS-R&   RLS-R&   RLS-R&   RLS-N&     RLS\\
-algo param&           k=2&     k=4&     k=2&     k=4&     k=3&     k=3&       -\\
+algo param&           n=2&     n=4&     r=2&     r=4&     r=3&     n=3&       -\\
 avg mut/change&     2,000&   4,000&   1,603&   2,553&   2,000&   2,728&   1,000\\
 avg mut/step&       2,000&   4,000&   1,500&   2,500&   1,999&   3,000&   1,000\\
 \hline
@@ -17,9 +18,11 @@ fails&                  0&       0&       0&       0&       0&     234&     999\
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,234&   0,999\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&       1&     254\\
 \end{tabular}
+
 \input{chapters/expRes/binomial/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/binomial/beforeEA}
+
 \begin{tabular}[h]{ccccccccc}
 algo type&          EA-SM&   EA-SM&   EA-SM&   EA-SM&      EA&   EA-SM&   EA-SM&   EA-SM\\
 algo param&           3/n&     4/n&     2/n&     5/n&       -&    10/n&    50/n&   100/n\\
@@ -35,9 +38,11 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/binomial/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/binomial/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&           pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut\\
 algo param&         -2,25&   -2,00&   -1,75&   -2,50&   -2,75&   -3,00&   -3,25&   -1,50&   -1,25\\
@@ -53,12 +58,15 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/binomial/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/binomial/beforeBest}
+
+% \begin{wraptable}{r}{0.5\textwidth}
 \begin{tabular}[h]{cccc}
 algo type&        RLS-N& EA-SM&  pmut\\
-algo param&         k=2&   3/n& -2,25\\
+algo param&         n=2&   3/n& -2,25\\
 avg mut/change&   2,000& 3,092& 3,965\\
 avg mut/step&     2,000& 2,999& 4,339\\
 \hline
@@ -71,14 +79,17 @@ fails&                0&     0&     0\\
 fail ratio&       0,000& 0,000& 0,000\\
 avg fail dif&        -1&    -1&    -1\\
 \end{tabular}
+% \end{wraptable}
+
 \input{chapters/expRes/binomial/afterBest}
 \section{Geometric distributed values}
 \input{chapters/expRes/geometric/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/geometric/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&         RLS-R&  RLS-R&  RLS-R&  RLS-N&  RLS-N&  RLS-N&    RLS\\
-algo param&          k=2&    k=3&    k=4&    k=2&    k=3&    k=4&      -\\
+algo param&          r=2&    r=3&    r=4&    n=2&    n=3&    n=4&      -\\
 avg mut/change&    1,477&  1,959&  2,431&  2,000&  3,000&  4,000&  1,000\\
 avg mut/step&      1,500&  2,001&  2,501&  2,000&  3,000&  4,000&  1,000\\
 \hline
@@ -91,9 +102,11 @@ fails&                 0&      0&      0&      0&      0&      0&      5\\
 fail ratio&        0,000&  0,000&  0,000&  0,000&  0,000&  0,000&  0,005\\
 avg fail dif&         -1&     -1&     -1&     -1&     -1&     -1&      1\\
 \end{tabular}
+
 \input{chapters/expRes/geometric/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/geometric/beforeEA}
+
 \begin{tabular}[h]{ccccccccc}
 algo type&          EA-SM&      EA&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM\\
 algo param&           2/n&       -&     3/n&     4/n&     5/n&    10/n&    50/n&   100/n\\
@@ -109,9 +122,11 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/geometric/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/geometric/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&           pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut\\
 algo param&         -3,25&   -3,00&   -2,50&   -2,75&   -2,25&   -2,00&   -1,75&   -1,50&   -1,25\\
@@ -127,12 +142,14 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/geometric/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/geometric/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&         RLS-R&   pmut&  EA-SM\\
-algo param&          k=2&  -3,25&    2/n\\
+algo param&          r=2&  -3,25&    2/n\\
 avg mut/change&    1,483&  1,693&  2,258\\
 avg mut/step&      1,500&  1,729&  2,001\\
 \hline
@@ -145,11 +162,13 @@ fails&                 0&      0&      0\\
 fail ratio&        0,000&  0,000&  0,000\\
 avg fail dif&         -1&     -1&     -1\\
 \end{tabular}
+
 \input{chapters/expRes/geometric/afterBest}
 \section{Uniform distributed inputs}
 \input{chapters/expRes/uniform/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/uniform/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&            RLS-N&     RLS-R&     RLS-R&     RLS-N&     RLS-R&     RLS-N&       RLS\\
 algo param&             n=2&       r=3&       r=4&       n=3&       r=2&       n=4&         -\\
@@ -165,9 +184,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,447\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1&         1\\
 \end{tabular}
+
 \input{chapters/expRes/uniform/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/uniform/beforeEA}
+
 \begin{tabular}[h]{ccccccc}
 algo type&            EA-SM&     EA-SM&     EA-SM&     EA-SM&     EA-SM&        EA\\
 algo param&             3/n&       2/n&       4/n&       5/n&      10/n&         -\\
@@ -183,9 +204,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/uniform/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/uniform/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&             pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut\\
 algo param&           -2,25&     -2,00&     -3,00&     -2,75&     -2,50&     -1,75&     -1,50&     -3,25&     -1,25\\
@@ -201,9 +224,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/uniform/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/uniform/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&            RLS-N&     EA-SM&      pmut\\
 algo param&             n=2&       3/n&     -2,25\\
@@ -219,14 +244,16 @@ fails&                    0&         0&         0\\
 fail ratio&           0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/uniform/afterBest}
 \section{OneMax Equivalent for PARTITION}
 \input{chapters/expRes/onemax/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/onemax/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&            RLS&   RLS-R&   RLS-R&   RLS-R&   RLS-N&   RLS-N&   RLS-N\\
-algo param&             -&     k=2&     k=3&     k=4&     k=2&     k=3&     k=4\\
+algo param&             -&     r=2&     r=3&     r=4&     n=2&     n=3&     n=4\\
 avg mut/change&     1,000&   1,181&   1,688&   1,865&     NaN&     NaN&     NaN\\
 avg mut/step&       1,000&   1,500&   2,000&   2,500&     NaN&     NaN&     NaN\\
 \hline
@@ -239,9 +266,11 @@ fails&                  0&       0&       0&       0&   1.000&   1.000&   1.000\
 fail ratio&         0,000&   0,000&   0,000&   0,000&   1,000&   1,000&   1,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      53&      36&     263\\
 \end{tabular}
+
 \input{chapters/expRes/onemax/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/onemax/beforeEA}
+
 \begin{tabular}[h]{ccccccccc}
 algo type&             EA&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM&   EA-SM\\
 algo param&             -&     2/n&     3/n&     4/n&     5/n&    10/n&    50/n&   100/n\\
@@ -257,9 +286,11 @@ fails&                  0&       0&       0&      99&     224&     224&     224&
 fail ratio&         0,000&   0,000&   0,000&   0,442&   1,000&   1,000&   1,000&   1,000\\
 avg fail dif&          -1&      -1&      -1&       1&      18&     570&   2.488&   3.115\\
 \end{tabular}
+
 \input{chapters/expRes/onemax/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/onemax/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&           pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut\\
 algo param&         -3,25&   -3,00&   -2,75&   -2,50&   -2,25&   -2,00&   -1,75&   -1,50&   -1,25\\
@@ -275,9 +306,11 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,135\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1&       1\\
 \end{tabular}
+
 \input{chapters/expRes/onemax/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/onemax/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&            RLS&    pmut&      EA\\
 algo param&             -&   -3,25&       -\\
@@ -293,14 +326,16 @@ fails&                  0&       0&       0\\
 fail ratio&         0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/onemax/afterBest}
 \section{Carsten Witts worst case input}
 \input{chapters/expRes/twoThirds/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/twoThirds/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&         RLS-N&  RLS-R&  RLS-R&  RLS-R&  RLS-N&    RLS&  RLS-N\\
-algo param&          k=3&    k=4&    k=3&    k=2&    k=4&      -&    k=2\\
+algo param&          n=3&    r=4&    r=3&    r=2&    n=4&      -&    n=2\\
 avg mut/change&    3,000&  2,379&  1,985&  1,327&  3,997&  1,000&  1,998\\
 avg mut/step&      3,000&  2,500&  2,000&  1,500&  4,000&  1,000&  2,000\\
 \hline
@@ -313,9 +348,11 @@ fails&                 0&      0&      0&      0&      0&      3&      0\\
 fail ratio&        0,000&  0,000&  0,000&  0,000&  0,000&  0,003&  0,000\\
 avg fail dif&         -1&     -1&     -1&     -1&     -1&  4.249&     -1\\
 \end{tabular}
+
 \input{chapters/expRes/twoThirds/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/twoThirds/beforeEA}
+
 \begin{tabular}[h]{ccccccccc}
 algo type&         EA-SM&  EA-SM&  EA-SM&  EA-SM&  EA-SM&  EA-SM&  EA-SM&     EA\\
 algo param&        100/n&   50/n&   10/n&    5/n&    4/n&    3/n&    2/n&      -\\
@@ -331,9 +368,11 @@ fails&                 0&      0&      0&      0&      0&      0&      0&      0
 fail ratio&        0,000&  0,000&  0,000&  0,000&  0,000&  0,000&  0,000&  0,000\\
 avg fail dif&         -1&     -1&     -1&     -1&     -1&     -1&     -1&     -1\\
 \end{tabular}
+
 \input{chapters/expRes/twoThirds/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/twoThirds/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&           pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut&    pmut\\
 algo param&         -1,25&   -1,50&   -1,75&   -2,00&   -2,25&   -2,50&   -2,75&   -3,00&   -3,25\\
@@ -349,9 +388,11 @@ fails&                  0&       0&       0&       0&       0&       0&       0&
 fail ratio&         0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/twoThirds/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/twoThirds/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&           pmut&   EA-SM&   RLS-N\\
 algo param&         -1,25&   100/n&     k=3\\
@@ -367,11 +408,13 @@ fails&                  0&       0&       0\\
 fail ratio&         0,000&   0,000&   0,000\\
 avg fail dif&          -1&      -1&      -1\\
 \end{tabular}
+
 \input{chapters/expRes/twoThirds/afterBest}
 \section{Multiple distributions overlapped}
 \input{chapters/expRes/mixed/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/mixed/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&           RLS-R&    RLS-R&    RLS-R&    RLS-N&    RLS-N&      RLS&    RLS-N\\
 algo param&            r=4&      r=3&      r=2&      n=3&      n=2&        -&      n=4\\
@@ -387,9 +430,11 @@ fails&                   0&        0&        0&        0&        0&        0&   
 fail ratio&          0,000&    0,000&    0,000&    0,000&    0,000&    0,000&    0,000\\
 avg fail dif&           -1&       -1&       -1&       -1&       -1&       -1&       -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixed/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/mixed/beforeEA}
+
 \begin{tabular}[h]{ccccccc}
 algo type&             EA-SM&      EA-SM&      EA-SM&         EA&      EA-SM&      EA-SM\\
 algo param&              3/n&        2/n&        4/n&          -&        5/n&       10/n\\
@@ -405,9 +450,11 @@ fails&                     0&          0&          0&          0&          0&   
 fail ratio&            0,000&      0,000&      0,000&      0,000&      0,000&      0,000\\
 avg fail dif&             -1&         -1&         -1&         -1&         -1&         -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixed/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/mixed/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&             pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut\\
 algo param&           -1,75&     -2,00&     -2,25&     -1,50&     -2,50&     -2,75&     -3,00&     -3,25&     -1,25\\
@@ -423,9 +470,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixed/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/mixed/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&            pmut&    RLS-R&    EA-SM\\
 algo param&          -1,75&      r=4&      3/n\\
@@ -441,11 +490,13 @@ fails&                   0&        0&        0\\
 fail ratio&          0,000&    0,000&    0,000\\
 avg fail dif&           -1&       -1&       -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixed/afterBest}
 \section{Multiple distributions mixed}
 \input{chapters/expRes/overlapped/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/overlapped/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&               RLS-N&        RLS-R&        RLS-R&        RLS-R&        RLS-N&        RLS-N&          RLS\\
 algo param&                n=3&          r=4&          r=3&          r=2&          n=4&          n=2&            -\\
@@ -461,9 +512,11 @@ fails&                       0&            0&            0&            0&       
 fail ratio&              0,000&        0,000&        0,000&        0,000&        0,000&        1,000&        1,000\\
 avg fail dif&               -1&           -1&           -1&           -1&           -1&          778&          785\\
 \end{tabular}
+
 \input{chapters/expRes/overlapped/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/overlapped/beforeEA}
+
 \begin{tabular}[h]{ccccccc}
 algo type&               EA-SM&        EA-SM&        EA-SM&        EA-SM&        EA-SM&           EA\\
 algo param&                4/n&          3/n&          5/n&          2/n&         10/n&            -\\
@@ -479,9 +532,11 @@ fails&                       0&            0&            0&            0&       
 fail ratio&              0,000&        0,000&        0,000&        0,000&        0,000&        0,000\\
 avg fail dif&               -1&           -1&           -1&           -1&           -1&           -1\\
 \end{tabular}
+
 \input{chapters/expRes/overlapped/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/overlapped/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&                pmut&         pmut&         pmut&         pmut&         pmut&         pmut&         pmut&         pmut&         pmut\\
 algo param&              -2,00&        -2,25&        -1,75&        -2,50&        -2,75&        -1,50&        -3,00&        -3,25&        -1,25\\
@@ -497,9 +552,11 @@ fails&                       0&            0&            0&            0&       
 fail ratio&              0,000&        0,000&        0,000&        0,000&        0,000&        0,000&        0,000&        0,000&        0,000\\
 avg fail dif&               -1&           -1&           -1&           -1&           -1&           -1&           -1&           -1&           -1\\
 \end{tabular}
+
 \input{chapters/expRes/overlapped/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/overlapped/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&               RLS-N&        EA-SM&         pmut\\
 algo param&                n=3&          4/n&        -2,00\\
@@ -515,11 +572,13 @@ fails&                       0&            0&            0\\
 fail ratio&              0,000&        0,000&        0,000\\
 avg fail dif&               -1&           -1&           -1\\
 \end{tabular}
+
 \input{chapters/expRes/overlapped/afterBest}
 \section{Multiple distributions mixed \& overlapped}
 \input{chapters/expRes/mixedAndOverlapped/beforeAll}
 \subsection{RLS Comparison}
 \input{chapters/expRes/mixedAndOverlapped/beforeRLS}
+
 \begin{tabular}[h]{cccccccc}
 algo type&            RLS-N&     RLS-R&     RLS-R&     RLS-R&       RLS&     RLS-N&     RLS-N\\
 algo param&             n=3&       r=3&       r=2&       r=4&         -&       n=2&       n=4\\
@@ -535,9 +594,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixedAndOverlapped/afterRLS}
 \subsection{(1+1) EA Comparison}
 \input{chapters/expRes/mixedAndOverlapped/beforeEA}
+
 \begin{tabular}[h]{ccccccc}
 algo type&             EA-SM&      EA-SM&      EA-SM&         EA&      EA-SM&      EA-SM\\
 algo param&              3/n&        2/n&        4/n&          -&        5/n&       10/n\\
@@ -553,9 +614,11 @@ fails&                     0&          0&          0&          0&          0&   
 fail ratio&            0,000&      0,000&      0,000&      0,000&      0,000&      0,000\\
 avg fail dif&             -1&         -1&         -1&         -1&         -1&         -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixedAndOverlapped/afterEA}
 \subsection{pmut Comparison}
 \input{chapters/expRes/mixedAndOverlapped/beforePmut}
+
 \begin{tabular}[h]{cccccccccc}
 algo type&             pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut&      pmut\\
 algo param&           -2,50&     -2,25&     -2,75&     -2,00&     -3,25&     -3,00&     -1,75&     -1,50&     -1,25\\
@@ -571,9 +634,11 @@ fails&                    0&         0&         0&         0&         0&        
 fail ratio&           0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixedAndOverlapped/afterPmut}
 \subsection{Comparison of the best variants}
 \input{chapters/expRes/mixedAndOverlapped/beforeBest}
+
 \begin{tabular}[h]{cccc}
 algo type&            RLS-N&      pmut&     EA-SM\\
 algo param&             n=3&     -2,50&       3/n\\
@@ -589,5 +654,5 @@ fails&                    0&         0&         0\\
 fail ratio&           0,000&     0,000&     0,000\\
 avg fail dif&            -1&        -1&        -1\\
 \end{tabular}
+
 \input{chapters/expRes/mixedAndOverlapped/afterBest}
-test hier steht etwas
