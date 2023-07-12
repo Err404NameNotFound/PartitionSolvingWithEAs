@@ -9,7 +9,7 @@ p;               0,001000
 expected value;  1.000
 ---------
 algo type;         RLS-R;   pmut;  EA-SM
-algo param;          k=2;  -3,25;    2/n
+algo param;          r=2;  -3,25;    2/n
 avg mut/change;    1,483;  1,693;  2,258
 avg mut/step;      1,500;  1,729;  2,001
 ---------

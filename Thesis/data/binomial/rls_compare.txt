@@ -9,7 +9,7 @@ p;               0,100000
 expected value;  1.000
 ---------
 algo type;          RLS-N;   RLS-N;   RLS-R;   RLS-R;   RLS-R;   RLS-N;     RLS
-algo param;           k=2;     k=4;     k=2;     k=4;     k=3;     k=3;       -
+algo param;           n=2;     n=4;     r=2;     r=4;     r=3;     n=3;       -
 avg mut/change;     2,000;   4,000;   1,603;   2,553;   2,000;   2,728;   1,000
 avg mut/step;       2,000;   4,000;   1,500;   2,500;   1,999;   3,000;   1,000
 ---------

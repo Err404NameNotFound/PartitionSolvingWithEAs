@@ -6,7 +6,7 @@ Limit per run;   921.030
 ratio 100 * m/n; 0,13175 -> easy
 ---------
 algo type;         RLS-N;  RLS-R;  RLS-R;  RLS-R;  RLS-N;    RLS;  RLS-N
-algo param;          k=3;    k=4;    k=3;    k=2;    k=4;      -;    k=2
+algo param;          n=3;    r=4;    r=3;    r=2;    n=4;      -;    n=2
 avg mut/change;    3,000;  2,379;  1,985;  1,327;  3,997;  1,000;  1,998
 avg mut/step;      3,000;  2,500;  2,000;  1,500;  4,000;  1,000;  2,000
 ---------
