@@ -36,7 +36,6 @@ import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
-import static main.InputGenerator.PARTIAL_INT_RANGE;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -122,7 +121,7 @@ public class Main {
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
-            case 39 -> temp();
+            case 39 -> fineEvaluation(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE));
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
             case 41 ->
                     bruteForceAll(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE), 1000, 20);
@@ -155,18 +154,19 @@ public class Main {
         ArrayPrinter.printArray("offset; ", values, digits);
     }
 
-    private static void temp() {
-        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000}, fill(5, (i) -> Math.max(100000, 100 * i * nlogn(i))),
-                InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE),
-                new Solver[]{
-                        Solver.getRLSUniformNeighbour(2),
-                        Solver.getRLSUniformRing(3),
-                        Solver.getRLSUniformRing(4),
-                        Solver.getEA(2),
-                        Solver.getEA(3),
-                        Solver.getEA(4),
-                        Solver.getPmut(-2.5),
-                }, null);
+    private static void fineEvaluation(InputGenerator generator) {
+        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000};
+        long[] stepSizes = fill(5, (i) -> Math.max(100000, 10 * lengths[i] * nlogn(lengths[i])));
+        Solver[] solvers = new Solver[]{
+                Solver.getRLSUniformNeighbour(2),
+                Solver.getRLSUniformRing(3),
+                Solver.getRLSUniformRing(4),
+                Solver.getEA(2),
+                Solver.getEA(3),
+                Solver.getEA(4),
+                Solver.getPmut(-2.5),
+        };
+        evaluate(1000, lengths, stepSizes, generator, solvers, null);
     }
 
     private static void evaluateSameSolver(int n, int[] lengths, InputGenerator generator) {
