@@ -1,0 +1,29 @@
+number of runs;  10
+Limit per run;   9.210.300
+array length;    10.000
+ratio 100 * m/n; 0,13288 -> easy
+input type;      OneMax equivalent for partition (2)
+Fields with sum; 1
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 9999]
+---------
+algo type;                EA;      EA-SM;      EA-SM;      EA-SM;      EA-SM;      EA-SM;      EA-SM;      EA-SM
+algo param;                -;        2/n;        3/n;        4/n;        5/n;       10/n;       50/n;      100/n
+avg mut/change;        1,270;      1,752;      2,323;      2,981;      3,636;      7,288;     45,923;     95,590
+avg mut/step;          1,000;      1,999;      3,000;      3,999;      5,000;     10,000;     49,998;    100,000
+---------
+total avg count;     238.011;    294.054;    510.275;    896.228;  1.948.147;  9.210.300;  9.210.300;  9.210.300
+avg eval count;      238.011;    294.054;    510.275;    896.228;  1.948.147;         -1;         -1;         -1
+max eval count;      306.788;    377.596;    638.594;  1.131.596;  2.521.592;         -1;         -1;         -1
+min eval count;      211.995;    210.795;    427.546;    683.617;  1.659.411;         -1;         -1;         -1
+---------
+fails;                     0;          0;          0;          0;          0;         10;         10;         10
+fail ratio;            0,000;      0,000;      0,000;      0,000;      0,000;      1,000;      1,000;      1,000
+avg fail dif;             -1;         -1;         -1;         -1;         -1;        143;      2.147;      2.870
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
