@@ -96,7 +96,7 @@ public class Main {
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(10, ALL_SAME_AND_LAST_SUM, 10 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
+            case 16 -> evaluate(10, ALL_SAME_AND_LAST_SUM, 10 * 1000, Solver.getRLSComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, InputGenerator.PARTIAL_INT_RANGE, 10 * 1000, "uniform");
