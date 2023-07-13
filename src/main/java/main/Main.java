@@ -61,9 +61,9 @@ public class Main {
                     try {
                         selection = Integer.parseInt(args[i]);
                         mainSelection(selection);
-                    } catch (NumberFormatException e){
-                        System.out.println("Number "+args[i]+ " could not be parsed as an integer.");
-                    }catch (Exception e) {
+                    } catch (NumberFormatException e) {
+                        System.out.println("Number " + args[i] + " could not be parsed as an integer.");
+                    } catch (Exception e) {
                         System.out.println("Executing " + selection + " did not work.");
                     }
                 }
@@ -150,7 +150,7 @@ public class Main {
     }
 
     private static void temp() {
-        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000}, fill(5, (i) -> 100000),
+        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000}, fill(5, (i) -> Math.max(100000, 100 * i * nlogn(i))),
                 InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE),
                 new Solver[]{
                         Solver.getRLSUniformNeighbour(2),
@@ -159,7 +159,7 @@ public class Main {
                         Solver.getEA(2),
                         Solver.getEA(3),
                         Solver.getEA(4),
-                        Solver.getPmut(-2.25),
+                        Solver.getPmut(-2.5),
                 }, null);
     }
 

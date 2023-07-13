@@ -75,7 +75,6 @@ public class ResultsChapterPrinter {
                 includeTexFile(i, ++remainingTextIndex);
             }
         }
-        print("test hier steht etwas");
         stopWritingToFile();
     }
 
