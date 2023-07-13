@@ -804,6 +804,11 @@ INPUT chapters/expRes/binomial/beforePmut.tex
 INPUT ./chapters/expRes/binomial/beforePmut.tex
 INPUT ./chapters/expRes/binomial/beforePmut.tex
 INPUT chapters/expRes/binomial/beforePmut.tex
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmr5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmmi5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmsy5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT ./chapters/expRes/binomial/afterPmut.tex
 INPUT ./chapters/expRes/binomial/afterPmut.tex
 INPUT chapters/expRes/binomial/afterPmut.tex

@@ -71,7 +71,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 51;
+            selection = 40;
         }
         mainSelection(selection);
     }

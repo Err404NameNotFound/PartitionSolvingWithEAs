@@ -44,16 +44,19 @@ public class ResultsChapterPrinter {
             "beforePmut", "afterPmut", "beforeBest", "afterBest"
     };
 
-    private static void printTable(String path, boolean wrapTable) {
+    private static void printTable(String path, boolean longTable) {
         String text = convertFileWithPath(path);
         String content = "\\begin{tabular}[h]{" +
                 "c".repeat(getTableLengthForCSVFile(text)) +
                 "}\n" +
                 text +
                 "\\end{tabular}";
-//        if (wrapTable) {
-//            content = "\\begin{wraptable}\n" + content + "\\end{wraptable}\n";
-//        }
+        String before ="\\makebox[\\linewidth]{\n";
+        if (longTable) {
+            before += "\\scriptsize\n";
+        }
+        before = before + "\\begin{tabular}{lp{3cm}p{6cm}p{6cm}}\n";
+        content = before + content + "\n\\end{tabular}\n}";
         println(content);
     }
 
@@ -68,8 +71,7 @@ public class ResultsChapterPrinter {
                 println(SUBSECTIONS[e]);
                 includeTexFile(i, ++remainingTextIndex);
                 println();
-                printTable(PATH_THESIS + "data\\" + FOLDERS[i] + "\\" + RESULTS_FILE_NAMES[e],
-                        e == SUBSECTIONS.length - 1);
+                printTable(PATH_THESIS + "data\\" + FOLDERS[i] + "\\" + RESULTS_FILE_NAMES[e], RESULTS_FILE_NAMES[e].contains("pmut"));
                 println();
                 includeTexFile(i, ++remainingTextIndex);
             }
