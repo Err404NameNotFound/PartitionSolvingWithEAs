@@ -205,12 +205,12 @@ public class Evaluation {
             print(";fail");
         } else {
             long tries = sol.getTries();
-            mut[i] += sol.getFlippedBits();
-            mutSuccess[i] += sol.getChanges();
-            mutTried[i] += sol.getTriedFlips();
-            evaluators[i].insert(sol.getTries());
+            evaluators[i].insert(tries);
             print(";" + tries);
         }
+        mut[i] += sol.getFlippedBits();
+        mutSuccess[i] += sol.getChanges();
+        mutTried[i] += sol.getTriedFlips();
     }
 
     private int calculate(int n, int length, long maxSteps, boolean printProgress) {
@@ -280,7 +280,7 @@ public class Evaluation {
         int[][] indexes = new int[solverCount][];
         for (int i = 0; i < solverCount; ++i) {
             long finalI = i;
-            indexes[i] = ArrayHelp.generateIntArray(lengths.length, (a) -> finalI * finalSolverCount + a);
+            indexes[i] = ArrayHelp.generateIntArray(lengths.length, (a) -> finalI + (long) finalSolverCount * a);
         }
         printPartialCsvForMultipleN(solverCount, lengths, avg, indexes);
         printPartialCsvForMultipleN(solverCount, lengths, failed, indexes);
