@@ -323,6 +323,7 @@ public class Evaluation {
         long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
         long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMax());
         long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
+        long[] totalSum = fill(evaluators.length, (i) -> evaluators[i].getSum() + failed[i] * stepSizes[i]);
         for (int i = 0; i < stepSum.length; ++i) {
             totalAverage[i] = (stepSum[i] + failed[i] * stepSizes[i]) / n;
             avg[i] = failed[i] == n ? -1 : stepSum[i] / (n - failed[i]);
@@ -346,7 +347,7 @@ public class Evaluation {
         printArray("algo type;       ", (i) -> solvers[indexes[i]].description, solvers.length, digits);
         printArray("algo param;      ", (i) -> solvers[indexes[i]].parameter, solvers.length, digits);
         printRow("avg mut/change;  ", mut, mutSuccess, indexes, digits);
-        printRow("avg mut/step;    ", mutTried, stepSum, indexes, digits);
+        printRow("avg mut/step;    ", mutTried, totalSum, indexes, digits);
         println(separation);
         printRow("total avg count; ", totalAverage, indexes, digits);
         printRow("avg eval count;  ", avg, indexes, digits);

@@ -34,6 +34,7 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
+import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.PARTIAL_INT_RANGE;
 import static main.InputGenerator.generateInput;
@@ -72,7 +73,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 42;
+            selection = 39;
         }
         mainSelection(selection);
     }
@@ -96,7 +97,7 @@ public class Main {
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(1000, PARTIAL_INT_RANGE, 50 * 1000, Solver.getPmutComparison(), "DELETE_TEMP_RESULT");
+            case 16 -> evaluate(10, ALL_SAME_AND_LAST_SUM, 10 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
             case 19 -> evaluateMultiple(1000, InputGenerator.PARTIAL_INT_RANGE, 10 * 1000, "uniform");
@@ -155,7 +156,7 @@ public class Main {
     }
 
     private static void temp() {
-        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000}, fill(5, (i) -> Math.max(100000, 100 * i * nlogn(i))),
+        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000}, fill(5, (i) -> Math.max(100000, 100 * i * nlogn(i))),
                 InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE),
                 new Solver[]{
                         Solver.getRLSUniformNeighbour(2),
