@@ -26,6 +26,7 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
+import static help.Printer.PATH_AUTO_GENERATED;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -71,7 +72,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 40;
+            selection = 42;
         }
         mainSelection(selection);
     }
@@ -122,6 +123,10 @@ public class Main {
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
             case 39 -> temp();
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
+            case 41 ->
+                    bruteForceAll(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE), 1000, 20);
+            case 42 ->
+                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\UniformIntervall\\13_07-12_29.csv");
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
@@ -446,6 +451,7 @@ public class Main {
     }
 
     private static void bruteForceAll(InputGenerator generator, int n, int length) {
+        System.out.println("Generating inputs...");
         long[][] unsolvableInputs = new long[n][];
         ProgressPrinter p = new ProgressPrinter(unsolvableInputs.length);
         for (int i = 0; i < n; ++i) {

@@ -51,7 +51,7 @@ public class ResultsChapterPrinter {
                 "}\n" +
                 text +
                 "\\end{tabular}";
-        String before ="\\makebox[\\linewidth]{\n";
+        String before = "\\makebox[\\linewidth]{\n";
         if (longTable) {
             before += "\\scriptsize\n";
         }
@@ -98,23 +98,28 @@ public class ResultsChapterPrinter {
         return text;
     }
 
-    public static String convertFileWithPath(String path) {
-        String text;
+    public static String readFileFromPath(String path) {
         try {
-            text = Files.readString(Paths.get(path), StandardCharsets.UTF_8);
+            return Files.readString(Paths.get(path), StandardCharsets.UTF_8);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return convertTxtFileToLatexText(text);
+    }
+
+    public static String convertFileWithPath(String path) {
+        return convertTxtFileToLatexText(readFileFromPath(path));
     }
 
     public static int getTableLengthForCSVFile(String file) {
+        return getTableLengthForCSVFile(file, '&');
+    }
+    public static int getTableLengthForCSVFile(String file, char delimiter) {
         int count = 1;
         int index = 0;
         while (index < file.length()) {
             if (file.charAt(index) == '\n') {
                 return count;
-            } else if (file.charAt(index) == '&') {
+            } else if (file.charAt(index) == delimiter) {
                 ++count;
             }
             ++index;
@@ -137,5 +142,18 @@ public class ResultsChapterPrinter {
                 }
             }
         }
+    }
+
+    public static void printComparisonBestTable(String path) {
+        String text = readFileFromPath(path);
+        String tableStart = "\\begin{tabular}[h]{" + "c".repeat(getTableLengthForCSVFile(text, ';')) + "}\n";
+        String tableEnd = "\\\\\n\\end{tabular}\n";
+        text = text.trim();
+        text = text.replace(";", "&");
+        text = text.replace("\n", "\\\\\n");
+        text = text.replace("\\\\\n\\\\\n", tableEnd + "\n" + tableStart);
+        text = text.replace("&20&50&100&500&1000&5000&10000\\\\", "input size&20&50&100&500&1000&5000&10000\\\\\\hline");
+        String content = tableStart + text + tableEnd;
+        println(content);
     }
 }

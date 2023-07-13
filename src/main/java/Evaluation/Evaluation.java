@@ -282,8 +282,8 @@ public class Evaluation {
             long finalI = i;
             indexes[i] = ArrayHelp.generateIntArray(lengths.length, (a) -> finalI + (long) finalSolverCount * a);
         }
-        printPartialCsvForMultipleN(solverCount, lengths, avg, indexes);
         printPartialCsvForMultipleN(solverCount, lengths, failed, indexes);
+        printPartialCsvForMultipleN(solverCount, lengths, avg, indexes);
         printPartialCsvForMultipleN(solverCount, lengths, totalAverage, indexes);
     }
 
