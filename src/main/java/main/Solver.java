@@ -20,12 +20,12 @@ public class Solver {
     }
 
     public static Solver getRLSUniformNeighbour(int n) {
-        return new Solver("RLS-N", "n=" + n, "RLS-N(" + n + ")",
+        return new Solver("RLS-N", "n=" + n, "RLS-N (" + n + ")",
                 (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, n));
     }
 
     public static Solver getRLSUniformRing(int r) {
-        return new Solver("RLS-R", "r=" + r, "RLS-R(" + r + ")",
+        return new Solver("RLS-R", "r=" + r, "RLS-R (" + r + ")",
                 (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
     }
 
