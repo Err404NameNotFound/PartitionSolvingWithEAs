@@ -52,9 +52,9 @@ public class ResultsChapterPrinter {
                 "}\n" +
                 text +
                 "\\end{tabular}";
-        if (wrapTable) {
-            content = "\\begin{wraptable}\n" + content + "\\end{wraptable}\n";
-        }
+//        if (wrapTable) {
+//            content = "\\begin{wraptable}\n" + content + "\\end{wraptable}\n";
+//        }
         println(content);
     }
 
@@ -86,6 +86,12 @@ public class ResultsChapterPrinter {
     private static String convertTxtFileToLatexText(String text) {
         text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     -> standard RLS"));
         text = text.replace("---------\n", "\\hline");
+        text = text.replace("-1;", " -;");
+        String tempReplacement = "eofwpfjweofj";
+        text = text.replace(",", tempReplacement);
+        text = text.replace(".", ",");
+        text = text.replace(tempReplacement, ".");
+        text = text.replace("-1\n", " -\n");
         text = text.replace(';', '&');
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\hline", "\\hline\n");
