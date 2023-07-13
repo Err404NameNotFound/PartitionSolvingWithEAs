@@ -272,9 +272,9 @@ public class InputGenerator {
     }
 
     public static InputGenerator createUniform(int min, int max) {
-        long expectedValue = (max-min)/2;
+        long expectedValue = (max - min) / 2;
         return new InputGenerator(PARTIAL_INT_RANGE, (a) -> uniformRandomRange(a, min, max), min,
-                max, 0, DEFAULT_N, 1.0/(max-min), expectedValue, DEFAULT_PMUT_PARAM);
+                max, 0, DEFAULT_N, 1.0 / (max - min), expectedValue, DEFAULT_PMUT_PARAM);
     }
 
     public long[] generate(int length) {

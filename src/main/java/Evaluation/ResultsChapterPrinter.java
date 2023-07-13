@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static help.Printer.PATH_THESIS;
-import static help.Printer.print;
 import static help.Printer.println;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
