@@ -141,7 +141,15 @@ For uniform distributed inputs Borgs showed that the coefficient of \#bits neede
 \end{figure}
 
 
-In the second experiment the inputs were generated a bit differently. Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$. With this setup the influence of the expected value is almost isolated from the other parameters. The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$. By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value. For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition. The expected value influences the percentage significantly more. For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$. For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor of 2.
+In the second experiment the inputs were generated a bit differently. 
+Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$.
+With this setup the influence of the expected value is almost isolated from the other parameters.
+The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.
+By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value.
+For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition.
+The expected value influences the percentage significantly more.
+For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$.
+For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor of 2.
 
 \begin{figure}[h]
       \centering

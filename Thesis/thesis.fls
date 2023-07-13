@@ -828,6 +828,11 @@ INPUT chapters/expRes/geometric/beforeAll.tex
 INPUT ./chapters/expRes/geometric/beforeAll.tex
 INPUT ./chapters/expRes/geometric/beforeAll.tex
 INPUT chapters/expRes/geometric/beforeAll.tex
+INPUT ./figures/images/numberGenerator/geometricDistributionForp0_001.png
+INPUT ./figures/images/numberGenerator/geometricDistributionForp0_001.png
+INPUT figures/images/numberGenerator/geometricDistributionForp0_001.png
+INPUT ./figures/images/numberGenerator/geometricDistributionForp0_001.png
+INPUT ./figures/images/numberGenerator/geometricDistributionForp0_001.png
 INPUT ./chapters/expRes/geometric/beforeRLS.tex
 INPUT ./chapters/expRes/geometric/beforeRLS.tex
 INPUT chapters/expRes/geometric/beforeRLS.tex
@@ -882,6 +887,11 @@ INPUT chapters/expRes/uniform/beforeAll.tex
 INPUT ./chapters/expRes/uniform/beforeAll.tex
 INPUT ./chapters/expRes/uniform/beforeAll.tex
 INPUT chapters/expRes/uniform/beforeAll.tex
+INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
+INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
+INPUT figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
+INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
+INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
 INPUT ./chapters/expRes/uniform/beforeRLS.tex
 INPUT ./chapters/expRes/uniform/beforeRLS.tex
 INPUT chapters/expRes/uniform/beforeRLS.tex

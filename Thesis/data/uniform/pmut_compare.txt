@@ -1,29 +1,29 @@
-input type;      uniform random values from given range (1)
+number of runs;  1.000
+Limit per run;   54.098.900
 array length;    50.000
-number of runs;  53
-Limit per run;   5.409.890
 ratio 100 * m/n; 0,03122 -> easy
+input type;      uniform random values from given range (1)
 lowest value;    1
 highest value;   50.000
 ---------
-algo type;             pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut
-algo param;           -2,25;     -2,00;     -3,00;     -2,75;     -2,50;     -1,75;     -1,50;     -3,25;     -1,25
-avg mut/change;       3,898;     5,603;     1,891;     2,259;     2,720;    28,035;    94,745;     1,724;   334,887
-avg mut/step;         4,568;    10,031;     1,933;     2,274;     2,933;    34,684;   158,937;     1,728;   718,814
+algo type;                pmut;         pmut;         pmut;         pmut;         pmut;         pmut;         pmut;         pmut;         pmut
+algo param;              -2,50;        -2,00;        -2,25;        -2,75;        -1,75;        -3,00;        -1,50;        -3,25;        -1,25
+avg mut/change;          2,866;        8,980;        4,204;        2,205;       27,674;        1,933;      102,803;        1,720;      312,822
+avg mut/step;            2,932;       10,108;        4,559;        2,274;       34,643;        1,934;      158,163;        1,729;      719,965
 ---------
-total avg count;    111.048;   115.812;   121.406;   122.184;   123.348;   149.182;   157.279;   157.451;   199.763
-avg eval count;     111.048;   115.812;   121.406;   122.184;   123.348;   149.182;   157.279;   157.451;   199.763
-max eval count;     854.290;   487.327;   773.065;   736.059;   695.178; 1.079.073; 1.927.473;   795.211; 1.243.407
-min eval count;         375;       746;     1.502;     3.103;       896;     4.047;       360;     1.516;       775
+total avg count;       117.346;      121.090;      121.818;      126.467;      128.188;      140.882;      142.970;      150.311;      193.296
+avg eval count;        117.346;      121.090;      121.818;      126.467;      128.188;      140.882;      142.970;      150.311;      193.296
+max eval count;      1.655.807;    1.421.071;    1.427.930;    2.490.695;    2.127.979;    1.670.194;    1.565.473;    1.382.253;    1.523.513
+min eval count;             61;          186;           76;          130;          357;          155;          113;          226;           13
 ---------
-fails;                    0;         0;         0;         0;         0;         0;         0;         0;         0
-fail ratio;           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
-avg fail dif;            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+fails;                       0;            0;            0;            0;            0;            0;            0;            0;            0
+fail ratio;              0,000;        0,000;        0,000;        0,000;        0,000;        0,000;        0,000;        0,000;        0,000
+avg fail dif;               -1;           -1;           -1;           -1;           -1;           -1;           -1;           -1;           -1
 ---------
-RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= n
-RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
-EA      -> standard EA ; each bit is flipped with prob 1/n
-EA-SM   -> modified EA ; each bit is flipped with prob c/n
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
 pmut    -> flips k random bits where k is chosen from powerlaw distribution
