@@ -13,9 +13,11 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
+import static Evaluation.BinomialTesting.printBinomialDistribution;
 import static Evaluation.Evaluation.evaluate;
 import static Evaluation.Evaluation.evaluateParallel;
 import static help.ArrayHelp.fill;
+import static help.ArrayPrinter.getNeededDigits;
 import static help.ArrayPrinter.getNeededDigitsSpaced;
 import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.Help.runCancellableTask;
@@ -32,6 +34,7 @@ import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
+import static main.InputGenerator.PARTIAL_INT_RANGE;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -50,7 +53,30 @@ public class Main {
 
 
     public static void main(String[] args) {
-        int selection = 39;
+        int selection;
+        try {
+            selection = Integer.parseInt(args[0]);
+            if (selection == -10) {
+                for (int i = 1; i < args.length; ++i) {
+                    try {
+                        selection = Integer.parseInt(args[i]);
+                        mainSelection(selection);
+                    } catch (NumberFormatException e){
+                        System.out.println("Number "+args[i]+ " could not be parsed as an integer.");
+                    }catch (Exception e) {
+                        System.out.println("Executing " + selection + " did not work.");
+                    }
+                }
+                return;
+            }
+        } catch (Exception e) {
+            //cmd parameter was not present -> use default value
+            selection = 51;
+        }
+        mainSelection(selection);
+    }
+
+    private static void mainSelection(int selection) {
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
@@ -59,7 +85,7 @@ public class Main {
             case 4 -> readAndSolveInput();
             case 5 -> printSolutionOfOneInput();
             case 6 -> BinomialTesting.testRandomBinomial(100000000, 1000);
-            case 7 -> BinomialTesting.printBinomialDistribution(10000, 10000000, 0.0001);
+            case 7 -> printBinomialDistribution(10000000, 0.0001, 10000);
             case 8 -> testRandomNextBoolean();
             case 9 -> evaluateMultiple(3, InputGenerator.ALL_SAME_AND_LAST_SUM, 1000, "onemaxOne");
             case 10 ->
@@ -69,11 +95,10 @@ public class Main {
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 ->
-                    evaluate(100, BINOMIAL_DISTRIBUTED, 10 * 1000, Solver.getRLSNeighbourComparison(new int[]{2, 3, 4}), "DELETE_TEMP_RESULT");
+            case 16 -> evaluate(1000, PARTIAL_INT_RANGE, 50 * 1000, Solver.getPmutComparison(), "DELETE_TEMP_RESULT");
             case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
             case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, InputGenerator.GEOMETRIC_DISTRIBUTED, 10 * 1000, "geometric");
+            case 19 -> evaluateMultiple(1000, InputGenerator.PARTIAL_INT_RANGE, 10 * 1000, "uniform");
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
@@ -86,7 +111,7 @@ public class Main {
             case 29 -> checkLastBitFlippedCount();
             case 30 -> evaluate(1000, InputGenerator.createBinomial(10, 0.3), 10000, Solver.getRLSComparison(), null);
             case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
-            case 32 -> BinomialTesting.printBinomialDistribution(100 * 1000 * 1000, 1000 * 1000, 0.000003);
+            case 32 -> printDistribution(InputGenerator.createUniform(1, 101), 10000);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
             case 34 ->
                     System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.GEOMETRIC_DISTRIBUTED, 20)));
@@ -97,19 +122,44 @@ public class Main {
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
             case 39 -> temp();
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
+            default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
 
+    public static void printDistribution(InputGenerator generator, int length) {
+        long[] input = generator.generate(length);
+        long[] minMax = calculateMinMax(input);
+        printDistribution(input, generator, minMax[0], minMax[1]);
+    }
+
+    public static void printDistribution(long[] input, InputGenerator generator, long min, long max) {
+        long[] amount = new long[(int) (min + max + 1)];
+        for (long l : input) {
+            amount[(int) (l - min)]++;
+        }
+        long[] values = new long[amount.length];
+        fill(values, (i) -> min + i);
+        int digits = (int) getNeededDigits(amount, values);
+        generator.printDescription();
+        ArrayPrinter.printArray("value;  ", values, digits);
+        ArrayPrinter.printArray("count;  ", amount, digits);
+        for (int i = 0; i < values.length; ++i) {
+            values[i] -= generator.expectedValue;
+        }
+        ArrayPrinter.printArray("offset; ", values, digits);
+    }
+
     private static void temp() {
-        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000}, fill(5, (i) -> 50000),
-                InputGenerator.createBinomial(10000, 0.1),
+        evaluate(1000, new int[]{20, 50, 100, 500, 1000, 5000, 10000}, fill(5, (i) -> 100000),
+                InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE),
                 new Solver[]{
                         Solver.getRLSUniformNeighbour(2),
-                        Solver.getRLSUniformNeighbour(4),
-                        Solver.getRLSUniformRing(2),
+                        Solver.getRLSUniformRing(3),
                         Solver.getRLSUniformRing(4),
+                        Solver.getEA(2),
                         Solver.getEA(3),
-                        Solver.getPmut(-2.5)
+                        Solver.getEA(4),
+                        Solver.getPmut(-2.25),
                 }, null);
     }
 
@@ -536,5 +586,19 @@ public class Main {
         ArrayPrinter.printArray("algo:  ", evalSolverParam, digits);
         ArrayPrinter.printArray("type:  ", evalType, digits);
         MinMaxAvgEvaluator.printMultipleNonNegative(digits, evaluators);
+    }
+
+    public static long[] calculateMinMax(long[] input) {
+        long min = input[0];
+        long max = input[0];
+        //finding borders
+        for (int i = 1; i < input.length; ++i) {
+            if (input[i] > max) {
+                max = input[i];
+            } else if (input[i] < min) {
+                min = input[i];
+            }
+        }
+        return new long[]{min, max};
     }
 }

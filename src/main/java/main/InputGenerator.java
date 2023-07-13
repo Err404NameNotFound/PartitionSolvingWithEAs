@@ -41,10 +41,10 @@ public class InputGenerator {
     public final int type;
     public final String folder;
     public final String description;
-    public final int bottom;
-    public final int top;
+    public final long bottom;
+    public final long top;
     public final int sumCount;
-    public final int n;
+    public final long n;
     public final double p;
     public final long expectedValue;
     public final double pMutParam;
@@ -62,7 +62,7 @@ public class InputGenerator {
     }
 
 
-    private InputGenerator(int type, Generator generator, int bottom, int top, int sumCount, int n, double p,
+    private InputGenerator(int type, Generator generator, long bottom, long top, int sumCount, long n, double p,
                            long expectedValue, double pMutParam) {
         this.type = type;
         this.generator = generator;
@@ -202,7 +202,7 @@ public class InputGenerator {
         return fill(length, (i) -> binomialK(n, p));
     }
 
-    public static long[] geometricDistributed(int length, double p, int highestVal) {
+    public static long[] geometricDistributed(int length, double p, long highestVal) {
         return fill(length, (i) -> geometricK(highestVal, p));
     }
 
@@ -262,7 +262,19 @@ public class InputGenerator {
     public static InputGenerator createBinomial(int n, double p) {
         long expectedValue = Math.round(n * p);
         return new InputGenerator(BINOMIAL_DISTRIBUTED, (a) -> binomialDistributed(a, n, p), 0,
-                (int) expectedValue, 0, n, p, expectedValue, DEFAULT_PMUT_PARAM);
+                n, 0, n, p, expectedValue, DEFAULT_PMUT_PARAM);
+    }
+
+    public static InputGenerator createGeometric(double p, long maxValue) {
+        long expectedValue = Math.round(1.0 / p);
+        return new InputGenerator(GEOMETRIC_DISTRIBUTED, (a) -> geometricDistributed(a, p, maxValue), 0,
+                maxValue, 0, maxValue, p, expectedValue, DEFAULT_PMUT_PARAM);
+    }
+
+    public static InputGenerator createUniform(int min, int max) {
+        long expectedValue = (max-min)/2;
+        return new InputGenerator(PARTIAL_INT_RANGE, (a) -> uniformRandomRange(a, min, max), min,
+                max, 0, DEFAULT_N, 1.0/(max-min), expectedValue, DEFAULT_PMUT_PARAM);
     }
 
     public long[] generate(int length) {
