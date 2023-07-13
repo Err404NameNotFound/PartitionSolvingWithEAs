@@ -30,11 +30,11 @@ public class Solver {
     }
 
     public static Solver getEA() {
-        return new Solver("EA", "-", "(1+1) EA(1/n)", PartitionSolver::solveEA);
+        return new Solver("EA", "-", "(1+1) EA (1/n)", PartitionSolver::solveEA);
     }
 
     public static Solver getEA(int k) {
-        return new Solver("EA-SM", k + "/n", "(1+1) EA(" + k + "/n)",
+        return new Solver("EA-SM", k + "/n", "(1+1) EA (" + k + "/n)",
                 (a, b) -> PartitionSolver.solveEA(a, b, (double) k / a.length));
     }
 
