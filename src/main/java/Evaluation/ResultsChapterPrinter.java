@@ -61,7 +61,7 @@ public class ResultsChapterPrinter {
     }
 
     public static void printCompleteEvaluation() {
-        startFilePrinting(PATH_THESIS + "chapters/expRes/tables.tex", true);
+        startFilePrinting(PATH_THESIS + "expRes/tables.tex", true);
         createFilesForEvaluation();
         for (int i = 0; i < SECTIONS.length; ++i) {
             println(SECTIONS[i]);
@@ -80,7 +80,7 @@ public class ResultsChapterPrinter {
     }
 
     private static void includeTexFile(int folder, int file) {
-        println("\\input{chapters/expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + "}");
+        println("\\input{expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + "}");
     }
 
     private static String convertTxtFileToLatexText(String text) {
@@ -130,7 +130,7 @@ public class ResultsChapterPrinter {
     public static void createFilesForEvaluation() {
         for (String folder : FOLDERS) {
             for (String file : ADDITIONAL_TEX_FILES) {
-                String path = PATH_THESIS + "\\chapters\\expRes\\" + folder + "\\" + file + ".tex";
+                String path = PATH_THESIS + "\\expRes\\" + folder + "\\" + file + ".tex";
                 try {
                     File f = new File(path);
                     if (!f.exists()) {

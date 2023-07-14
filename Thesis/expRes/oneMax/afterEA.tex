@@ -1,0 +1,11 @@
+This experiment was terminated after 224 runs of the algorithms, as the results were already clear enough.
+For this input the same as for OneMax holds. 
+The static mutation rate $p_m=1/n$ is the optimal value and the performance of the (1+1) EA decreases with rising mutation rate.
+Only for $p_m\le3/n$ the (1+1) EA managed to find one of the two optimal solutions in $10*nln(n)$ steps.
+With mutation rate $p_m=4/n$ the (1+1 EA) only managed to find the optimal solution in about 55 \% of the inputs.
+The remaining mutation rates did not manage to find an optimal solution in any of the runs.
+Another interesting fact is the average number of bits flipped in a successful step.
+For the other inputs the overall average number of bits flipped in any step was mostly the same as for the average value of the successful steps. Here this is not the case.
+All mutation rates flipped fewer bits in the successful steps then in the average step.
+The only exception is the standard mutation rate which is caused by the steps where the algorithm would flip no bit.
+This decreases the number of the average case but not of the successful steps as those were skipped.

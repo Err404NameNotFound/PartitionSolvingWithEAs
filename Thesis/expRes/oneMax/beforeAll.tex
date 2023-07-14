@@ -4,5 +4,7 @@ the 111\dots01 string. So the best solution is almost identical to OneMax. In th
 proven for the (1+1) EA and the RLS. This seems to hold in practice:
 TODO: insert Graph showing RLS and (1+1) EA need time $\mathcal{O}(nlogn)$
 
-For OneMax the mutation rate of 1/n is proven to be optimal for the (1+1) EA (TODO insert cite). This seems to be also
-true for the equivalent for PARTITION. For Both the (1+1) EA and both new Variants of the RLS
+For OneMax the mutation rate of 1/n is proven to be optimal for the (1+1) EA (TODO insert cite).
+This should also hold for this input. The RLS variants should also perform worse than the standard RLS.
+The higher the value for $\beta$ the better the $pmut_\beta$ mutation should perform.
+For some experiments not all 1000 repetitions were executed as there was a clear tendency which of the algorithms perform better.
