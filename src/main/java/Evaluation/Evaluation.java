@@ -11,6 +11,7 @@ import main.Solver;
 
 import java.util.Arrays;
 
+import static help.ArrayHelp.cast;
 import static help.ArrayHelp.fill;
 import static help.ArrayHelp.generateIntArray;
 import static help.ArrayPrinter.printArray;
@@ -63,9 +64,19 @@ public class Evaluation {
     public static Solver evaluate(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix) {
         Evaluation e = new Evaluation();
         int[] inputLengths2 = generateIntArray(inputLengths.length * solvers.length, (i) -> inputLengths[i / solvers.length]);
-        long[] stepSizes2 = fill(inputLengths2.length, (i) -> stepSizes[i % stepSizes.length]);
+        long[] stepSizes2 = fill(inputLengths2.length, (i) -> stepSizes[i / solvers.length]);
         Solver[] solvers2 = new Solver[inputLengths2.length];
         fill(solvers2, (i) -> solvers[i % solvers.length]);
+        generator.printDescription();
+        System.out.println("Lengths:   " + Arrays.toString(inputLengths));
+        System.out.println("Stepsizes: " + Arrays.toString(stepSizes));
+        System.out.println("Solvers:   " + Arrays.toString(solvers));
+        System.out.println("------");
+//        int digits = 8;
+//        printArray("Lengths:   ", cast(inputLengths2), digits);
+//        printArray("Stepsizes: ", stepSizes2, digits);
+//        printArray("Solvers:   ", (i) -> solvers2[i].shortName, solvers2.length, digits);
+        System.out.println("Starting evaluation...");
         return e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, postfix, (a) -> e.printResult(a, inputLengths2, stepSizes2));
     }
 
@@ -243,6 +254,11 @@ public class Evaluation {
         if (printProgress) {
             progress.clearProgressAndPrintElapsedTime();
         }
+        for (int i = 0; i < evaluators.length; ++i) {
+            totalAverage[i] = (evaluators[i].getSum() + failed[i] * maxSteps[i]) / n;
+            avg[i] = failed[i] == n ? -1 : evaluators[i].getSum() / (n - failed[i]);
+            failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
+        }
         return n;
     }
 
@@ -264,10 +280,14 @@ public class Evaluation {
         generator.printDescription(separation);
         printTable(separation, inputLengths, stepSizes, n);
         printExplanation(separation);
-        String file = Printer.getCurrenFileName().replace("txt", "csv");
+        String replacement = "_latex.csv";
+        String file = Printer.getCurrenFileName().replace(".txt", replacement);
         stopWritingToFile();
         startFilePrinting(file);
         printCsvForMultipleN(inputLengths);
+        stopWritingToFile();
+        startFilePrinting(file.replace(replacement, "_unsorted.txt"));
+        printTable(separation, inputLengths, stepSizes, n, false);
     }
 
     private void printCsvForMultipleN(int[] inputLengths) {
@@ -320,22 +340,23 @@ public class Evaluation {
     }
 
     private void printTable(String separation, int[] lengths, long[] stepSizes, int n) {
+        printTable(separation, lengths, stepSizes, n, true);
+    }
+
+    private void printTable(String separation, int[] lengths, long[] stepSizes, int n, boolean sortTable) {
         long[] stepMin = fill(evaluators.length, (i) -> evaluators[i].getMin() == Long.MAX_VALUE ? -1 : evaluators[i].getMin());
         long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMax());
         long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
         long[] totalSum = fill(evaluators.length, (i) -> evaluators[i].getSum() + failed[i] * stepSizes[i]);
-        for (int i = 0; i < stepSum.length; ++i) {
-            totalAverage[i] = (stepSum[i] + failed[i] * stepSizes[i]) / n;
-            avg[i] = failed[i] == n ? -1 : stepSum[i] / (n - failed[i]);
-            failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
-        }
         long[] divisors = new long[failed.length];
         Arrays.fill(divisors, n);
         int digits = columnLength(avg, totalAverage, stepSum, stepMax, stepMin);
         println(separation);
         Integer[] indexes = new Integer[totalAverage.length];
         fill(indexes, (i) -> i);
-        Arrays.sort(indexes, this::compareSolver);
+        if (sortTable) {
+            Arrays.sort(indexes, this::compareSolver);
+        }
 
         if (lengths != null) {
             long[] castedArray = fill(lengths.length, (i) -> lengths[i]);

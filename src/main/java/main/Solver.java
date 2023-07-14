@@ -7,44 +7,46 @@ public class Solver {
     public final String description;
     public final String parameter;
     public final String fullName;
+    public final String shortName;
 
-    private Solver(String description, String parameter, String fullName, ISolver solver) {
+    private Solver(String description, String parameter, String fullName, String shortName, ISolver solver) {
         this.parameter = parameter;
         this.solver = solver;
         this.description = description;
         this.fullName = fullName;
+        this.shortName = shortName;
     }
 
     public static Solver getRLS() {
-        return new Solver("RLS", "-", "RLS", PartitionSolver::solveRLS);
+        return new Solver("RLS", "-", "RLS", "RLS", PartitionSolver::solveRLS);
     }
 
     public static Solver getRLSUniformNeighbour(int n) {
-        return new Solver("RLS-N", "n=" + n, "RLS-N (" + n + ")",
+        return new Solver("RLS-N", "n=" + n, "RLS-N (" + n + ")", "RLS-N" + n,
                 (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, n));
     }
 
     public static Solver getRLSUniformRing(int r) {
-        return new Solver("RLS-R", "r=" + r, "RLS-R (" + r + ")",
+        return new Solver("RLS-R", "r=" + r, "RLS-R (" + r + ")", "RLS-R" + r,
                 (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
     }
 
     public static Solver getEA() {
-        return new Solver("EA", "-", "(1+1) EA (1/n)", PartitionSolver::solveEA);
+        return new Solver("EA", "-", "(1+1) EA (1/n)", "EA", PartitionSolver::solveEA);
     }
 
     public static Solver getEA(int k) {
-        return new Solver("EA-SM", k + "/n", "(1+1) EA (" + k + "/n)",
+        return new Solver("EA-SM", k + "/n", "(1+1) EA (" + k + "/n)", "EA" + k,
                 (a, b) -> PartitionSolver.solveEA(a, b, (double) k / a.length));
     }
 
     public static Solver getFmut(double p) {
-        return new Solver("fmut", String.format("%.3f", p), "fmut(" + p + ")",
+        return new Solver("fmut", String.format("%.3f", p), "fmut (" + p + ")", "fmut" + p,
                 (a, b) -> PartitionSolver.solveFmut(a, b, p));
     }
 
     public static Solver getPmut(double n) {
-        return new Solver("pmut", String.format("%.2f", n), "pmut(" + n + ")",
+        return new Solver("pmut", String.format("%.2f", n), "pmut (" + n + ")", "pmut" + n,
                 (a, b) -> PartitionSolver.solvePmut(a, b, n));
     }
 
@@ -131,7 +133,7 @@ public class Solver {
 
     @Override
     public String toString() {
-        return description + " with " + parameter;
+        return fullName;
     }
 
     public interface ISolver {

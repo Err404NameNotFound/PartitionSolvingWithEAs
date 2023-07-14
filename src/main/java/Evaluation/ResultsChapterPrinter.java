@@ -113,6 +113,7 @@ public class ResultsChapterPrinter {
     public static int getTableLengthForCSVFile(String file) {
         return getTableLengthForCSVFile(file, '&');
     }
+
     public static int getTableLengthForCSVFile(String file, char delimiter) {
         int count = 1;
         int index = 0;
@@ -150,9 +151,10 @@ public class ResultsChapterPrinter {
         String tableEnd = "\\\\\n\\end{tabular}\n";
         text = text.trim();
         text = text.replace(";", "&");
+        String firstLine = text.substring(0, text.indexOf('\n'));
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\\\\n\\\\\n", tableEnd + "\n" + tableStart);
-        text = text.replace("&20&50&100&500&1000&5000&10000\\\\", "input size&20&50&100&500&1000&5000&10000\\\\\\hline");
+        text = text.replace(firstLine + "\\\\", "input size" + firstLine + "\\\\\\hline");
         String content = tableStart + text + tableEnd;
         println(content);
     }

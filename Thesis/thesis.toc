@@ -35,27 +35,27 @@
 \contentsline {subsection}{\numberline {5.6.3}pmut Comparison}{27}{subsection.5.6.3}%
 \contentsline {subsection}{\numberline {5.6.4}Comparison of the best variants}{28}{subsection.5.6.4}%
 \contentsline {section}{\numberline {5.7}Carsten Witts worst case input}{28}{section.5.7}%
-\contentsline {subsection}{\numberline {5.7.1}RLS Comparison}{28}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.1}RLS Comparison}{29}{subsection.5.7.1}%
 \contentsline {subsection}{\numberline {5.7.2}(1+1) EA Comparison}{29}{subsection.5.7.2}%
 \contentsline {subsection}{\numberline {5.7.3}pmut Comparison}{29}{subsection.5.7.3}%
 \contentsline {subsection}{\numberline {5.7.4}Comparison of the best variants}{29}{subsection.5.7.4}%
-\contentsline {section}{\numberline {5.8}Multiple distributions overlapped}{29}{section.5.8}%
-\contentsline {subsection}{\numberline {5.8.1}RLS Comparison}{29}{subsection.5.8.1}%
+\contentsline {section}{\numberline {5.8}Multiple distributions overlapped}{30}{section.5.8}%
+\contentsline {subsection}{\numberline {5.8.1}RLS Comparison}{30}{subsection.5.8.1}%
 \contentsline {subsection}{\numberline {5.8.2}(1+1) EA Comparison}{30}{subsection.5.8.2}%
 \contentsline {subsection}{\numberline {5.8.3}pmut Comparison}{30}{subsection.5.8.3}%
-\contentsline {subsection}{\numberline {5.8.4}Comparison of the best variants}{30}{subsection.5.8.4}%
-\contentsline {section}{\numberline {5.9}Multiple distributions mixed}{30}{section.5.9}%
-\contentsline {subsection}{\numberline {5.9.1}RLS Comparison}{30}{subsection.5.9.1}%
+\contentsline {subsection}{\numberline {5.8.4}Comparison of the best variants}{31}{subsection.5.8.4}%
+\contentsline {section}{\numberline {5.9}Multiple distributions mixed}{31}{section.5.9}%
+\contentsline {subsection}{\numberline {5.9.1}RLS Comparison}{31}{subsection.5.9.1}%
 \contentsline {subsection}{\numberline {5.9.2}(1+1) EA Comparison}{31}{subsection.5.9.2}%
-\contentsline {subsection}{\numberline {5.9.3}pmut Comparison}{31}{subsection.5.9.3}%
-\contentsline {subsection}{\numberline {5.9.4}Comparison of the best variants}{31}{subsection.5.9.4}%
-\contentsline {section}{\numberline {5.10}Multiple distributions mixed \& overlapped}{31}{section.5.10}%
-\contentsline {subsection}{\numberline {5.10.1}RLS Comparison}{31}{subsection.5.10.1}%
-\contentsline {subsection}{\numberline {5.10.2}(1+1) EA Comparison}{32}{subsection.5.10.2}%
-\contentsline {subsection}{\numberline {5.10.3}pmut Comparison}{32}{subsection.5.10.3}%
-\contentsline {subsection}{\numberline {5.10.4}Comparison of the best variants}{32}{subsection.5.10.4}%
-\contentsline {subsection}{\numberline {5.10.5}Conclusion of empirical results}{32}{subsection.5.10.5}%
-\contentsline {chapter}{Bibliography}{33}{section*.17}%
-\contentsline {chapter}{\nonumberline Appendix}{35}{chapter*.19}%
-\contentsline {section}{\numberline {A}Appendix Section 1}{35}{section.5.1}%
+\contentsline {subsection}{\numberline {5.9.3}pmut Comparison}{32}{subsection.5.9.3}%
+\contentsline {subsection}{\numberline {5.9.4}Comparison of the best variants}{32}{subsection.5.9.4}%
+\contentsline {section}{\numberline {5.10}Multiple distributions mixed \& overlapped}{32}{section.5.10}%
+\contentsline {subsection}{\numberline {5.10.1}RLS Comparison}{32}{subsection.5.10.1}%
+\contentsline {subsection}{\numberline {5.10.2}(1+1) EA Comparison}{33}{subsection.5.10.2}%
+\contentsline {subsection}{\numberline {5.10.3}pmut Comparison}{33}{subsection.5.10.3}%
+\contentsline {subsection}{\numberline {5.10.4}Comparison of the best variants}{33}{subsection.5.10.4}%
+\contentsline {subsection}{\numberline {5.10.5}Conclusion of empirical results}{33}{subsection.5.10.5}%
+\contentsline {chapter}{Bibliography}{35}{section*.17}%
+\contentsline {chapter}{\nonumberline Appendix}{37}{chapter*.19}%
+\contentsline {section}{\numberline {A}Appendix Section 1}{37}{section.5.1}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

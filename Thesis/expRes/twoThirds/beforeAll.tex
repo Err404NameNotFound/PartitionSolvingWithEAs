@@ -6,5 +6,18 @@ The total volume is normalised to 1.
 When the two large values are in the same bin. The RSHs are tricked into a local optima, where only $w_1$ and $w_2$ are in the first bin and the remaining elements in the other bin.
 This results in an almost worst case.
 As all researched inputs in this paper contained only integer values this input is adjusted a bit.
-All values for the n-2 small objects are set to 1 and the value of the two other objects is set to $n-2-Math.round((0.3\cdot(n - 2)) /4)$.
-The total volume is given by $2\cdot(n-2-Math.round((\epsilon\cdot(n - 2)) /4))+n-2 = 3(n-2)-2\cdot Math.round((0.3\cdot(n - 2)))$
+All values for the n-2 small objects are set to 1 and the value of the two other objects is set to $n-2-Math.round((n - 2)\epsilon /4)$.
+The total volume is given by $2\cdot(n-2-Math.round((n - 2)\epsilon /4))+n-2 = 3(n-2)-2\cdot Math.round((n - 2)\epsilon /4)$.
+The only case where the RLS was stuck in the local optima happened for $\epsilon=0.3$.
+This value was used for the experiment of this subsection.\newline
+For $n=10,000$ this evaluates to $w_1=w_2=9248$ and $W=9998+2 \cdot 9248 = 28494$.
+The input then looks like this: $[1, 1, \dots, 1, 1, 9248, 9248]$.
+This means the small values have a total normalised volume of $9998/28494=1/3+250/14247$ and $w_1$ and $w_2$ have a normalised value of $9248/28494=1/3-125/14247$.
+The effective value for $\epsilon$ is in this case is $4 \cdot 125/14247 \approx 0.035$.
+If the algorithm has reached the solution of only the two big objects in one bin, then the $b_F = w_1+w_2=2\cdot 9248 = 18496$ and $b_E = 9998$. For a successful separation of $w_1$ and $w_2$ the algorithm therefore needs to move at least $18496-$ small objects as well in the same step.
+
+18496 - 9998 >= 9998 - x + 9248 - (9248 + x)
+8498 >= 9998 - 2x
+2x >= 9998-1500
+2x >= 1500
+x >= 750

@@ -36,6 +36,7 @@ import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
+import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -72,7 +73,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 40;
+            selection = 39;
         }
         mainSelection(selection);
     }
@@ -115,7 +116,7 @@ public class Main {
             case 32 -> printDistribution(InputGenerator.createUniform(1, 101), 10000);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
             case 34 ->
-                    System.out.println(Arrays.toString(InputGenerator.generateInput(InputGenerator.GEOMETRIC_DISTRIBUTED, 20)));
+                    System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
             case 35 ->
                     evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
@@ -126,7 +127,7 @@ public class Main {
             case 41 ->
                     bruteForceAll(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE), 1000, 20);
             case 42 ->
-                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\UniformIntervall\\13_07-12_29.csv");
+                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\UniformIntervall\\14_07-22_07_latex.csv");
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
@@ -155,8 +156,8 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator) {
-        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000};
-        long[] stepSizes = fill(5, (i) -> Math.max(100000, 10 * lengths[i] * nlogn(lengths[i])));
+        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
+        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
         Solver[] solvers = new Solver[]{
                 Solver.getRLSUniformNeighbour(2),
                 Solver.getRLSUniformRing(3),
