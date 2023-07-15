@@ -37,6 +37,9 @@ import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
+import static main.InputGenerator.MIXED;
+import static main.InputGenerator.MIXED_AND_OVERLAPPED;
+import static main.InputGenerator.OVERLAPPED;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -115,8 +118,7 @@ public class Main {
             case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 32 -> printDistribution(InputGenerator.createUniform(1, 101), 10000);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
-            case 34 ->
-                    System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
+            case 34 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
             case 35 ->
                     evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
@@ -128,7 +130,20 @@ public class Main {
                     bruteForceAll(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE), 1000, 20);
             case 42 ->
                     ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\UniformIntervall\\14_07-22_07_latex.csv");
+            case 43 -> reworkRLS();
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
+        }
+    }
+
+    public static void reworkRLS() {
+        int[] inputTypes = new int[]{MIXED, OVERLAPPED, MIXED_AND_OVERLAPPED};
+        int[] inputLengths = new int[]{100000, 10000, 100000};
+        double[] pmutParams = new double[]{-1.75, -2, -2.5};
+        int[] eaParams = new int[]{3, 4, 3};
+        for (int i = 0; i < pmutParams.length; ++i) {
+            Solver solver = evaluate(1000, inputTypes[i], inputLengths[i], Solver.getRLSComparison(), "rls_compare");
+            Solver[] solvers = new Solver[]{solver, Solver.getEA(eaParams[i]), Solver.getPmut(pmutParams[i])};
+            evaluate(1000, inputTypes[i], inputLengths[i], solvers, "best");
         }
     }
 
