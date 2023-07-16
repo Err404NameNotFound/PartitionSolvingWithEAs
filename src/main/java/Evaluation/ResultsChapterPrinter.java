@@ -14,13 +14,15 @@ import static help.Printer.stopWritingToFile;
 public class ResultsChapterPrinter {
 
     private static final String[] FOLDERS = new String[]{
-            "binomial", "geometric", "uniform", "onemax",
+            "binomial", "geometric", "uniform", "powerlaw", "onemax",
             "twoThirds", "mixed", "overlapped", "mixedAndOverlapped"
     };
+
     private static final String[] SECTIONS = new String[]{
             "\\section{Binomial distributed values}",
             "\\section{Geometric distributed values}",
             "\\section{Uniform distributed inputs}",
+            "\\section{powerlaw distributed inputs}",
             "\\section{OneMax Equivalent for PARTITION}",
             "\\section{Carsten Witts worst case input}",
             "\\section{Multiple distributions mixed}",
