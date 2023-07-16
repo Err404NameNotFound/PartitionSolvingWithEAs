@@ -160,7 +160,7 @@ public class Evaluation {
     }
 
     private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
-        long steps = 100 * nlogn(length);
+        long steps = 10 * nlogn(length);
 //        long steps = 50 * 1000;
         long[] maxStepsArray = fill(solvers.length, (i) -> steps);
         int[] lengthArray = new int[solvers.length];

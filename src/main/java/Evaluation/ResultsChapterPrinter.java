@@ -23,8 +23,8 @@ public class ResultsChapterPrinter {
             "\\section{Uniform distributed inputs}",
             "\\section{OneMax Equivalent for PARTITION}",
             "\\section{Carsten Witts worst case input}",
-            "\\section{Multiple distributions overlapped}",
             "\\section{Multiple distributions mixed}",
+            "\\section{Multiple distributions overlapped}",
             "\\section{Multiple distributions mixed \\& overlapped}",
     };
     private static final String[] SUBSECTIONS = new String[]{

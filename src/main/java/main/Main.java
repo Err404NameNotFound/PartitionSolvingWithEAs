@@ -34,7 +34,6 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
-import static main.InputGenerator.ALL_SAME_AND_LAST_SUM;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
 import static main.InputGenerator.MIXED;
@@ -76,7 +75,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 39;
+            selection = 42;
         }
         mainSelection(selection);
     }
@@ -85,27 +84,20 @@ public class Main {
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
-            case 2 -> evaluate(1000, 5, 100 * 1000);
             case 3 -> tryGeneratingWorstCaseInput();
             case 4 -> readAndSolveInput();
             case 5 -> printSolutionOfOneInput();
             case 6 -> BinomialTesting.testRandomBinomial(100000000, 1000);
             case 7 -> printBinomialDistribution(10000000, 0.0001, 10000);
             case 8 -> testRandomNextBoolean();
-            case 9 -> evaluateMultiple(3, InputGenerator.ALL_SAME_AND_LAST_SUM, 1000, "onemaxOne");
-            case 10 ->
-                    evaluate(100, 9, 40, new Solver[]{Solver.getRLSUniformRing(4), Solver.getRLSUniformNeighbour(4)});
-            case 11 -> evaluate(1000, 5, 100 * 1000, Solver.getComparison(4, 3, 100, 0.5), "compare_all");
+            case 9 -> evaluateMultiple(1000, LAST_TWO_SUM_REST_ONE, 10000, "best");
             case 12 -> evaluate(1000, 6, 10 * 1000, Solver.getComparison(), "DELETE_TEMP_RESULT");
             case 13 -> compareAllOnAllInstances(1000, 6);
             case 14 -> testRandomPowerLaw();
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> evaluate(10, ALL_SAME_AND_LAST_SUM, 10 * 1000, Solver.getRLSComparison(), "DELETE_TEMP_RESULT");
-            case 17 -> evaluate(10, 6, 10000, Solver.getComparison(2, 2, 3, -2.75), "Z_best_compare");
-            case 18 -> evaluate(1000, 10, 10000, Solver.getComparison(2, 2, 3, -2.75), "powerLawDistTest");
-            case 19 -> evaluateMultiple(1000, InputGenerator.PARTIAL_INT_RANGE, 10 * 1000, "uniform");
+            case 16 ->
+                    evaluate(10000, LAST_TWO_SUM_REST_ONE, 10 * 1000, Solver.getRLSComparison(), "DELETE_TEMP_RESULT");
             case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
-            case 21 -> evaluate(1000, 7, 1000, Solver.getEAComparison());
             case 22 -> testParallelRun(6);
             case 23 -> testParallelRun2(6);
             case 24 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
@@ -114,7 +106,6 @@ public class Main {
             case 27 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
             case 28 -> bruteForceAll();
             case 29 -> checkLastBitFlippedCount();
-            case 30 -> evaluate(1000, InputGenerator.createBinomial(10, 0.3), 10000, Solver.getRLSComparison(), null);
             case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 32 -> printDistribution(InputGenerator.createUniform(1, 101), 10000);
             case 33 -> runCancellableTask(Main::bruteForceMultiple);
@@ -124,15 +115,36 @@ public class Main {
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
-            case 39 -> fineEvaluation(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE));
+            case 39 -> fineEvaluation(InputGenerator.create(MIXED_AND_OVERLAPPED));
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
-            case 41 ->
-                    bruteForceAll(InputGenerator.createUniform(DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE), 1000, 20);
+            case 41 -> bruteForceAll(InputGenerator.createMixed(), 1000, 20);
             case 42 ->
-                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\UniformIntervall\\14_07-22_07_latex.csv");
+                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\MixedAndOverlapped\\16_07-01_43_latex.csv");
             case 43 -> reworkRLS();
+            case 44 -> testingTwoThirdsInput(0.3);
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
+    }
+
+    private static void testingTwoThirdsInput(double epsilon) {
+        if (epsilon <= 0 || epsilon >= 0.33333333) {
+            throw new IllegalArgumentException();
+        }
+        double oneThird = 1.0 / 3.0;
+        int length = 10000;
+        long[] input = fill(length, (i) -> 1);
+//        long lastValue = Math.round((length - 2) * (6.0 / (2 + 3 * epsilon) - 1.0) / 2.0);
+        long lastValue = Math.round((oneThird - epsilon / 4.0) * (length - 2) / (oneThird + epsilon / 2.0));
+        input[length - 1] = lastValue;
+        input[length - 2] = lastValue;
+        long sum = Arrays.stream(input).sum();
+        System.out.println((double) lastValue / sum);
+        System.out.println((length - 2.0) / sum);
+        System.out.println("---");
+        System.out.println("epsilon last: " + 3 * (oneThird - (double) lastValue / sum));
+        System.out.println("epsilon rest: " + 2 * ((length - 2.0) / sum - oneThird));
+        System.out.println(lastValue);
+        System.out.println(sum);
     }
 
     public static void reworkRLS() {
@@ -172,15 +184,24 @@ public class Main {
 
     private static void fineEvaluation(InputGenerator generator) {
         int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
-        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
+//        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
+        long[] stepSizes = fill(lengths.length, (i) -> 10 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
-                Solver.getRLSUniformNeighbour(2),
-                Solver.getRLSUniformRing(3),
-                Solver.getRLSUniformRing(4),
+                Solver.getRLS(),
+//                Solver.getRLSUniformNeighbour(2),
+//                Solver.getRLSUniformNeighbour(4),
+                Solver.getRLSUniformRing(2),
+//                Solver.getRLSUniformRing(3),
+//                Solver.getRLSUniformRing(4),
+//                Solver.getEA(),
                 Solver.getEA(2),
                 Solver.getEA(3),
-                Solver.getEA(4),
+//                Solver.getEA(4),
+//                Solver.getPmut(-1.75),
+//                Solver.getPmut(-2.00),
+                Solver.getPmut(-2.25),
                 Solver.getPmut(-2.5),
+//                Solver.getPmut(-3.25),
         };
         evaluate(1000, lengths, stepSizes, generator, solvers, null);
     }

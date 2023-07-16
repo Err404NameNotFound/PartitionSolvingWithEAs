@@ -996,6 +996,11 @@ INPUT expRes/oneMax/afterBest.tex
 INPUT ./expRes/oneMax/afterBest.tex
 INPUT ./expRes/oneMax/afterBest.tex
 INPUT expRes/oneMax/afterBest.tex
+INPUT ./figures/images/oneMaxMultipleN.png
+INPUT ./figures/images/oneMaxMultipleN.png
+INPUT figures/images/oneMaxMultipleN.png
+INPUT ./figures/images/oneMaxMultipleN.png
+INPUT ./figures/images/oneMaxMultipleN.png
 INPUT ./expRes/twoThirds/beforeAll.tex
 INPUT ./expRes/twoThirds/beforeAll.tex
 INPUT expRes/twoThirds/beforeAll.tex

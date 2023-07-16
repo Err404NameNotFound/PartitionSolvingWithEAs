@@ -176,7 +176,9 @@ public class InputGenerator {
     public static long[] lastTwoSumRestOne(int length) {
         long[] ret = new long[length];
         Arrays.fill(ret, 1);
-        long sum = (length - 2) - epsilonDif(length, 2);
+        double oneThird = 1.0/3.0;
+        double epsilon = 0.3;
+        long sum = Math.round((oneThird - epsilon / 4.0) * (length - 2) / (oneThird + epsilon / 2.0));
         ret[ret.length - 2] = sum;
         ret[ret.length - 1] = sum;
         return ret;
@@ -277,9 +279,18 @@ public class InputGenerator {
                 max, 0, DEFAULT_N, 1.0 / (max - min), expectedValue, DEFAULT_PMUT_PARAM);
     }
 
+    public static InputGenerator createOneMaxOne() {
+        return new InputGenerator(ALL_SAME_AND_LAST_SUM, InputGenerator::oneMaxEquivalent, 1,
+                1, 1, DEFAULT_N, DEFAULT_P_BINOMIAL, 1, DEFAULT_PMUT_PARAM);
+    }
+
+    public static InputGenerator createMixed(){
+        return create(MIXED);
+    }
+
     public long[] generate(int length) {
         if (outputConstant) {
-            if (output == null) {
+            if (output == null || output.length != length) {
                 output = generator.generate(length);
             }
             return output;
