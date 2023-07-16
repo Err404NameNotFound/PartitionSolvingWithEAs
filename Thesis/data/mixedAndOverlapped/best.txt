@@ -1,20 +1,18 @@
 number of runs;  1.000
-Limit per run;   921.030
-array length;    10.000
-ratio 100 * m/n; 0,12384 -> easy
-input type;      Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...) (4)
-Fields with sum; 2
-Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 5344, 5344]
+Limit per run;   115.129.300
+array length;    100.000
+ratio 100 * m/n; 0,01580 -> easy
+input type;      mixed and overlapped (13)
 ---------
-algo type;             pmut;     EA-SM;     RLS-N
-algo param;           -1,25;     100/n;       n=4
-avg mut/change;     195,454;    99,875;     3,998
-avg mut/step;       224,523;    99,980;     4,000
+algo type;              RLS;      pmut;     EA-SM
+algo param;               -;     -2,50;       3/n
+avg mut/change;       1,000;     2,567;     2,916
+avg mut/step;         1,000;     2,900;     3,000
 ---------
-total avg count;         43;        67;     4.458
-avg eval count;          43;        67;     4.458
-max eval count;         240;       521;    43.317
-min eval count;           0;         0;         0
+total avg count;        714;       807;     1.351
+avg eval count;         714;       807;     1.351
+max eval count;       2.354;     2.457;     3.762
+min eval count;          93;        91;        28
 ---------
 fails;                    0;         0;         0
 fail ratio;           0,000;     0,000;     0,000
