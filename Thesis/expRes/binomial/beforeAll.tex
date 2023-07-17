@@ -7,16 +7,16 @@ If either of these condition was met, the algorithm returned the current best so
 This step is repeated 1000 times.
 The results are presented in a table containing multiple statistics for each algorithm over all 1000 runs.
 
-\begin{tabular}{m{3cm} | m{15cm}}
+\begin{tabular}{c|c}
       column name     & meaning                                                         \\ \hline
       algo type       & type of algorithm (RLS, RLS-N, RLS-R, (1+1)EA or pmut)          \\
       algo param      & parameter of the algorithm or '-' if it is the standard variant \\
       avg mut/change  & average \#bits flipped for iterations leading to an improvement \\
-      avg mut/step    & average \#bits flipped for any iteration                        \\
+      avg mut/step    & average \#bits flipped for any iteration                        \\ \hline
       total avg count & average \#iterations for all runs                               \\
       avg eval count  & average \#iterations of runs returning an optimal solution      \\
       max eval count  & maximum \#iterations of runs returning an optimal solution      \\
-      min eval count  & minimum \#iterations of all runs                                \\
+      min eval count  & minimum \#iterations of all runs                                \\ \hline
       fails           & number of runs that did not find an optimal solution            \\
       fail ratio      & ratio of unsuccessful runs to all runs                          \\
       avg fail dif    & average value of $b_F-b_E$ for non-optimal solutions            \\

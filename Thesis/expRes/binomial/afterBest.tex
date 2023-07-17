@@ -7,15 +7,7 @@ The following table is the amount of runs in which the algorithms did not find a
 The time limit was set 50000 because the algorithm normally reach the optimal solution within a few thousand steps.
 If the solutions is not found after 50000 steps, the algorithm is most likely stuck in a local optima which could only be left by flipping more bits than possible for the algorithm.
 
-\begin{tabular}{cccccccc}
-      input size     & 20  & 50 & 100 & 500 & 1000 & 5000 & 10000 \\\hline
-      RLS-N(2)       & 231 & 22 & 3   & 0   & 0    & 0    & 0     \\
-      RLS-N(4)       & 0   & 1  & 2   & 0   & 0    & 0    & 0     \\
-      RLS-R (2)      & 243 & 4  & 0   & 0   & 0    & 0    & 0     \\
-      RLS-R (4)      & 1   & 0  & 0   & 0   & 0    & 0    & 0     \\
-      (1+1) EA (3/n) & 0   & 0  & 0   & 0   & 0    & 0    & 0     \\
-      pmut(-2.5)     & 0   & 0  & 0   & 0   & 0    & 0    & 0     \\
-\end{tabular}
+\input{tables/binomial/multipleN_fails.tex}
 
 The (1+1) EA and the $pmut_\beta$ algorithm always reach an optimal solution but the RLS does not.
 The variants that can only flip two steps per step perform significantly worse for small inputs.
@@ -24,28 +16,12 @@ So the RLS-N(2) does perform better for larger inputs but is much more likely to
 The next table contains the average number of iterations the algorithm needed to find an optimal solution for all runs where the algorithms managed to find an optimal solution.
 Here it still looks like the RLS-N(2) finds the solution with the lowest amount of steps, because the cases where the algorithm is stuck in a local optima are not contained in this table.
 
-\begin{tabular}{cccccccc}
-      input size     & 20   & 50  & 100 & 500 & 1000 & 5000 & 10000 \\\hline
-      RLS-N(2)       & 164  & 257 & 337 & 256 & 257  & 293  & 310   \\
-      RLS-N(4)       & 349  & 355 & 661 & 412 & 412  & 436  & 425   \\
-      RLS-R (2)      & 267  & 435 & 408 & 428 & 442  & 452  & 496   \\
-      RLS-R (4)      & 601  & 491 & 492 & 491 & 534  & 562  & 560   \\
-      (1+1) EA (3/n) & 716  & 570 & 569 & 580 & 614  & 625  & 650   \\
-      pmut(-2.5)     & 1596 & 576 & 600 & 637 & 657  & 700  & 685   \\
-\end{tabular}
+\input{tables/binomial/multipleN_avg.tex}
 
 The next table contains the overall average amount of iterations for every run.
 So runs where no optimal was found add 50000 thousand to the sum of all iterations.
 
-\begin{tabular}{cccccccc}
-      input size     & 20    & 50   & 100 & 500 & 1000 & 5000 & 10000 \\\hline
-      RLS-N(2)       & 11676 & 1351 & 486 & 256 & 257  & 293  & 310   \\
-      RLS-N(4)       & 349   & 405  & 760 & 412 & 412  & 436  & 425   \\
-      RLS-R (2)      & 12352 & 633  & 408 & 428 & 442  & 452  & 496   \\
-      RLS-R (4)      & 650   & 491  & 492 & 491 & 534  & 562  & 560   \\
-      (1+1) EA (3/n) & 716   & 570  & 569 & 580 & 614  & 625  & 650   \\
-      pmut(-2.5)     & 1596  & 576  & 600 & 637 & 657  & 700  & 685   \\
-\end{tabular}
+\input{tables/binomial/multipleN_totalAvg.tex}
 
 Here the RLS-N(2) is only the best algorithm for values of $n \ge 500$.
 Below this bound choosing the (1+1) EA with static mutation rate $3/n$ is a saver choice as the (1+1) EA reaches an optimal solution for every input (in this experiment).

@@ -1,40 +1,11 @@
 For the uniform distributed input the best variant of the RLS once again seems to be the best algorithm.
 But by looking at the smaller values again this does not hold in general.
 
-\begin{tabular}[h]{ccccccccc}
-      input size     & 20  & 50  & 100 & 500 & 1000 & 5000 & 10000 & 50000 \\\hline
-      RLS-N (2)      & 996 & 980 & 892 & 360 & 289  & 14   & 0     & 0     \\
-      RLS-R (3)      & 974 & 768 & 645 & 461 & 426  & 54   & 3     & 0     \\
-      RLS-R (4)      & 902 & 621 & 541 & 460 & 431  & 53   & 4     & 0     \\
-      (1+1) EA (2/n) & 885 & 690 & 641 & 510 & 483  & 85   & 5     & 0     \\
-      (1+1) EA (3/n) & 772 & 596 & 549 & 425 & 449  & 53   & 2     & 0     \\
-      (1+1) EA (4/n) & 697 & 509 & 453 & 439 & 396  & 44   & 3     & 0     \\
-      pmut (-2.5)    & 840 & 738 & 696 & 553 & 520  & 86   & 10    & 0     \\
-\end{tabular}
+\input{tables/uniform/multipleN_fails.tex}
 
 The RLS variants are the most likely to get stuck in a local optimum for $n\le100$. The (1+1) EA variants also often do not find an optimal solution, but this happens less frequently. The more values the input has the more likely it is for any of the algorithms to find a perfect partition. Between $n=100$ and $n=500$ the performance of the RLS-N(2) drastically increases and for $n\ge500$ this variant of the RLS stays the best variant for the remaining input sizes.
 
-\begin{tabular}[h]{cccccccc}
-      input size     & 20    & 50    & 100   & 500   & 1000  & 5000  & 10000 \\\hline
-      RLS-N(2)       & 252   & 1382  & 6378  & 34091 & 36030 & 38409 & 39365 \\
-      RLS-R (3)      & 4012  & 33662 & 35519 & 40678 & 39966 & 38438 & 35784 \\
-      RLS-R (4)      & 18663 & 39434 & 39068 & 41588 & 39252 & 39578 & 38932 \\
-      (1+1) EA (2/n) & 31595 & 39959 & 38253 & 40912 & 41287 & 38213 & 38151 \\
-      (1+1) EA (3/n) & 32990 & 41302 & 39362 & 40242 & 39432 & 41066 & 40864 \\
-      (1+1) EA (4/n) & 33453 & 41598 & 38060 & 41584 & 39748 & 39617 & 41490 \\
-      pmut(-2.5)     & 38488 & 41365 & 39010 & 42765 & 44430 & 38055 & 37215 \\
-\end{tabular}
-
-\begin{tabular}[h]{ccccccccc}
-      input size     & 20    & 50    & 100   & 500   & 1000  & 5000   & 10000  & 50000  \\\hline
-      RLS-N (2)      & 364   & 1540  & 6759  & 36358 & 37324 & 77210  & 83500  & 82738  \\
-      RLS-R (3)      & 5204  & 33492 & 39795 & 40336 & 38838 & 104864 & 118393 & 106196 \\
-      RLS-R (4)      & 17681 & 39895 & 38795 & 39959 & 38857 & 98693  & 108780 & 107857 \\
-      (1+1) EA (2/n) & 36004 & 41914 & 40131 & 42050 & 38937 & 108903 & 133264 & 122042 \\
-      (1+1) EA (3/n) & 32791 & 38954 & 38422 & 40617 & 41017 & 103831 & 112166 & 111402 \\
-      (1+1) EA (4/n) & 39665 & 39926 & 40709 & 39479 & 41889 & 99899  & 127578 & 110099 \\
-      pmut (-2.5)    & 39232 & 36918 & 37162 & 39866 & 40588 & 118671 & 144665 & 128531 \\
-\end{tabular}
+\input{tables/uniform/multipleN_avg.tex}
 
 The steps needed to find an optimal solution seems to be nearly constant for every algorithm as the number of steps does not strictly increase with $n$ but sometimes even decreases for $n\le1000$.
 This is caused by the number of steps the algorithm was given.
@@ -51,5 +22,7 @@ Interestingly enough the average number of steps decreases from $n=10000$ to $n=
       (1+1) EA (4/n) & 81718 & 70503 & 67568 & 66047 & 64901 & 114241 & 129959 & 110099 \\
       pmut (-2.5)    & 90277 & 83472 & 80897 & 73120 & 71482 & 145089 & 152429 & 128531 \\
 \end{tabular}
+
+\input{tables/uniform/multipleN_totalAvg.tex}
 
 My general advice would be choosing the RLS-N(2) for $n\ge500$ and the (1+1) EA with $p_m=4/n$ otherwise.

@@ -1,0 +1,19 @@
+\makebox[\linewidth]{
+\begin{tabular}{lp{3cm}p{6cm}p{6cm}}
+\begin{tabular}[h]{cccccccc}
+algo type&          RLS-N&   RLS-N&   RLS-R&   RLS-R&   RLS-R&   RLS-N&     RLS\\
+algo param&           n=2&     n=4&     r=2&     r=4&     r=3&     n=3&       -\\
+avg mut/change&     2.000&   4.000&   1.603&   2.553&   2.000&   2.728&   1.000\\
+avg mut/step&       2.000&   4.000&   1.500&   2.500&   1.999&   3.000&   1.000\\
+\hline
+total avg count&      318&     434&     499&     579&     681& 518,428& 920,109\\
+avg eval count&       318&     434&     499&     579&     681& 395,440&      50\\
+max eval count&     1,648&   3,243&   3,094&   3,737&   4,717& 917,134&      50\\
+min eval count&        20&      28&      11&      17&      16&       0&      50\\
+\hline
+fails&                  0&       0&       0&       0&       0&     234&     999\\
+fail ratio&         0.000&   0.000&   0.000&   0.000&   0.000&   0.234&   0.999\\
+avg fail dif&           -&       -&       -&       -&       -&       1&     254\\
+\end{tabular}
+\end{tabular}
+}

@@ -148,6 +148,10 @@ public class ResultsChapterPrinter {
     }
 
     public static void printComparisonBestTable(String path) {
+        println(readAndConvertComparisonTable(path));
+    }
+
+    private static String readAndConvertComparisonTable(String path) {
         String text = readFileFromPath(path);
         String tableStart = "\\begin{tabular}[h]{" + "c".repeat(getTableLengthForCSVFile(text, ';')) + "}\n";
         String tableEnd = "\\\\\n\\end{tabular}\n";
@@ -157,7 +161,57 @@ public class ResultsChapterPrinter {
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\\\\n\\\\\n", tableEnd + "\n" + tableStart);
         text = text.replace(firstLine + "\\\\", "input size" + firstLine + "\\\\\\hline");
-        String content = tableStart + text + tableEnd;
-        println(content);
+        text = text.replaceFirst("input size", "fails");
+        text = text.replaceFirst("input size", "avg");
+        text = text.replaceFirst("input size", "total avg");
+        return tableStart + text + tableEnd;
+    }
+
+    public static void printAllTables() {
+        String pathWrite = PATH_THESIS + "\\tables";
+        String pathRead = PATH_THESIS + "\\data";
+        String[] tableNamesDetail = new String[]{"multipleN_fails.tex", "multipleN_avg.tex", "multipleN_totalAvg.tex"};
+        for (int i = 0; i < SECTIONS.length; ++i) {
+            String folderRead = pathRead + "\\" + FOLDERS[i] + "\\";
+            String folderWrite = pathWrite + "\\" + FOLDERS[i] + "\\";
+            for (String resultsFileName : RESULTS_FILE_NAMES) {
+                startFilePrinting(folderWrite + resultsFileName.replace(".txt", ".tex"), true);
+                printTable(folderRead + resultsFileName, resultsFileName.contains("pmut"));
+                stopWritingToFile();
+            }
+            String table;
+            try {
+                table = readAndConvertComparisonTable(folderRead + "multipleN.csv");
+            } catch (Exception e) {
+                table = null;
+            }
+            if (table != null) {
+                String[] tables = table.split("\n\n");
+                for (int e = 0; e < tableNamesDetail.length; ++e) {
+                    startFilePrinting(folderWrite + tableNamesDetail[e], true);
+                    println(tables[e]);
+                    stopWritingToFile();
+                }
+            }
+        }
+    }
+
+    public static void printCompleteEvaluation2() {
+        startFilePrinting(PATH_THESIS + "expRes/tables_2.tex", true);
+        createFilesForEvaluation();
+        for (int i = 0; i < SECTIONS.length; ++i) {
+            println(SECTIONS[i]);
+            int remainingTextIndex = 0;
+            includeTexFile(i, 0);
+            for (int e = 0; e < SUBSECTIONS.length; ++e) {
+                println(SUBSECTIONS[e]);
+                includeTexFile(i, ++remainingTextIndex);
+                println();
+                println("\\input{tables/" + FOLDERS[i] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
+                println();
+                includeTexFile(i, ++remainingTextIndex);
+            }
+        }
+        stopWritingToFile();
     }
 }

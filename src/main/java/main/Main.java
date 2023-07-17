@@ -76,7 +76,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 9;
+            selection = 46;
         }
         mainSelection(selection);
     }
@@ -120,9 +120,11 @@ public class Main {
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
             case 41 -> bruteForceAll(InputGenerator.createMixed(), 1000, 20);
             case 42 ->
-                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\MixedAndOverlapped\\16_07-01_43_latex.csv");
+                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\MixedAndOverlapped\\multipleN.csv");
             case 43 -> reworkRLS();
             case 44 -> testingTwoThirdsInput(0.3);
+            case 45 -> ResultsChapterPrinter.printAllTables();
+            case 46 -> ResultsChapterPrinter.printCompleteEvaluation2();
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }

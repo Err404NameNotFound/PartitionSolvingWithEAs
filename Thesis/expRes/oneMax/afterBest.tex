@@ -7,13 +7,7 @@ But $pmut$ most likely chooses to flip only one bit more often as the (1+1) EA.\
 For this comparison neither of the algorithms failed to find one of the two optimal solutions.
 The following table lists the amount of iterations the algorithms needed to find an optimal solution.
 
-\begin{tabular}[h]{ccccccccc}
-      input size     & 20  & 50  & 100  & 500  & 1000  & 5000   & 10000  & 50000   \\\hline
-      RLS            & 56  & 187 & 446  & 3050 & 6725  & 42056  & 90485  & 537292  \\
-      (1+1) EA (1/n) & 131 & 438 & 1059 & 7435 & 16963 & 106410 & 230310 & 1379632 \\
-      pmut (-3.25)   & 82  & 277 & 667  & 4666 & 10432 & 66450  & 142919 & 846722  \\
-      pmut (-3.5)    & 77  & 265 & 642  & 4393 & 9930  & 62337  & 137048 & 801570  \\
-\end{tabular}
+\input{tables/oneMax/multipleN_avg.tex}
 
 The RLS performs the best closely follow by both $pmut$ variants.
 The standard (1+1) EA performs a bit worse than the other three algorithms and approaches $en\ln(n)$ instead of staying close to $n\ln(n)$.
