@@ -1,4 +1,4 @@
-The ranking is according to the amount of bits the algorithm flip on average per step.
+The ranking follows the amount of bits the algorithms flip on average per step.
 $pmut_{-1.25}$ manages to find the solution in just 56 iterations on average.
 The (1+1) EA with $p_m=50/n$ is slower than $pmut_{-1.25}$ but instead has a lower value for the maximum number of iterations.
 Both options seem fine.
@@ -7,8 +7,8 @@ For $\beta = -1.25$ the results are a bit different.
 
 \input{tables/powerlaw/best_2.tex}
 
-The $RLS-R_4$ performs now better than the (1+1) EA variant with $p_m=4/n$, but is still slower than $pmut_{-1.5}$.
-As the first inputs were less difficult to solve than the inputs with $\beta = -1.25$ the second was chosen for the fine evaluation.
+The $RLS-R_4$ now performs better than the (1+1) EA variant with $p_m=4/n$, but is still slower than $pmut_{-1.5}$.
+As the first inputs were less difficult to solve than the inputs with $\beta = -1.25$ the second value was chosen for the fine evaluation.
 
 \input{tables/powerlaw/multipleN_fails.tex}
 
@@ -21,7 +21,7 @@ The main differences are between the different algorithms themselves.
 \input{tables/powerlaw/multipleN_avg.tex}
 
 The easiest are inputs with size $n=500$.
-For smaller values of $n$ the algorithms sometimes fail and even in a good run the need more iterations to find an optimal solution.
+For smaller values of $n$ the algorithms sometimes fail and even in a good run they need more iterations to find an optimal solution.
 Due to the increasing size of the input the algorithms need more time for the bigger values.
 
 \input{tables/powerlaw/multipleN_totalAvg.tex}

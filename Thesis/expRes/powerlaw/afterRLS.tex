@@ -1,9 +1,10 @@
 Due to the many small values and all values being relatively small in general the higher mutation rates perform better.
-So the algorithms are ranked by the amounts the flip in an average step.
-For this parameter the input is additionally relatively easy as all variants manage to find an optimal solution in 400 steps for an input size of 20,000.
+So the algorithms are ranked by the amount of bits they flip in an average step.
+For this parameter the input is relatively easy as all variants manage to find an optimal solution in 400 steps on average for an input size of 20,000.
 The next table lists the results for $\beta=-1.25$ and an input size of 10,000.
 
 \input{tables/powerlaw/rls_compare_2.tex}
+
 The input is still easy to solve for the RLS variants, but the concept of the more bits flipped the better does not hold any more.
 So the optimal parameter for a specific type of input is only fixed for the specific parameters of this distribution.
 Generally the RLS-R variants seem to perform good for the different parameters of the distribution especially with increasing value of $k$.

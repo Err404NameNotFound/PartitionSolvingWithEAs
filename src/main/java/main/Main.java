@@ -74,7 +74,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 44;
+            selection = 16;
         }
         mainSelection(selection);
     }
@@ -94,7 +94,7 @@ public class Main {
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(OVERLAPPED));
+            case 16 -> fineEvaluation(InputGenerator.create(MIXED_AND_OVERLAPPED));
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
