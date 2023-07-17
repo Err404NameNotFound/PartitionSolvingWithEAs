@@ -30,8 +30,8 @@ import static help.Printer.stopWritingToFile;
 
 public class Evaluation {
 
-    private long[] avg, totalAverage;
-    private long[] failed, failDif;
+    private long[] avg, totalAverage, avgFailDif;
+    private long[] failed, failDifSum;
     private long[] mut, mutSuccess, mutTried;
     private MinMaxAvgEvaluator[] evaluators;
     private InputGenerator generator;
@@ -96,7 +96,7 @@ public class Evaluation {
                 result.mut[i] += e.mut[i];
                 result.mutSuccess[i] += e.mutSuccess[i];
                 result.mutTried[i] += e.mutTried[i];
-                result.failDif[i] += e.failDif[i];
+                result.failDifSum[i] += e.failDifSum[i];
                 result.failed[i] += e.failed[i];
                 result.evaluators[i].merge(e.evaluators[i]);
                 //TODO merge MinMaxEvaluators
@@ -143,7 +143,8 @@ public class Evaluation {
         avg = new long[length];
         totalAverage = new long[length];
         failed = new long[length];
-        failDif = new long[length];
+        failDifSum = new long[length];
+        avgFailDif = new long[length];
         mut = new long[length];
         mutSuccess = new long[length];
         mutTried = new long[length];
@@ -212,7 +213,7 @@ public class Evaluation {
         Solution sol = solvers[i].solve(input, maxSteps);
         if (sol.isNotOptimal()) {
             ++failed[i];
-            failDif[i] += sol.getDif().longValue();
+            failDifSum[i] += sol.getDif().longValue();
             print(";fail");
         } else {
             long tries = sol.getTries();
@@ -257,7 +258,7 @@ public class Evaluation {
         for (int i = 0; i < evaluators.length; ++i) {
             totalAverage[i] = (evaluators[i].getSum() + failed[i] * maxSteps[i]) / n;
             avg[i] = failed[i] == n ? -1 : evaluators[i].getSum() / (n - failed[i]);
-            failDif[i] = failed[i] == 0 ? -1 : failDif[i] / failed[i];
+            avgFailDif[i] = failed[i] == 0 ? -1 : failDifSum[i] / failed[i];
         }
         return n;
     }
@@ -317,9 +318,9 @@ public class Evaluation {
         println();
     }
 
-    private int columnLength(long[] avg, long[] totalAvg, long[] stepSum, long[] stepMax, long[] stepMin) {
+    private int columnLength(long[] stepSum, long[] stepMax, long[] stepMin) {
         long highestMutRate = 1 + 3 + ArrayPrinter.getNeededDigits(getHighestMutationRate(stepSum));
-        long max = ArrayPrinter.getNeededDigits(avg, totalAvg, stepSum, stepMax, stepMin, failed, failDif);
+        long max = ArrayPrinter.getNeededDigits(avg, totalAverage, stepMax, stepMin, failed, avgFailDif);
         max = Math.max(max, highestMutRate);
         return Math.max(1 + (int) max, 6);
     }
@@ -350,7 +351,7 @@ public class Evaluation {
         long[] totalSum = fill(evaluators.length, (i) -> evaluators[i].getSum() + failed[i] * stepSizes[i]);
         long[] divisors = new long[failed.length];
         Arrays.fill(divisors, n);
-        int digits = columnLength(avg, totalAverage, stepSum, stepMax, stepMin);
+        int digits = columnLength(stepSum, stepMax, stepMin);
         println(separation);
         Integer[] indexes = new Integer[totalAverage.length];
         fill(indexes, (i) -> i);
@@ -377,12 +378,12 @@ public class Evaluation {
         println(separation);
         printRow("fails;           ", failed, indexes, digits);
         printRow("fail ratio;      ", failed, divisors, indexes, digits);
-        printRow("avg fail dif;    ", failDif, indexes, digits);
+        printRow("avg fail dif;    ", avgFailDif, indexes, digits);
     }
 
     private int compareSolver(int a, int b) {
         int res = Long.compare(totalAverage[a], totalAverage[b]);
-        return res == 0 ? Long.compare(failDif[a], failDif[b]) : res;
+        return res == 0 ? Long.compare(failDifSum[a], failDifSum[b]) : res;
     }
 
     private void printRow(String title, long[] values, Integer[] sorting, int digits) {

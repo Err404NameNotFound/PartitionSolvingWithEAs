@@ -114,6 +114,11 @@ public class ArrayPrinter {
     }
 
     public static long getNeededDigits(long val) {
+        if (val == 0) {
+            return 1;
+        } else if (val < 0) {
+            return getNeededDigits(-val);
+        }
         val = (long) Math.ceil(Math.log10((double) val)); // without decimal point
         return val + val / 3; // + decimal points
     }

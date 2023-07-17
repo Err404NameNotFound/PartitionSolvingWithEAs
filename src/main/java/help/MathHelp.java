@@ -30,7 +30,7 @@ public class MathHelp {
         double sum = 0;
         while (true) {
             sum += Math.log(Math.random()) / (n - x);
-            if (sum < log_q) {
+            if (sum < log_q || x >= n) {
                 return x;
             }
             x++;

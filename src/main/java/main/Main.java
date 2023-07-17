@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-import static Evaluation.BinomialTesting.printBinomialDistribution;
 import static Evaluation.Evaluation.evaluate;
 import static Evaluation.Evaluation.evaluateParallel;
 import static help.ArrayHelp.fill;
@@ -26,7 +25,6 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
-import static help.Printer.PATH_AUTO_GENERATED;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -76,7 +74,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 45;
+            selection = 16;
         }
         mainSelection(selection);
     }
@@ -85,46 +83,42 @@ public class Main {
         switch (selection) {
             case 0 -> runCancellableTask(() -> BinomialTesting.researchBinomialInput(1000));
             case 1 -> runCancellableTask(() -> BinomialTesting.estimateOptimalSolutionCount(1000 * 1000, 1000));
-            case 3 -> tryGeneratingWorstCaseInput();
-            case 4 -> readAndSolveInput();
-            case 5 -> printSolutionOfOneInput();
-            case 6 -> BinomialTesting.testRandomBinomial(100000000, 1000);
-            case 7 -> printBinomialDistribution(10000000, 0.0001, 10000);
-            case 8 -> testRandomNextBoolean();
-            case 9 -> evaluateMultiple(1000, POWERLAW_DISTRIBUTED, 10000, "best");
+            case 2 -> BinomialTesting.testRandomBinomial(100000000, 1000);
+            case 3 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
+            case 4 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
+            case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
+            case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
+
+            case 11 -> evaluateMultiple(1000, POWERLAW_DISTRIBUTED, 10000, "best");
             case 12 -> evaluate(1000, POWERLAW_DISTRIBUTED, 20 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
-            case 13 -> compareAllOnAllInstances(1000, 6);
-            case 14 -> testRandomPowerLaw();
+            case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
+            case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 ->
-                    evaluate(10000, LAST_TWO_SUM_REST_ONE, 10 * 1000, Solver.getRLSComparison(), "DELETE_TEMP_RESULT");
-            case 20 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
+            case 16 -> fineEvaluation(InputGenerator.create(LAST_TWO_SUM_REST_ONE));
+
+            case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
             case 23 -> testParallelRun2(6);
-            case 24 -> BinomialTesting.testRandomBinomialPartition(14, 10000, 0.1, 1000);
-            case 25 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
-            case 26 -> BinomialTesting.testMultipleRandomBinomialWithSolution();
-            case 27 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
-            case 28 -> bruteForceAll();
-            case 29 -> checkLastBitFlippedCount();
-            case 31 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
-            case 32 -> printDistribution(InputGenerator.create(POWERLAW_DISTRIBUTED), 10000);
-            case 33 -> runCancellableTask(Main::bruteForceMultiple);
-            case 34 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
-            case 35 ->
-                    evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.createBinomial(1000, 0.1));
-            case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
-            case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
-            case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
-            case 39 -> fineEvaluation(InputGenerator.createPowerlaw(-1.25, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE));
-            case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
-            case 41 -> bruteForceAll(InputGenerator.createMixed(), 1000, 20);
-            case 42 ->
-                    ResultsChapterPrinter.printComparisonBestTable(PATH_AUTO_GENERATED + "\\MixedAndOverlapped\\multipleN.csv");
-            case 43 -> reworkRLS();
-            case 44 -> testingTwoThirdsInput(0.3);
-            case 45 -> ResultsChapterPrinter.printAllTables();
-            case 46 -> ResultsChapterPrinter.printCompleteEvaluation2();
+
+            case 31 -> bruteForceInput(new long[]{1059, 965, 965, 991, 995, 1053, 1022, 1049, 985, 1038});
+            case 32 -> bruteForceAll();
+            case 33 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
+            case 34 -> runCancellableTask(Main::bruteForceMultiple);
+
+            case 41 -> printDistribution(InputGenerator.create(POWERLAW_DISTRIBUTED), 10000);
+            case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
+            case 43 -> ResultsChapterPrinter.printCompleteEvaluation();
+            case 44 -> ResultsChapterPrinter.printAllTables();
+            case 45 -> ResultsChapterPrinter.printCompleteEvaluation2();
+
+            case 51 -> testRandomPowerLaw();
+            case 52 -> testRandomNextBoolean();
+            case 53 -> checkLastBitFlippedCount();
+            case 54 -> tryGeneratingWorstCaseInput();
+            case 55 -> readAndSolveInput();
+            case 56 -> printSolutionOfOneInput();
+            case 57 -> reworkRLS();
+            case 58 -> testingTwoThirdsInput(0.3);
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
@@ -192,16 +186,18 @@ public class Main {
         Solver[] solvers = new Solver[]{
 //                Solver.getRLS(),
 //                Solver.getRLSUniformNeighbour(2),
-//                Solver.getRLSUniformNeighbour(4),
+                Solver.getRLSUniformNeighbour(4),
 //                Solver.getRLSUniformRing(2),
-                Solver.getRLSUniformRing(3),
-                Solver.getRLSUniformRing(4),
+//                Solver.getRLSUniformRing(3),
+//                Solver.getRLSUniformRing(4),
 //                Solver.getEA(),
 //                Solver.getEA(2),
-                Solver.getEA(3),
-                Solver.getEA(4),
-                Solver.getPmut(-1.5),
-                Solver.getPmut(-1.75),
+//                Solver.getEA(3),
+//                Solver.getEA(4),
+                Solver.getEA(100),
+                Solver.getPmut(-1.25),
+//                Solver.getPmut(-1.5),
+//                Solver.getPmut(-1.75),
 //                Solver.getPmut(-2.00),
 //                Solver.getPmut(-2.25),
 //                Solver.getPmut(-2.5),

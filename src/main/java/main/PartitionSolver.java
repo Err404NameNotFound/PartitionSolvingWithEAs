@@ -83,7 +83,12 @@ public class PartitionSolver {
         if (mutationRate > values.length || mutationRate <= 0) {
             throw new IllegalArgumentException("Illegal mutation rate");
         }
-        return solve(values, maxSteps, (a) -> binomialK(a, mutationRate));
+        double maxRate = values.length / 2.0;
+        if (mutationRate >= maxRate) {
+            mutationRate = maxRate;
+        }
+        double finalMutationRate = mutationRate;
+        return solve(values, maxSteps, (a) -> binomialK(a, finalMutationRate));
     }
 
     public static Solution solveEA(long[] values, long maxSteps, double mutationRate, Solution sol) {
