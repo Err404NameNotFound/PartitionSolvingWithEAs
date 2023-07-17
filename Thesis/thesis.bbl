@@ -20,4 +20,9 @@ Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
 \newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.
 \newblock {\em arXiv preprint arXiv:1805.10902}, 2018.
 
+\bibitem[Wit13]{witt2013tight}
+Carsten Witt.
+\newblock Tight bounds on the optimization time of a randomized search heuristic on linear functions.
+\newblock {\em Combinatorics, Probability and Computing}, 22(2):294--318, 2013.
+
 \end{thebibliography}

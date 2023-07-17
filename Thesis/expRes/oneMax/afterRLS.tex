@@ -7,7 +7,7 @@ So the value of $k=1$ seems to be optimal for the RLS variants too.
 The RLS-N variants on the other hand do not reach one of the two optimal solutions in any run.
 This is most likely caused by their very low possibility of flipping only one bit in a single step.
 They would eventually reach the optimal solution as well, but this would take to long.
-The probability of only flipping one bit in a step is $\mathcal{O}(n^{1-k})$ which results in a single bit flip every $\mathcal{O}(n^{k-1})$ steps in expectation.
+The probability of flipping only one bit in a step is $\mathcal{O}(n^{1-k})$ which results in a single bit flip every $\mathcal{O}(n^{k-1})$ steps in expectation.
 Because the fitness can only improve for OneMax making steps flipping more bits does not harm the fitness.
 The bound for OneMax is $\mathcal{O}(nlogn)$ and with the previous result the expected number of steps is bounded by
 $\mathcal{O}(n\cdot\mathcal{O}(n^{k-1})\cdot \log(n\cdot\mathcal{O}(n^{k-1}))) 

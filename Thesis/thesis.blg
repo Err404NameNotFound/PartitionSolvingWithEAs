@@ -16,45 +16,45 @@ The style file: alpha.bst
 Database file #1: references.bib
 Reallocated str_pool (elt_size=1) to 130000 items from 65000.
 Reallocated str_pool (elt_size=1) to 195000 items from 130000.
-You've used 4 entries,
+You've used 5 entries,
             2543 wiz_defined-function locations,
-            8489 strings with 137901 characters,
-and the built_in function-call counts, 1502 in all, are:
-= -- 146
-> -- 72
-< -- 3
-+ -- 25
-- -- 25
-* -- 110
-:= -- 263
-add.period$ -- 12
-call.type$ -- 4
-change.case$ -- 24
-chr.to.int$ -- 4
-cite$ -- 4
-duplicate$ -- 58
-empty$ -- 104
-format.name$ -- 31
-if$ -- 292
+            8495 strings with 138031 characters,
+and the built_in function-call counts, 1860 in all, are:
+= -- 184
+> -- 80
+< -- 4
++ -- 27
+- -- 27
+* -- 137
+:= -- 321
+add.period$ -- 15
+call.type$ -- 5
+change.case$ -- 29
+chr.to.int$ -- 5
+cite$ -- 5
+duplicate$ -- 73
+empty$ -- 134
+format.name$ -- 35
+if$ -- 364
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 5
-newline$ -- 23
-num.names$ -- 12
-pop$ -- 22
+missing$ -- 6
+newline$ -- 28
+num.names$ -- 15
+pop$ -- 25
 preamble$ -- 1
-purify$ -- 29
+purify$ -- 35
 quote$ -- 0
-skip$ -- 47
+skip$ -- 57
 stack$ -- 0
-substring$ -- 75
-swap$ -- 5
-text.length$ -- 3
-text.prefix$ -- 2
+substring$ -- 107
+swap$ -- 6
+text.length$ -- 4
+text.prefix$ -- 3
 top$ -- 0
-type$ -- 28
+type$ -- 36
 warning$ -- 0
-while$ -- 14
-width$ -- 5
-write$ -- 53
+while$ -- 18
+width$ -- 7
+write$ -- 66
 (There was 1 error message)
