@@ -1,6 +1,12 @@
 The results here are the same as for the binomial input. The $RLS-N_2$ performs better than the (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of at least 2 with a step limit of $100 \cdot n \ln(n)$. For the lower values of $n$ this does not hold to that extreme.
 
+TODO redo experiment
+
 \input{tables/overlapped/multipleN_fails.tex}
+
+Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 99 \% of the inputs.
+In the binomial inputs the $RLS-N_2$ performed the worst because it was the only algorithm to get stuck in a local optimum.
+For the overlapped input the $RLS-N_2$ finds an optimal solution the most often for every input size.
 
 \input{tables/overlapped/multipleN_avg.tex}
 

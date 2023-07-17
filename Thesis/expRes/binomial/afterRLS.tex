@@ -8,5 +8,5 @@ The RLS-R seem all to be good option for binomial inputs with values of $k\in\{2
 The RLS on the other hand performs by far the worst as it only moves one element at a time.
 It only managed to reach the optimal solution once for 1000 different inputs.
 The number of iterations for this input was only 50 so the RLS likely had a good initialisation with a few lucky steps leading directly to the optimum.
-For all other cases the average difference between the bins was 254 which is close to the average value of the values from 0 to $(1000-100)/2=450$.
+For all other cases the average difference between the bins was 254 which is close to the median of the values from 0 to $(1000-100)/2=450$.
 This is likely due to the RLS being unable to improve the solution once the current solution has a difference below half of the lowest value.
