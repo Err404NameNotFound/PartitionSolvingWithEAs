@@ -76,7 +76,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 46;
+            selection = 45;
         }
         mainSelection(selection);
     }
@@ -116,7 +116,7 @@ public class Main {
             case 36 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 37 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 38 -> runCancellableTask(() -> BinomialTesting.testBinomialSolutionCount(10000));
-            case 39 -> fineEvaluation(InputGenerator.create(MIXED_AND_OVERLAPPED));
+            case 39 -> fineEvaluation(InputGenerator.createPowerlaw(-1.25, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE));
             case 40 -> ResultsChapterPrinter.printCompleteEvaluation();
             case 41 -> bruteForceAll(InputGenerator.createMixed(), 1000, 20);
             case 42 ->
@@ -191,19 +191,20 @@ public class Main {
 //        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
 //                Solver.getRLS(),
-                Solver.getRLSUniformNeighbour(2),
-                Solver.getRLSUniformNeighbour(4),
+//                Solver.getRLSUniformNeighbour(2),
+//                Solver.getRLSUniformNeighbour(4),
 //                Solver.getRLSUniformRing(2),
-//                Solver.getRLSUniformRing(3),
-//                Solver.getRLSUniformRing(4),
+                Solver.getRLSUniformRing(3),
+                Solver.getRLSUniformRing(4),
 //                Solver.getEA(),
 //                Solver.getEA(2),
                 Solver.getEA(3),
                 Solver.getEA(4),
-//                Solver.getPmut(-1.75),
+                Solver.getPmut(-1.5),
+                Solver.getPmut(-1.75),
 //                Solver.getPmut(-2.00),
-                Solver.getPmut(-2.25),
-                Solver.getPmut(-2.5),
+//                Solver.getPmut(-2.25),
+//                Solver.getPmut(-2.5),
 //                Solver.getPmut(-3.25),
         };
         evaluate(1000, lengths, stepSizes, generator, solvers, null);

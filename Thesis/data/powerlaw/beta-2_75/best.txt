@@ -7,7 +7,7 @@ lowest value;    1
 highest value;   50.000
 ---------
 algo type;           pmut;   EA-SM;   RLS-N
-algo param;         -1,25;    50/n;     k=4
+algo param;         -1,25;    50/n;     n=4
 avg mut/change;   216,029;  49,921;   4,000
 avg mut/step;     370,312;  50,022;   4,000
 ---------

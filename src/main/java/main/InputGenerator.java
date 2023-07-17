@@ -288,6 +288,11 @@ public class InputGenerator {
         return create(MIXED);
     }
 
+    public static InputGenerator createPowerlaw(double n, double lowest, double highest){
+        return new InputGenerator(POWERLAW_DISTRIBUTED, (a) -> powerlawDistributed(a,lowest,highest,n), (long) lowest,
+                (long) highest, 0, DEFAULT_N, DEFAULT_P_BINOMIAL, 0, n);
+    }
+
     public long[] generate(int length) {
         if (outputConstant) {
             if (output == null || output.length != length) {

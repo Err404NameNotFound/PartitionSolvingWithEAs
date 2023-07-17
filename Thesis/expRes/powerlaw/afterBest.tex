@@ -1,0 +1,30 @@
+The ranking is according to the amount of bits the algorithm flip on average per step.
+$pmut_{-1.25}$ manages to find the solution in just 56 iterations on average.
+The (1+1) EA with $p_m=50/n$ is slower than $pmut_{-1.25}$ but instead has a lower value for the maximum number of iterations.
+Both options seem fine.
+Even the $RLS-N_4$ is still very fast for the powerlaw distributed input with $\beta = -2.75$.
+For $\beta = -1.25$ the results are a bit different.
+
+\input{tables/powerlaw/best_2.tex}
+
+The $RLS-R_4$ performs now better than the (1+1) EA variant with $p_m=4/n$, but is still slower than $pmut_{-1.5}$.
+As the first inputs were less difficult to solve than the inputs with $\beta = -1.25$ the second was chosen for the fine evaluation.
+
+\input{tables/powerlaw/multipleN_fails.tex}
+
+The RLS is once again the algorithm that is the most likely to be stuck in a local optimum.
+Compared to the other algorithms it is not as drastic as for the binomial input for example.
+Only for $n<500$ the algorithms do not find a global optimum in every run.
+The setting of the parameter almost doesn't affect the amount of runs without an optimal result.
+The main differences are between the different algorithms themselves.
+
+\input{tables/powerlaw/multipleN_avg.tex}
+
+The easiest are inputs with size $n=500$.
+For smaller values of $n$ the algorithms sometimes fail and even in a good run the need more iterations to find an optimal solution.
+Due to the increasing size of the input the algorithms need more time for the bigger values.
+
+\input{tables/powerlaw/multipleN_totalAvg.tex}
+
+$pmut_-1.75$ is not only the best variant for the bigger values of n but also for smaller inputs as well.
+It is the least likely to be stuck in a local optimum, and it is also the fastest if it reaches a global optimum.

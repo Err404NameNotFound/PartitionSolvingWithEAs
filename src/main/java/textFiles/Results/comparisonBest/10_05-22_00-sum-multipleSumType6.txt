@@ -9,7 +9,7 @@ highest value;   50.000
 Fields with sum; 100
 ---------
 algo type;          RLS-N;   EA-SM;   RLS-R;    pmut;      EA;     RLS
-algo param;           k=2;     3/n;     k=2;   -2,75;       -;       -
+algo param;           n=2;     3/n;     r=2;   -2,75;       -;       -
 avg mut/change;     2,000;   3,052;   1,498;   2,212;   1,572;   1,000
 avg mut/step;       2,000;   3,000;   1,500;   2,270;   1,000;   1,000
 ---------
