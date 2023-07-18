@@ -1,3 +1,6 @@
-The ideal value for $\beta$ seems to be around -1.75 as the runtime increases for the two neighbour values.
-Even the worst value still manages find an optimal solution within double the time of the best value.
-The importance of the parameter is therefore not as important as for other inputs.
+$pmut_\beta$ also performs similar to the geometric input.
+Here $\beta=-3.25$ and $\beta=-3.0$ are switched instead of $\beta = -2.5$ and $-3.75$.
+Apart from that the algorithm perform strictly ranked by their probability to flip only one bit per step.
+Solving the mixed input is easier for the $pmut$ operator too.
+All variants manage to find an optimal solution within 1000 steps on average compared to 6,200 steps for the geometric input.
+The maximum number of steps is also lower by a factor of at least 10 for every value of $\beta$.

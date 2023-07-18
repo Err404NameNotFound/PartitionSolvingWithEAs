@@ -1,5 +1,18 @@
+The ranking of the algorithm is the same as for the other inputs with a similar preference of low mutation rates.
+The RLS has the best performance closely follow by $pmut_{-3.25}$ and lastly be the standard (1+1) EA.
+
 \input{tables/mixedAndOverlapped/multipleN_fails.tex}
+
+No unexpected results for the different input sizes.
+The RLS variants perform the worst for $n\le 100$.
+The input is also rather hard to solve for $n\le50$ but not as hard as the overlapped distributed input for example.
 
 \input{tables/mixedAndOverlapped/multipleN_avg.tex}
 
+The input gets easier to solve up until $n=5000$ and from then on gets harder again with increasing input size.
+The increase for larger input sizes is much smaller than the decrease for the small values.
+
 \input{tables/mixedAndOverlapped/multipleN_totalAvg.tex}
+
+Mixed and overlapped inputs are best solved by the (1+1) EA with $p_m=2/n$ for $n\le100$ and also relatively good for $n=500$.
+After $n\ge1000$ the standard RLS becomes the best option and it seems like it stays that way for the remaining input sizes.

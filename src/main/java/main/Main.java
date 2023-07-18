@@ -89,12 +89,12 @@ public class Main {
             case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
 
-            case 11 -> evaluateMultiple(1000, POWERLAW_DISTRIBUTED, 10000, "best");
+            case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
             case 12 -> evaluate(1000, POWERLAW_DISTRIBUTED, 20 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(LAST_TWO_SUM_REST_ONE));
+            case 16 -> fineEvaluation(InputGenerator.create(MIXED_AND_OVERLAPPED));
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -105,11 +105,12 @@ public class Main {
             case 33 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
-            case 41 -> printDistribution(InputGenerator.create(POWERLAW_DISTRIBUTED), 10000);
+            case 41 -> printDistribution(InputGenerator.createMixedAndOverlapped(1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
             case 43 -> ResultsChapterPrinter.printCompleteEvaluation();
             case 44 -> ResultsChapterPrinter.printAllTables();
             case 45 -> ResultsChapterPrinter.printCompleteEvaluation2();
+            case 46 -> ResultsChapterPrinter.printCompleteEvaluation3();
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
@@ -184,24 +185,26 @@ public class Main {
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
 //        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
-//                Solver.getRLS(),
-//                Solver.getRLSUniformNeighbour(2),
-                Solver.getRLSUniformNeighbour(4),
-//                Solver.getRLSUniformRing(2),
+                Solver.getRLS(),
+                Solver.getRLSUniformRing(2),
 //                Solver.getRLSUniformRing(3),
 //                Solver.getRLSUniformRing(4),
-//                Solver.getEA(),
-//                Solver.getEA(2),
+//                Solver.getRLSUniformNeighbour(2),
+//                Solver.getRLSUniformNeighbour(3),
+//                Solver.getRLSUniformNeighbour(4),
+                Solver.getEA(),
+                Solver.getEA(2),
 //                Solver.getEA(3),
 //                Solver.getEA(4),
-                Solver.getEA(100),
-                Solver.getPmut(-1.25),
+//                Solver.getEA(100),
+//                Solver.getPmut(-1.25),
 //                Solver.getPmut(-1.5),
 //                Solver.getPmut(-1.75),
 //                Solver.getPmut(-2.00),
 //                Solver.getPmut(-2.25),
 //                Solver.getPmut(-2.5),
-//                Solver.getPmut(-3.25),
+                Solver.getPmut(-3.0),
+                Solver.getPmut(-3.25),
         };
         evaluate(1000, lengths, stepSizes, generator, solvers, null);
     }
@@ -215,6 +218,8 @@ public class Main {
         solvers[0] = evaluate(n, type, length, Solver.getRLSComparison(), "rls_compare");
         solvers[1] = evaluate(n, type, length, Solver.getEAComparison(), "ea_compare");
         solvers[2] = evaluate(n, type, length, Solver.getPmutComparison(), "pmut_compare");
+//        solvers[0] = Solver.getRLSUniformNeighbour(2);
+//        solvers[1] = Solver.getEA(4);
         Solver best = evaluate(n, type, length, solvers, postfixBest);
         System.out.printf("+++++++++ %d: %s -> %s +++++++++%n", type, Arrays.toString(solvers), best);
     }

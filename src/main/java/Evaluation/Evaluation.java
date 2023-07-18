@@ -235,9 +235,10 @@ public class Evaluation {
     private int calculate(int n, int[] lengths, long[] maxSteps, boolean printProgress) {
         long[] input;
         ProgressPrinter progress = new ProgressPrinter(n);
-        for (int t = 0; t < n; ++t) {
+        int t;
+        for (t = 0; t < n; ++t) {
             if (Thread.interrupted()) {
-                return t;
+                break;
             }
             print(t);
             input = generator.generate(lengths[0]);
@@ -260,7 +261,7 @@ public class Evaluation {
             avg[i] = failed[i] == n ? -1 : evaluators[i].getSum() / (n - failed[i]);
             avgFailDif[i] = failed[i] == 0 ? -1 : failDifSum[i] / failed[i];
         }
-        return n;
+        return t;
     }
 
     private void printResult(int n, int length, long maxSteps) {

@@ -214,4 +214,27 @@ public class ResultsChapterPrinter {
         }
         stopWritingToFile();
     }
+
+    private static void printAdditionalTexFile(int folder, int file) {
+        println(readFileFromPath(PATH_THESIS + "expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + ".tex"));
+    }
+
+    public static void printCompleteEvaluation3() {
+        startFilePrinting(PATH_THESIS + "expRes/tables_3.tex", true);
+        createFilesForEvaluation();
+        for (int i = 0; i < SECTIONS.length; ++i) {
+            println(SECTIONS[i]);
+            int remainingTextIndex = 0;
+            printAdditionalTexFile(i, 0);
+            for (int e = 0; e < SUBSECTIONS.length; ++e) {
+                println(SUBSECTIONS[e]);
+                printAdditionalTexFile(i, ++remainingTextIndex);
+                println();
+                println("\\input{tables/" + FOLDERS[i] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
+                println();
+                printAdditionalTexFile(i, ++remainingTextIndex);
+            }
+        }
+        stopWritingToFile();
+    }
 }

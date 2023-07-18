@@ -1,22 +1,26 @@
-number of runs;  1.000
+number of runs;  11
 Limit per run;   921.030
 array length;    10.000
-ratio 100 * m/n; 0,15609 -> easy
-input type;      mixed (11)
+ratio 100 * m/n; 0,10124 -> easy
+input type;      binomial distributed (7)
 ---------
-algo type;          RLS;  pmut; EA-SM
-algo param;           -; -3,00;   2/n
-avg mut/change;   1,000; 1,804; 2,144
-avg mut/step;     1,000; 1,931; 2,000
+n value;         10.000
+p;               0,100000
+expected value;  1.000
 ---------
-total avg count;    341;   342;   501
-avg eval count;     341;   342;   501
-max eval count;     942; 1.030; 2.280
-min eval count;      53;    35;    43
+algo type;        RLS-N
+algo param;         n=2
+avg mut/change;   2,000
+avg mut/step;     2,000
 ---------
-fails;                0;     0;     0
-fail ratio;       0,000; 0,000; 0,000
-avg fail dif;        -1;    -1;    -1
+total avg count;      0
+avg eval count;       0
+max eval count;     464
+min eval count;     123
+---------
+fails;                0
+fail ratio;       0,000
+avg fail dif;         0
 ---------
 RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
 RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n

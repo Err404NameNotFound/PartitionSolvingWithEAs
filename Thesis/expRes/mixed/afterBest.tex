@@ -1,14 +1,25 @@
 This input seems generally easy to solve as for every base algorithm multiple variants reach an optimal solution within 1000 steps.
-The $pmut_{-1.75}$ variants reaches an optimal solution the fastest, but the other algorithms are almost equally fast.
-All algorithms finish within $550 \pm 100$ steps on average and always in less than 2000 steps.
+The standard RLS reaches an optimal solution the fastest, but the other algorithms are almost equally fast.
+All algorithms finish within 501 steps on average and always in less than 2500 steps.
 
 \input{tables/mixed/multipleN_fails.tex}
 
 This input is only hard to solve for $n<100$.
-For $n = 100$ there are only a few inputs that were not solved within the time limit and for $n\ge500$ the input is solved by each of the chosen algorithms.
+Only the RLS is stuck in a local optimum for many inputs.
+The other algorithms manage to escape the local optima in most cases even for $n=100$.
+For $n\ge500$ every input is solved by each of the chosen algorithms except for the standard RLS failing once for $n=500$.
 This is probably caused by the many small values from the powerlaw and geometric distribution.
+The longer the input the more of these small values can be used to fill the gaps.
 
+\input{tables/mixed/multipleN_avg.tex}
 
-% \input{tables/mixed/multipleN_avg.tex}
+The RLS variants are only able to solve the inputs if they are lucky.
+The (1+1) EAs and the $pmut$ variants also find other optimal solutions but need way more steps if they do so.
+The input becomes drastically easier until $n=500$ and very slowly becomes harder with rising $n$ again.
 
 \input{tables/mixed/multipleN_totalAvg.tex}
+
+For $n\le100$ the (1+1) EA with $p_m=2/n$ performs the best.
+It is still good for the bigger values of $n$ but after $n\ge500$ $pmut_{-3.0}$ reaches an optimal solution faster.
+The standard RLS is only the fastest for a small range of values but has the disadvantage of the poor performance for small inputs.
+Choosing one of the other variants is a much safer choice.

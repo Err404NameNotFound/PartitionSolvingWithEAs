@@ -1,5 +1,13 @@
 This input is similar to the mixed input from the last subsection.
-For this distribution the values are not chosen uniform random from one of the base distributions but instead a value from every distribution is chosen and added together.
+For this distribution the values are not chosen uniform random from one of the base distributions, but instead a value from every distribution is chosen and added together.
 Hence the name overlapped distribution.
 For this input the step limit was increased to $100\cdot n \ln n$.
 The comparison for the step limit $10\cdot n \ln n$ is contained in only for the best algorithms.
+
+\begin{figure}[h]
+      \caption{Distribution of an overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000.0.1)$, \textasciitilde$Geo(0.01)$, powerlaw dist with $\beta=-1.25$}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/overlapped.png}\label{fig:overlappedDistExample}
+\end{figure}
+
+The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$

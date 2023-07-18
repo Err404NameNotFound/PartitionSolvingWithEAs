@@ -1301,6 +1301,11 @@ INPUT expRes/mixed/beforeAll.tex
 INPUT ./expRes/mixed/beforeAll.tex
 INPUT ./expRes/mixed/beforeAll.tex
 INPUT expRes/mixed/beforeAll.tex
+INPUT ./figures/images/numberGenerator/mixed.png
+INPUT ./figures/images/numberGenerator/mixed.png
+INPUT figures/images/numberGenerator/mixed.png
+INPUT ./figures/images/numberGenerator/mixed.png
+INPUT ./figures/images/numberGenerator/mixed.png
 INPUT ./expRes/mixed/beforeRLS.tex
 INPUT ./expRes/mixed/beforeRLS.tex
 INPUT expRes/mixed/beforeRLS.tex
@@ -1369,6 +1374,10 @@ INPUT ./tables/mixed/multipleN_fails.tex
 INPUT tables/mixed/multipleN_fails.tex
 INPUT ./tables/mixed/multipleN_fails.tex
 INPUT tables/mixed/multipleN_fails.tex
+INPUT ./tables/mixed/multipleN_avg.tex
+INPUT tables/mixed/multipleN_avg.tex
+INPUT ./tables/mixed/multipleN_avg.tex
+INPUT tables/mixed/multipleN_avg.tex
 INPUT ./tables/mixed/multipleN_totalAvg.tex
 INPUT tables/mixed/multipleN_totalAvg.tex
 INPUT ./tables/mixed/multipleN_totalAvg.tex
@@ -1379,6 +1388,11 @@ INPUT expRes/overlapped/beforeAll.tex
 INPUT ./expRes/overlapped/beforeAll.tex
 INPUT ./expRes/overlapped/beforeAll.tex
 INPUT expRes/overlapped/beforeAll.tex
+INPUT ./figures/images/numberGenerator/overlapped.png
+INPUT ./figures/images/numberGenerator/overlapped.png
+INPUT figures/images/numberGenerator/overlapped.png
+INPUT ./figures/images/numberGenerator/overlapped.png
+INPUT ./figures/images/numberGenerator/overlapped.png
 INPUT ./expRes/overlapped/beforeRLS.tex
 INPUT ./expRes/overlapped/beforeRLS.tex
 INPUT expRes/overlapped/beforeRLS.tex
@@ -1461,6 +1475,11 @@ INPUT expRes/mixedAndOverlapped/beforeAll.tex
 INPUT ./expRes/mixedAndOverlapped/beforeAll.tex
 INPUT ./expRes/mixedAndOverlapped/beforeAll.tex
 INPUT expRes/mixedAndOverlapped/beforeAll.tex
+INPUT ./figures/images/numberGenerator/mixedAndOverlapped.png
+INPUT ./figures/images/numberGenerator/mixedAndOverlapped.png
+INPUT figures/images/numberGenerator/mixedAndOverlapped.png
+INPUT ./figures/images/numberGenerator/mixedAndOverlapped.png
+INPUT ./figures/images/numberGenerator/mixedAndOverlapped.png
 INPUT ./expRes/mixedAndOverlapped/beforeRLS.tex
 INPUT ./expRes/mixedAndOverlapped/beforeRLS.tex
 INPUT expRes/mixedAndOverlapped/beforeRLS.tex
