@@ -94,7 +94,7 @@ public class Main {
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(MIXED_AND_OVERLAPPED));
+            case 16 -> fineEvaluation(InputGenerator.create(LAST_TWO_SUM_REST_ONE));
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -184,23 +184,23 @@ public class Main {
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
 //        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
-                Solver.getRLS(),
+//                Solver.getRLS(),
 //                Solver.getRLSUniformNeighbour(2),
-//                Solver.getRLSUniformNeighbour(4),
-                Solver.getRLSUniformRing(2),
+                Solver.getRLSUniformNeighbour(4),
+//                Solver.getRLSUniformRing(2),
 //                Solver.getRLSUniformRing(3),
 //                Solver.getRLSUniformRing(4),
 //                Solver.getEA(),
-                Solver.getEA(2),
-                Solver.getEA(3),
+//                Solver.getEA(2),
+//                Solver.getEA(3),
 //                Solver.getEA(4),
-//                Solver.getEA(100),
-//                Solver.getPmut(-1.25),
+                Solver.getEA(100),
+                Solver.getPmut(-1.25),
 //                Solver.getPmut(-1.5),
 //                Solver.getPmut(-1.75),
 //                Solver.getPmut(-2.00),
-                Solver.getPmut(-2.25),
-                Solver.getPmut(-2.5),
+//                Solver.getPmut(-2.25),
+//                Solver.getPmut(-2.5),
 //                Solver.getPmut(-3.25),
         };
         evaluate(1000, lengths, stepSizes, generator, solvers, null);

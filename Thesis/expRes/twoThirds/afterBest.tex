@@ -1,9 +1,22 @@
 The $pmut_-1.25$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
 The $RLS-N_4$ performs significantly worse.
 The other algorithm flip so many bits that they are almost close to random sampling.
+In the experiment with different input sizes the mutation rate of $p_m=100/n$ is $\ge1$ for $n\le100$.
+If the algorithm flips every bit then it won't change its solution.
+In these cases the mutation rate was then set to $p_m=1/2$.
 
 \input{tables/twoThirds/multipleN_fails.tex}
 
+Only the RLS variant had runs where it did not reach a global optimum.
+This happened in less than 0.5 \% of the inputs for $n=20$ and $n=100$.
+For the other input sizes it also managed to reach a global optimum for all inputs.
+
 \input{tables/twoThirds/multipleN_avg.tex}
 
+For the lower input sizes the RLS is slower than the remaining algorithm even it manages to find a global optimum.
+
 \input{tables/twoThirds/multipleN_totalAvg.tex}
+
+The $pmut_{-1.25}$ is the best variant closely followed by the (1+1) EA.
+The RLS version is by far slower than the other to variants for the bigger input sizes.
+Even for the smaller inputs it is still slower.

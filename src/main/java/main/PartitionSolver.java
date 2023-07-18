@@ -83,7 +83,7 @@ public class PartitionSolver {
         if (mutationRate > values.length || mutationRate <= 0) {
             throw new IllegalArgumentException("Illegal mutation rate");
         }
-        double maxRate = values.length / 2.0;
+        double maxRate = 0.5;
         if (mutationRate >= maxRate) {
             mutationRate = maxRate;
         }
