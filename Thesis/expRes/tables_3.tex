@@ -603,19 +603,30 @@ The maximum number of steps is also lower by a factor of at least 10 for every v
 \input{tables/mixed/best.tex}
 
 This input seems generally easy to solve as for every base algorithm multiple variants reach an optimal solution within 1000 steps.
-The $pmut_{-1.75}$ variants reaches an optimal solution the fastest, but the other algorithms are almost equally fast.
-All algorithms finish within $550 \pm 100$ steps on average and always in less than 2000 steps.
+The standard RLS reaches an optimal solution the fastest, but the other algorithms are almost equally fast.
+All algorithms finish within 501 steps on average and always in less than 2500 steps.
 
 \input{tables/mixed/multipleN_fails.tex}
 
 This input is only hard to solve for $n<100$.
-For $n = 100$ there are only a few inputs that were not solved within the time limit and for $n\ge500$ the input is solved by each of the chosen algorithms.
+Only the RLS is stuck in a local optimum for many inputs.
+The other algorithms manage to escape the local optima in most cases even for $n=100$.
+For $n\ge500$ every input is solved by each of the chosen algorithms except for the standard RLS failing once for $n=500$.
 This is probably caused by the many small values from the powerlaw and geometric distribution.
+The longer the input the more of these small values can be used to fill the gaps.
 
+\input{tables/mixed/multipleN_avg.tex}
 
-% \input{tables/mixed/multipleN_avg.tex}
+The RLS variants are only able to solve the inputs if they are lucky.
+The (1+1) EAs and the $pmut$ variants also find other optimal solutions but need way more steps if they do so.
+The input becomes drastically easier until $n=500$ and very slowly becomes harder with rising $n$ again.
 
 \input{tables/mixed/multipleN_totalAvg.tex}
+
+For $n\le100$ the (1+1) EA with $p_m=2/n$ performs the best.
+It is still good for the bigger values of $n$ but after $n\ge500$ $pmut_{-3.0}$ reaches an optimal solution faster.
+The standard RLS is only the fastest for a small range of values but has the disadvantage of the poor performance for small inputs.
+Choosing one of the other variants is a much safer choice.
 \section{Multiple distributions overlapped}
 This input is similar to the mixed input from the last subsection.
 For this distribution the values are not chosen uniform random from one of the base distributions, but instead a value from every distribution is chosen and added together.
@@ -651,33 +662,44 @@ The results for the (1+1) EA are similar but not the same.
 Algorithms that had a good runtime on binomial inputs also have a good runtime in the overlapped runs, but the ranking is not the same.
 For this input every the first and second place switched, the same for 3rd and 4th and also for 5th and 6th place.
 This may be only caused by chance and the performance within a pair being really close but might also be caused by something else.
-The (1+1) EA variants also needed about 500 times as long as for the binomial inputs.
+The (1+1) EA variants also needed about 200 times as long as for the binomial inputs.
+All runs had at least 2 runs where they did not find an optimal solution.
+These runs all had a remaining difference of one to the optimal value.
+More time would probably be enough to reach an optimal solution in most cases.
 \subsection{pmut Comparison}
 
 
 \input{tables/overlapped/pmut_compare.tex}
 
-For $pmut$ the results are mostly the same as for the (1+1) EA and the RLS.
-The performance is about 500 times worse than for the binomial inputs, but the ranking is still pretty close.
-Here there are no clear pairs as for the (1+1) EA but some algorithms still switched placed with another algorithm that was close in the binomial input.
+For $pmut$ the results are mostly the same as for the (1+1) EA.
+The performance is about 250 times worse than for the binomial inputs, but the ranking is still pretty close.
+Here the optimal parameter is around $\beta=-1.75$ instead of $\beta=-2.25$.
+For $pmut$ the step limit was too small as well, but the difference to the optimal solution was only one on average.
 \subsection{Comparison of the best variants}
 
 
 \input{tables/overlapped/best.tex}
 
-The results here are the same as for the binomial input. The $RLS-N_2$ performs better than the (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of at least 2 with a step limit of $100 \cdot n \ln(n)$. For the lower values of $n$ this does not hold to that extreme.
-
-TODO redo experiment
+The results here are the same as for the binomial input. The $RLS-N_2$ performs better than the (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of 1.5 with a step limit of $10 \cdot n \ln(n)$. For the lower values of $n$ this does not hold to that extreme.
 
 \input{tables/overlapped/multipleN_fails.tex}
 
-Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 99 \% of the inputs.
-In the binomial inputs the $RLS-N_2$ performed the worst because it was the only algorithm to get stuck in a local optimum.
-For the overlapped input the $RLS-N_2$ finds an optimal solution the most often for every input size.
+Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 80 \% of the inputs.
+The RLS variants perform the worst again for the small input sizes.
+Only for $n\ge500$ the $RLS-N_{2}$ is a good option due to the hug performance increase between $n=100$ and $n=500$.
+Overlapped inputs stay hard to solve relatively long as only for $n\ge50,000$ all best variants of each algorithm find an optimal solution for every input.
 
 \input{tables/overlapped/multipleN_avg.tex}
 
+For $n\le1000$ the performance seems almost constant, but this is caused by the constant step limit of 100,000.
+After $n=1000$ the value of $10 \cdot n \ln(n)$ was bigger than 100,000.
+
 \input{tables/overlapped/multipleN_totalAvg.tex}
+
+No algorithm is very successful for the small values of N.
+Choosing the (1+1) EA for $n<500$ should result in the best runtime in most of the cases.
+Only the $RLS-N_4$ is faster for $50\le n \le 100$.
+For bigger input sizes the $RLS-N_2$ is clearly the best option.
 \section{Multiple distributions mixed \& overlapped}
 This distribution is again similar to the mixed distribution.
 With probability 1/2 the value is chosen from the overlapped distribution and with remaining probability 1/2 the value is chosen from the mixed distribution.
@@ -688,32 +710,54 @@ With probability 1/2 the value is chosen from the overlapped distribution and wi
       \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixedAndOverlapped.png}\label{fig:mixAndOverlDistExample}
 \end{figure}
 
-The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$
+The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$.
+By looking at Figure~\ref{fig:mixAndOverlDistExample} it looks like the mixed and overlapped distribution is closer to the mixed distribution than to the overlapped distribution.
+The results should also be closer to the mixed distribution.
 \subsection{RLS Comparison}
 
 
 \input{tables/mixedAndOverlapped/rls_compare.tex}
 
-
+As expected the results are similar to the mixed input.
+There is a clear preference of algorithms with higher probability to flip only one bit per step.
+Mixed and geometric distributions did not lead to very bad performance for the $RLS-N_4$.
+The mixed and overlapped input punishes the worse mutation operators more than the other two inputs.
+In that sense this type of input is closer to the OneMax equivalent, but still way less extreme.
+Here still every variant reaches an optimal solution in every case.
 \subsection{(1+1) EA Comparison}
 
 
 \input{tables/mixedAndOverlapped/ea_compare.tex}
 
-
+The results here are pretty similar to the results of the RLS.
+The lower mutation rates perform better and higher mutation rates start to perform worse in comparison to the mixed input.
 \subsection{pmut Comparison}
 
 
 \input{tables/mixedAndOverlapped/pmut_compare.tex}
 
-
+Here the same holds.
+The higher mutation rates are less impacted than the higher rates for the RLS and the (1+1) EA.
 \subsection{Comparison of the best variants}
 
 
 \input{tables/mixedAndOverlapped/best.tex}
 
+The ranking of the algorithm is the same as for the other inputs with a similar preference of low mutation rates.
+The RLS has the best performance closely follow by $pmut_{-3.25}$ and lastly be the standard (1+1) EA.
+
 \input{tables/mixedAndOverlapped/multipleN_fails.tex}
+
+No unexpected results for the different input sizes.
+The RLS variants perform the worst for $n\le 100$.
+The input is also rather hard to solve for $n\le50$ but not as hard as the overlapped distributed input for example.
 
 \input{tables/mixedAndOverlapped/multipleN_avg.tex}
 
+The input gets easier to solve up until $n=5000$ and from then on gets harder again with increasing input size.
+The increase for larger input sizes is much smaller than the decrease for the small values.
+
 \input{tables/mixedAndOverlapped/multipleN_totalAvg.tex}
+
+Mixed and overlapped inputs are best solved by the (1+1) EA with $p_m=2/n$ for $n\le100$ and also relatively good for $n=500$.
+After $n\ge1000$ the standard RLS becomes the best option and it seems like it stays that way for the remaining input sizes.
