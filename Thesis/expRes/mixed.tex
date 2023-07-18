@@ -1,0 +1,75 @@
+\section{Multiple distributions mixed}
+This input does not follow a specific distribution but rather is a mix of the previous distributions.
+The value is either chosen uniform random, from a binomial distribution \textasciitilde$B(10000, 0.1)$, from a geometric distribution with $p=0.001$ or a powerlaw distribution with $\beta=-2.75$.
+One of the distributions is chosen uniform randomly.
+This process is repeated $n$ times.
+The values of this distribution then follow neither of the used distributions.
+
+\begin{figure}[h]
+      \caption{Distribution of a mixed input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000.0.1)$, \textasciitilde$Geo(0.01)$, powerlaw dist with $\beta=-1.25$}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixed.png}\label{fig:mixedDistExample}
+\end{figure}
+
+The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$
+\subsection{RLS Comparison}
+
+
+\input{tables/mixed/rls_compare.tex}
+
+The results are mostly the same as for the geometric input.
+The performance increases with the probability of flipping only one bit.
+The main difference is the RLS being the best variant in this case as it reaches an optimal solution in every run.
+The penalty of flipping only one bit is greater than for the geometric input but certainly not as drastic as for the OneMax equivalent.
+By comparing the average number of iterations it seems like this input is much easier than the geometric input.
+\subsection{(1+1) EA Comparison}
+
+
+\input{tables/mixed/ea_compare.tex}
+
+For the (1+1) EA the same holds.
+It performs better with decreasing mutation rate with $p_m=2/n$ being the only exception again.
+The same was true for the geometric input.
+The penality for the wrong parameter is also bigger for the (1+1) EA compared to the geometric input.
+So the results are rather similar to the RLS.
+\subsection{pmut Comparison}
+
+
+\input{tables/mixed/pmut_compare.tex}
+
+$pmut_\beta$ also performs similar to the geometric input.
+Here $\beta=-3.25$ and $\beta=-3.0$ are switched instead of $\beta = -2.5$ and $-3.75$.
+Apart from that the algorithm perform strictly ranked by their probability to flip only one bit per step.
+Solving the mixed input is easier for the $pmut$ operator too.
+All variants manage to find an optimal solution within 1000 steps on average compared to 6,200 steps for the geometric input.
+The maximum number of steps is also lower by a factor of at least 10 for every value of $\beta$.
+\subsection{Comparison of the best variants}
+
+
+\input{tables/mixed/best.tex}
+
+This input seems generally easy to solve as for every base algorithm multiple variants reach an optimal solution within 1000 steps.
+The standard RLS reaches an optimal solution the fastest, but the other algorithms are almost equally fast.
+All algorithms finish within 501 steps on average and always in less than 2500 steps.
+
+\input{tables/mixed/multipleN_fails.tex}
+
+This input is only hard to solve for $n<100$.
+Only the RLS is stuck in a local optimum for many inputs.
+The other algorithms manage to escape the local optima in most cases even for $n=100$.
+For $n\ge500$ every input is solved by each of the chosen algorithms except for the standard RLS failing once for $n=500$.
+This is probably caused by the many small values from the powerlaw and geometric distribution.
+The longer the input the more of these small values can be used to fill the gaps.
+
+\input{tables/mixed/multipleN_avg.tex}
+
+The RLS variants are only able to solve the inputs if they are lucky.
+The (1+1) EAs and the $pmut$ variants also find other optimal solutions but need way more steps if they do so.
+The input becomes drastically easier until $n=500$ and very slowly becomes harder with rising $n$ again.
+
+\input{tables/mixed/multipleN_totalAvg.tex}
+
+For $n\le100$ the (1+1) EA with $p_m=2/n$ performs the best.
+It is still good for the bigger values of $n$ but after $n\ge500$ $pmut_{-3.0}$ reaches an optimal solution faster.
+The standard RLS is only the fastest for a small range of values but has the disadvantage of the poor performance for small inputs.
+Choosing one of the other variants is a much safer choice.

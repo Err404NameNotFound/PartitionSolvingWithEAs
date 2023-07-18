@@ -196,6 +196,20 @@ public class ResultsChapterPrinter {
         }
     }
 
+    private static void printCompleteSectionInOneFile(int index) {
+        println(SECTIONS[index]);
+        int remainingTextIndex = 0;
+        printAdditionalTexFile(index, 0);
+        for (int e = 0; e < SUBSECTIONS.length; ++e) {
+            println(SUBSECTIONS[e]);
+            printAdditionalTexFile(index, ++remainingTextIndex);
+            println();
+            println("\\input{tables/" + FOLDERS[index] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
+            println();
+            printAdditionalTexFile(index, ++remainingTextIndex);
+        }
+    }
+
     public static void printCompleteEvaluation2() {
         startFilePrinting(PATH_THESIS + "expRes/tables_2.tex", true);
         createFilesForEvaluation();
@@ -219,21 +233,25 @@ public class ResultsChapterPrinter {
         println(readFileFromPath(PATH_THESIS + "expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + ".tex"));
     }
 
-    public static void printCompleteEvaluation3() {
+    public static void printCompleteEvaluation3(boolean updateTables) {
+        if(updateTables){
+            printAllTables();
+        }
         startFilePrinting(PATH_THESIS + "expRes/tables_3.tex", true);
         createFilesForEvaluation();
         for (int i = 0; i < SECTIONS.length; ++i) {
-            println(SECTIONS[i]);
-            int remainingTextIndex = 0;
-            printAdditionalTexFile(i, 0);
-            for (int e = 0; e < SUBSECTIONS.length; ++e) {
-                println(SUBSECTIONS[e]);
-                printAdditionalTexFile(i, ++remainingTextIndex);
-                println();
-                println("\\input{tables/" + FOLDERS[i] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
-                println();
-                printAdditionalTexFile(i, ++remainingTextIndex);
-            }
+            printCompleteSectionInOneFile(i);
+        }
+    }
+
+    public static void printCompleteEvaluation4(boolean updateTables) {
+        if(updateTables){
+            printAllTables();
+        }
+        for (int i = 0; i < SECTIONS.length; ++i) {
+            startFilePrinting(PATH_THESIS + "expRes/" + FOLDERS[i] + ".tex", true);
+            printCompleteSectionInOneFile(i);
+            stopWritingToFile();
         }
         stopWritingToFile();
     }

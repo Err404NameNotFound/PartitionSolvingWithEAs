@@ -1,0 +1,61 @@
+\section{Multiple distributions mixed \& overlapped}
+This distribution is again similar to the mixed distribution.
+With probability 1/2 the value is chosen from the overlapped distribution and with remaining probability 1/2 the value is chosen from the mixed distribution.
+
+\begin{figure}[h]
+      \caption{Distribution of a mixed and overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000.0.1)$, \textasciitilde$Geo(0.01)$, powerlaw dist with $\beta=-1.25$}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixedAndOverlapped.png}\label{fig:mixAndOverlDistExample}
+\end{figure}
+
+The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$.
+By looking at Figure~\ref{fig:mixAndOverlDistExample} it looks like the mixed and overlapped distribution is closer to the mixed distribution than to the overlapped distribution.
+The results should also be closer to the mixed distribution.
+\subsection{RLS Comparison}
+
+
+\input{tables/mixedAndOverlapped/rls_compare.tex}
+
+As expected the results are similar to the mixed input.
+There is a clear preference of algorithms with higher probability to flip only one bit per step.
+Mixed and geometric distributions did not lead to very bad performance for the $RLS-N_4$.
+The mixed and overlapped input punishes the worse mutation operators more than the other two inputs.
+In that sense this type of input is closer to the OneMax equivalent, but still way less extreme.
+Here still every variant reaches an optimal solution in every case.
+\subsection{(1+1) EA Comparison}
+
+
+\input{tables/mixedAndOverlapped/ea_compare.tex}
+
+The results here are pretty similar to the results of the RLS.
+The lower mutation rates perform better and higher mutation rates start to perform worse in comparison to the mixed input.
+\subsection{pmut Comparison}
+
+
+\input{tables/mixedAndOverlapped/pmut_compare.tex}
+
+Here the same holds.
+The higher mutation rates are less impacted than the higher rates for the RLS and the (1+1) EA.
+\subsection{Comparison of the best variants}
+
+
+\input{tables/mixedAndOverlapped/best.tex}
+
+The ranking of the algorithm is the same as for the other inputs with a similar preference of low mutation rates.
+The RLS has the best performance closely follow by $pmut_{-3.25}$ and lastly be the standard (1+1) EA.
+
+\input{tables/mixedAndOverlapped/multipleN_fails.tex}
+
+No unexpected results for the different input sizes.
+The RLS variants perform the worst for $n\le 100$.
+The input is also rather hard to solve for $n\le50$ but not as hard as the overlapped distributed input for example.
+
+\input{tables/mixedAndOverlapped/multipleN_avg.tex}
+
+The input gets easier to solve up until $n=5000$ and from then on gets harder again with increasing input size.
+The increase for larger input sizes is much smaller than the decrease for the small values.
+
+\input{tables/mixedAndOverlapped/multipleN_totalAvg.tex}
+
+Mixed and overlapped inputs are best solved by the (1+1) EA with $p_m=2/n$ for $n\le100$ and also relatively good for $n=500$.
+After $n\ge1000$ the standard RLS becomes the best option and it seems like it stays that way for the remaining input sizes.

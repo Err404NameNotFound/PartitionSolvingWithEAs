@@ -110,7 +110,8 @@ public class Main {
             case 43 -> ResultsChapterPrinter.printCompleteEvaluation();
             case 44 -> ResultsChapterPrinter.printAllTables();
             case 45 -> ResultsChapterPrinter.printCompleteEvaluation2();
-            case 46 -> ResultsChapterPrinter.printCompleteEvaluation3();
+            case 46 -> ResultsChapterPrinter.printCompleteEvaluation3(true);
+            case 47 -> ResultsChapterPrinter.printCompleteEvaluation4(true);
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
