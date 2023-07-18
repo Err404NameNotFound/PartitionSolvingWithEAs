@@ -48,18 +48,18 @@
 \contentsline {subsection}{\numberline {5.9.1}RLS Comparison}{36}{subsection.5.9.1}%
 \contentsline {subsection}{\numberline {5.9.2}(1+1) EA Comparison}{37}{subsection.5.9.2}%
 \contentsline {subsection}{\numberline {5.9.3}pmut Comparison}{37}{subsection.5.9.3}%
-\contentsline {subsection}{\numberline {5.9.4}Comparison of the best variants}{37}{subsection.5.9.4}%
-\contentsline {section}{\numberline {5.10}Multiple distributions overlapped}{38}{section.5.10}%
+\contentsline {subsection}{\numberline {5.9.4}Comparison of the best variants}{38}{subsection.5.9.4}%
+\contentsline {section}{\numberline {5.10}Multiple distributions overlapped}{39}{section.5.10}%
 \contentsline {subsection}{\numberline {5.10.1}RLS Comparison}{39}{subsection.5.10.1}%
-\contentsline {subsection}{\numberline {5.10.2}(1+1) EA Comparison}{39}{subsection.5.10.2}%
+\contentsline {subsection}{\numberline {5.10.2}(1+1) EA Comparison}{40}{subsection.5.10.2}%
 \contentsline {subsection}{\numberline {5.10.3}pmut Comparison}{40}{subsection.5.10.3}%
-\contentsline {subsection}{\numberline {5.10.4}Comparison of the best variants}{40}{subsection.5.10.4}%
-\contentsline {section}{\numberline {5.11}Multiple distributions mixed \& overlapped}{41}{section.5.11}%
+\contentsline {subsection}{\numberline {5.10.4}Comparison of the best variants}{41}{subsection.5.10.4}%
+\contentsline {section}{\numberline {5.11}Multiple distributions mixed \& overlapped}{42}{section.5.11}%
 \contentsline {subsection}{\numberline {5.11.1}RLS Comparison}{42}{subsection.5.11.1}%
-\contentsline {subsection}{\numberline {5.11.2}(1+1) EA Comparison}{42}{subsection.5.11.2}%
-\contentsline {subsection}{\numberline {5.11.3}pmut Comparison}{42}{subsection.5.11.3}%
+\contentsline {subsection}{\numberline {5.11.2}(1+1) EA Comparison}{43}{subsection.5.11.2}%
+\contentsline {subsection}{\numberline {5.11.3}pmut Comparison}{43}{subsection.5.11.3}%
 \contentsline {subsection}{\numberline {5.11.4}Comparison of the best variants}{43}{subsection.5.11.4}%
-\contentsline {subsection}{\numberline {5.11.5}Conclusion of empirical results}{43}{subsection.5.11.5}%
+\contentsline {subsection}{\numberline {5.11.5}Conclusion of empirical results}{44}{subsection.5.11.5}%
 \contentsline {chapter}{Bibliography}{45}{section*.23}%
 \contentsline {chapter}{\nonumberline Appendix}{47}{chapter*.25}%
 \contentsline {section}{\numberline {A}Appendix Section 1}{47}{section.5.1}%

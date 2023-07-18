@@ -2,9 +2,9 @@ The results here are the same as for the binomial input. The $RLS-N_2$ performs 
 
 \input{tables/overlapped/multipleN_fails.tex}
 
-Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 80 \% of the inputs.
+Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 70 \% of the inputs.
 The RLS variants perform the worst again for the small input sizes.
-Only for $n\ge500$ the $RLS-N_{2}$ is a good option due to the hug performance increase between $n=100$ and $n=500$.
+Only for $n\ge500$ the $RLS-N_{2}$ is a good option due to the huge performance increase between $n=100$ and $n=500$.
 Overlapped inputs stay hard to solve relatively long as only for $n\ge50,000$ all best variants of each algorithm find an optimal solution for every input.
 
 \input{tables/overlapped/multipleN_avg.tex}
@@ -14,7 +14,7 @@ After $n=1000$ the value of $10 \cdot n \ln(n)$ was bigger than 100,000.
 
 \input{tables/overlapped/multipleN_totalAvg.tex}
 
-No algorithm is very successful for the small values of N.
+No algorithm is very successful for the small values of $n$.
 Choosing the (1+1) EA for $n<500$ should result in the best runtime in most of the cases.
 Only the $RLS-N_4$ is faster for $50\le n \le 100$.
 For bigger input sizes the $RLS-N_2$ is clearly the best option.
