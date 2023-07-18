@@ -3,27 +3,36 @@ This input is similar to the mixed input from the last subsection.
 For this distribution the values are not chosen uniform random from one of the base distributions, but instead a value from every distribution is chosen and added together.
 Hence the name overlapped distribution.
 For this input the step limit was increased to $100\cdot n \ln n$.
-The comparison for the step limit $10\cdot n \ln n$ is contained in only for the best algorithms.
+The comparison with the step limit $10\cdot n \ln(n)$ is contained in the last subsubsection which compares the best variants.
 
 \begin{figure}[h]
-      \caption{Distribution of an overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000.0.1)$, \textasciitilde$Geo(0.01)$, powerlaw dist with $\beta=-1.25$}
+      \caption{Distribution of an overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, powerlaw dist with $\beta=-1.25$}
       \centering
       \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/overlapped.png}\label{fig:overlappedDistExample}
 \end{figure}
 
-The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000.0.1)$, \textasciitilde$Geo(0.001)$, powerlaw dist with $\beta=-1.25$
+Figure~\ref{fig:overlappedDistExample} looks completely different from figure~\ref{fig:mixedDistExample}.
+No value is generated more than 20 times as opposed to the maximum amount of 350 for the mixed distribution.
+In this figure no distribution is clearly visible.
+
+The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000,0.1)$, \textasciitilde$Geo(0.001)$, powerlaw distribution with $\beta=-1.25$.
 \subsection{RLS Comparison}
 
 
 \input{tables/overlapped/rls_compare.tex}
 
-The results for this distribution are rather similar to the results of the binomial distribution.
-The ranking of the algorithms is completely the same.
+The results for this distribution are somewhat similar to the results of the binomial distribution.
+The best and worst algorithms are the same.
 Only the RLS almost fails to find an optimal solution for almost every input.
 For the binomial distribution the $RLS-N_3$ also failed around 25\% or the inputs but here it does not.
+It is even the second-best variant instead of being the second-worst.
+Apart from that the ranking in between is also different.
+The RLS-N variants perform the best followed by the RLS-R variants and lastly the RLS.
+For the RLS-N the performance decreases with increasing $k$ but for the RLS-R this relation is inverted.
 Another big difference is the number of steps needed to find a global optimum.
 For the binomial input all algorithms except the RLS were really fast and only needed below 1000 iterations on average.
-All algorithm need around 500 times the number of steps on average as compared to the binomial inputs.
+All algorithms need around 250 times the number of steps on average for the overlapped input.
+This caused some of them to not be fast enough to solve the input always in time $10n\ln(n)$.
 \subsection{(1+1) EA Comparison}
 
 
@@ -34,7 +43,7 @@ Algorithms that had a good runtime on binomial inputs also have a good runtime i
 For this input every the first and second place switched, the same for 3rd and 4th and also for 5th and 6th place.
 This may be only caused by chance and the performance within a pair being really close but might also be caused by something else.
 The (1+1) EA variants also needed about 200 times as long as for the binomial inputs.
-All runs had at least 2 runs where they did not find an optimal solution.
+All variants had at least 2 runs where they did not find an optimal solution.
 These runs all had a remaining difference of one to the optimal value.
 More time would probably be enough to reach an optimal solution in most cases.
 \subsection{pmut Comparison}
@@ -55,9 +64,9 @@ The results here are the same as for the binomial input. The $RLS-N_2$ performs 
 
 \input{tables/overlapped/multipleN_fails.tex}
 
-Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 80 \% of the inputs.
+Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 70 \% of the inputs.
 The RLS variants perform the worst again for the small input sizes.
-Only for $n\ge500$ the $RLS-N_{2}$ is a good option due to the hug performance increase between $n=100$ and $n=500$.
+Only for $n\ge500$ the $RLS-N_{2}$ is a good option due to the huge performance increase between $n=100$ and $n=500$.
 Overlapped inputs stay hard to solve relatively long as only for $n\ge50,000$ all best variants of each algorithm find an optimal solution for every input.
 
 \input{tables/overlapped/multipleN_avg.tex}
@@ -67,7 +76,7 @@ After $n=1000$ the value of $10 \cdot n \ln(n)$ was bigger than 100,000.
 
 \input{tables/overlapped/multipleN_totalAvg.tex}
 
-No algorithm is very successful for the small values of N.
+No algorithm is very successful for the small values of $n$.
 Choosing the (1+1) EA for $n<500$ should result in the best runtime in most of the cases.
 Only the $RLS-N_4$ is faster for $50\le n \le 100$.
 For bigger input sizes the $RLS-N_2$ is clearly the best option.
