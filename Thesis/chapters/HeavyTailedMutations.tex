@@ -1,6 +1,9 @@
 \chapter{Higher mutation rates and heavy tailed mutations}\label{ch:heavyMut}
 
 In this chapter different ways to change the mutation rate for EAs are discussed so that they flip more bits in expectation.
+For OneMax and all other linear functions the mutation rate of $p_m=1/n$ was proven to be optimal\cite{witt2013tight}.
+This is not the case for every fitness function.
+$\text{Jump}_k$ has a optimal mutation rate of $k/n$ and a small constant factor deviation from $k/n$ results in an increase of the runtime exponential in $\Omega(k)$\cite{doerr2017fast}.
 
 \section{Algorithms}
 For the (1+1) EA changing the expected amount of flipped bits per step can be done easily.
@@ -43,7 +46,7 @@ The probability to choose a random neighbour with hamming distance $y \le k$ is 
 This variant of the RLS is likely to choose a neighbour with hamming distance k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
 The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
-For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.\newline
+For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS which will be called RLS-N from now on.
 \begin{algorithm}[bt]
       \caption{\textsc{RLS-N}}\label{alg:rlsN}
 
@@ -68,6 +71,7 @@ For some inputs flipping only one bit might be more optimal which is rather unli
 
 An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with hamming distance $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
+This variant of the RLS will be referred to as RLS-R
 
 \begin{algorithm}[bt]
       \caption{\textsc{RLS-R}}\label{alg:rlsR}
@@ -96,6 +100,6 @@ Both variants of the RLS change at most $k$ bits in each step and therefore only
 For the (1+1) EA the algorithm will also flip mostly $\mathcal{O}(c)$ bits which is also constant.
 So neither of the new variants is likely to change up to $\mathcal{O}(n)$ bits.
 Quinzan \textit{et al.} therefore introduced another mutation operator in~\cite{friedrich2018evolutionary} called $pmut_\beta$.
-This operator chooses $k$ from a powerlaw distribution with parameter $\beta$ and then $k$ uniform random bits are flipped.
+This operator chooses $k$ from a powerlaw distribution $D^\beta_n$ with exponent $\beta$ and maximum value $n$ and then $k$ uniform random bits are flipped.
 This algorithm will mostly flip a small number of bits but occasionally up to n bits.
 Distributions like this are called heavy tailed mutations because their tail is not bounded exponentially.

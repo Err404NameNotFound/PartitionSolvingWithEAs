@@ -15,6 +15,11 @@ Volker Diekert.
 \newblock {\em STACS 2005: 22nd Annual Symposium on Theoretical Aspects of Computer Science, Stuttgart, Germany, February 24-26, 2004, Proceedings}, volume 3404.
 \newblock Springer Science \& Business Media, 2005.
 
+\bibitem[DLMN17]{doerr2017fast}
+Benjamin Doerr, Huu~Phuoc Le, R{\'e}gis Makhmara, and Ta~Duy Nguyen.
+\newblock Fast genetic algorithms.
+\newblock In {\em Proceedings of the genetic and evolutionary computation conference}, pages 777--784, 2017.
+
 \bibitem[FGQW18]{friedrich2018evolutionary}
 Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
 \newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.

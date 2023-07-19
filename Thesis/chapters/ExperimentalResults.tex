@@ -14,7 +14,7 @@ All different variants of the RLS function more or the less the same. They start
       \item replace old value with new value if new value is better
       \item repeat if not optimal
 \end{enumerate}
-The (1+1) EA variants behave differently on the first impression as there every bit is flipped independently with probability $c/n$.
+The (1+1) EA variants behave differently on the first impression as they flip bit each bit independently with probability $c/n$.
 This can be seen as $n$ independent Bernoulli trials with probability $c/n$.
 The amount of bits that are flipped is therefore binomial distributed and the algorithm can be implemented exactly as the versions of the RLS. The same holds for the $pmut$ operator which generates a number $k$ from a powerlaw distribution and then flips $k$ bits.
 This leads to only one implementation of a partition solving algorithm which is not only given the input array of numbers but also a generator for the amount of bits to be flipped in each step.
@@ -24,10 +24,10 @@ The random values for the amount of bits to be flipped are generated according t
       Algorithm & Returned value                                                                          \\
       \hline
       RLS       & 1                                                                                       \\
-      RLS-N(k)  & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
-      RLS-R(k)  & uniform random value $y \in \{1,\dots,k\}$                                              \\
+      RLS-N$_k$ & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
+      RLS-R$_K$ & uniform random value $y \in \{1,\dots,k\}$                                              \\
       (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
-      pMut      & random value generated from powerlaw distribution with parameter $\beta$                \\
+      pMut      & powerlaw distributed value from \textasciitilde$D^\beta_n$                              \\
 \end{tabular}
 
 
@@ -127,20 +127,20 @@ The idea behind the formula and the formula itself is explained in a \href{https
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger n.
 In practice the bound is much smaller depending on the expected value of a single value.
 Another factor deciding how likely an input is to have a perfect partition is if n is even or odd.
-To determine the influence of both factors two experiments were conducted.
+To determine the influence of all factors multiple experiments were conducted.
 The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd.
 So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were tested for a perfect partition.
 Due to the small values for $n$ it was possible to brute force the results in a short amount of time.
 The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref{fig:lastBinPercentage}.
 On the x-axis is the size of the input and on the y-axis the percentage of inputs that had a perfect partition.
 The different graphs in each figure resemble the different values of p used for generating the inputs.
-The graph for 0.1 resembles the percentage of inputs that had a perfect partition with values generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure.
+The graph for $p=0.1$ resembles the percentage of inputs that had a perfect partition with values generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure.
 For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
 It is easy to see that for small inputs sizes it is relevant if n is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
 For uneven inputs the probability of a perfect partition decreases much more drastically with m as for even inputs because the expected value of a single number increases with m.
-If all values are much higher the small differences between the values can no longer even out the fact of one set has more elements than the other.
+If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
 The oscillation therefore increases with increasing m.
-For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds lead to at least one out of 1000 having a perfect partition.
+For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input a perfect partition.
 For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
 Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}).
 Another visible effect is the decreasing percentage with rising p.
@@ -184,7 +184,7 @@ This leads to the second experiment.
 \end{figure}
 
 
-In the second experiment the inputs were generated a bit differently. 
+In the second experiment the inputs were generated a bit differently.
 Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$.
 With this setup the influence of the expected value is almost isolated from the other parameters.
 The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.
@@ -276,7 +276,7 @@ The number of perfect partition is mostly multiplied by a factor between 3 and 4
 The higher the value of $m$ the closer the curves of $p$ and $1-p$ get.
 For $m=1000$ and $m=10000$ the values are almost the same for every input size.
 % As in this case $m$ was not defined as $e/p$ with some values for $e$ but instead some values directly for $m$, the influence of the expected values distorts the image for the lower values of $m$.
-For $p=0.1, m=10$ an input with expected values of 1 seems much easier than an input with expected value $10\cdot0.9=9$.
+For $p=0.1, m=10$ an input with expected values of 1 seems to much more likely to have a perfect partition than an input with expected value $10\cdot0.9=9$.
 With growing $m$ this has less impact.
 % Figure~\ref{fig:additionalBinSolCount} shows that for equal expected values the average amount of perfect partitions is the same for $p$ and $1-p$.
 % Here this fact even holds for the smaller values of $m$.
@@ -284,13 +284,13 @@ With growing $m$ this has less impact.
 % \begin{figure}[h]
 %       \caption{Amount of perfect partitions for $p=0.1$ and $p=0.9$}
 %       \centering
-      % \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/perfectPartitionCount-p0_1Andp0_9_2.png}\label{fig:additionalBinSolCount}
+% \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/perfectPartitionCount-p0_1Andp0_9_2.png}\label{fig:additionalBinSolCount}
 % \end{figure}
 
 So the binomial input should be easy to solve due to the exponential number of perfect partitions.
 It might be harder for the smaller values of $n$ as there are only a few perfect partitions.
 Due to the small number of total possibilities it should still be easy to solve for the small values of $n$ as long as the RSH is not stuck in a local optimum.
-The number of iterations might be high in terms of the big-O notation but should still be small from the absolute value.
+The number of iterations might be high in terms of the big-O notation but should still be small in the absolute value.
 % BEGIN RESULTS
 
 \input{expRes/tables_2.tex}
