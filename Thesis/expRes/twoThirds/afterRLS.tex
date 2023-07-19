@@ -1,9 +1,0 @@
-The RLS is by far most likely to get stuck in the local optimum.
-The general tendency is the more bits the algorithm flips in expectation the more unlikely the local optimum becomes.
-The only case where this does not hold is the $RLS-N_2$ being better than the $RLS-R_4$, although the $RLS-R_4$ flips more bits in expectation.
-This might be caused by the higher probability for flipping only one bit for the $RLS-R_4$.
-This causes the algorithm to find the local optimum faster before separating $w_1$ and $w_2$.
-So the ranking of the algorithms is completely inverted compared to the OneMax input.
-The $RLS-N_2$ and $RLS-N_3$ both had runs where they neither found the global nor one of the two local optima.
-The algorithms were most likely tricked into the direction of the local optimum and did not manage to leave it.
-But they were also not fast enough to reach the local optimum because of their low probability to flip only one bit.

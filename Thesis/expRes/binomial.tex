@@ -5,11 +5,11 @@ The procedure for each comparison is always the same. A random input is generate
 All algorithms had the same two stopping conditions.
 The first was reaching a perfect partition and the second was taking more than $100 \cdot n\ln(n)$ steps or $10 \cdot n\ln(n)$ in some cases.
 For the lower values of $n$ the step limit of 100,000 was used instead.
-For $n=200$ giving the algorithm only 600 steps is rather small.
+For $n=20$ giving the algorithm only 600 steps is rather small.
 In some cases the smaller inputs are even more difficult to solve.
 Most modern computer should be able to handle 100,000 iterations in a short amount of time anyway.
 So the minimum step limit of 100,000 seemed reasonable.
-If either of these condition was met, the algorithm returned the current best solution.
+If either of these conditions was met, the algorithm returned its current best solution.
 This step is repeated 1000 times.
 The results are presented in a table containing multiple statistics for each algorithm over all 1000 runs.
 The data is explained in the table below.
@@ -65,22 +65,27 @@ So after reaching a difference between the two bins of below $(1000-200)/2=400$ 
 The $\text{RLS-N}_2$ seems to perform the best as it mostly switches two elements which works great for binomial distributed inputs. 
 The same algorithm with $k=4$ performs a bit worse but still good as switching 4 elements can be beneficial as well.
 The variant of RLS-N with $k=3$ on the other hand does not reach the optimal solution in 23.4\% of the inputs with an average difference of 1.
-It also needs 1000 times more iterations to find the optimal on average compared to the best algorithm $\text{RLS-N}_2$.
+It also needs 1000 times more iterations to find the optimal on average compared to the best algorithm RLS-N$_2$.
 The RLS-R variants behave mostly the same with $k=2$ being the best, followed by $k=4$ and $k=3$.
-In this case the variant of $k=3$ is by far not as bad as for the RLS-N because the probability of flipping 2 bits is 1/3 as compared to $\mathcal{O}(n^{-1})$ for the RLS-N.
-The RLS-R seem all to be good option for binomial inputs with values of $k\in\{2,3,4\}$.
-The RLS on the other hand performs by far the worst as it only moves one element at a time.
+In this case the variant of $k=3$ is by far not as bad as for the RLS-N$_3$ because the probability of flipping 2 bits is 1/3 as compared to $\mathcal{O}(n^{-1})$ for the RLS-N$_3$.
+The RLS-R seem all to be a good option for binomial inputs with values of $k\in\{2,3,4\}$.
+The standard RLS on the other hand performs by far the worst as it only moves one element per step.
 It only managed to reach the optimal solution once for 1000 different inputs.
 The number of iterations for this input was only 50 so the RLS likely had a good initialisation with a few lucky steps leading directly to the optimum.
 For all other cases the average difference between the bins was 254 which is close to the median of the values from 0 to $(1000-100)/2=450$.
-This is likely due to the RLS being unable to improve the solution once the current solution has a difference below half of the lowest value.
+This is likely due to the RLS being unable to improve the solution once the current solution has a difference below half of the lowest value (Corollary~\ref{cor:RLSStuck}).
 \subsection{(1+1) EA Comparison}
 For the (1+1) EA the best static mutation rate seems to be $3/n$. 
-The probability of flipping 2 or 4 bits as n goes to infinity for mutation rate $1/n$ approaches $13/24e\approx 0.199$, for $2/n$ approaches $8/3e^2\approx 0.361$, for $3/n$ approaches $63/8e^3\approx 0.392$, for $4/n$ approaches $56/3e^4\approx 0.342$ and for $5/n$ approaches $77/2e^5\approx 0.259$. So the highest probability has $c=3$, followed by $c=4$ and $c=2$ then $c=5$ and lastly $c=1$. For higher values of $c$ the probability decreases further as the expected number of flipped bits is $c$ for mutation rate $c/n$.
+The probability of flipping 2 or 4 bits as n goes to infinity for mutation rate $1/n$ approaches $13/24e\approx 0.199$, for $2/n$ approaches $8/3e^2\approx 0.361$, for $3/n$ approaches $63/8e^3\approx 0.392$, for $4/n$ approaches $56/3e^4\approx 0.342$ and for $5/n$ approaches $77/2e^5\approx 0.259$.
+So the highest probability has $c=3$, followed by $c=4$ and $c=2$ then $c=5$ and lastly $c=1$.
+For higher values of $c$ the probability decreases further as the expected number of flipped bits is $c$ for mutation rate $c/n$.
 
 \input{tables/binomial/ea_compare.tex}
 
-The static mutation rate $3/n$ seems to perform the best with both $4/n$ and $2/n$ being a close second place. The next best values are $5/n$ and the standard $1/n$ both having a clear difference between each other and the better parameters. From then on the number of iterations rises monotonically with rising mutation rate. The higher mutation rates perform significantly worse but the still find a solution within the limit as opposed to the standard RLS.
+The static mutation rate $3/n$ seems to perform the best with both $4/n$ and $2/n$ being a close second place.
+The next best values are $5/n$ and the standard $1/n$ both having a clear difference between each other and the better parameters.
+From then on the number of iterations rises monotonically with rising mutation rate.
+The higher mutation rates perform significantly worse but the still find a solution within the limit as opposed to the standard RLS.
 \subsection{pmut Comparison}
 
 

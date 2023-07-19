@@ -1,9 +1,0 @@
-This kind of input is more or less equivalent to the OneMax problem. All values except the last are either 1 or follow any distribution. The last value is the sum of all other values. The optimal solution is therefore the 000\dots01 or
-the 111\dots01 string. So the best solution is almost identical to OneMax/ZeroMax depending on the value of the last bit.\newline
-For OneMax the mutation rate of 1/n is proven to be optimal for the (1+1) EA~\cite{witt2013tight}.
-This should also hold for this input.
-The RLS variants should also perform worse than the standard RLS.
-The higher the value for $\beta$ the better the $pmut_\beta$ mutation should perform.
-With some testing with various algorithm variants it looked like the last bit was only flipped at most once for every input.
-There was only one case where it was flipped twice, but it was never flipped more than twice per run.\newline
-For some experiments not all 1000 repetitions were executed as there was a clear tendency which of the algorithms performs better.
