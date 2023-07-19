@@ -108,11 +108,7 @@ public class Main {
 
             case 41 -> printDistribution(InputGenerator.createMixedAndOverlapped(1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
-            case 43 -> ResultsChapterPrinter.printCompleteEvaluation();
-            case 44 -> ResultsChapterPrinter.printAllTables();
-            case 45 -> ResultsChapterPrinter.printCompleteEvaluation2();
-            case 46 -> ResultsChapterPrinter.printCompleteEvaluation3(true);
-            case 47 -> ResultsChapterPrinter.printCompleteEvaluation4(true);
+            case 43 -> ResultsChapterPrinter.printAllTables();
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
