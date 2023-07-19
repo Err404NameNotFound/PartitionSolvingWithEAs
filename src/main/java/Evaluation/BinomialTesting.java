@@ -280,16 +280,16 @@ public class BinomialTesting {
         System.out.printf("total: %,d", Math.round(Math.pow(2, length)));
     }
 
-    public static void testBinomialSolutionCount(int count) {
-        double[] ps = new double[]{0.2, 0.8};
-        int[] lengths = new int[]{10, 12, 14, 16, 18, 20};
+    public static void testBinomialSolutionCount(int count, int[] lengths) {
+        double[] ps = new double[]{0.1, 0.9};
         int[] ns = new int[]{10, 100, 1000, 10000};
         startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString()
                 + "-binomialPerfectPartitionCount.csv");
         for (double p : ps) {
             for (int n : ns) {
-                printf("n: %,d%np: %.2f%n--------------%n", n, p);
-                testBinomialSolutionCount(count, lengths, n, p);
+                n = (int) Math.round(n / p);
+                printf("n: %,d%np: %.2f,%nE(X)=%.2f%n--------------%n", n, p, n*p);
+//                testBinomialSolutionCount(count, lengths, n, p);
                 println("***************");
                 if (Thread.interrupted()) {
                     stopWritingToFile();

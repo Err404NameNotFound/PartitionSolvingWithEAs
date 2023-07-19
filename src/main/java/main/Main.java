@@ -74,7 +74,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 16;
+            selection = 7;
         }
         mainSelection(selection);
     }
@@ -88,6 +88,7 @@ public class Main {
             case 4 -> BinomialTesting.testMultipleRandomBinomialWithSolution(10, 10000, 10000);
             case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
+            case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
             case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
             case 12 -> evaluate(1000, POWERLAW_DISTRIBUTED, 20 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
