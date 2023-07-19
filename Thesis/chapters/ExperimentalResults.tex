@@ -25,9 +25,9 @@ The random values for the amount of bits to be flipped are generated according t
       \hline
       RLS       & 1                                                                                       \\
       RLS-N$_k$ & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
-      RLS-R$_K$ & uniform random value $y \in \{1,\dots,k\}$                                              \\
+      RLS-R$_k$ & uniform random value $y \in \{1,\dots,k\}$                                              \\
       (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
-      pMut      & powerlaw distributed value from \textasciitilde$D^\beta_n$                              \\
+      pmut      & powerlaw distributed value from \textasciitilde$D^\beta_n$                              \\
 \end{tabular}
 
 
@@ -68,7 +68,7 @@ The expected value in this case is 1 but generating a random number takes time $
 Another more efficient way was implemented by StackOverflow user \href{https://stackoverflow.com/users/2166798/pjs}{pjs} on \href{https://stackoverflow.com/questions/23561551/a-efficient-binomial-random-number-generator-code-in-java}{stackoverflow} inspired by Devroyes method introduced in~\cite{devroye2006nonuniform}.
 This method has an expected running time of $\mathcal{O}(mp)$ which is equal to the expected value of the distribution.
 For the case of $p=1/m$ this runs in expected constant time in comparison to $\mathcal{O}(m)$ for the naive way.
-This number generation was also used for the implementation of the (1+1) EA instead of running a for loop in every step.
+This number generation was also used for the implementation of the (1+1) EA instead of running a loop in every step.
 
 \begin{algorithm}[h]
       \caption{\textsc{Binomial random number generator}}\label{alg:binomialRNG}
@@ -93,7 +93,7 @@ This number generation was also used for the implementation of the (1+1) EA inst
 The next generator needed is for geometric distributed values.
 This generator is only necessary for the generation of geometric distributed inputs but not for the algorithms.
 The easiest way to generate geometric distributed values is the naive way:
-generating a uniform random value until the generated value is at least as big as $p$.
+generating a uniform random value $p'$ until $p'<p$ holds.
 The expected running time of this algorithm is equal to the expected value of the distribution $1/p$.
 So this method is comparably effective to the approach used for binomial random number generation.
 
@@ -125,7 +125,7 @@ The idea behind the formula and the formula itself is explained in a \href{https
 \subsection{Binomial Inputs}
 
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger n.
-In practice the bound is much smaller depending on the expected value of a single value.
+In practice the bound is much smaller depending on the expected value of a single number.
 Another factor deciding how likely an input is to have a perfect partition is if n is even or odd.
 To determine the influence of all factors multiple experiments were conducted.
 The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd.
@@ -140,7 +140,7 @@ It is easy to see that for small inputs sizes it is relevant if n is even or odd
 For uneven inputs the probability of a perfect partition decreases much more drastically with m as for even inputs because the expected value of a single number increases with m.
 If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
 The oscillation therefore increases with increasing m.
-For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input a perfect partition.
+For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input with a perfect partition.
 For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
 Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}).
 Another visible effect is the decreasing percentage with rising p.
@@ -191,8 +191,8 @@ The probability is still linked to $p$ as $p$ also influences the variance $mp(1
 By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value.
 For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition.
 The expected value influences the percentage significantly more.
-For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$.
-For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor of 2.
+For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$ (figure~\ref{fig:firstBinPercentage2}).
+For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor of 2 (figure~\ref{fig:lastBinPercentage2}).
 
 \begin{figure}[h]
       \centering
@@ -239,7 +239,7 @@ The last experiment showed that for $n=20$ 1000/1000 inputs had a perfect partit
 Figure~\ref{fig:firstBinSolCount} to figure~\ref{fig:lastBinSolCount} show the amount of perfect partitions a binomial distribution \textasciitilde$B(m,p$) has.
 For these figures 10,000 random binomial inputs with the given values for $m$ and $p$ were generated.
 Each input was then tested for the amount of perfect partitions it has.
-The method was again brute force due to the small input sizes.
+The used method was again brute force to ensure correctness which was only possible due to the small input sizes.
 After all runs the averages values were combined in the given figures.
 The value of $p$ is dependent on the picture and each value of $m \in \{10,100,1000,10000\}$ has its own graph within the figure.
 The x-axis is the size of the input and the y-axis the amount of perfect partitions the input has.

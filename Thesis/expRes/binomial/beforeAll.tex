@@ -4,11 +4,11 @@ The procedure for each comparison is always the same. A random input is generate
 All algorithms had the same two stopping conditions.
 The first was reaching a perfect partition and the second was taking more than $100 \cdot n\ln(n)$ steps or $10 \cdot n\ln(n)$ in some cases.
 For the lower values of $n$ the step limit of 100,000 was used instead.
-For $n=200$ giving the algorithm only 600 steps is rather small.
+For $n=20$ giving the algorithm only 600 steps is rather small.
 In some cases the smaller inputs are even more difficult to solve.
 Most modern computer should be able to handle 100,000 iterations in a short amount of time anyway.
 So the minimum step limit of 100,000 seemed reasonable.
-If either of these condition was met, the algorithm returned the current best solution.
+If either of these conditions was met, the algorithm returned its current best solution.
 This step is repeated 1000 times.
 The results are presented in a table containing multiple statistics for each algorithm over all 1000 runs.
 The data is explained in the table below.

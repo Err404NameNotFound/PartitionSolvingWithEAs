@@ -289,7 +289,7 @@ public class BinomialTesting {
             for (int n : ns) {
                 n = (int) Math.round(n / p);
                 printf("n: %,d%np: %.2f,%nE(X)=%.2f%n--------------%n", n, p, n*p);
-//                testBinomialSolutionCount(count, lengths, n, p);
+                testBinomialSolutionCount(count, lengths, n, p);
                 println("***************");
                 if (Thread.interrupted()) {
                     stopWritingToFile();
