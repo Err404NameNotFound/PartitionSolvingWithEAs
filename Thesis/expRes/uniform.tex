@@ -20,8 +20,8 @@ The picture for the RLS variants on this type of input is not clear.
 There in no obvious tendency for neither of the variants.
 The only obvious thing is the RLS being the worst of the RLS variants again.
 Every variant reaches the optimal solution in every case except for the RLS which only manages for 44.7 \% of the inputs.
-The RLS-N(2) seems to be the best variant for these kinds of inputs.
-The next best variants are the RLS-(R) with $k=3$ and $k=4$ which only differ by 1 \%.
+The RLS-N$_2$ seems to be the best variant for these kinds of inputs.
+The next best variants are the RLS-R with $k=3$ and $k=4$ which only differ by 1 \%.
 
 \subsection{(1+1) EA Comparison}
 
@@ -30,8 +30,8 @@ The next best variants are the RLS-(R) with $k=3$ and $k=4$ which only differ by
 
 The (1+1) EA seems to perform better with a lower mutation rate.
 The vales $p_m=2/n$ and $p_m=3/n$ reach an optimal solution equally fast.
-From then on speed of convergence decreases with increasing mutation rate.
-The only exception from this case is the (1+1) EA which performs the worst despite having the lowest mutation rate.
+From then on the speed of convergence decreases with increasing mutation rate.
+The only exception from this case is the standard (1+1) EA which performs the worst despite having the lowest mutation rate.
 For the uniform distributed input all variants of the (1+1) EA reach an optimal solution within the step limit as for the previous input types.
 \subsection{pmut Comparison}
 
@@ -47,18 +47,22 @@ The values equally wide apart from -2.25 perform equally good.
 
 \input{tables/uniform/best.tex}
 
-For the uniform distributed input the best variant of the RLS once again seems to have the best variant.
+For the uniform distributed input the best variant of the RLS once again seems to perform the best.
 But by looking at the smaller values again this does not hold in general.
 
 \input{tables/uniform/multipleN_fails.tex}
 
-The RLS variants are the most likely to get stuck in a local optimum for $n\le100$. The (1+1) EA variants also often do not find an optimal solution, but this happens less frequently. The more values the input has the more likely it is for any of the algorithms to find a perfect partition. Between $n=100$ and $n=500$ the performance of the RLS-N(2) drastically increases and for $n\ge500$ this variant of the RLS stays the best variant for the remaining input sizes.
+The RLS variants are the most likely to get stuck in a local optimum for $n\le100$.
+The (1+1) EA variants also often do not find an optimal solution, but this happens less frequently.
+The more values the input has the more likely it is for any of the algorithms to find a perfect partition.
+Between $n=100$ and $n=500$ the performance of the RLS-N(2) drastically increases and for $n\ge500$ this variant of the RLS stays the best variant for the remaining input sizes.
+Uniform distributed inputs seem to be much less likely to have a perfect partition for the small input sizes which can be explained by Borgs coefficient~\cite{borgs2001phase}.
 
 \input{tables/uniform/multipleN_avg.tex}
 
-The steps needed to find an optimal solution seems to be nearly constant for every algorithm as the number of steps does not strictly increase with $n$ but sometimes even decreases for $n\le1000$.
+The amount steps needed to find an optimal solution seems to be nearly constant for every algorithm as the number of steps does not strictly increase with $n$ but sometimes even decreases for $n\le1000$.
 This is caused by the number of steps the algorithm was given.
-For $n\le1000$ the step size was 100000 and for the bigger values it was $10n\ln(n)$.
+For $n\le1000$ the step size was 100,000 and for the bigger values it was $10n\ln(n)$.
 Interestingly enough the average number of steps decreases from $n=10000$ to $n=50000$ for most algorithms.
 
 \input{tables/uniform/multipleN_totalAvg.tex}
