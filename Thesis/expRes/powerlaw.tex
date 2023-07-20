@@ -1,7 +1,7 @@
 \section{powerlaw distributed inputs}
 This distribution has mostly small values, but occasionally it also generates bigger values.
 The higher (absolute lower) the parameter the higher the values get and also the amount of big values increases.
-For a parameter of $\beta=-2.75$ the distribution looks like in Figure~\ref{fig:powerDistExample1}.
+For a parameter of $\beta=-2.75$ and a maximum value of 10,000 the distribution looks like in Figure~\ref{fig:powerDistExample1}.
 
 \begin{figure}[h]
       \caption{Distribution of a random powerlaw input with $\beta=-2.75$}
@@ -13,7 +13,7 @@ For a value of $\beta=-1.25$ the distribution looks a bit different.
 There are less small values close to one and instead also big values even over 1000.
 Figure~\ref{fig:powerDistExample2} is cropped to get a more clear view for the smaller values.
 The higher values mostly occurred 0 to 2 times.
-The highest value 8848 occurred only once.
+The highest value 9948 occurred only once.
 
 \begin{figure}[h]
       \caption{Distribution of a random powerlaw input with $\beta=-1.25$}
@@ -34,7 +34,8 @@ The next table lists the results for $\beta=-1.25$ and an input size of 10,000.
 \input{tables/powerlaw/rls_compare_2.tex}
 
 The input is still easy to solve for the RLS variants, but the concept of the more bits flipped the better does not hold any more.
-So the optimal parameter for a specific type of input is only fixed for the specific parameters of this distribution.
+So the optimal algorithm parameter for an input from a specific distribution is not fixed for the complete distribution.
+Instead the optimal value can change even within the distribution if the parameters of the distribution change.
 Generally the RLS-R variants seem to perform good for the different parameters of the distribution especially with increasing value of $k$.
 \subsection{(1+1) EA Comparison}
 The first table again shows the results for parameter $\beta=-2.75$
@@ -43,7 +44,7 @@ The first table again shows the results for parameter $\beta=-2.75$
 
 Here the same rule holds for the RLS to some extent.
 Until $p_m\le50/n$ the speed of convergence increases but at $p_m=100/n$ the speed decreases again.
-The optimal value seems to be somewhere between around $p_m=50/n$.
+The optimal value seems to be somewhere around $p_m=50/n$.
 The (1+1) variants are generally faster than all RLS variants when comparing the maximum number of iterations.
 For mutation rates $3/n\le p_m \le 100/n$ the (1+1) EA is also faster on average.
 The next table shows the results for a powerlaw distribution with $\beta=-1.25$.
@@ -84,7 +85,7 @@ For $\beta = -1.25$ the results are a bit different.
 
 \input{tables/powerlaw/best_2.tex}
 
-The $RLS-R_4$ now performs better than the (1+1) EA variant with $p_m=4/n$, but is still slower than $pmut_{-1.5}$.
+The $RLS-R_4$ now performs equally good as the (1+1) EA variant with $p_m=4/n$, but is still slower than $pmut_{-1.5}$.
 As the first inputs were less difficult to solve than the inputs with $\beta = -1.25$ the second value was chosen for the fine evaluation.
 
 \input{tables/powerlaw/multipleN_fails.tex}
@@ -94,9 +95,13 @@ Compared to the other algorithms it is not as drastic as for the binomial input 
 Only for $n<500$ the algorithms do not find a global optimum in every run.
 The setting of the parameter almost doesn't affect the amount of runs without an optimal result.
 The main differences are between the different algorithms themselves.
+This type of input is probably easy to solve if it has a perfect partition.
+The two stopping conditions where a step limit and finding a perfect partition or a partition with difference of one between the two bin for uneven $n$.
+So in 80\% of the runs the algorithms might have found an optimal solution, but the stopping conditions did not trigger as the solutions where not close to a perfect partition.
 
 \input{tables/powerlaw/multipleN_avg.tex}
 
+Looking at the time the algorithms needed on average the runs that hit the step limit could have possibly been no failed runs.
 The easiest are inputs with size $n=500$.
 For smaller values of $n$ the algorithms sometimes fail and even in a good run they need more iterations to find an optimal solution.
 Due to the increasing size of the input the algorithms need more time for the bigger values.

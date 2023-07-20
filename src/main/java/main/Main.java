@@ -74,7 +74,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 7;
+            selection = 41;
         }
         mainSelection(selection);
     }
@@ -106,7 +106,7 @@ public class Main {
             case 33 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
-            case 41 -> printDistribution(InputGenerator.createMixedAndOverlapped(1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
+            case 41 -> printDistribution(InputGenerator.createPowerlaw(-1.25, 1.0, 1000.0), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
 
