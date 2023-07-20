@@ -59,7 +59,7 @@
 \contentsline {subsection}{\numberline {5.11.2}(1+1) EA Comparison}{44}{subsection.5.11.2}%
 \contentsline {subsection}{\numberline {5.11.3}pmut Comparison}{45}{subsection.5.11.3}%
 \contentsline {subsection}{\numberline {5.11.4}Comparison of the best variants}{45}{subsection.5.11.4}%
-\contentsline {subsection}{\numberline {5.11.5}Conclusion of empirical results}{46}{subsection.5.11.5}%
+\contentsline {section}{\numberline {5.12}Conclusion of empirical results}{46}{section.5.12}%
 \contentsline {chapter}{Bibliography}{47}{section*.25}%
 \contentsline {chapter}{\nonumberline Appendix}{49}{chapter*.27}%
 \contentsline {section}{\numberline {A}Appendix Section 1}{49}{section.5.1}%
