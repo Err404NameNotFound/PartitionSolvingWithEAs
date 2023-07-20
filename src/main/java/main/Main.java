@@ -33,6 +33,7 @@ import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
+import static main.InputGenerator.LAST_SUM_WITH_RANGE;
 import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
@@ -74,7 +75,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 41;
+            selection = 16;
         }
         mainSelection(selection);
     }
@@ -95,7 +96,7 @@ public class Main {
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(OVERLAPPED));
+            case 16 -> fineEvaluation(InputGenerator.create(LAST_SUM_WITH_RANGE));
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -183,15 +184,16 @@ public class Main {
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
 //        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
-//                Solver.getRLS(),
-                Solver.getRLSUniformRing(2),
-                Solver.getRLSUniformRing(3),
+                Solver.getRLS(),
+//                Solver.getRLSUniformRing(2),
+//                Solver.getRLSUniformRing(3),
 //                Solver.getRLSUniformNeighbour(3),
 //                Solver.getRLSUniformNeighbour(4),
-                Solver.getEA(3),
-                Solver.getEA(4),
-                Solver.getPmut(-1.75),
-                Solver.getPmut(-2.00),
+                Solver.getEA(),
+//                Solver.getEA(3),
+//                Solver.getEA(4),
+//                Solver.getPmut(-1.75),
+                Solver.getPmut(-3.25),
         };
         evaluate(1000, lengths, stepSizes, generator, solvers, null);
     }

@@ -969,6 +969,11 @@ INPUT ./figures/images/oneMaxMultipleN.png
 INPUT figures/images/oneMaxMultipleN.png
 INPUT ./figures/images/oneMaxMultipleN.png
 INPUT ./figures/images/oneMaxMultipleN.png
+INPUT ./figures/images/oneMaxUniformMultipleN.png
+INPUT ./figures/images/oneMaxUniformMultipleN.png
+INPUT figures/images/oneMaxUniformMultipleN.png
+INPUT ./figures/images/oneMaxUniformMultipleN.png
+INPUT ./figures/images/oneMaxUniformMultipleN.png
 INPUT ./expRes/twoThirds.tex
 INPUT expRes/twoThirds.tex
 INPUT ./expRes/twoThirds.tex
