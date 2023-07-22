@@ -34,11 +34,12 @@ import static help.Printer.stopWritingToFile;
 import static help.RNG.randomBoolean;
 import static help.RNG.randomInt;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
-import static main.InputGenerator.LAST_SUM_WITH_RANGE;
-import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
+import static main.InputGenerator.ONEMAX_ONE;
+import static main.InputGenerator.ONEMAX_UNIFORM;
 import static main.InputGenerator.OVERLAPPED;
+import static main.InputGenerator.TWO_THIRDS;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -92,11 +93,11 @@ public class Main {
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
             case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
-            case 12 -> evaluate(1000, BINOMIAL_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
+            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(LAST_SUM_WITH_RANGE));
+            case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -108,7 +109,7 @@ public class Main {
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
             case 41 -> printDistribution(InputGenerator.createPowerlaw(-1.25, 1.0, 1000.0), 10000);
-            case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
+            case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(TWO_THIRDS, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
             case 44 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
             case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC, 10000), 10000);

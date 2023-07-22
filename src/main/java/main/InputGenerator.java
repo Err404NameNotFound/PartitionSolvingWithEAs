@@ -23,10 +23,10 @@ import static main.Main.DEFAULT_SUM_COUNT;
 public class InputGenerator {
     public static final int READ_FROM_CONSOLE = -1;
     public static final int COMPLETE_INT_RANGE = 0;
-    public static final int PARTIAL_INT_RANGE = 1;
-    public static final int ALL_SAME_AND_LAST_SUM = 2;
-    public static final int LAST_SUM_WITH_RANGE = 3;
-    public static final int LAST_TWO_SUM_REST_ONE = 4;
+    public static final int UNIFORM_INTERVALL = 1;
+    public static final int ONEMAX_ONE = 2;
+    public static final int ONEMAX_UNIFORM = 3;
+    public static final int TWO_THIRDS = 4;
     public static final int ALL_ONE_EXCEPT_LAST_X_ELEMENTS = 5;
     public static final int ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS = 6;
     public static final int BINOMIAL_DISTRIBUTED = 7;
@@ -52,16 +52,15 @@ public class InputGenerator {
 
     private InputGenerator(int type, Generator generator) {
         this(type, generator, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE,
-                type == LAST_TWO_SUM_REST_ONE ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),
+                type == TWO_THIRDS ? 2 : (type == 2 || type == 3 ? 1 : DEFAULT_SUM_COUNT),
                 DEFAULT_N,
                 type == BINOMIAL_DISTRIBUTED ? DEFAULT_P_BINOMIAL : DEFAULT_P_GEOMETRIC,
-                Math.round(type == 7 ? DEFAULT_P_BINOMIAL * DEFAULT_N : 1.0 / DEFAULT_P_GEOMETRIC),
                 DEFAULT_PMUT_PARAM);
     }
 
 
-    private InputGenerator(int type, Generator generator, long bottom, long top, int sumCount, long n, double p,
-                           long expectedValue, double pMutParam) {
+    private InputGenerator(int type, Generator generator, long bottom, long top, int sumCount,
+                           long n, double p, double pMutParam) {
         this.type = type;
         this.generator = generator;
         this.bottom = bottom;
@@ -69,12 +68,19 @@ public class InputGenerator {
         this.sumCount = sumCount;
         this.n = n;
         this.p = p;
-        this.expectedValue = expectedValue;
+        this.expectedValue = switch (type) {
+            case COMPLETE_INT_RANGE -> Integer.MAX_VALUE / 2;
+            case UNIFORM_INTERVALL -> (top - bottom) / 2;
+            case BINOMIAL_DISTRIBUTED -> Math.round(n * p);
+            case GEOMETRIC_DISTRIBUTED -> Math.round(1.0 / p);
+            case BINOMIAL_DISTRIBUTED_SHIFT -> Math.round(n * p) + DEFAULT_BINOMIAL_SHIFT;
+            default -> 0;
+        };
         this.pMutParam = pMutParam;
         folder = getFolder(type);
         description = getInputTypeDescription(type);
-        outputConstant = type == ALL_SAME_AND_LAST_SUM
-                || type == LAST_TWO_SUM_REST_ONE || type == ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
+        outputConstant = type == ONEMAX_ONE
+                || type == TWO_THIRDS || type == ALL_ONE_EXCEPT_LAST_X_ELEMENTS;
     }
 
     public static long[] generateInput(int selection, int length) {
@@ -99,10 +105,10 @@ public class InputGenerator {
     public static long[] createInput(int type, int length, int low, int high, int sumCount) {
         return switch (type) {
             case COMPLETE_INT_RANGE -> completeIntRange(length);
-            case PARTIAL_INT_RANGE -> uniformRandomRange(length, low, high);
-            case ALL_SAME_AND_LAST_SUM -> oneMaxEquivalent(length);
-            case LAST_SUM_WITH_RANGE -> oneMaxEquivalentUniformRange(length, low, high);
-            case LAST_TWO_SUM_REST_ONE -> lastTwoSumRestOne(length);
+            case UNIFORM_INTERVALL -> uniformRandomRange(length, low, high);
+            case ONEMAX_ONE -> oneMaxEquivalent(length);
+            case ONEMAX_UNIFORM -> oneMaxEquivalentUniformRange(length, low, high);
+            case TWO_THIRDS -> lastTwoSumRestOne(length);
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestOne(length, sumCount);
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestUniformRange(length, low, high, sumCount);
             case BINOMIAL_DISTRIBUTED -> binomialDistributed(length, DEFAULT_N, DEFAULT_P_BINOMIAL);
@@ -130,11 +136,11 @@ public class InputGenerator {
     public static String getInputTypeDescription(int type) {
         return switch (type) {
             case COMPLETE_INT_RANGE -> "uniform random values from complete int range";
-            case PARTIAL_INT_RANGE -> "uniform random values from given range";
-            case ALL_SAME_AND_LAST_SUM -> "OneMax equivalent for partition";
-            case LAST_SUM_WITH_RANGE ->
+            case UNIFORM_INTERVALL -> "uniform random values from given range";
+            case ONEMAX_ONE -> "OneMax equivalent for partition";
+            case ONEMAX_UNIFORM ->
                     "uniform random values from given range except last field as sum of all other fields";
-            case LAST_TWO_SUM_REST_ONE -> "Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...)";
+            case TWO_THIRDS -> "Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...)";
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS ->
                     "all values are one except the last x fields as sum of all other fields";
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS ->
@@ -260,26 +266,23 @@ public class InputGenerator {
     }
 
     public static InputGenerator createBinomial(int n, double p) {
-        long expectedValue = Math.round(n * p);
         return new InputGenerator(BINOMIAL_DISTRIBUTED, (a) -> binomialDistributed(a, n, p), 0,
-                n, 0, n, p, expectedValue, DEFAULT_PMUT_PARAM);
+                n, 0, n, p, DEFAULT_PMUT_PARAM);
     }
 
     public static InputGenerator createGeometric(double p, long maxValue) {
-        long expectedValue = Math.round(1.0 / p);
         return new InputGenerator(GEOMETRIC_DISTRIBUTED, (a) -> geometricDistributed(a, p, maxValue), 0,
-                maxValue, 0, maxValue, p, expectedValue, DEFAULT_PMUT_PARAM);
+                maxValue, 0, maxValue, p, DEFAULT_PMUT_PARAM);
     }
 
     public static InputGenerator createUniform(int min, int max) {
-        long expectedValue = (max - min) / 2;
-        return new InputGenerator(PARTIAL_INT_RANGE, (a) -> uniformRandomRange(a, min, max), min,
-                max, 0, DEFAULT_N, 1.0 / (max - min), expectedValue, DEFAULT_PMUT_PARAM);
+        return new InputGenerator(UNIFORM_INTERVALL, (a) -> uniformRandomRange(a, min, max), min,
+                max, 0, DEFAULT_N, 1.0 / (max - min), DEFAULT_PMUT_PARAM);
     }
 
     public static InputGenerator createOneMaxOne() {
-        return new InputGenerator(ALL_SAME_AND_LAST_SUM, InputGenerator::oneMaxEquivalent, 1,
-                1, 1, DEFAULT_N, DEFAULT_P_BINOMIAL, 1, DEFAULT_PMUT_PARAM);
+        return new InputGenerator(ONEMAX_ONE, InputGenerator::oneMaxEquivalent, 1,
+                1, 1, DEFAULT_N, DEFAULT_P_BINOMIAL, DEFAULT_PMUT_PARAM);
     }
 
     public static InputGenerator createMixed() {
@@ -288,22 +291,22 @@ public class InputGenerator {
 
     public static InputGenerator createMixed(double lowest, double highest, int nBin, double pBin, double pGeom, double nPmut) {
         return new InputGenerator(MIXED, (a) -> mixed(a, lowest, highest, nBin, pBin, pGeom, nPmut), (long) lowest,
-                (long) highest, 0, nBin, pBin, 0, nPmut);
+                (long) highest, 0, nBin, pBin, nPmut);
     }
 
     public static InputGenerator createOverlapped(double lowest, double highest, int nBin, double pBin, double pGeom, double nPmut) {
         return new InputGenerator(OVERLAPPED, (a) -> overlapped(a, lowest, highest, nBin, pBin, pGeom, nPmut), (long) lowest,
-                (long) highest, 0, nBin, pBin, 0, nPmut);
+                (long) highest, 0, nBin, pBin, nPmut);
     }
 
     public static InputGenerator createMixedAndOverlapped(double lowest, double highest, int nBin, double pBin, double pGeom, double nPmut) {
         return new InputGenerator(MIXED_AND_OVERLAPPED, (a) -> mixedAndOverlapped(a, lowest, highest, nBin, pBin, pGeom, nPmut), (long) lowest,
-                (long) highest, 0, nBin, pBin, 0, nPmut);
+                (long) highest, 0, nBin, pBin, nPmut);
     }
 
     public static InputGenerator createPowerlaw(double n, double lowest, double highest) {
         return new InputGenerator(POWERLAW_DISTRIBUTED, (a) -> powerlawDistributed(a, lowest, highest, n), (long) lowest,
-                (long) highest, 0, DEFAULT_N, DEFAULT_P_BINOMIAL, 0, n);
+                (long) highest, 0, DEFAULT_N, DEFAULT_P_BINOMIAL, n);
     }
 
     public long[] generate(int length) {
@@ -318,9 +321,9 @@ public class InputGenerator {
 
     private String getFolder(int type) {
         return switch (type) {
-            case COMPLETE_INT_RANGE, PARTIAL_INT_RANGE -> "UniformIntervall";
-            case ALL_SAME_AND_LAST_SUM, LAST_SUM_WITH_RANGE -> "OneMax";
-            case LAST_TWO_SUM_REST_ONE -> "TwoThirds";
+            case COMPLETE_INT_RANGE, UNIFORM_INTERVALL -> "UniformIntervall";
+            case ONEMAX_ONE, ONEMAX_UNIFORM -> "OneMax";
+            case TWO_THIRDS -> "TwoThirds";
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
             case BINOMIAL_DISTRIBUTED -> "Binomial";
@@ -334,8 +337,8 @@ public class InputGenerator {
     }
 
     public boolean hasBounds() {
-        return type == PARTIAL_INT_RANGE || type == LAST_SUM_WITH_RANGE
-                || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS || type == POWERLAW_DISTRIBUTED;
+        return type == UNIFORM_INTERVALL || type == ONEMAX_UNIFORM || type == ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS
+                || type == POWERLAW_DISTRIBUTED || type == MIXED || type == MIXED_AND_OVERLAPPED;
     }
 
     public void printDescription() {
