@@ -39,7 +39,6 @@ import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
 import static main.InputGenerator.OVERLAPPED;
-import static main.InputGenerator.POWERLAW_DISTRIBUTED;
 import static main.InputGenerator.generateInput;
 
 public class Main {
@@ -76,7 +75,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 16;
+            selection = 12;
         }
         mainSelection(selection);
     }
@@ -93,7 +92,7 @@ public class Main {
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
             case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
-            case 12 -> evaluate(1000, POWERLAW_DISTRIBUTED, 20 * 1000, Solver.getEAComparison(), "DELETE_TEMP_RESULT");
+            case 12 -> evaluate(1000, BINOMIAL_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
@@ -111,6 +110,11 @@ public class Main {
             case 41 -> printDistribution(InputGenerator.createPowerlaw(-1.25, 1.0, 1000.0), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(LAST_TWO_SUM_REST_ONE, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
+            case 44 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
+            case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC, 10000), 10000);
+            case 46 -> printDistribution(InputGenerator.createMixedAndOverlapped(
+                    1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
+            case 47 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
@@ -164,7 +168,7 @@ public class Main {
     }
 
     public static void printDistribution(long[] input, InputGenerator generator, long min, long max) {
-        long[] amount = new long[(int) (min + max + 1)];
+        long[] amount = new long[(int) (max - min + 1)];
         for (long l : input) {
             amount[(int) (l - min)]++;
         }
