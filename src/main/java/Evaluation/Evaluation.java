@@ -257,8 +257,8 @@ public class Evaluation {
             progress.clearProgressAndPrintElapsedTime();
         }
         for (int i = 0; i < evaluators.length; ++i) {
-            totalAverage[i] = (evaluators[i].getSum() + failed[i] * maxSteps[i]) / n;
-            avg[i] = failed[i] == n ? -1 : evaluators[i].getSum() / (n - failed[i]);
+            totalAverage[i] = (evaluators[i].getSum() + failed[i] * maxSteps[i]) / t;
+            avg[i] = failed[i] == t ? -1 : evaluators[i].getSum() / (t - failed[i]);
             avgFailDif[i] = failed[i] == 0 ? -1 : failDifSum[i] / failed[i];
         }
         return t;
