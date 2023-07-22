@@ -124,9 +124,9 @@ The idea behind the formula and the formula itself is explained in a \href{https
 \section{Do inputs have perfect partitions?}
 \subsection{Binomial Inputs}
 
-Lemma~\ref{lemma:BinomialSolvable} is only valid for larger n.
+Lemma~\ref{lemma:BinomialSolvable} is only valid for larger $n$.
 In practice the bound is much smaller depending on the expected value of a single number.
-Another factor deciding how likely an input is to have a perfect partition is if n is even or odd.
+Another factor deciding how likely an input is to have a perfect partition is wheter n is even or odd.
 To determine the influence of all factors multiple experiments were conducted.
 The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd.
 So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were tested for a perfect partition.
@@ -143,10 +143,10 @@ The oscillation therefore increases with increasing m.
 For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input with a perfect partition.
 For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
 Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}).
-Another visible effect is the decreasing percentage with rising p.
-This may be a direct result of the value chosen for p but can also be an indirect result as the value for p changes the expected value for a constant m.
+Another visible effect is the decreasing percentage with rising $p$.
+This may be a direct result of the value chosen for $p$ but can also be an indirect result as the value for $p$ changes the expected value for a constant $m$.
 The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
-For uniform distributed inputs Borgs showed that the coefficient of \#bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
+For uniform distributed inputs Borgs \emph{et. al.} showed that the coefficient of \#bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
 For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0.
 This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input.
 This leads to the second experiment.
@@ -188,7 +188,10 @@ In the second experiment the inputs were generated a bit differently.
 Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$.
 With this setup the influence of the expected value is almost isolated from the other parameters.
 The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.
-By looking at figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} it seems as if the value of $p$ has a much smaller influence than the expected value.
+
+Figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} again show the percentage of perfect inputs with different Settings of $m,p,n$.
+The x-axis is the expected value $mp$ of a single number of the input. The different graphs show the percentage for different input sizes.
+It seems as if the value of $p$ has a much smaller influence than the expected value.
 For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition.
 The expected value influences the percentage significantly more.
 For $p=0.1, n=14$ the value decreases from 100\% at $E(X)=10$ to below 20\% at $E(X)=50000$ (figure~\ref{fig:firstBinPercentage2}).
@@ -240,12 +243,12 @@ Figure~\ref{fig:firstBinSolCount} to figure~\ref{fig:lastBinSolCount} show the a
 For these figures 10,000 random binomial inputs with the given values for $m$ and $p$ were generated.
 Each input was then tested for the amount of perfect partitions it has.
 The used method was again brute force to ensure correctness which was only possible due to the small input sizes.
-After all runs the averages values were combined in the given figures.
+After all runs the average values were combined in the given figures.
 The value of $p$ is dependent on the picture and each value of $m \in \{10,100,1000,10000\}$ has its own graph within the figure.
 The x-axis is the size of the input and the y-axis the amount of perfect partitions the input has.
 Notice that all graphs have a y-axis with a logarithmic scale.
 Since the graphs are all linear the actual values rise exponentially.
-The number of perfect partition is mostly multiplied by a factor between 3 and 4 when the input size increases by 2.
+The number of perfect partitions is mostly multiplied by a factor between 3 and 4 when the input size increases by 2.
 
 \begin{figure}[h]
       \centering

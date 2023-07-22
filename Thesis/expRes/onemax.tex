@@ -84,11 +84,11 @@ The standard (1+1) EA performs a bit worse than the other three algorithms and a
       \includegraphics[width=0.7\textwidth]{figures/images/oneMaxMultipleN.png}\label{fig:onemaxNlogNBound}
 \end{figure}
 
-In a previous chapter the $\mathcal{O}(nlogn)$ bound was proven for the (1+1) EA and the RLS.
+In a previous chapter the $\mathcal{O}(nlogn)$ bound was proven for the (1+1) EA and the RLS (Theorem~\ref{theo:OneMaxResult}).
 This seems to hold in practice at least for the easiest version of this input where the small values are one (see figure~\ref{fig:onemaxNlogNBound}).
 Another variant of this input are uniform distributed inputs for example.
 The small values in this case are chosen from \textasciitilde$U(1,49999)$ and the last value again is the sum of all other values.
-This input is harder because switching multiple small values for a big value increases the fitness but increases the hamming distance to the optimum.
+This input is harder because switching multiple small values for a big value increases the fitness but increases the Theorem~\ref{theo:OneMaxResult} to the optimum.
 
 \begin{figure}[h]
       \caption{Runtime for OneMax equivalent with uniform distribution on a $n\ln(n)$ scale}

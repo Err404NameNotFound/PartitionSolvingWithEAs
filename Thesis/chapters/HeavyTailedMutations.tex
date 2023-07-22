@@ -33,17 +33,17 @@ By changing the mutation rate $1/n$ to $c/n$ for any constant $c$ the algorithm 
 
 For the RLS it is not that simple, as the RLS chooses a random bit and flips it.
 Instead of flipping c bits in every step there should be the possibility to flip different amounts of bits in every step.
-The standard RLS chooses a random neighbour with hamming distance one.
-So the variant of the RLS could simply choose neighbours that have a hamming distance larger than one.
+The standard RLS chooses a random neighbour with Theorem~\ref{theo:OneMaxResult} one.
+So the variant of the RLS could simply choose neighbours that have a Theorem~\ref{theo:OneMaxResult} larger than one.
 The selection should still be uniform random to keep the idea of the RLS intact.
-One possible way is to choose a random neighbour with hamming distance $\le k$.
-The amount of neighbours with hamming distance $y$ is given by $\binom{n}{y}$.
-For $k=4$, this results in $n$ neighbours with hamming distance 1, $n(n-1)/2$ neighbours with hamming distance 2, $n(n-1)(n-2)/6$
+One possible way is to choose a random neighbour with Theorem~\ref{theo:OneMaxResult} $\le k$.
+The amount of neighbours with Theorem~\ref{theo:OneMaxResult} $y$ is given by $\binom{n}{y}$.
+For $k=4$, this results in $n$ neighbours with Theorem~\ref{theo:OneMaxResult} 1, $n(n-1)/2$ neighbours with Theorem~\ref{theo:OneMaxResult} 2, $n(n-1)(n-2)/6$
 and $n(n-1)(n-2)(n-3)/24$.
-The probability to choose a random neighbour with hamming distance $y \le k$ is given by
-\[P(RLS-N_k\text{ flips y bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\mathcal{O}(n^y)}{\sum_{i=1}^k \mathcal{O}(n^i)}
-      = \frac{\mathcal{O}(n^y)}{\mathcal{O}(n^k)} = \mathcal{O}(n^{y-k}) = \mathcal{O}(\frac{1}{n^{k-y}})\]
-This variant of the RLS is likely to choose a neighbour with hamming distance k as the number of neighbours with hamming
+The probability to choose a random neighbour with Theorem~\ref{theo:OneMaxResult} $y \le k$ for $k = \mathcal{O}(1)$ is given by
+\[P(\text{RLS-N}_k\text{ flips }y\text{ bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\Theta(n^y)}{\sum_{i=1}^k \Theta(n^i)}
+      = \frac{\Theta(n^y)}{\Theta(n^k)} = \Theta(n^{y-k}) = \Theta(\frac{1}{n^{k-y}})\]
+This variant of the RLS is likely to choose a neighbour with Theorem~\ref{theo:OneMaxResult} k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
 The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
 For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS which will be called RLS-N from now on.
@@ -59,7 +59,7 @@ For some inputs flipping only one bit might be more optimal which is rather unli
       choose x uniform from ${\{0,1\}}^n$\;
       \While{$x$ not optimal}
       {
-      $x' \leftarrow \text{uniform random neighbour of x with hamming distance} \le k$\;
+      $x' \leftarrow \text{uniform random neighbour of x with Theorem~\ref{theo:OneMaxResult}} \le k$\;
       {
       \If{$f(x') \le f(x)$}
       {
@@ -69,7 +69,7 @@ For some inputs flipping only one bit might be more optimal which is rather unli
       }
 \end{algorithm}
 
-An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with hamming distance $y$ uniform random.
+An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Theorem~\ref{theo:OneMaxResult} $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
 This variant of the RLS will be referred to as RLS-R
 
@@ -86,7 +86,7 @@ This variant of the RLS will be referred to as RLS-R
       \While{$x$ not optimal}
       {
       $y \leftarrow \text{uniform random value }\in \{1,\dots,k\}$\;
-      $x' \leftarrow \text{uniform random neighbour of x with hamming distance } y$\;
+      $x' \leftarrow \text{uniform random neighbour of x with Hamming Distance } y$\;
       {
       \If{$f(x') \le f(x)$}
       {
