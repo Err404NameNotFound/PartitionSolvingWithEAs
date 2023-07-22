@@ -10,7 +10,6 @@ import help.ProgressPrinter;
 import java.math.BigInteger;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 import static Evaluation.Evaluation.evaluate;
@@ -32,6 +31,8 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
+import static help.RNG.randomBoolean;
+import static help.RNG.randomInt;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.LAST_SUM_WITH_RANGE;
 import static main.InputGenerator.LAST_TWO_SUM_REST_ONE;
@@ -283,14 +284,13 @@ public class Main {
         long sumE = 0;
         long sumLE = 0;
         for (int j = 0; j < 100; ++j) {
-            Random random = new Random();
-            boolean last = random.nextBoolean();
+            boolean last = randomBoolean();
             boolean current;
             int t = 0;
             int e = 0;
 
             for (int i = 2; i < DEFAULT_LENGTH; ++i) {
-                current = random.nextBoolean();
+                current = randomBoolean();
                 if (current) {
                     ++t;
                 }
@@ -299,7 +299,7 @@ public class Main {
                 }
                 last = current;
             }
-            current = random.nextBoolean();
+            current = randomBoolean();
             System.out.printf("%d %d %b %b -> %b %n", t, e, last, current, last == current);
             sumT += t;
             sumE += e;
@@ -407,13 +407,14 @@ public class Main {
     private static long unnecessaryComputation(long start, long end) {
         long current = 0;
         long[] unnecessaryMemoryWaste = new long[50000000]; // increases the cost of context switching
-        Random r = new Random(); // produce cache misses for more accurate comparison to real scenario
         for (long i = start; i < end; ++i) {
             current += i;
-            unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] = i;
+            // produce cache misses for more accurate comparison to real scenario
+            int index = randomInt(unnecessaryMemoryWaste.length);
+            unnecessaryMemoryWaste[Math.abs(index)] = i;
         }
         // hopefully compiler  does not remove the array due to this statement without any effets
-        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(r.nextInt(unnecessaryMemoryWaste.length))] % 2);
+        System.out.printf("%d\b", unnecessaryMemoryWaste[Math.abs(randomInt(unnecessaryMemoryWaste.length))] % 2);
         return current;
     }
 
@@ -571,7 +572,8 @@ public class Main {
 //        long[] inputLengths = new long[]{1000, 10 * 1000, 100 * 1000, 1000 * 1000};
         long[] inputLengths = new long[]{10000, 100000};
         long[] maxSteps = fill(inputLengths.length, (i) -> 10 * nlogn(inputLengths[i]));
-        Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
+//        Solver[] solvers = new Solver[]{Solver.getRLS(), Solver.getRLSUniformRing(2), Solver.getEA(), Solver.getEA(2)};
+        Solver[] solvers = new Solver[]{Solver.getEA()};
         for (int input = 0; input < inputLengths.length; ++input) {
             int length = (int) inputLengths[input];
             long[] inputArray = InputGenerator.oneMaxEquivalentUniformRange(length, 1, 10000);

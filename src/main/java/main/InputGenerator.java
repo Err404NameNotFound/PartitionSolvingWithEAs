@@ -1,7 +1,6 @@
 package main;
 
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
@@ -11,6 +10,7 @@ import static help.MathHelp.geometricK;
 import static help.MathHelp.powerlawK;
 import static help.Printer.printf;
 import static help.Printer.println;
+import static help.RNG.randomInt;
 import static main.Main.DEFAULT_BIGGEST_VALUE;
 import static main.Main.DEFAULT_BINOMIAL_SHIFT;
 import static main.Main.DEFAULT_LOWEST_VALUE;
@@ -21,8 +21,6 @@ import static main.Main.DEFAULT_P_GEOMETRIC;
 import static main.Main.DEFAULT_SUM_COUNT;
 
 public class InputGenerator {
-
-    public static final Random RANDOM = new Random();
     public static final int READ_FROM_CONSOLE = -1;
     public static final int COMPLETE_INT_RANGE = 0;
     public static final int PARTIAL_INT_RANGE = 1;
@@ -153,11 +151,11 @@ public class InputGenerator {
     }
 
     public static long[] completeIntRange(int length) {
-        return fill(length, (i) -> Math.abs(RANDOM.nextInt()));
+        return fill(length, (i) -> Math.abs(randomInt()));
     }
 
     public static long[] uniformRandomRange(int length, int low, int high) {
-        return fill(length, (i) -> Math.abs(RANDOM.nextInt(low, high)));
+        return fill(length, (i) -> Math.abs(randomInt(low, high)));
     }
 
     public static long[] oneMaxEquivalent(int length) {
@@ -168,7 +166,7 @@ public class InputGenerator {
     }
 
     public static long[] oneMaxEquivalentUniformRange(int length, int low, int high) {
-        long[] ret = fill(length, (a) -> Math.abs(RANDOM.nextInt(low, high)), 0, length - 1);
+        long[] ret = fill(length, (a) -> Math.abs(randomInt(low, high)), 0, length - 1);
         ret[ret.length - 1] = Arrays.stream(ret).sum();
         return ret;
     }
@@ -193,7 +191,7 @@ public class InputGenerator {
     }
 
     public static long[] lastXSumRestUniformRange(int length, int low, int high, int sumCount) {
-        long[] ret = fill(length, (i) -> Math.abs(RANDOM.nextInt(low, high)), 0, length - sumCount);
+        long[] ret = fill(length, (i) -> Math.abs(randomInt(low, high)), 0, length - sumCount);
         long sum = Arrays.stream(ret).sum();
         sum = sum / (sumCount + 1) - epsilonDif(length, sumCount);
         Arrays.fill(ret, ret.length - sumCount, ret.length, sum);
@@ -217,13 +215,13 @@ public class InputGenerator {
     }
 
     private static long overlappedValue(double bottom, double top, double pBin, int nBin, double pGeom, double nPmut) {
-        return RANDOM.nextInt((int) bottom, (int) top) + binomialK(nBin, pBin) + geometricK((int) top, pGeom)
+        return randomInt((int) bottom, (int) top) + binomialK(nBin, pBin) + geometricK((int) top, pGeom)
                 + powerlawK(bottom, top, nPmut);
     }
 
     private static long mixedOrOverlappedValue(int index, double bottom, double top, int nBin, double pBin, double pGeom, double nPmut) {
         return switch (index) {
-            case 0 -> RANDOM.nextInt((int) bottom, (int) top);
+            case 0 -> randomInt((int) bottom, (int) top);
             case 1 -> binomialK(nBin, pBin);
             case 2 -> geometricK((int) top, pGeom);
             case 3 -> powerlawK(bottom, top, nPmut);
@@ -234,7 +232,7 @@ public class InputGenerator {
     public static long[] mixed(int length, double bottom, double top, int nBin, double pBin, double pGeom, double nPmut) {
         long[] ret = new long[length];
         for (int i = 0; i < length; ++i) {
-            int rgn = RANDOM.nextInt(0, 4);
+            int rgn = randomInt(0, 4);
             ret[i] = mixedOrOverlappedValue(rgn, bottom, top, nBin, pBin, pGeom, nPmut);
         }
         return ret;
@@ -251,7 +249,7 @@ public class InputGenerator {
     public static long[] mixedAndOverlapped(int length, double bottom, double top, int nBin, double pBin, double pGeom, double nPmut) {
         long[] ret = new long[length];
         for (int i = 0; i < length; ++i) {
-            int rgn = RANDOM.nextInt(0, 8);
+            int rgn = randomInt(0, 8);
             ret[i] = mixedOrOverlappedValue(rgn, bottom, top, nBin, pBin, pGeom, nPmut);
         }
         return ret;

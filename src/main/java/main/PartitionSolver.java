@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
+import static help.RNG.*;
 import java.util.Set;
 
 import static help.ArrayHelp.findLargestK;
@@ -20,7 +20,6 @@ import static help.MathHelp.powerlawK;
 
 public class PartitionSolver {
 
-    private static final Random RNG = new Random();
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
         Solution sol = createStartingPoint(values);
@@ -59,7 +58,7 @@ public class PartitionSolver {
     }
 
     public static Solution solveRLS_UniformRing(long[] values, long maxSteps, int neighbours) {
-        return solve(values, maxSteps, (a) -> RNG.nextInt(1, neighbours + 1));
+        return solve(values, maxSteps, (a) -> randomInt(1, neighbours + 1));
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours) {
@@ -99,7 +98,7 @@ public class PartitionSolver {
     }
 
     public static Solution solveFmut(long[] values, long maxSteps, double p) {
-        return solve(values, maxSteps, (a) -> RNG.nextDouble() <= p ? 1 : RNG.nextInt(1, a / 2));
+        return solve(values, maxSteps, (a) -> randomDouble() <= p ? 1 : randomInt(1, a / 2));
     }
 
     public static Solution solvePmut(long[] values, long maxSteps, double n) {
@@ -161,7 +160,7 @@ public class PartitionSolver {
         do {
             for (Solution sol : solutions) {
                 do {
-                    sol.updateIfImprovement(RNG.nextInt(start, end));
+                    sol.updateIfImprovement(randomInt(start, end));
                     ++count;
                     notDone = notDone && sol.isNotOptimal() && count < maxSteps;
                 } while (sol.lastImproveLessThanXStepsAway(100) && notDone);
@@ -187,7 +186,7 @@ public class PartitionSolver {
         Solution sol = new Solution(values);
         for (int i = 0; i < values.length; ++i) {
             inputSum = inputSum.add(BigInteger.valueOf(values[i]));
-            if (RNG.nextBoolean()) {
+            if (randomBoolean()) {
                 sol.setValueToOne(i);
             }
         }
@@ -205,7 +204,7 @@ public class PartitionSolver {
         for (int i = 0; i < values.length; ++i) {
             inputSum = inputSum.add(BigInteger.valueOf(values[i]));
             for (Solution sol : solutions) {
-                if (RNG.nextBoolean()) {
+                if (randomBoolean()) {
                     sol.setValueToOne(i);
                 }
             }
@@ -223,7 +222,7 @@ public class PartitionSolver {
     private static Set<Integer> randomKIndices(int k, int start, int end) {
         Set<Integer> set = new HashSet<>(k);
         while (set.size() < k) {
-            set.add(RNG.nextInt(start, end));
+            set.add(randomInt(start, end));
         }
         return set;
     }
@@ -254,7 +253,7 @@ public class PartitionSolver {
             if (neighbours == 1) {
                 return 1;
             } else {
-                double r = RNG.nextDouble();
+                double r = randomDouble();
                 int k = 0;
                 while (k < stepSizes.length && stepSizes[k] < r) {
                     ++k;

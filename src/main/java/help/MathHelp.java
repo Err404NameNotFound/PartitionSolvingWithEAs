@@ -2,11 +2,8 @@ package help;
 
 import java.util.Arrays;
 import java.util.OptionalLong;
-import java.util.Random;
 
 public class MathHelp {
-
-    private static final Random random = new Random();
 
     public static double log(double value, double base) {
         return java.lang.Math.log(value) / java.lang.Math.log(base);
@@ -18,7 +15,7 @@ public class MathHelp {
 
     public static long geometricK(long maxValue, double p) {
         long k = 0;
-        while (random.nextDouble() >= p && k < maxValue) {
+        while (RNG.randomDouble() >= p && k < maxValue) {
             ++k;
         }
         return k;
