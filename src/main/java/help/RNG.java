@@ -27,7 +27,7 @@ public class RNG {
     }
 
     public static long randomLong(long bottom, long top) {
-        return bottom + RNG.nextLong(top);
+        return bottom + RNG.nextLong(top - bottom);
     }
 
     public static double randomDouble() {
