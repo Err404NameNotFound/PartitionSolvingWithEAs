@@ -133,8 +133,24 @@ public class Main {
             case 56 -> printSolutionOfOneInput();
             case 57 -> reworkRLS();
             case 58 -> testingTwoThirdsInput(0.3);
+            case 59 -> testRandomInt();
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
+    }
+
+    private static void testRandomInt() {
+        int n = 1000000000;
+        int k = 1000;
+        long[] counts = new long[k + 1];
+        for (int i = 0; i < n; ++i) {
+            ++counts[randomInt(100, k + 1) - 1];
+        }
+        long sum = 0;
+        for (int i = 0; i < counts.length; ++i) {
+            sum += counts[i] * i;
+        }
+        System.out.println(Arrays.toString(counts));
+        System.out.printf("average: %f%n", (double) sum / n);
     }
 
     private static void testingTwoThirdsInput(double epsilon) {
@@ -229,6 +245,9 @@ public class Main {
                 Solver.getPmutComparison(-1.5, -2, -2.5, -3)
         };
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
+        evaluate(n, inputTypes[1], inputLengths[1], stepSizes[1], solvers[0], "rls_comparison-" + postfix);
+        evaluate(n, inputTypes[2], inputLengths[2], stepSizes[2], solvers[0], "rls_comparison-" + postfix);
+        evaluate(n, inputTypes[2], inputLengths[2], stepSizes[2], solvers[2], "pmut_comparison-" + postfix);
         for (int i = 1; i < inputTypes.length; ++i) {
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);

@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import static help.RNG.*;
 import java.util.Set;
 
 import static help.ArrayHelp.findLargestK;
@@ -17,6 +16,9 @@ import static help.ArrayPrinter.printFirstAndLastElements;
 import static help.MathHelp.binomialK;
 import static help.MathHelp.nChooseK_double;
 import static help.MathHelp.powerlawK;
+import static help.RNG.randomBoolean;
+import static help.RNG.randomDouble;
+import static help.RNG.randomInt;
 
 public class PartitionSolver {
 

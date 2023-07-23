@@ -309,6 +309,26 @@ public class InputGenerator {
                 (long) highest, 0, DEFAULT_N, DEFAULT_P_BINOMIAL, n);
     }
 
+    public static String getName(int type) {
+        return switch (type) {
+            case UNIFORM_INTEGER -> "uniform integer";
+            case UNIFORM_INTERVALL -> "uniform intervall";
+            case ONEMAX_ONE -> "OneMax (all one)";
+            case ONEMAX_UNIFORM -> "OneMax (uniform)";
+            case TWO_THIRDS -> "Worst case input by carsten witt";
+            case BINOMIAL_DISTRIBUTED -> "binomial";
+            case GEOMETRIC_DISTRIBUTED -> "geometric";
+            case POWERLAW_DISTRIBUTED -> "powerlaw";
+            case MIXED -> "mixed";
+            case OVERLAPPED -> "overlapped";
+            case MIXED_AND_OVERLAPPED -> "mixed and overlapped";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "multiple sumes (rest one)";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "multiple sums (rest uniform)";
+            case BINOMIAL_DISTRIBUTED_SHIFT -> "shifted binomial";
+            default -> "unknown type";
+        };
+    }
+
     public long[] generate(int length) {
         if (outputConstant) {
             if (output == null || output.length != length) {
@@ -365,26 +385,6 @@ public class InputGenerator {
         if (outputConstant && output != null) {
             printFirstAndLastElements(output, 10);
         }
-    }
-
-    public static String getName(int type) {
-        return switch (type) {
-            case UNIFORM_INTEGER -> "uniform integer";
-            case UNIFORM_INTERVALL -> "uniform intervall";
-            case ONEMAX_ONE -> "OneMax (all one)";
-            case ONEMAX_UNIFORM -> "OneMax (uniform)";
-            case TWO_THIRDS -> "Worst case input by carsten witt";
-            case BINOMIAL_DISTRIBUTED -> "binomial";
-            case GEOMETRIC_DISTRIBUTED -> "geometric";
-            case POWERLAW_DISTRIBUTED -> "powerlaw";
-            case MIXED -> "mixed";
-            case OVERLAPPED -> "overlapped";
-            case MIXED_AND_OVERLAPPED -> "mixed and overlapped";
-            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "multiple sumes (rest one)";
-            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "multiple sums (rest uniform)";
-            case BINOMIAL_DISTRIBUTED_SHIFT -> "shifted binomial";
-            default -> "unknown type";
-        };
     }
 
     public boolean hasFieldWithSum() {

@@ -234,7 +234,7 @@ public class ResultsChapterPrinter {
     }
 
     public static void printCompleteEvaluation3(boolean updateTables) {
-        if(updateTables){
+        if (updateTables) {
             printAllTables();
         }
         startFilePrinting(PATH_THESIS + "expRes/tables_3.tex", true);
@@ -245,7 +245,7 @@ public class ResultsChapterPrinter {
     }
 
     public static void printCompleteEvaluation4(boolean updateTables) {
-        if(updateTables){
+        if (updateTables) {
             printAllTables();
         }
         for (int i = 0; i < SECTIONS.length; ++i) {

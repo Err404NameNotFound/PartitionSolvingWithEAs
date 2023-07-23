@@ -288,7 +288,7 @@ public class BinomialTesting {
         for (double p : ps) {
             for (int n : ns) {
                 n = (int) Math.round(n / p);
-                printf("n: %,d%np: %.2f,%nE(X)=%.2f%n--------------%n", n, p, n*p);
+                printf("n: %,d%np: %.2f,%nE(X)=%.2f%n--------------%n", n, p, n * p);
                 testBinomialSolutionCount(count, lengths, n, p);
                 println("***************");
                 if (Thread.interrupted()) {
