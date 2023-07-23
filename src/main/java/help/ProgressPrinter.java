@@ -82,4 +82,8 @@ public class ProgressPrinter {
     public void clearProgressAndPrintElapsedTime() {
         clearProgressAndPrintElapsedTime(startTime);
     }
+
+    public void printElapsedTime() {
+        System.out.printf("Elapsed time: %s%n", timeString(now() - startTime));
+    }
 }
