@@ -245,9 +245,6 @@ public class Main {
                 Solver.getPmutComparison(-1.5, -2, -2.5, -3)
         };
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
-        evaluate(n, inputTypes[1], inputLengths[1], stepSizes[1], solvers[0], "rls_comparison-" + postfix);
-        evaluate(n, inputTypes[2], inputLengths[2], stepSizes[2], solvers[0], "rls_comparison-" + postfix);
-        evaluate(n, inputTypes[2], inputLengths[2], stepSizes[2], solvers[2], "pmut_comparison-" + postfix);
         for (int i = 1; i < inputTypes.length; ++i) {
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
