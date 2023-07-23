@@ -22,7 +22,7 @@ import static main.Main.DEFAULT_SUM_COUNT;
 
 public class InputGenerator {
     public static final int READ_FROM_CONSOLE = -1;
-    public static final int COMPLETE_INT_RANGE = 0;
+    public static final int UNIFORM_INTEGER = 0;
     public static final int UNIFORM_INTERVALL = 1;
     public static final int ONEMAX_ONE = 2;
     public static final int ONEMAX_UNIFORM = 3;
@@ -69,7 +69,7 @@ public class InputGenerator {
         this.n = n;
         this.p = p;
         this.expectedValue = switch (type) {
-            case COMPLETE_INT_RANGE -> Integer.MAX_VALUE / 2;
+            case UNIFORM_INTEGER -> Integer.MAX_VALUE / 2;
             case UNIFORM_INTERVALL -> (top - bottom) / 2;
             case BINOMIAL_DISTRIBUTED -> Math.round(n * p);
             case GEOMETRIC_DISTRIBUTED -> Math.round(1.0 / p);
@@ -104,7 +104,7 @@ public class InputGenerator {
 
     public static long[] createInput(int type, int length, int low, int high, int sumCount) {
         return switch (type) {
-            case COMPLETE_INT_RANGE -> completeIntRange(length);
+            case UNIFORM_INTEGER -> completeIntRange(length);
             case UNIFORM_INTERVALL -> uniformRandomRange(length, low, high);
             case ONEMAX_ONE -> oneMaxEquivalent(length);
             case ONEMAX_UNIFORM -> oneMaxEquivalentUniformRange(length, low, high);
@@ -135,7 +135,7 @@ public class InputGenerator {
 
     public static String getInputTypeDescription(int type) {
         return switch (type) {
-            case COMPLETE_INT_RANGE -> "uniform random values from complete int range";
+            case UNIFORM_INTEGER -> "uniform random values from complete int range";
             case UNIFORM_INTERVALL -> "uniform random values from given range";
             case ONEMAX_ONE -> "OneMax equivalent for partition";
             case ONEMAX_UNIFORM ->
@@ -321,7 +321,7 @@ public class InputGenerator {
 
     private String getFolder(int type) {
         return switch (type) {
-            case COMPLETE_INT_RANGE, UNIFORM_INTERVALL -> "UniformIntervall";
+            case UNIFORM_INTEGER, UNIFORM_INTERVALL -> "UniformIntervall";
             case ONEMAX_ONE, ONEMAX_UNIFORM -> "OneMax";
             case TWO_THIRDS -> "TwoThirds";
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
@@ -365,6 +365,26 @@ public class InputGenerator {
         if (outputConstant && output != null) {
             printFirstAndLastElements(output, 10);
         }
+    }
+
+    public static String getName(int type) {
+        return switch (type) {
+            case UNIFORM_INTEGER -> "uniform integer";
+            case UNIFORM_INTERVALL -> "uniform intervall";
+            case ONEMAX_ONE -> "OneMax (all one)";
+            case ONEMAX_UNIFORM -> "OneMax (uniform)";
+            case TWO_THIRDS -> "Worst case input by carsten witt";
+            case BINOMIAL_DISTRIBUTED -> "binomial";
+            case GEOMETRIC_DISTRIBUTED -> "geometric";
+            case POWERLAW_DISTRIBUTED -> "powerlaw";
+            case MIXED -> "mixed";
+            case OVERLAPPED -> "overlapped";
+            case MIXED_AND_OVERLAPPED -> "mixed and overlapped";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "multiple sumes (rest one)";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "multiple sums (rest uniform)";
+            case BINOMIAL_DISTRIBUTED_SHIFT -> "shifted binomial";
+            default -> "unknown type";
+        };
     }
 
     public boolean hasFieldWithSum() {

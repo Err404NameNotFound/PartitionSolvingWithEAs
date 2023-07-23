@@ -1,6 +1,7 @@
 package main;
 
 import Evaluation.BinomialTesting;
+import Evaluation.Evaluation;
 import Evaluation.ResultsChapterPrinter;
 import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
@@ -34,13 +35,18 @@ import static help.Printer.stopWritingToFile;
 import static help.RNG.randomBoolean;
 import static help.RNG.randomInt;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
+import static main.InputGenerator.GEOMETRIC_DISTRIBUTED;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
 import static main.InputGenerator.ONEMAX_ONE;
 import static main.InputGenerator.ONEMAX_UNIFORM;
 import static main.InputGenerator.OVERLAPPED;
+import static main.InputGenerator.POWERLAW_DISTRIBUTED;
 import static main.InputGenerator.TWO_THIRDS;
+import static main.InputGenerator.UNIFORM_INTEGER;
+import static main.InputGenerator.UNIFORM_INTERVALL;
 import static main.InputGenerator.generateInput;
+import static main.InputGenerator.getName;
 
 public class Main {
 
@@ -55,6 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -1.25;
+    public static final int DEFAULT_SELECTION = 17;
 
 
     public static void main(String[] args) {
@@ -76,7 +83,7 @@ public class Main {
             }
         } catch (Exception e) {
             //cmd parameter was not present -> use default value
-            selection = 12;
+            selection = DEFAULT_SELECTION;
         }
         mainSelection(selection);
     }
@@ -93,11 +100,12 @@ public class Main {
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
             case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
-            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getPmutComparison(), "DELETE");
+            case 12 -> evaluate(20, ONEMAX_ONE, 10 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
+            case 17 -> redoAllExperiments(1000, "newRNG");
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -201,7 +209,32 @@ public class Main {
 //                Solver.getPmut(-1.75),
                 Solver.getPmut(-3.25),
         };
-        evaluate(1000, lengths, stepSizes, generator, solvers, null);
+        Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
+    }
+
+    private static void redoAllExperiments(int n, String postfix) {
+        int[] inputTypes = new int[]{
+                UNIFORM_INTEGER, UNIFORM_INTERVALL, ONEMAX_ONE, TWO_THIRDS,
+                BINOMIAL_DISTRIBUTED, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,
+                MIXED, OVERLAPPED, MIXED_AND_OVERLAPPED
+        };
+        int[] inputLengths = new int[]{
+                50 * 1000, 50 * 1000, 10 * 1000, 10 * 1000,
+                10 * 1000, 10 * 1000, 20 * 1000,
+                10 * 1000, 10 * 1000, 10 * 1000
+        };
+        Solver[][] solvers = new Solver[][]{
+                Solver.getRLSComparison(),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
+                Solver.getPmutComparison(-1.5, -2, -2.5, -3)
+        };
+        long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
+        for (int i = 1; i < inputTypes.length; ++i) {
+            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
+            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
+            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[2], "pmut_comparison-" + postfix);
+            System.out.println(getName(inputTypes[i]) + " done");
+        }
     }
 
     private static void evaluateSameSolver(int n, int[] lengths, InputGenerator generator) {

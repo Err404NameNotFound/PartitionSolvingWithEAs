@@ -11,7 +11,6 @@ import main.Solver;
 
 import java.util.Arrays;
 
-import static help.ArrayHelp.cast;
 import static help.ArrayHelp.fill;
 import static help.ArrayHelp.generateIntArray;
 import static help.ArrayPrinter.printArray;
@@ -41,10 +40,6 @@ public class Evaluation {
     private Evaluation() {
     }
 
-    public static Solver evaluate(int n, int type, int length) {
-        return new Evaluation().solveMultiple(n, type, length, null);
-    }
-
     public static Solver evaluate(int n, int type, int length, Solver[] solvers) {
         return new Evaluation().solveMultiple(n, type, length, solvers, null);
     }
@@ -53,15 +48,15 @@ public class Evaluation {
         return new Evaluation().solveMultiple(n, type, length, solvers, postfix);
     }
 
-    public static Solver evaluate(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
-        return new Evaluation().solveMultiple(n, generator, length, solvers, postfix);
+    public static Solver evaluate(int n, int type, int length, long stepsSize, Solver[] solvers, String postfix) {
+        return new Evaluation().solveMultiple(n, InputGenerator.create(type), length, stepsSize, solvers, postfix);
     }
 
     public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String postfix) {
         new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, postfix);
     }
 
-    public static Solver evaluate(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix) {
+    public static void evaluateMultipleNValues(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix) {
         Evaluation e = new Evaluation();
         int[] inputLengths2 = generateIntArray(inputLengths.length * solvers.length, (i) -> inputLengths[i / solvers.length]);
         long[] stepSizes2 = fill(inputLengths2.length, (i) -> stepSizes[i / solvers.length]);
@@ -77,7 +72,7 @@ public class Evaluation {
 //        printArray("Stepsizes: ", stepSizes2, digits);
 //        printArray("Solvers:   ", (i) -> solvers2[i].shortName, solvers2.length, digits);
         System.out.println("Starting evaluation...");
-        return e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, postfix, (a) -> e.printResult(a, inputLengths2, stepSizes2));
+        e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, postfix, (a) -> e.printResult(a, inputLengths2, stepSizes2));
     }
 
     private static Evaluation merge(Evaluation... evaluations) {
@@ -152,10 +147,6 @@ public class Evaluation {
         fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
     }
 
-    private Solver solveMultiple(int n, int type, int length, String postfix) {
-        return solveMultiple(n, type, length, Solver.getComparison(), postfix);
-    }
-
     private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
         return solveMultiple(n, InputGenerator.create(type), length, solvers, postfix);
     }
@@ -163,6 +154,10 @@ public class Evaluation {
     private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
         long steps = 10 * nlogn(length);
 //        long steps = 50 * 1000;
+        return solveMultiple(n, generator, length, steps, solvers, postfix);
+    }
+
+    private Solver solveMultiple(int n, InputGenerator generator, int length, long steps, Solver[] solvers, String postfix) {
         long[] maxStepsArray = fill(solvers.length, (i) -> steps);
         int[] lengthArray = new int[solvers.length];
         Arrays.fill(lengthArray, length);
@@ -185,11 +180,13 @@ public class Evaluation {
             String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
 //            startFilePrinting(folder + startTime + "-res" + append + ".csv");
             setPrintToConsole(false);
+            ProgressPrinter p = new ProgressPrinter(1);
             int temp = calculate(n, inputLengths, stepSizes, !isPrintToConsole());
             setPrintToConsole(true);
             stopWritingToFile();
             println("***************************");
             startFilePrinting(folder + startTime + append + ".txt");
+            p.printElapsedTime();
             resultPrinter.printResult(temp);
             stopWritingToFile();
             bestSolver = findBestSolver();
