@@ -81,6 +81,14 @@ public class Solver {
         };
     }
 
+    public static Solver[] getEAComparison(int... args) {
+        Solver[] solvers = new Solver[args.length];
+        for (int i = 0; i < args.length; ++i) {
+            solvers[i] = getEA(args[i]);
+        }
+        return solvers;
+    }
+
     public static Solver[] getFmutComparison() {
         return new Solver[]{
                 getFmut(0.1),
@@ -103,6 +111,14 @@ public class Solver {
                 getPmut(-3.0),
                 getPmut(-3.25),
         };
+    }
+
+    public static Solver[] getPmutComparison(double... args) {
+        Solver[] solvers = new Solver[args.length];
+        for (int i = 0; i < args.length; ++i) {
+            solvers[i] = getPmut(args[i]);
+        }
+        return solvers;
     }
 
     public static Solver[] getComparison(int k_Ring, int k_Neighbour, int c_EA, double p_pmut) {
