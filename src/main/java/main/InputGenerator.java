@@ -44,7 +44,7 @@ public class InputGenerator {
     public final int sumCount;
     public final long n;
     public final double p;
-    public final long expectedValue;
+    public final double expectedValue;
     public final double pMutParam;
     private final Generator generator;
     private final boolean outputConstant;
@@ -69,12 +69,12 @@ public class InputGenerator {
         this.n = n;
         this.p = p;
         this.expectedValue = switch (type) {
-            case UNIFORM_INTEGER -> Integer.MAX_VALUE / 2;
-            case UNIFORM_INTERVALL -> (top - bottom) / 2;
-            case BINOMIAL_DISTRIBUTED -> Math.round(n * p);
-            case GEOMETRIC_DISTRIBUTED -> Math.round(1.0 / p);
-            case BINOMIAL_DISTRIBUTED_SHIFT -> Math.round(n * p) + DEFAULT_BINOMIAL_SHIFT;
-            default -> 0;
+            case UNIFORM_INTEGER -> Integer.MAX_VALUE / 2.0;
+            case UNIFORM_INTERVALL -> (top - bottom) / 2.0;
+            case BINOMIAL_DISTRIBUTED -> n * p;
+            case GEOMETRIC_DISTRIBUTED -> 1.0 / p;
+            case BINOMIAL_DISTRIBUTED_SHIFT -> n * p + DEFAULT_BINOMIAL_SHIFT;
+            default -> 0.0;
         };
         this.pMutParam = pMutParam;
         folder = getFolder(type);
@@ -380,7 +380,7 @@ public class InputGenerator {
             }
             printf("n value;         %,d%n", n);
             printf("p;               %.6f%n", p);
-            printf("expected value;  %,d%n", expectedValue);
+            printf("expected value;  %.6f%n", expectedValue);
         }
         if (outputConstant && output != null) {
             printFirstAndLastElements(output, 10);

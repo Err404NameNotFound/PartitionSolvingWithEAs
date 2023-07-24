@@ -62,7 +62,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -1.25;
-    public static final int DEFAULT_SELECTION = 12;
+    public static final int DEFAULT_SELECTION = 11;
 
 
     public static void main(String[] args) {
@@ -100,7 +100,7 @@ public class Main {
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
-            case 11 -> evaluateMultiple(10000, POWERLAW_DISTRIBUTED, 20000, "best");
+            case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");
             case 12 -> evaluate(20, POWERLAW_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
@@ -238,25 +238,27 @@ public class Main {
 
     private static void redoAllExperiments(int n, String postfix) {
         int[] inputTypes = new int[]{
-                UNIFORM_INTEGER, UNIFORM_INTERVALL, ONEMAX_ONE, TWO_THIRDS,
+                UNIFORM_INTERVALL, ONEMAX_ONE, TWO_THIRDS,
                 BINOMIAL_DISTRIBUTED, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,
                 MIXED, OVERLAPPED, MIXED_AND_OVERLAPPED
         };
         int[] inputLengths = new int[]{
-                50 * 1000, 50 * 1000, 10 * 1000, 10 * 1000,
+                50 * 1000, 10 * 1000, 10 * 1000,
                 10 * 1000, 10 * 1000, 20 * 1000,
                 10 * 1000, 10 * 1000, 10 * 1000
         };
         Solver[][] solvers = new Solver[][]{
                 Solver.getRLSComparison(),
-                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
-                Solver.getPmutComparison(-1.5, -2, -2.5, -3)
+                Solver.getEAComparison(),
+                Solver.getPmutComparison()
         };
+        Solver[] bestSolvers = new Solver[3];
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
         for (int i = 1; i < inputTypes.length; ++i) {
-            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
-            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
-            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[2], "pmut_comparison-" + postfix);
+            bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
+            bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
+            bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[2], "pmut_comparison-" + postfix);
+            evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], bestSolvers, "best-" + postfix);
             System.out.println(getName(inputTypes[i]) + " done");
         }
     }
