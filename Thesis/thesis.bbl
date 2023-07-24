@@ -30,4 +30,9 @@ Carsten Witt.
 \newblock Tight bounds on the optimization time of a randomized search heuristic on linear functions.
 \newblock {\em Combinatorics, Probability and Computing}, 22(2):294--318, 2013.
 
+\bibitem[Wit14]{witt2014fitness}
+Carsten Witt.
+\newblock Fitness levels with tail bounds for the analysis of randomized search heuristics.
+\newblock {\em Information Processing Letters}, 114(1-2):38--41, 2014.
+
 \end{thebibliography}

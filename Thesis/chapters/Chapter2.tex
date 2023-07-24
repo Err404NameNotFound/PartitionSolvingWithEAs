@@ -11,22 +11,19 @@
     A single bit flip of the first bit can only happen, if the emptier bin has a weight of at most $\frac {W-w_1}{2}$.
     After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before a different bit is flipped.
     % After a different bit has been flipped, the RLS wont flip the first bit again, because it will never result in an improvement.
-    So the run of the RLS can be divided into two phases:
+    The run of the RSHs can be divided into two phases:
     \begin{itemize}
         \item[Phase 1:] The RSH reaches a search point with $b_E \ge \frac {W-w_1}{2}$.
-        \item[Phase 2:] The RSH reaches an optimal solution $\rightarrow w_1$ is in one bin and all other elements are in the other bin.
+        \item[Phase 2:] The RSH reaches an optimal solution $\Rightarrow w_1$ is in one bin and all other elements are in the other bin.
     \end{itemize}
 
-    The expected length of the first phase is at most $n$ for the RLS and $en$ for the (1+1) EA because the probability of flipping the first bit is at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\frac{1}{en}^{-1} = en$ for the (1+1) EA and $\frac{1}{n}^{-1}=n$ for the RLS.\newline
+    The expected length of the first phase is at most $en$ for the (1+1) EA and $n$ for the RLS because the probability of flipping the first bit is at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\frac{1}{en}^{-1} = en$ for the (1+1) EA and $\frac{1}{n}^{-1}=n$ for the RLS.\newline
     In the second phase the RLS can no longer flip $w_1$ as it does not result in an improvement ever again.
-    Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bin and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$.
-    The (1+1) EA now has to minimise a linear function of $n-1$ bits which also takes $\Theta(n\log{}n)$ time as well~\cite{witt2013tight}.
-    \textbf{\textit{TODO: why can't the first bit be flipped any more?}}.
-    The length of the third phase is identical to a run of the RLS on OneMax/ZeroMax where flips of the first bit are ignored as if it was already correctly flipped and therefore the expected time is $\Theta(n\log{}n)$
+    Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).
+    The (1+1) EA has to minimise a linear function of $n-1$ bits which also takes $\Theta(n\log{}n)$ time as well (Corollary 4.2 in~\cite{witt2013tight}).
+    \textbf{\textit{TODO: why can't the first bit be flipped any more? Or why does it not matter?}}.
 
-    So the total expected time is $\mathcal{O}(n) + \mathcal{O}(n) + \Theta(n\log{}n) = \Theta(n\log{}n)$
-
-    The (1+1) EA can do multiple bit flips in a single step so the first bit can be flipped multiple times if the combined moved weight \(y \le b_F-b_E\). 
+    So the total expected time is $\mathcal{O}(n) + \Theta(n\log{}n) = \Theta(n\log{}n)$
 \end{proof}
 
 \begin{lemma}\label{approximationLemmaHelp1}
@@ -87,17 +84,17 @@
     The main difference is the (1+1) EA being able to flip more than one bit in a single step.
     Such a step could make the emptier bin the fuller bin or increase the number of bits that must be shifted to the emptier bin.
     But with the results of Theorem~\ref{theo:OneMaxResult} the proof works exactly the same as for the RLS.
-    The case \(w_1 \ge \frac{W}{3}\) works exactly the same only the bin containing $w_1$ might change.
+    The case \(w_1 \ge \frac{W}{3}\) does not change only the bin containing $w_1$ might change.
     Apart from that there is no difference for the (1+1) EA.
-    The case $w_1 < \frac{W}{3}$ works the same.
-    \textbf{\textit{TODO: explain why proof also works for the (1+1) EA in this case}}
+    The case $w_1 < \frac{W}{3}$ is also rather similar.
+    The (1+1) EA will move elements from the fuller bin to the emptier bin until $b_F < \frac{2W}{3}$ holds. The (1+1) EA can make the emptier bin the fuller bin by moving multiple objects in one step, but this does not hinder it from reaching $b_F < \frac{2W}{3}$. After such a step it will continue moving elements until the condition holds.
 \end{proof}
 
 \begin{lemma}\label{approximationLemma}
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ in expected time $\mathcal{O}(n\log{}n)$ if $w_1 < W/2$
 \end{lemma}
 \begin{proof}    
-    If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (Proof by C.Witt~\cite{diekert2005stacs}).
+    If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (3. Average case analysis, Theorem 1 in~\cite{diekert2005stacs}).
     From then on the following holds.
     If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{approximationCorollaryHelp2}.
     Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}.
@@ -113,7 +110,7 @@
 
 \section{Binomial distributed input}
 \begin{lemma}\label{lemma:BinomialSolvable}
-    A binomial distributed input \textasciitilde$B(m,p)$ has a perfect partition ($b_F - b_E = 0$) with high probability if the input size $n$ is large enough.
+    A binomial distributed input \textasciitilde$B(m,p)$ has a perfect partition ($b_F - b_E = 0$ for even $W$ and $b_F - b_E = 1$ for uneven $W$) with high probability if the input size $n$ is large enough.
 \end{lemma}
 \begin{proof}
     Sketch:
@@ -123,11 +120,10 @@
         \item the large values  
     \end{itemize}
     Consider a random separation of all values into two sets with equal size if $n$ is even or one set with one value more than the other if $n$ is odd. The sum X of one set is a sum of $\frac{n}{2}\cdot m$ independent Bernoulli trials with probability $p$. With Chernoff Bounds the following inequality follows: 
-    \[\probP(X\ge(\frac{n}{2}+\sqrt{\frac{n}{2}})\cdot m \cdot p) = \probP(X\ge(1+\sqrt{\frac{2}{n}})\cdot nmp) \le e^{-mnp\cdot\sqrt{\frac{2}{n}}^2 /3} = e^{-\frac{mp}{3}}\]
-    For $mp\ge3$ the probability is less than $\frac{1}{e}$. Otherwise the input is rather trivial, since the numbers will be concentrated around 3.
-    There will also be many 1s because 1 is close to the expected value, making the possibility for an optimal solution even grater.\newline
-    After moving $\mathcal{O}(\sqrt{\frac{2}{n}}/2)$ objects to the emptier set, the difference between the two sets is at most half the expected value $mp$ of a single value.
-    % From then on 
+    \[\probP(X\ge(\frac{n}{2}+\sqrt{\frac{n}{2}})\cdot m \cdot p) = \probP(X\ge(1+2\sqrt{\frac{2}{n}})\cdot \frac{nmp}{2}) \le e^{-\frac{mnp}{2}\cdot2\sqrt{\frac{2}{n}}^2 /3} = e^{-\frac{2mp}{3}}\]
+    For $mp\ge1.5$ the probability is less than $\frac{1}{e}$. Otherwise the input is rather trivial, since the numbers will be concentrated around 1.5 and most values will be below 10.\newline
+    After moving $\mathcal{O}(\sqrt{\frac{n}{2}}/2)$ objects to the emptier set, the difference between the two sets is at most half the expected value $mp$ of a single value.
+    \dots
 \end{proof}
 
 
@@ -142,5 +138,5 @@
         \item The RLS only moves one element per step and will reach $b_F$-$b_E$ < $w_n$ without $b_F= opt$ being true
         \item -> RLS can't make another step and is stuck in a local optimum.
     \end{itemize}
-    Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability.
+    Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability. The probability for small values \dots
 \end{proof}

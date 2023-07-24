@@ -126,16 +126,27 @@ The idea behind the formula and the formula itself is explained in a \href{https
 
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger $n$.
 In practice the bound is much smaller depending on the expected value of a single number.
-Another factor deciding how likely an input is to have a perfect partition is wheter n is even or odd.
+Another factor deciding how likely an input is to have a perfect partition is whether n is even or odd.
 To determine the influence of all factors multiple experiments were conducted.
 The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd.
 So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were tested for a perfect partition.
 Due to the small values for $n$ it was possible to brute force the results in a short amount of time.
 The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref{fig:lastBinPercentage}.
+
+\begin{figure}[h]
+      \caption{Percentage of Binomial inputs with perfect partitions for $m = 10$}
+      \centering
+      \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png}\label{fig:firstBinPercentage}
+\end{figure}
+
 On the x-axis is the size of the input and on the y-axis the percentage of inputs that had a perfect partition.
 The different graphs in each figure resemble the different values of p used for generating the inputs.
 The graph for $p=0.1$ resembles the percentage of inputs that had a perfect partition with values generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure.
 For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
+Figure~\ref{fig:firstBinPercentage} is a bit overloaded with information and the zigzag makes it hard to gain any benefit from the graphs.
+That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes $n$ and one for the uneven. 
+For $n\ge10,000$ all values for the uneven input sizes are 0 \%, so there is no point in showing the data in a separate graph. The lines in the separate graphs for even and uneven $n$ are only to visualise the growth in $n$. The displayed values in between the listed input sizes on the x-axis do not have a meaning.\newline
+
 It is easy to see that for small inputs sizes it is relevant if n is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
 For uneven inputs the probability of a perfect partition decreases much more drastically with m as for even inputs because the expected value of a single number increases with m.
 If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
@@ -154,42 +165,61 @@ This leads to the second experiment.
 \begin{figure}[h]
       \centering
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for m = 10}
-            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png}\label{fig:firstBinPercentage}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 10$ for even $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10_even.png}\label{fig:firstBinPercentageEven}
       \end{minipage}
       \hspace{0.75cm}
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for m = 100}
-            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100.png}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 10$ for uneven $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10_uneven.png}\label{fig:firstBinPercentageUneven}
       \end{minipage}
 \end{figure}
 
 \begin{figure}[h]
       \centering
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for m = 1000}
-            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m1000.png}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 100$ for even $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100_even.png}
       \end{minipage}
       \hspace{0.75cm}
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for m = 10000}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 100$ for uneven $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100_uneven.png}
+      \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+      \centering
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 1000$ for even $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m1000_even.png}
+      \end{minipage}
+      \hspace{0.75cm}
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 1000$ for uneven $n$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m1000_uneven.png}
+      \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+      \centering
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 10,000$}
             \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10000.png}
       \end{minipage}
-\end{figure}
-
-\begin{figure}[h]
-      \caption{Percentage of Binomial inputs with perfect partitions for m = 100000}
-      \centering
-      \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100000.png}\label{fig:lastBinPercentage}
+      \hspace{0.75cm}
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 100,000$}
+            \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100000.png}\label{fig:lastBinPercentage}
+      \end{minipage}
 \end{figure}
 
 
 In the second experiment the inputs were generated a bit differently.
 Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$.
 With this setup the influence of the expected value is almost isolated from the other parameters.
-The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.
-
-Figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} again show the percentage of perfect inputs with different Settings of $m,p,n$.
+The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.\newline
+Figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} again show the percentage of perfect inputs with different settings of $m,p,n$.
 The x-axis is the expected value $mp$ of a single number of the input. The different graphs show the percentage for different input sizes.
 It seems as if the value of $p$ has a much smaller influence than the expected value.
 For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition.
