@@ -97,8 +97,9 @@ public class BinomialTesting {
     public static void printBinomialDistribution(int n, double p, int length) {
         InputGenerator generator = InputGenerator.createBinomial(n, p);
         long[] input = generator.generate(length);
-        int offset = calculateRange(input, generator.expectedValue);
-        printDistribution(input, generator, generator.expectedValue - offset, generator.expectedValue + offset);
+        long expected = Math.round(generator.expectedValue);
+        int offset = calculateRange(input, expected);
+        printDistribution(input, generator, expected - offset - 1, expected + offset + 1);
     }
 
     public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
