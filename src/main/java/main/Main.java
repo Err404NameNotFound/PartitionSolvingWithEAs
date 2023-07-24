@@ -25,6 +25,7 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.MathHelp.powerlawK;
 import static help.MathHelp.randomDouble;
+import static help.Printer.PATH_TEXT_FILES;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -61,7 +62,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -1.25;
-    public static final int DEFAULT_SELECTION = 17;
+    public static final int DEFAULT_SELECTION = 12;
 
 
     public static void main(String[] args) {
@@ -99,13 +100,13 @@ public class Main {
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
 
-            case 11 -> evaluateMultiple(1000, MIXED_AND_OVERLAPPED, 10000, "best");
-            case 12 -> evaluate(20, ONEMAX_ONE, 10 * 1000, Solver.getPmutComparison(), "DELETE");
+            case 11 -> evaluateMultiple(10000, POWERLAW_DISTRIBUTED, 20000, "best");
+            case 12 -> evaluate(20, POWERLAW_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
-            case 17 -> redoAllExperiments(1000, "newRNG");
+            case 17 -> redoAllExperiments(10000, "newRNG10k");
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -134,8 +135,15 @@ public class Main {
             case 57 -> reworkRLS();
             case 58 -> testingTwoThirdsInput(0.3);
             case 59 -> testRandomInt();
+            case 60 -> testDuplicateFileName();
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
+    }
+
+    private static void testDuplicateFileName(){
+        startFilePrinting(PATH_TEXT_FILES + "Other/TODO.txt");
+        Printer.print("test");
+        stopWritingToFile();
     }
 
     private static void testRandomInt() {
@@ -559,7 +567,7 @@ public class Main {
         long[] inputLengths = fill(10, (i) -> 2L * (i + 1));
         int count = 1000;
         startFilePrinting(Printer.PATH_AUTO_GENERATED + "other\\"
-                + Printer.getTodayAsString() + "binomialInputs_" + ".csv");
+                + Printer.getNowAsString() + "binomialInputs_" + ".csv");
         println("id;length;n;p;count;minDif;maxDif;avgDif;solvable;solvablePercent");
         int idOffset = 1000;
         int id = idOffset;

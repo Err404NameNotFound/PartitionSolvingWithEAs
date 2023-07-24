@@ -36,6 +36,9 @@ public class Solver {
     }
 
     public static Solver getEA(int k) {
+        if (k == 1) {
+            return getEA();
+        }
         return new Solver("EA-SM", k + "/n", "(1+1) EA (" + k + "/n)", "EA" + k,
                 (a, b) -> PartitionSolver.solveEA(a, b, (double) k / a.length));
     }

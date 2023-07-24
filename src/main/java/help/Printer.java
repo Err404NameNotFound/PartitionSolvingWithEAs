@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static help.RNG.randomInt;
+
 public class Printer {
 
     public static final String BASE_PATH = "C:\\Users\\Dani\\Workspaces\\IntelliJ\\Sonstiges\\PartitionSolvingWithEAs";
@@ -36,7 +38,20 @@ public class Printer {
                         writer.print("");
                     }
                 } else {
-                    System.out.printf("WARNING: file %s already existed%n", file);
+                    int index = file.lastIndexOf(".");
+                    String type;
+                    if (index != -1) {
+                        type = file.substring(index);
+                        file = file.substring(0, index);
+                    } else {
+                        type = "";
+                    }
+                    file = file + "_" + getNowAsString();
+                    while ((f = new File(file + type)).exists()) {
+                        file += "_" + Math.abs(randomInt());
+                    }
+                    f.createNewFile();
+                    file = file + type;
                 }
             }
             writer = new BufferedWriter(new FileWriter(file));
@@ -61,7 +76,7 @@ public class Printer {
         }
     }
 
-    public static String getTodayAsString() {
+    public static String getNowAsString() {
         return formatter.format(LocalDateTime.now());
     }
 

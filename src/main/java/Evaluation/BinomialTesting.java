@@ -283,7 +283,7 @@ public class BinomialTesting {
     public static void testBinomialSolutionCount(int count, int[] lengths) {
         double[] ps = new double[]{0.1, 0.9};
         int[] ns = new int[]{10, 100, 1000, 10000};
-        startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getTodayAsString()
+        startFilePrinting(Printer.PATH_AUTO_GENERATED + "\\other\\" + Printer.getNowAsString()
                 + "-binomialPerfectPartitionCount.csv");
         for (double p : ps) {
             for (int n : ns) {

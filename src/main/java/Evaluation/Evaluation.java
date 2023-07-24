@@ -40,23 +40,19 @@ public class Evaluation {
     private Evaluation() {
     }
 
-    public static Solver evaluate(int n, int type, int length, Solver[] solvers) {
-        return new Evaluation().solveMultiple(n, type, length, solvers, null);
+    public static Solver evaluate(int n, int type, int length, Solver[] solvers, String fileName) {
+        return new Evaluation().solveMultiple(n, type, length, solvers, fileName);
     }
 
-    public static Solver evaluate(int n, int type, int length, Solver[] solvers, String postfix) {
-        return new Evaluation().solveMultiple(n, type, length, solvers, postfix);
+    public static Solver evaluate(int n, int type, int length, long stepsSize, Solver[] solvers, String fileName) {
+        return new Evaluation().solveMultiple(n, InputGenerator.create(type), length, stepsSize, solvers, fileName);
     }
 
-    public static Solver evaluate(int n, int type, int length, long stepsSize, Solver[] solvers, String postfix) {
-        return new Evaluation().solveMultiple(n, InputGenerator.create(type), length, stepsSize, solvers, postfix);
+    public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String fileName) {
+        new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, fileName);
     }
 
-    public static void evaluate(int n, InputGenerator generator, int[] lengths, long[] stepLengths, Solver solver, String postfix) {
-        new Evaluation().solveMultiple(n, lengths, stepLengths, generator, solver, postfix);
-    }
-
-    public static void evaluateMultipleNValues(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix) {
+    public static void evaluateMultipleNValues(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String fileName) {
         Evaluation e = new Evaluation();
         int[] inputLengths2 = generateIntArray(inputLengths.length * solvers.length, (i) -> inputLengths[i / solvers.length]);
         long[] stepSizes2 = fill(inputLengths2.length, (i) -> stepSizes[i / solvers.length]);
@@ -72,7 +68,7 @@ public class Evaluation {
 //        printArray("Stepsizes: ", stepSizes2, digits);
 //        printArray("Solvers:   ", (i) -> solvers2[i].shortName, solvers2.length, digits);
         System.out.println("Starting evaluation...");
-        e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, postfix, (a) -> e.printResult(a, inputLengths2, stepSizes2));
+        e.solveMultiple(n, inputLengths2, stepSizes2, generator, solvers2, fileName, (a) -> e.printResult(a, inputLengths2, stepSizes2));
     }
 
     private static Evaluation merge(Evaluation... evaluations) {
@@ -116,7 +112,7 @@ public class Evaluation {
         int[] runLengths = new int[evaluators.length];
         Thread[] treads = new Thread[evaluators.length];
         String folder = Printer.PATH_AUTO_GENERATED + evaluators[0].generator.folder;
-        String startTime = Printer.getTodayAsString();
+        String startTime = Printer.getNowAsString();
         treads[0] = new Thread(() -> runLengths[0] = evaluators[0].calculate(newN, length, steps, true));
         for (int i = 1; i < treads.length; ++i) {
             int finalI = i;
@@ -147,51 +143,47 @@ public class Evaluation {
         fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
     }
 
-    private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String postfix) {
-        return solveMultiple(n, InputGenerator.create(type), length, solvers, postfix);
+    private Solver solveMultiple(int n, int type, int length, Solver[] solvers, String fileName) {
+        return solveMultiple(n, InputGenerator.create(type), length, solvers, fileName);
     }
 
-    private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String postfix) {
+    private Solver solveMultiple(int n, InputGenerator generator, int length, Solver[] solvers, String fileName) {
         long steps = 10 * nlogn(length);
 //        long steps = 50 * 1000;
-        return solveMultiple(n, generator, length, steps, solvers, postfix);
+        return solveMultiple(n, generator, length, steps, solvers, fileName);
     }
 
-    private Solver solveMultiple(int n, InputGenerator generator, int length, long steps, Solver[] solvers, String postfix) {
+    private Solver solveMultiple(int n, InputGenerator generator, int length, long steps, Solver[] solvers, String fileName) {
         long[] maxStepsArray = fill(solvers.length, (i) -> steps);
         int[] lengthArray = new int[solvers.length];
         Arrays.fill(lengthArray, length);
-        return solveMultiple(n, lengthArray, maxStepsArray, generator, solvers, postfix, (a) -> printResult(a, length, steps));
+        return solveMultiple(n, lengthArray, maxStepsArray, generator, solvers, fileName, (a) -> printResult(a, length, steps));
     }
 
-    private void solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver solver, String postfix) {
+    private void solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver solver, String fileName) {
         Solver[] solvers = new Solver[inputLengths.length];
         fill(solvers, (i) -> solver);
-        solveMultiple(n, inputLengths, stepSizes, generator, solvers, postfix, (a) -> printResult(a, inputLengths, stepSizes));
+        solveMultiple(n, inputLengths, stepSizes, generator, solvers, fileName, (a) -> printResult(a, inputLengths, stepSizes));
     }
 
-    private Solver solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String postfix, IResultPrinter resultPrinter) {
+    private Solver solveMultiple(int n, int[] inputLengths, long[] stepSizes, InputGenerator generator, Solver[] solvers, String fileName, IResultPrinter resultPrinter) {
         initialize(solvers);
         this.generator = generator;
         runCancellableTask(() ->
         {
-            String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
-            String startTime = Printer.getTodayAsString();
-            String append = postfix == null || postfix.equals("") ? "" : "-" + postfix;
-//            startFilePrinting(folder + startTime + "-res" + append + ".csv");
-            setPrintToConsole(false);
             ProgressPrinter p = new ProgressPrinter(1);
+            String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
+            setPrintToConsole(false);
             int temp = calculate(n, inputLengths, stepSizes, !isPrintToConsole());
             setPrintToConsole(true);
-            stopWritingToFile();
+            String file = fileName == null || fileName.equals("") ? Printer.getNowAsString() : fileName;
             println("***************************");
-            startFilePrinting(folder + startTime + append + ".txt");
+            startFilePrinting(folder + file + ".txt");
             p.printElapsedTime();
             resultPrinter.printResult(temp);
             stopWritingToFile();
             bestSolver = findBestSolver();
-            append = append.equals("") ? "" : append.substring(1);
-            System.out.printf("---------------Evaluation %s complete-------------%n", append);
+            System.out.printf("---------------Evaluation %s complete-------------%n", fileName);
         });
         return solvers[bestSolver];
     }
