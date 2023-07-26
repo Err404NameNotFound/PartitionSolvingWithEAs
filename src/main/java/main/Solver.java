@@ -22,13 +22,19 @@ public class Solver {
     }
 
     public static Solver getRLSUniformNeighbour(int n) {
+        if (n == 1) {
+            return getRLS();
+        }
         return new Solver("RLS-N", "n=" + n, "RLS-N (" + n + ")", "RLS-N" + n,
                 (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, n));
     }
 
     public static Solver getRLSUniformRing(int r) {
+        if (r == 1) {
+            return getRLS();
+        }
         return new Solver("RLS-R", "r=" + r, "RLS-R (" + r + ")", "RLS-R" + r,
-                (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r));
+                (a, b) -> PartitionSolver.solveRLS_UniformRing(a, b, r, false));
     }
 
     public static Solver getEA() {

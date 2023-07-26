@@ -44,7 +44,6 @@ import static main.InputGenerator.ONEMAX_UNIFORM;
 import static main.InputGenerator.OVERLAPPED;
 import static main.InputGenerator.POWERLAW_DISTRIBUTED;
 import static main.InputGenerator.TWO_THIRDS;
-import static main.InputGenerator.UNIFORM_INTEGER;
 import static main.InputGenerator.UNIFORM_INTERVALL;
 import static main.InputGenerator.generateInput;
 import static main.InputGenerator.getName;
@@ -62,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -1.25;
-    public static final int DEFAULT_SELECTION = 11;
+    public static final int DEFAULT_SELECTION = 56;
 
 
     public static void main(String[] args) {
@@ -140,7 +139,7 @@ public class Main {
         }
     }
 
-    private static void testDuplicateFileName(){
+    private static void testDuplicateFileName() {
         startFilePrinting(PATH_TEXT_FILES + "Other/TODO.txt");
         Printer.print("test");
         stopWritingToFile();
@@ -218,22 +217,25 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator) {
-        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
+//        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
+        int[] lengths = new int[]{10 * 1000 * 1000};
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
 //        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
         Solver[] solvers = new Solver[]{
                 Solver.getRLS(),
-//                Solver.getRLSUniformRing(2),
-//                Solver.getRLSUniformRing(3),
+                Solver.getRLSUniformRing(2),
+                Solver.getRLSUniformRing(3),
+                Solver.getRLSUniformRing(4),
+                Solver.getRLSUniformRing(5),
 //                Solver.getRLSUniformNeighbour(3),
 //                Solver.getRLSUniformNeighbour(4),
-                Solver.getEA(),
+//                Solver.getEA(),
 //                Solver.getEA(3),
 //                Solver.getEA(4),
 //                Solver.getPmut(-1.75),
-                Solver.getPmut(-3.25),
+//                Solver.getPmut(-3.25),
         };
-        Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
+        Evaluation.evaluateMultipleNValues(10, lengths, stepSizes, generator, solvers, null);
     }
 
     private static void redoAllExperiments(int n, String postfix) {
@@ -318,9 +320,18 @@ public class Main {
     }
 
     private static void printSolutionOfOneInput() {
-        int length = 10000;
-        long[] temp = generateInput(BINOMIAL_DISTRIBUTED, length);
-        Solution sol = PartitionSolver.solveRLS_UniformNeighbour(temp, 100 * nlogn(length), 2);
+        int length = 100 * 1000 * 1000;
+//        int length = 1000;
+        long[] temp = generateInput(ONEMAX_ONE, length);
+        Solution sol;
+//        sol = PartitionSolver.solveRLSWithProgress(temp, 10 * nlogn(length));
+        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 2, true);
+        sol.printResult();
+        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 3, true);
+        sol.printResult();
+        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 4, true);
+        sol.printResult();
+        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 5, true);
         sol.printResult();
     }
 

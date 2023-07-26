@@ -52,15 +52,30 @@ public class PartitionSolver {
     }
 
     public static Solution solveRLS(long[] values, long maxSteps) {
-        return solve(values, maxSteps, (a) -> 1);
+        return solveRLS(values, maxSteps, false);
+    }
+
+    public static Solution solveRLS(long[] values, long maxSteps, boolean withProgress) {
+        KGenerator generator = a -> 1;
+        if (withProgress) {
+            return solveWithProgress(values, maxSteps, generator);
+        } else {
+            return solve(values, maxSteps, generator);
+        }
     }
 
     public static Solution solveRLS(long[] values, long maxSteps, Solution sol) {
-        return solve(values, maxSteps, (a) -> 1, sol);
+        return solve(values, maxSteps, a -> 1, sol);
     }
 
-    public static Solution solveRLS_UniformRing(long[] values, long maxSteps, int neighbours) {
-        return solve(values, maxSteps, (a) -> randomInt(1, neighbours + 1));
+    public static Solution solveRLS_UniformRing(long[] values, long maxSteps, int neighbours, boolean withProgress) {
+        KGenerator generator = (a) -> randomInt(1, neighbours + 1);
+        if (withProgress) {
+            return solveWithProgress(values, maxSteps, generator);
+        } else {
+            return solve(values, maxSteps,  generator);
+        }
+
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours) {
