@@ -321,18 +321,9 @@ public class Main {
 
     private static void printSolutionOfOneInput() {
         int length = 100 * 1000 * 1000;
-//        int length = 1000;
         long[] temp = generateInput(ONEMAX_ONE, length);
-        Solution sol;
 //        sol = PartitionSolver.solveRLSWithProgress(temp, 10 * nlogn(length));
-        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 2, true);
-        sol.printResult();
-        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 3, true);
-        sol.printResult();
-        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 4, true);
-        sol.printResult();
-        sol = PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 5, true);
-        sol.printResult();
+        PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 5, true).printResult();
     }
 
     private static void readAndSolveInput() {

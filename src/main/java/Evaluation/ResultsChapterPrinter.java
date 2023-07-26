@@ -29,12 +29,6 @@ public class ResultsChapterPrinter {
             "\\section{Multiple distributions overlapped}",
             "\\section{Multiple distributions mixed \\& overlapped}",
     };
-    private static final String[] SUBSECTIONS = new String[]{
-            "\\subsection{RLS Comparison}",
-            "\\subsection{(1+1) EA Comparison}",
-            "\\subsection{pmut Comparison}",
-            "\\subsection{Comparison of the best variants}"
-    };
 
     private static final String[] RESULTS_FILE_NAMES = new String[]{
             "rls_compare.txt", "ea_compare.txt", "pmut_compare.txt", "best.txt"
@@ -61,32 +55,9 @@ public class ResultsChapterPrinter {
         content = before + content + "\n\\end{tabular}\n}";
         println(content);
     }
-
-    public static void printCompleteEvaluation() {
-        startFilePrinting(PATH_THESIS + "expRes/tables.tex", true);
-        createFilesForEvaluation();
-        for (int i = 0; i < SECTIONS.length; ++i) {
-            println(SECTIONS[i]);
-            int remainingTextIndex = 0;
-            includeTexFile(i, 0);
-            for (int e = 0; e < SUBSECTIONS.length; ++e) {
-                println(SUBSECTIONS[e]);
-                includeTexFile(i, ++remainingTextIndex);
-                println();
-                printTable(PATH_THESIS + "data\\" + FOLDERS[i] + "\\" + RESULTS_FILE_NAMES[e], RESULTS_FILE_NAMES[e].contains("pmut"));
-                println();
-                includeTexFile(i, ++remainingTextIndex);
-            }
-        }
-        stopWritingToFile();
-    }
-
-    private static void includeTexFile(int folder, int file) {
-        println("\\input{expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + "}");
-    }
-
     private static String convertTxtFileToLatexText(String text) {
-        text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     -> standard RLS"));
+        text = text.replace("\r\n", "\n");
+        text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     ->"));
         text = text.replace("---------\n", "\\hline");
         text = text.replace("-1;", " -;");
         String tempReplacement = "eofwpfjweofj";
@@ -97,6 +68,12 @@ public class ResultsChapterPrinter {
         text = text.replace(';', '&');
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\hline", "\\hline\n");
+        text = text.replace("RLS-R", "\\RLSR");
+        text = text.replace("RLS-N", "\\RLSN");
+        text = text.replace("r=", "s=");
+        text = text.replace("n=", "b=");
+        text = text.replace("EA&", "EA-SM&");
+        text = text.replace("EA-SM", "(1+1) EA");
         return text;
     }
 
@@ -128,27 +105,6 @@ public class ResultsChapterPrinter {
             ++index;
         }
         return count;
-    }
-
-    public static void createFilesForEvaluation() {
-        for (String folder : FOLDERS) {
-            for (String file : ADDITIONAL_TEX_FILES) {
-                String path = PATH_THESIS + "\\expRes\\" + folder + "\\" + file + ".tex";
-                try {
-                    File f = new File(path);
-                    if (!f.exists()) {
-                        f.createNewFile();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    throw new RuntimeException();
-                }
-            }
-        }
-    }
-
-    public static void printComparisonBestTable(String path) {
-        println(readAndConvertComparisonTable(path));
     }
 
     private static String readAndConvertComparisonTable(String path) {
@@ -194,65 +150,5 @@ public class ResultsChapterPrinter {
                 }
             }
         }
-    }
-
-    private static void printCompleteSectionInOneFile(int index) {
-        println(SECTIONS[index]);
-        int remainingTextIndex = 0;
-        printAdditionalTexFile(index, 0);
-        for (int e = 0; e < SUBSECTIONS.length; ++e) {
-            println(SUBSECTIONS[e]);
-            printAdditionalTexFile(index, ++remainingTextIndex);
-            println();
-            println("\\input{tables/" + FOLDERS[index] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
-            println();
-            printAdditionalTexFile(index, ++remainingTextIndex);
-        }
-    }
-
-    public static void printCompleteEvaluation2() {
-        startFilePrinting(PATH_THESIS + "expRes/tables_2.tex", true);
-        createFilesForEvaluation();
-        for (int i = 0; i < SECTIONS.length; ++i) {
-            println(SECTIONS[i]);
-            int remainingTextIndex = 0;
-            includeTexFile(i, 0);
-            for (int e = 0; e < SUBSECTIONS.length; ++e) {
-                println(SUBSECTIONS[e]);
-                includeTexFile(i, ++remainingTextIndex);
-                println();
-                println("\\input{tables/" + FOLDERS[i] + "/" + RESULTS_FILE_NAMES[e].replace(".txt", ".tex") + "}");
-                println();
-                includeTexFile(i, ++remainingTextIndex);
-            }
-        }
-        stopWritingToFile();
-    }
-
-    private static void printAdditionalTexFile(int folder, int file) {
-        println(readFileFromPath(PATH_THESIS + "expRes/" + FOLDERS[folder] + "/" + ADDITIONAL_TEX_FILES[file] + ".tex"));
-    }
-
-    public static void printCompleteEvaluation3(boolean updateTables) {
-        if (updateTables) {
-            printAllTables();
-        }
-        startFilePrinting(PATH_THESIS + "expRes/tables_3.tex", true);
-        createFilesForEvaluation();
-        for (int i = 0; i < SECTIONS.length; ++i) {
-            printCompleteSectionInOneFile(i);
-        }
-    }
-
-    public static void printCompleteEvaluation4(boolean updateTables) {
-        if (updateTables) {
-            printAllTables();
-        }
-        for (int i = 0; i < SECTIONS.length; ++i) {
-            startFilePrinting(PATH_THESIS + "expRes/" + FOLDERS[i] + ".tex", true);
-            printCompleteSectionInOneFile(i);
-            stopWritingToFile();
-        }
-        stopWritingToFile();
     }
 }

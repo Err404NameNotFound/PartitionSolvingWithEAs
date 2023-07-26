@@ -103,3 +103,26 @@ Quinzan \textit{et al.} therefore introduced another mutation operator in~\cite{
 This operator chooses $k$ from a powerlaw distribution $D^\beta_n$ with exponent $\beta$ and maximum value $n$ and then $k$ uniform random bits are flipped.
 This algorithm will mostly flip a small number of bits but occasionally up to n bits.
 Distributions like this are called heavy tailed mutations because their tail is not bounded exponentially.
+
+\section{Runtime Analysis of higher mutation rates}
+
+The first analysed input is again the input with $w_1\ge W$.
+This input is very close to a weighted OneMax and therefore more or less the OneMax equivalent for Partition.
+The first analysed algorithm will be the RLS variants.
+
+\begin{lemma}
+      The \RLSR reaches the optimal solution on an input with $w_1\ge W$ for a constant $k$ in expected time $\mathcal{O}(nlogn)$
+\end{lemma}
+\begin{proof}
+      The \RLSR chooses to flip only one bit with probability $1/k$.
+      In these steps it behaves exactly the same as the standard RLS.
+      The run can therefore be divided in the same two phases as in~\ref{theo:OneMaxResult}.
+      The expected length of the first phase is at most $kn$ in expectation because the probability of flipping only the first is $1/kn$.
+      Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.
+      In the second Phase it tries to remove every element of the bin containing $w_1$.
+      In contrast to the RLS it can make steps increasing the hamming distance to the optimum.
+      Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$.
+
+      For successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds the other shifted bits must result into a volume of $2\cdot(b_E-)\frac{W-w_1}{2}$ being shifted from $b_E$ to $b_F$.
+      
+\end{proof}
