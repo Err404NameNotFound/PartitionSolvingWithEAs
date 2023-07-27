@@ -218,17 +218,15 @@ public class Main {
 
     private static void fineEvaluation(InputGenerator generator) {
 //        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
-        int[] lengths = new int[]{10 * 1000 * 1000};
-        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
-//        long[] stepSizes = fill(lengths.length, (i) -> 100 * nlogn(lengths[i]));
+        int[] lengths = new int[]{500};
+//        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
+        long[] stepSizes = fill(lengths.length, (i) -> 100L * 1000 * 1000 * 1000);
         Solver[] solvers = new Solver[]{
-                Solver.getRLS(),
-                Solver.getRLSUniformRing(2),
-                Solver.getRLSUniformRing(3),
-                Solver.getRLSUniformRing(4),
-                Solver.getRLSUniformRing(5),
-//                Solver.getRLSUniformNeighbour(3),
-//                Solver.getRLSUniformNeighbour(4),
+//                Solver.getRLS(),
+//                Solver.getRLSUniformRing(2),
+//                Solver.getRLSUniformRing(3),
+//                Solver.getRLSUniformNeighbour(2),
+                Solver.getRLSUniformNeighbour(4),
 //                Solver.getEA(),
 //                Solver.getEA(3),
 //                Solver.getEA(4),
@@ -320,10 +318,10 @@ public class Main {
     }
 
     private static void printSolutionOfOneInput() {
-        int length = 100 * 1000 * 1000;
+        int length = 1000;
+        long stepLimit = 10L * 1000 * 1000 * 1000;
         long[] temp = generateInput(ONEMAX_ONE, length);
-//        sol = PartitionSolver.solveRLSWithProgress(temp, 10 * nlogn(length));
-        PartitionSolver.solveRLS_UniformRing(temp, 10 * nlogn(length), 5, true).printResult();
+        PartitionSolver.solveRLS_UniformNeighbour(temp, stepLimit, 3, true).printResult();
     }
 
     private static void readAndSolveInput() {

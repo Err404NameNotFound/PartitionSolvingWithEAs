@@ -5,8 +5,8 @@ import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
-import main.InputGenerator;
 import main.Solution;
+import main.InputGenerator;
 import main.Solver;
 
 import java.util.Arrays;
@@ -179,7 +179,7 @@ public class Evaluation {
             String file = fileName == null || fileName.equals("") ? Printer.getNowAsString() : fileName;
             println("***************************");
             startFilePrinting(folder + file + ".txt");
-            p.printElapsedTime();
+            println(p.getElapsedTime());
             resultPrinter.printResult(temp);
             stopWritingToFile();
             bestSolver = findBestSolver();

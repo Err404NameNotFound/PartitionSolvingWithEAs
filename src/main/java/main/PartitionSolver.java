@@ -73,7 +73,7 @@ public class PartitionSolver {
         if (withProgress) {
             return solveWithProgress(values, maxSteps, generator);
         } else {
-            return solve(values, maxSteps,  generator);
+            return solve(values, maxSteps, generator);
         }
 
     }
@@ -81,6 +81,17 @@ public class PartitionSolver {
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours) {
         Solution sol = createStartingPoint(values);
         return solveRLS_UniformNeighbour(values, maxSteps, neighbours, sol);
+    }
+
+    public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours, boolean withProgress) {
+        if (neighbours == 1) {
+            return solveRLS(values, maxSteps, withProgress);
+        }
+        UniformNeighbourGenerator generator = new UniformNeighbourGenerator(neighbours, values.length);
+        if (withProgress) {
+            return solveWithProgress(values, maxSteps, generator);
+        }
+        return solve(values, maxSteps, generator);
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours, Solution sol) {
@@ -200,7 +211,7 @@ public class PartitionSolver {
 
     private static Solution createStartingPoint(long[] values) {
         BigInteger inputSum = BigInteger.ZERO;
-        Solution sol = new Solution(values);
+        SolutionBigInt sol = new SolutionBigInt(values);
         for (int i = 0; i < values.length; ++i) {
             inputSum = inputSum.add(BigInteger.valueOf(values[i]));
             if (randomBoolean()) {
@@ -208,15 +219,18 @@ public class PartitionSolver {
             }
         }
         sol.setInputSum(inputSum);
+        if (inputSum.bitLength() <= 64) {
+            return new SolutionLong(sol, values);
+        }
         return sol;
     }
 
     private static List<Solution> createStartingPoints(long[] values, int popCount) {
         System.out.println("Generating initial population");
         BigInteger inputSum = BigInteger.ZERO;
-        List<Solution> solutions = new ArrayList<>(popCount);
+        List<SolutionBigInt> solutions = new ArrayList<>(popCount);
         for (int i = 0; i < popCount; ++i) {
-            solutions.add(new Solution(values));
+            solutions.add(new SolutionBigInt(values));
         }
         for (int i = 0; i < values.length; ++i) {
             inputSum = inputSum.add(BigInteger.valueOf(values[i]));
@@ -226,10 +240,16 @@ public class PartitionSolver {
                 }
             }
         }
-        for (Solution sol : solutions) {
+        List<Solution> ret = new ArrayList<>();
+        for (SolutionBigInt sol : solutions) {
             sol.setInputSum(inputSum);
+            if (inputSum.bitLength() <= 64) {
+                ret.add(new SolutionLong(sol, values));
+            } else {
+                ret.add(sol);
+            }
         }
-        return solutions;
+        return ret;
     }
 
     private static Set<Integer> randomKIndices(int k, long[] values) {

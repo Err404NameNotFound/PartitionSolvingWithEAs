@@ -4,10 +4,11 @@ import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
+import main.Solution;
 import main.InputGenerator;
 import main.Main;
 import main.PartitionSolver;
-import main.Solution;
+import main.SolutionBigInt;
 
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -158,7 +159,6 @@ public class BinomialTesting {
         for (int i = 0; i < k; ++i) {
             input = InputGenerator.binomialDistributed((int) m, (int) n, p);
             Solution sol = PartitionSolver.solveRLS_UniformNeighbour(input, maxSteps, 2);
-//            Solution sol = PartitionSolver.solveEA(input, 100000, 3.0 / m);
             evaluator.insert(Math.abs(sol.getTotalSum().longValue() - expected));
             long dif = sol.getDif().longValue();
             if (dif != 0) {
@@ -228,7 +228,7 @@ public class BinomialTesting {
         setPrintToConsole(true);
     }
 
-    private static void printSeeminglyNotPossibleInput(long[] input, Solution sol, long expected) {
+    private static void printSeeminglyNotPossibleInput(long[] input, SolutionBigInt sol, long expected) {
         int range = calculateRange(input, expected);
         long[] amount0 = new long[2 * range + 1];
         long[] amount1 = new long[2 * range + 1];

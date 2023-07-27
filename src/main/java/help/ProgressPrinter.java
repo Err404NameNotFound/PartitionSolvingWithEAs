@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
+import static help.Printer.printf;
 import static java.lang.Math.max;
 
 public class ProgressPrinter {
@@ -83,7 +84,7 @@ public class ProgressPrinter {
         clearProgressAndPrintElapsedTime(startTime);
     }
 
-    public void printElapsedTime() {
-        System.out.printf("Elapsed time: %s%n", timeString(now() - startTime));
+    public String getElapsedTime() {
+        return String.format("Elapsed time: %s%n", timeString(now() - startTime));
     }
 }
