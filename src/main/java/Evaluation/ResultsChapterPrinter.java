@@ -55,6 +55,14 @@ public class ResultsChapterPrinter {
         println(content);
     }
 
+    private static String fixAlgoParams(String text){
+        text = text.replace("/n", "$/n$");
+        text = text.replace("-1.", "1.");
+        text = text.replace("-2.", "2.");
+        text = text.replace("-3.", "3.");
+        return text;
+    }
+
     private static String convertTxtFileToLatexText(String text) {
         text = text.replace("\r\n", "\n");
         text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     ->"));
@@ -82,12 +90,10 @@ public class ResultsChapterPrinter {
         text = text.replace("RLS-N", "\\RLSN");
         text = text.replace("r=", "s=");
         text = text.replace("n=", "b=");
+        text = fixAlgoParams(text);
         text = text.replace("EA&", "EA-SM&");
-        text = text.replace("EA-SM", "(1+1) EA");
-        text = text.replace("/n", "$/n$");
-        text = text.replace("-1.", " 1.");
-        text = text.replace("-2.", " 2.");
-        text = text.replace("-3.", " 3.");
+//        text = text.replace("EA-SM", "(1+1) EA");
+//        text = text.replace("EA-SM", "EA");
         return text;
     }
 
@@ -134,6 +140,13 @@ public class ResultsChapterPrinter {
         text = text.replaceFirst("input size", "fails");
         text = text.replaceFirst("input size", "avg");
         text = text.replaceFirst("input size", "total avg");
+        text = text.replace("RLS-R (2)","\\RLSR[2]");
+        text = text.replace("RLS-R (3)","\\RLSR[3]");
+        text = text.replace("RLS-R (4)","\\RLSR[4]");
+        text = text.replace("RLS-N (2)","\\RLSR[2]");
+        text = text.replace("RLS-N (3)","\\RLSN[3]");
+        text = text.replace("RLS-N (4)","\\RLSN[4]");
+        text = fixAlgoParams(text);
         return tableStart + text + tableEnd;
     }
 
