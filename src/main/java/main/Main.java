@@ -61,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = -2;
+    public static final int DEFAULT_SELECTION = 43;
 
 
     public static void main(String[] args) {
@@ -224,13 +224,8 @@ public class Main {
         Solver[] solvers = new Solver[]{
 //                Solver.getRLS(),
 //                Solver.getRLSUniformRing(2),
-//                Solver.getRLSUniformRing(3),
-//                Solver.getRLSUniformNeighbour(2),
                 Solver.getRLSUniformNeighbour(4),
 //                Solver.getEA(),
-//                Solver.getEA(3),
-//                Solver.getEA(4),
-//                Solver.getPmut(-1.75),
 //                Solver.getPmut(-3.25),
         };
         Evaluation.evaluateMultipleNValues(10, lengths, stepSizes, generator, solvers, null);

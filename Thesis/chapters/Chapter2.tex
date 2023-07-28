@@ -21,6 +21,24 @@
     In the second phase the RLS can no longer flip $w_1$ as it does not result in an improvement ever again.
     Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).
     The (1+1) EA has to minimise a linear function of $n-1$ bits which also takes $\Theta(n\log{}n)$ time as well (Corollary 4.2 in~\cite{witt2013tight}).
+    Flipping the first bit results in the optimal solution being inverted which could decrease the progress of minimising the linear function.
+    Due to Lemma~\ref{lemma:CWittRefined} with $\delta=\frac{1}{n}$ (for $n>1$) the solution is at most $w_1+\delta(W-w_1)$ after expected time
+    \[
+        2\lceil en\ln(2/\delta)\rceil
+        =2\lceil en\ln(2/\frac{1}{n})\rceil
+        =2\lceil en\ln(2n)\rceil
+        =2\lceil en(\ln(n)+\ln(2))\rceil
+        \le 2en\ln(n)+4
+    \]
+    The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
+    For a successful flip of $w_1$ the algorithm must move $2\cdot(b_E-\frac{W-w_1}{2})$ from $b_E$ to $b_F$ which evaluates to
+    \[
+        2\cdot((1-\frac{1}{n})(W-w_1)-\frac{W-w_1}{2})
+        =(W-w_1)(2-\frac{2}{n}-1)
+        =(1-\frac{2}{n})(W-w_1)
+        =\frac{n-1}{n-2}b_E
+    \]
+    
     \textbf{\textit{TODO: why can't the first bit be flipped any more? Or why does it not matter?}}.
 
     So the total expected time is $\mathcal{O}(n) + \Theta(n\log{}n) = \Theta(n\log{}n)$
@@ -93,7 +111,7 @@
 \begin{lemma}\label{approximationLemma}
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ in expected time $\mathcal{O}(n\log{}n)$ if $w_1 < W/2$
 \end{lemma}
-\begin{proof}    
+\begin{proof}
     If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (3. Average case analysis, Theorem 1 in~\cite{diekert2005stacs}).
     From then on the following holds.
     If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{approximationCorollaryHelp2}.
@@ -117,9 +135,9 @@
     \begin{itemize}
         \item The initial distribution is likely rather close to the optimum
         \item The difference between the bins is probably not more than 10 expected values
-        \item the large values  
+        \item the large values
     \end{itemize}
-    Consider a random separation of all values into two sets with equal size if $n$ is even or one set with one value more than the other if $n$ is odd. The sum X of one set is a sum of $\frac{n}{2}\cdot m$ independent Bernoulli trials with probability $p$. With Chernoff Bounds the following inequality follows: 
+    Consider a random separation of all values into two sets with equal size if $n$ is even or one set with one value more than the other if $n$ is odd. The sum X of one set is a sum of $\frac{n}{2}\cdot m$ independent Bernoulli trials with probability $p$. With Chernoff Bounds the following inequality follows:
     \[\probP(X\ge(\frac{n}{2}+\sqrt{\frac{n}{2}})\cdot m \cdot p) = \probP(X\ge(1+2\sqrt{\frac{2}{n}})\cdot \frac{nmp}{2}) \le e^{-\frac{mnp}{2}\cdot2\sqrt{\frac{2}{n}}^2 /3} = e^{-\frac{2mp}{3}}\]
     For $mp\ge1.5$ the probability is less than $\frac{1}{e}$. Otherwise the input is rather trivial, since the numbers will be concentrated around 1.5 and most values will be below 10.\newline
     After moving $\mathcal{O}(\sqrt{\frac{n}{2}}/2)$ objects to the emptier set, the difference between the two sets is at most half the expected value $mp$ of a single value.

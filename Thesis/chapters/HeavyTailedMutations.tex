@@ -41,14 +41,14 @@ The amount of neighbours with Theorem~\ref{theo:OneMaxResult} $y$ is given by $\
 For $k=4$, this results in $n$ neighbours with Theorem~\ref{theo:OneMaxResult} 1, $n(n-1)/2$ neighbours with Theorem~\ref{theo:OneMaxResult} 2, $n(n-1)(n-2)/6$
 and $n(n-1)(n-2)(n-3)/24$.
 The probability to choose a random neighbour with Theorem~\ref{theo:OneMaxResult} $y \le k$ for $k = \mathcal{O}(1)$ is given by
-\[P(\text{RLS-N}_k\text{ flips }y\text{ bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\Theta(n^y)}{\sum_{i=1}^k \Theta(n^i)}
+\[P(\text{\RLSN}_k\text{ flips }y\text{ bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\Theta(n^y)}{\sum_{i=1}^k \Theta(n^i)}
       = \frac{\Theta(n^y)}{\Theta(n^k)} = \Theta(n^{y-k}) = \Theta(\frac{1}{n^{k-y}})\]
 This variant of the RLS is likely to choose a neighbour with Theorem~\ref{theo:OneMaxResult} k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
 The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
-For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS which will be called RLS-N from now on.
+For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS which will be called \RLSN from now on.
 \begin{algorithm}[bt]
-      \caption{\textsc{RLS-N}}\label{alg:rlsN}
+      \caption{\textsc{\RLSN}}\label{alg:rlsN}
 
       % Some settings
       \DontPrintSemicolon %dontprintsemicolon
@@ -71,10 +71,10 @@ For some inputs flipping only one bit might be more optimal which is rather unli
 
 An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Theorem~\ref{theo:OneMaxResult} $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
-This variant of the RLS will be referred to as RLS-R
+This variant of the RLS will be referred to as \RLSR.
 
 \begin{algorithm}[bt]
-      \caption{\textsc{RLS-R}}\label{alg:rlsR}
+      \caption{\textsc{\RLSR}}\label{alg:rlsR}
 
       % Some settings
       \DontPrintSemicolon %dontprintsemicolon
@@ -110,19 +110,72 @@ The first analysed input is again the input with $w_1\ge W$.
 This input is very close to a weighted OneMax and therefore more or less the OneMax equivalent for Partition.
 The first analysed algorithm will be the RLS variants.
 
-\begin{lemma}
-      The \RLSR reaches the optimal solution on an input with $w_1\ge W$ for a constant $k$ in expected time $\mathcal{O}(nlogn)$
+\begin{lemma}\label{lemma:W1FlipWontHappen}
+      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
 \end{lemma}
 \begin{proof}
-      The \RLSR chooses to flip only one bit with probability $1/k$.
-      In these steps it behaves exactly the same as the standard RLS.
-      The run can therefore be divided in the same two phases as in~\ref{theo:OneMaxResult}.
-      The expected length of the first phase is at most $kn$ in expectation because the probability of flipping only the first is $1/kn$.
-      Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.
-      In the second Phase it tries to remove every element of the bin containing $w_1$.
-      In contrast to the RLS it can make steps increasing the hamming distance to the optimum.
-      Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$.
+      For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
+      Otherwise the step is rejected.
+      If the algorithm moves $2\le y\le k$ elements in this step there are $y-1$ bits left to shift the volume from $b_E$ to $b_F$.
+      The object with the highest shifted volume must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$ because otherwise there is not enough total volume shifted from $b_E$ to $b_F$.
+      For $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ this leads to at most \(d\le\frac{W-w_1}{2(c\frac{W-w_1}{2}-\frac{W-w_1}{2})/(y-1)}=\frac{(W-w_1)(y-1)}{(W-w_1)(c-1)}=\frac{y-1}{c-1}\) objects with the given weight.
+      % For $c=1.2$, which means $b_E = 0.6(W-w_1)$, this evaluates to $d\le5(y-1)$ which is constant for any constant k.
+      The probability for such a step, given the algorithm flips $y$ bits, is therefore at most
+      \[
+            \frac{\binom{1}{1}\cdot\binom{d}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
+            =\frac{d\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
+            =\frac{d\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}
+            =\frac{dy(y-1)}{n(n-1)}
+            \]
+      The expected time for such a step to happen is at least
+      \[
+            \frac{1}{\probP(y\text{ bits are flipped})}\cdot\frac{n(n-1)}{dy(y-1)}
+            \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2}
+            \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
+            \]
+      $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$.
+\end{proof}
 
-      For successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds the other shifted bits must result into a volume of $2\cdot(b_E-)\frac{W-w_1}{2}$ being shifted from $b_E$ to $b_F$.
-      
+\begin{lemma}\label{lemma:CWittRefined}
+      Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil en\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil en\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
+\end{lemma}
+\begin{proof}
+      This Lemma is almost the exact same as C. Witts  Lemma 2 from section 2. Definitions and Proof Methods in~\cite{diekert2005stacs}.
+      The proof is almost the same.
+      Instead of choosing the lower bound $W/2$ as $p_0$ here the exact value $W-w_1\le W/2$ is chosen.
+      For the \RLSR[k] setting $t'=kn\ln(\gamma/\delta)$ suffices to show the result.
+\end{proof}
+
+\begin{lemma}
+      The \RLSR[k=2] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(nlogn)$
+\end{lemma}
+\begin{proof}
+      The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
+      The expected length of the first phase is at most $kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
+      Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
+      In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
+      In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
+      Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
+      After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
+      This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
+      With Lemma~\ref{lemma:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows.\newline
+      The \RLSR[2] chooses to flip only one bit with probability $1/2$.
+      In these steps it behaves exactly the same as the standard RLS.\
+      For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
+      Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
+      \[
+            E(T_{Phase 2})
+            \le \sum_{i=1}^{n}{\frac{kn}{i}}
+            = kn\cdot\sum_{i=1}^{n}{i}
+            % = knH(n) 
+            \le kn(\ln(n)+1)
+            = kn\ln(n)+kn
+            = \mathcal{O}(n\ln(n))
+      \]
+      So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln(n))$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
+      The algorithm therefore reaches an optimal solution in expected time
+      \[E(T_{Phase 1}) + E(T_{Phase 2})
+      \le 4kn + kn\ln(n)+kn
+      = kn\ln(n)+5kn
+      = \mathcal{O}(n\ln(n))\]
 \end{proof}

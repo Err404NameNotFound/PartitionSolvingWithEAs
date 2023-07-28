@@ -735,6 +735,11 @@ INPUT chapters/HeavyTailedMutations.tex
 INPUT chapters/HeavyTailedMutations.tex
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmcsc10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbx8.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmr5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmmi5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmsy5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT ./chapters/ExperimentalResults.tex
 INPUT ./chapters/ExperimentalResults.tex
 OUTPUT chapters/ExperimentalResults.aux
@@ -855,11 +860,6 @@ INPUT ./tables/binomial/pmut_compare.tex
 INPUT tables/binomial/pmut_compare.tex
 INPUT ./tables/binomial/pmut_compare.tex
 INPUT tables/binomial/pmut_compare.tex
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmr5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmmi5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmsy5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT ./tables/binomial/best.tex
 INPUT tables/binomial/best.tex
 INPUT ./tables/binomial/best.tex
