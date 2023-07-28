@@ -66,6 +66,9 @@ public class RNG {
     }
 
     public static int powerlawK(double bottom, double top, double n) {
+        if (n < 0) {
+            n = -n;
+        }
         double y, x, a, b, e, f;
         y = Math.random();
         a = Math.pow(top, n + 1);

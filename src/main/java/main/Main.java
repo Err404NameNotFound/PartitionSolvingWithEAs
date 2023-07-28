@@ -60,7 +60,7 @@ public class Main {
     public static final double DEFAULT_P_BINOMIAL = 0.1;
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
-    public static final double DEFAULT_PMUT_PARAM = -1.25;
+    public static final double DEFAULT_PMUT_PARAM = 1.25;
     public static final int DEFAULT_SELECTION = -2;
 
 
@@ -116,13 +116,13 @@ public class Main {
             case 33 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
-            case 41 -> printDistribution(InputGenerator.createPowerlaw(-1.25, 1.0, 1000.0), 10000);
+            case 41 -> printDistribution(InputGenerator.createPowerlaw(1.25, 1.0, 1000.0), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(TWO_THIRDS, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
             case 44 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
             case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
             case 46 -> printDistribution(InputGenerator.createMixedAndOverlapped(
-                    1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
+                    1.0, 1000.0, 1000, 0.1, 0.01, 1.25), 10000);
             case 47 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);
 
             case 51 -> testRandomPowerLaw();
@@ -375,9 +375,9 @@ public class Main {
 
     private static void testRandomPowerLaw() {
         double[] ns = new double[]{
-                -1.01, -1.1, -1.2, -1.3, -1.4, -1.5, -1.6, -1.7, -1.8, -1.9,
-                -2.0, -2.1, -2.2, -2.3, -2.4, -2.5, -2.6, -2.7, -2.8, -2.9,
-                -3.0, -3.1, -3.2, -3.3, -3.4, -3.5, -3.6, -3.7, -3.8, -3.9, -4.0
+                1.01, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
+                2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9,
+                3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9, 4.0
         };
         long[] avg = new long[ns.length];
         long[] max = new long[ns.length];

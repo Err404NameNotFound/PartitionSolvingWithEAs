@@ -110,15 +110,15 @@ public class Solver {
 
     public static Solver[] getPmutComparison() {
         return new Solver[]{
-                getPmut(-1.25),
-                getPmut(-1.5),
-                getPmut(-1.75),
-                getPmut(-2.0),
-                getPmut(-2.25),
-                getPmut(-2.5),
-                getPmut(-2.75),
-                getPmut(-3.0),
-                getPmut(-3.25),
+                getPmut(1.25),
+                getPmut(1.5),
+                getPmut(1.75),
+                getPmut(2.0),
+                getPmut(2.25),
+                getPmut(2.5),
+                getPmut(2.75),
+                getPmut(3.0),
+                getPmut(3.25),
         };
     }
 
@@ -148,7 +148,7 @@ public class Solver {
                 getRLSUniformNeighbour(2),
                 getEA(),
                 getEA(2),
-                getPmut(-2.75)
+                getPmut(2.75)
         };
     }
 
