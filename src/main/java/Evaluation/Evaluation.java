@@ -32,6 +32,7 @@ public class Evaluation {
     private long[] avg, totalAverage, avgFailDif;
     private long[] failed, failDifSum;
     private long[] mut, mutSuccess, mutTried;
+    private double[] failPercentage;
     private MinMaxAvgEvaluator[] evaluators;
     private InputGenerator generator;
     private Solver[] solvers;
@@ -140,6 +141,7 @@ public class Evaluation {
         mutSuccess = new long[length];
         mutTried = new long[length];
         evaluators = new MinMaxAvgEvaluator[length];
+        failPercentage = new double[length];
         fill(evaluators, (i) -> new MinMaxAvgEvaluator(false));
     }
 
@@ -339,8 +341,9 @@ public class Evaluation {
         long[] stepMax = fill(evaluators.length, (i) -> evaluators[i].getMax() == Long.MIN_VALUE ? -1 : evaluators[i].getMax());
         long[] stepSum = fill(evaluators.length, (i) -> evaluators[i].getSum());
         long[] totalSum = fill(evaluators.length, (i) -> evaluators[i].getSum() + failed[i] * stepSizes[i]);
-        long[] divisors = new long[failed.length];
-        Arrays.fill(divisors, n);
+        for (int i = 0; i < failPercentage.length; ++i) {
+            failPercentage[i] = (double) failed[i] / n;
+        }
         int digits = columnLength(stepSum, stepMax, stepMin);
         println(separation);
         Integer[] indexes = new Integer[totalAverage.length];
@@ -367,7 +370,7 @@ public class Evaluation {
         printRow("min eval count;  ", stepMin, indexes, digits);
         println(separation);
         printRow("fails;           ", failed, indexes, digits);
-        printRow("fail ratio;      ", failed, divisors, indexes, digits);
+        printRow("fail ratio;      ", failPercentage, indexes, digits);
         printRow("avg fail dif;    ", avgFailDif, indexes, digits);
     }
 
@@ -383,6 +386,10 @@ public class Evaluation {
     private void printRow(String title, long[] values, long[] divisors, Integer[] sorting, int digits) {
         printArray(title, i -> String.format("%.3f", ((double) values[sorting[i]]) / divisors[sorting[i]]),
                 sorting.length, digits);
+    }
+
+    private void printRow(String title, double[] values, Integer[] sorting, int digits) {
+        printArray(title, i -> String.format("%.3f", values[sorting[i]]), sorting.length, digits);
     }
 
     private void printExplanation(String separation) {

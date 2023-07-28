@@ -2,12 +2,12 @@
 For the geometric distribution the chosen default value is $p=0.001$.
 This results in an expected value of 1000 which is the same as for the binomial distribution in the last subsection.
 This should make the results more comparable.
-Another parameter is the maximum value which was set to $10 \cdot E(X)=10000$.
-Theoretically with very low probability the geometric distribution could result in an almost endless loop with bad luck.
-To prevent this issue the maximum value was inserted as an upper bound for the random number generator. 
-Figure~\ref{fig:geoDistExample} shows that this maximum value does not change the input drastically as no value over 9000 was generated anyway.
+The maximum value is theoretically not limited but for the implementation in Java the maximum value was set to the maximum value of a long value $= 2^{63}-1 = 9,223,372,036,854,775,807$.
+Without this maximum value the value might overflow and instead be negative with high absolute value.
+Figure~\ref{fig:geoDistExample} shows a random geometric distributed input.
 The span of all values is way higher than for the binomial distribution, although they have same expected value.
-Here the values are not in the interval $[800,1200]$ but rather between 0 and the maximum value. 
+Here the values are not in the interval $[800,1200]$ but rather between 0 and the 9000.
+The theoretical limitation of the values being at most $2^{63}-1$ seems to not have an influence on the results.
 
 \begin{figure}[h]
       \caption{Distribution of a random geometric input}
@@ -26,7 +26,7 @@ For these inputs the variants of the RLS perform differently to the binomial inp
 The only similarity is the RLS being the worst as the RLS is the only algorithm that did not find an optimal solution for every input.
 If the RLS did find an optimal solution in those 5 cases it would instead be the best RLS variant.
 The other algorithms are ranked by the probability of flipping only one bit.
-This means at first the three RLS-R variants from 2 to 3 to 4 and then the same for the RLS-N variants.
+This means at first the three \RLSR~variants from 2 to 3 to 4 and then the same for the \RLSN~variants.
 So it does seem like moving mostly one element at once is better for the geometric input in comparison to two elements for the binomial distribution.
 In the 5 cases where the RLS did not find an optimal solution it was most likely stuck in a local optimum.
 
@@ -35,7 +35,7 @@ In the 5 cases where the RLS did not find an optimal solution it was most likely
 
 \input{tables/geometric/ea_compare.tex}
 
-The results for the (1+1) EA are similar to the results of the RLS. From mutation rate $2/n$ on the performance decreases with rising mutation rate.
+The results for the (1+1) EA are similar to the results of the RLS. From mutation rate $2/n$ on the runtime increases with rising mutation rate.
 The only part that does not fit into the theory of 1 bit flips being superior is the mutation rate $2/n$ performing better than the standard $1/n$.
 The average number of iterations for the standard (1+1) EA is only slightly higher than for the mutation rate $2/n$, so this might be just due to a too small number of runs of the algorithms.
 All variants reach an optimal solution within the given limit for the number of iterations.
@@ -45,13 +45,13 @@ All variants reach an optimal solution within the given limit for the number of 
 \input{tables/geometric/pmut_compare.tex}
 
 The results for the $pmut_\beta$ operator are even more clear than for the (1+1) EA.
-With increasing values (decreasing absolute values) for $\beta$ the amounts of flipped bits per step increases.
+With decreasing values for $\beta$ the amounts of flipped bits per step increases.
 The performance on the other hand decreases with rising values for $\beta$ which fits into the theory of one bit flips being better for gemoetric distributed inputs.
-The only special case that does not support this theory is the value $\beta=-2.5$ performing better than $\beta=-2.75$.
+The only special case that does not support this theory is the value $\beta=2.5$ performing better than $\beta=2.75$.
 Here the same might hold as for the (1+1) EA.
 The number of repetitions of the algorithm might simply be too small to make the small difference in the performance between the two values visible.
 The difference in the performance for the $pmut_\beta$ operator is not as drastic as for the (1+1) EA.
-Only $\beta=-1.25$ performs significantly worse the next best value.
+Only $\beta=1.25$ performs significantly worse the next best value.
 
 \subsection{Comparison of the best variants}
 
@@ -59,7 +59,7 @@ Only $\beta=-1.25$ performs significantly worse the next best value.
 \input{tables/geometric/best.tex}
 
 For the geometric distribution once again a variant of the RLS performs the best.
-$pmut_{-3.25}$ performs almost equally good with only the (1+1) EA variant performing clearly worse.
+$pmut_{3.25}$ performs almost equally good with only the (1+1) EA variant performing clearly worse.
 Here the algorithms are sorted again by their average number of flips per steps.
 The theory of flipping one bit per step being better seems to be true for this kind of input.\newline
 To further confirm the best choice for this kind of input there was another experiment of the best variants.
@@ -73,21 +73,21 @@ The first table lists the number of runs where the different algorithms did not 
 
 For small inputs the geometric distributed input seems to have inputs without a perfect partition because there were many iterations where neither of the algorithms found an optimal solution within the time limit.
 It is still likely to have a perfect partition even for the small values in comparison to other distributions which follow afterwards.
-It seems many of the algorithms especially the variants of the RLS seem to be likely to get stuck in a local optima.
+It seems many of the algorithms especially the variants of the RLS seem to be likely to get stuck in a local optimum.
 The (1+1) EA finds an optimum in most of the runs, so the geometric distributed inputs also seem to be likely to have a perfect partition for small values.
-They are definitely not as solvable as the binomial inputs, but they still have a perfect partition most times.
+They definitely are harder to solve for smaller input sizes as the binomial inputs, but they still have a perfect partition most times.
 The next table visualises the average number of iterations the algorithms needed for finding an optimal solution if the algorithm managed to do so.
 
 \input{tables/geometric/multipleN_avg.tex}
 
 The variants of the (1+1) EA and of the $pmut$ algorithm seem to take about 20,000 iterations for $n=20$ if they manage to find the optimal solution.
-They also perform better and better the lager the input gets.
+They also perform better and better the bigger the input gets.
 This is probability caused by the many additional small values that can be used for smaller adjustments to the fitness.
-Also a really high value does not have as much of an input, because there are possibly other larger values which cancel each other out, if they are in different bins.
-The standard (1+1) EA does not only find a perfect partition less often it also needs more iterations on average if it does.
+Also a really high value does not have as much of an effect, because there are possibly other larger values which cancel each other out, if they are in different bins.
+The standard (1+1) EA does not only find a perfect partition less often, it also needs more iterations on average if it does.
 So the (1+1) EA with $p_m=2/n$ performs indeed better for every input size.
 The last table again lists the total average number of steps.
 
 \input{tables/geometric/multipleN_totalAvg.tex}
 
-The RLS is only an option if the input is large enough ($n \ge 10,000$). For smaller input sizes especially for $n \le 100$ choosing the (1+1) EA with mutation rate $2/n$ seems like the best choice. For larger values this (1+1) EA does not find an optimal solution the fastest but is still fast enough to be a viable option. Another rather save option is $pmut_{-3.25}$. This algorithm performs worse for $n \le 100$ but is still good in comparison to the other algorithms. For $n \ge 1000$ $pmut_{-3.25}$ starts to outperform the best version of the (1+1) EA and almost all other researched algorithms.
+The RLS is only an option if the input is large enough ($n \ge 10,000$). For smaller input sizes especially for $n \le 100$ choosing the (1+1) EA with mutation rate $2/n$ seems like the best choice. For larger values this (1+1) EA does not find an optimal solution the fastest but is still fast enough to be a viable option. Another rather save option is $pmut_{3.25}$. This algorithm performs worse for $n \le 100$ but is still good in comparison to the other algorithms. For $n \ge 1000$ $pmut_{3.25}$ starts to outperform the best version of the (1+1) EA and almost all other researched algorithms.

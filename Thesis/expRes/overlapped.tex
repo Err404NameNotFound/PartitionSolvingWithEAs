@@ -1,12 +1,12 @@
-\section{Multiple distributions overlapped}
+\section{Adding multiple distributions}
 This input is similar to the mixed input from the last subsection.
 For this distribution the values are not chosen uniform random from one of the base distributions, but instead a value from every distribution is chosen and added together.
-Hence the name overlapped distribution.
+This distribution will be referred to as overlapped distribution.
 % For this input the step limit was increased to $100\cdot n \ln n$.
 % The comparison with the step limit $10\cdot n \ln(n)$ is contained in the last subsubsection which compares the best variants.
 
 \begin{figure}[h]
-      \caption{Distribution of an overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{-1.25}_{1000}$}
+      \caption{Distribution of an overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{1.25}_{1000}$}
       \centering
       \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/overlapped.png}\label{fig:overlappedDistExample}
 \end{figure}
@@ -15,7 +15,7 @@ Figure~\ref{fig:overlappedDistExample} looks completely different from figure~\r
 No value is generated more than 20 times as opposed to the maximum amount of 350 for the mixed distribution.
 In this figure no distribution is clearly visible.
 
-The used distributions for the performance experiments were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000,0.1)$, \textasciitilde$Geo(0.001)$, \textasciitilde$D^{-1.25}_{50000}$.
+The used distributions for the performance experiments were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000,0.1)$, \textasciitilde$Geo(0.001)$, \textasciitilde$D^{1.25}_{50000}$.
 \subsection{RLS Comparison}
 
 
@@ -24,11 +24,11 @@ The used distributions for the performance experiments were \textasciitilde$U(1,
 The results for this distribution are somewhat similar to the results of the binomial distribution.
 The best and worst algorithms are the same.
 Only the RLS almost fails to find an optimal solution for almost every input.
-For the binomial distribution the $RLS-N_3$ also failed around 25\% or the inputs but here it does not.
+For the binomial distribution the \RLSN[3] also failed around 25\% or the inputs but here it does not.
 It is even the second-best variant instead of being the second-worst.
 Apart from that the ranking in between is also different.
-The RLS-N variants perform the best followed by the RLS-R variants and lastly the RLS.
-For the RLS-N the performance decreases with increasing $k$ but for the RLS-R this relation is inverted.
+The \RLSN~variants perform the best followed by the \RLSR~variants and lastly the RLS.
+For the \RLSN~the performance decreases with increasing $k$ but for the \RLSR~this relation is inverted.
 Another big difference is the number of steps needed to find a global optimum.
 For the binomial input all algorithms except the RLS were really fast and only needed below 1000 iterations on average.
 All algorithms need around 250 times the number of steps on average for the overlapped input.
@@ -53,14 +53,14 @@ More time would probably be enough to reach an optimal solution in most cases.
 
 For $pmut$ the results are mostly the same as for the (1+1) EA.
 The performance is about 250 times worse than for the binomial inputs, but the ranking is still pretty close.
-Here the optimal parameter is around $\beta=-1.75$ instead of $\beta=-2.25$.
+Here the optimal parameter is around $\beta=1.75$ instead of $\beta=2.25$.
 For $pmut$ the step limit was too small as well, but the difference to the optimal solution was only one on average.
 \subsection{Comparison of the best variants}
 
 
 \input{tables/overlapped/best.tex}
 
-The results here are the same as for the binomial input. The RLS-N$_2$ performs better than the (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of 1.5 with a step limit of $10 \cdot n \ln(n)$.
+The results here are the same as for the binomial input. The \RLSN[2] performs better than the (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of 1.5 with a step limit of $10 \cdot n \ln(n)$.
 Due to its higher speed of convergence it is also the only algorithm to find a global optimum in every run.
 For the lower values of $n$ this does not hold.
 
@@ -68,7 +68,7 @@ For the lower values of $n$ this does not hold.
 
 Here almost no algorithm manages to find an optimal solution in most cases as all algorithms fail for more than 70 \% of the inputs.
 The RLS variants perform the worst again for the small input sizes.
-Only for $n\ge500$ the RLS-N$_{2}$ is a good option due to the huge performance increase between $n=100$ and $n=500$.
+Only for $n\ge500$ the \RLSN[2] is a good option due to the huge performance increase between $n=100$ and $n=500$.
 Overlapped inputs stay hard to solve relatively long as only for $n\ge50,000$ all best variants of each algorithm find an optimal solution for every input.
 
 \input{tables/overlapped/multipleN_avg.tex}
@@ -80,5 +80,5 @@ After $n=1000$ the value of $10 \cdot n \ln(n)$ was bigger than 100,000.
 
 No algorithm is very successful for the small values of $n$.
 Choosing the (1+1) EA for $n<500$ should result in the best runtime in most of the cases.
-Only the RLS-N$_4$ is faster for $50\le n \le 100$.
-For bigger input sizes the RLS-N$_2$ is clearly the best option.
+Only the \RLSN[4] is faster for $50\le n \le 100$.
+For bigger input sizes the \RLSN[2] is clearly the best option.

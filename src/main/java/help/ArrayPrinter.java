@@ -52,6 +52,10 @@ public class ArrayPrinter {
         printArray(i -> String.valueOf(input[sorting[i]]), sorting.length);
     }
 
+    public static void printArray(double[] input, int[] sorting) {
+        printArray(i -> String.format("%.3f", input[sorting[i]]), sorting.length);
+    }
+
     public static void printArray(String before, long[] result, int digits) {
         print(before);
         printArray(result, digits);

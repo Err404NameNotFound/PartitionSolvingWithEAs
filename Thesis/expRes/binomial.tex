@@ -16,7 +16,7 @@ The data is explained in the table below.
 
 \begin{tabular}{c|l}
       column name     & meaning                                                         \\ \hline
-      algo type       & type of algorithm (RLS, RLS-N, RLS-R, (1+1)EA or pmut)          \\
+      algo type       & type of algorithm (RLS, \RLSN, \RLSR, (1+1)EA or pmut)          \\
       algo param      & parameter of the algorithm or '-' if it is the standard variant \\
       avg mut/change  & average \#bits flipped for iterations leading to an improvement \\
       avg mut/step    & average \#bits flipped for any iteration                        \\ \hline
@@ -29,7 +29,7 @@ The data is explained in the table below.
       avg fail dif    & average value of $b_F-f(opt)$ for non-optimal solutions         \\
 \end{tabular}
 
-Firstly the different variants of the RLS are compared with values of $k \in\{2,3,4\}$, then the performance of the (1+1) EA with static mutation rate $c/n$ with $c \in\{1,2,3,5,10,50,100\}$ and lastly the performance of the $pmut_\beta$ mutation operator with the parameter $\beta \in \{-1.25, -1.5, \dots, -2.75,-3.0,-3.25\}$.
+Firstly the different variants of the RLS are compared with values of $k \in\{2,3,4\}$, then the performance of the (1+1) EA with static mutation rate $c/n$ with $c \in\{1,2,3,5,10,50,100\}$ and lastly the performance of the $pmut_\beta$ mutation operator with the parameter $\beta \in \{1.25, 1.5, \dots, 2.75,3.0,3.25\}$.
 Additionally the best variants of each algorithm are compared in another 1000 runs.
 Afterwards there is also a comparison for multiple input sizes of the best algorithms because the best algorithm is often dependent on the size of the input.
 Normally there are three tables for each input.
@@ -49,7 +49,7 @@ The more perfect partitions an input has relative to the number of all possible 
 Therefore researching inputs with higher expected values seems more interesting but generating higher values takes more time with a random number generator that needs $\mathcal{O}(mp)$ time.
 To keep the time for generating one set of numbers reasonable the values chosen for all tests are $m=10000, p=0.1, n=10000$ with the expected value for a single number being $mp=1000$.
 Figure~\ref{fig:binDistExample} shows a random binomial distributed input of length $n=10000$.
-All elements are sharply concentrated around the expected value with all values being at $1000\pm200$.
+For this input type almost every time all elements were sharply concentrated around the expected value with all values being at $1000\pm200$ (for figure~\ref{fig:binDistExample} even closer at $1000\pm121$).
 So after reaching a difference between the two bins of below $(1000-200)/2=400$ the algorithm can no longer achieve an improvement by flipping a single bit.
 
 \begin{figure}[h]
@@ -62,13 +62,13 @@ So after reaching a difference between the two bins of below $(1000-200)/2=400$ 
 
 \input{tables/binomial/rls_compare.tex}
 
-The $\text{RLS-N}_2$ seems to perform the best as it mostly switches two elements which works great for binomial distributed inputs. 
+The \RLSN[2] seems to perform the best as it mostly switches two elements which works great for binomial distributed inputs.
 The same algorithm with $k=4$ performs a bit worse but still good as switching 4 elements can be beneficial as well.
-The variant of RLS-N with $k=3$ on the other hand does not reach the optimal solution in 23.4\% of the inputs with an average difference of 1.
-It also needs 1000 times more iterations to find the optimal on average compared to the best algorithm RLS-N$_2$.
-The RLS-R variants behave mostly the same with $k=2$ being the best, followed by $k=4$ and $k=3$.
-In this case the variant of $k=3$ is by far not as bad as for the RLS-N$_3$ because the probability of flipping 2 bits is 1/3 as compared to $\mathcal{O}(n^{-1})$ for the RLS-N$_3$.
-The RLS-R seem all to be a good option for binomial inputs with values of $k\in\{2,3,4\}$.
+The variant of \RLSN[3] on the other hand does not reach the optimal solution in 23.4\% of the inputs with an average difference of 1.
+It also needs 1000 times more iterations to find an optimum on average compared to the best algorithm \RLSN[2].
+The \RLSR~variants behave mostly the same with $k=2$ being the best, followed by $k=4$ and $k=3$.
+In this case the variant of $k=3$ is by far not as bad as for the \RLSN[3] because the probability of flipping 2 bits is 1/3 as compared to $\mathcal{O}(n^{-1})$ for the \RLSN[3].
+The \RLSR~seem all to be a good option for binomial inputs with values of $k\in\{2,3,4\}$.
 The standard RLS on the other hand performs by far the worst as it only moves one element per step.
 It only managed to reach the optimal solution once for 1000 different inputs.
 The number of iterations for this input was only 50 so the RLS likely had a good initialisation with a few lucky steps leading directly to the optimum.
@@ -76,7 +76,7 @@ For all other cases the average difference between the bins was 254 which is clo
 This is likely due to the RLS being unable to improve the solution once the current solution has a difference below half of the lowest value (Corollary~\ref{cor:RLSStuck}).
 \subsection{(1+1) EA Comparison}
 For the (1+1) EA the best static mutation rate seems to be $3/n$. 
-The probability of flipping 2 or 4 bits as n goes to infinity for mutation rate $1/n$ approaches $13/24e\approx 0.199$, for $2/n$ approaches $8/3e^2\approx 0.361$, for $3/n$ approaches $63/8e^3\approx 0.392$, for $4/n$ approaches $56/3e^4\approx 0.342$ and for $5/n$ approaches $77/2e^5\approx 0.259$.
+The probability of flipping 2 or 4 bits as $n$ goes to infinity for mutation rate $1/n$ approaches $13/24e\approx 0.199$, for $2/n$ approaches $8/3e^2\approx 0.361$, for $3/n$ approaches $63/8e^3\approx 0.392$, for $4/n$ approaches $56/3e^4\approx 0.342$ and for $5/n$ approaches $77/2e^5\approx 0.259$.
 So the highest probability has $c=3$, followed by $c=4$ and $c=2$ then $c=5$ and lastly $c=1$.
 For higher values of $c$ the probability decreases further as the expected number of flipped bits is $c$ for mutation rate $c/n$.
 
@@ -91,31 +91,34 @@ The higher mutation rates perform significantly worse but the still find a solut
 
 \input{tables/binomial/pmut_compare.tex}
 
-For the $pmut_\beta$ mutation operator the choice of $\beta$ seems to be much more insignificant than for the RLS or (1+1) EA. Here all values perform comparably good with only the value of $\beta = -1.25$ having a clear performance difference compared to next best value. All values of $\beta$ reach an optimal solution in every case. The worst variant of the $pmut_\beta$ operator still performs much better than the worst value for the (1+1) EA and even better than the worst RLS variant. There is no clear winner but because $\beta=-2.25$ had the best performance in this experiment, it was used for the comparison of the best variants.
+For the $pmut_\beta$ mutation operator the choice of $\beta$ seems to be much more insignificant than for the RLS or (1+1) EA. Here all values perform comparably good with only the value of $\beta = 1.25$ having a clear performance difference compared to next best value. All values of $\beta$ reach an optimal solution in every case. The worst variant of the $pmut_\beta$ operator still performs much better than the worst value for the (1+1) EA and even better than the worst RLS variant. There is no clear winner but because $\beta=2.25$ had the best performance in this experiment, it was used for the comparison of the best variants.
 \subsection{Comparison of the best variants}
 
 
 \input{tables/binomial/best.tex}
 
-For this setting of $m=10000, p=0.1, n=10000$ the RLS-N with $k=2$ performs better than the  (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of at least 2.
+\TODO{ask what turning the tables into arrays means}
+For this setting of $m=10000, p=0.1, n=10000$ the \RLSN[2] performs better than the  (1+1) EA and $pmut_\beta$ mutation for all values of $c/n$ and $\beta$ by a factor of at least 2.
 This is likely from the fact that this version of the RLS flips almost only two bits which seems to be close to optimal for this kind of input.
 There are many values close to the expected value which can be switched to make small adjustments to the fitness value.
-The (1+1) EA with $p=3/n$ and $pmut_\beta$ algorithm with $\beta=-2.25$ perform almost the same.
+The (1+1) EA with $p_m=3/n$ and $pmut_\beta$ algorithm with $\beta=2.25$ perform almost the same.
 % The (1+1) EA has a slightly lower average value but also has a higher minimum value and a higher maximum value.
 To further investigate which input performs best on all binomial distributed inputs now a comparison with different input lengths follows.
 The parameters of the distribution were not changed.\newline
-The following table is the amount of runs in which the algorithms did not find an optimal solution within 50,000 steps.
+The following table shows the number of runs in which the algorithms did not find an optimal solution within 50,000 steps.
 The time limit was set 50,000 because the algorithms normally reach the optimal solution within a few thousand steps.
 If the solutions is not found after 50,000 steps, the algorithm is most likely stuck in a local optimum which could only be left by flipping more bits than possible for the algorithm.
+\TODO{Change multipleN fails to show percentages instead of count}
+\TODO{Add captions to multipleN tables}
 
 \input{tables/binomial/multipleN_fails.tex}
 
 The (1+1) EA and $pmut_\beta$ always reach an optimal solution but the RLS does not.
 The RLS variants that can only flip two bits per step perform significantly worse for small inputs.
 They are probably more likely to get stuck in a local optimum where a step flipping 4 bits or more would be necessary.
-So the RLS-N(2) does perform better for larger inputs but is much more likely to get stuck in a local optima.
+So the \RLSN[2] does perform better for larger inputs but is much more likely to get stuck in a local optima.
 The next table contains the average number of iterations the algorithm needed to find an optimal solution for all runs where the algorithms managed to find an optimal solution.
-Here it still looks like the RLS-N$_2$ finds the solution with the lowest amount of steps, because the cases where the algorithm is stuck in a local optima are not contained in this table.
+Here it still looks like the \RLSN[2] finds the solution with the lowest amount of steps, because the cases where the algorithm is stuck in a local optima are not contained in this table.
 
 \input{tables/binomial/multipleN_avg.tex}
 
@@ -124,5 +127,5 @@ So runs where no optimal result was found add 50,000 to the sum of all iteration
 
 \input{tables/binomial/multipleN_totalAvg.tex}
 
-Here the RLS-N$_2$ is only the best algorithm for values of $n \ge 500$.
+Here the \RLSN[2] is only the best algorithm for values of $n \ge 500$.
 Below this bound choosing the (1+1) EA with static mutation rate $3/n$ is a safer choice as the (1+1) EA reaches an optimal solution for every input (in this experiment).

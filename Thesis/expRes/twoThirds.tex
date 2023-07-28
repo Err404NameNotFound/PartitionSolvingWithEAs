@@ -1,8 +1,9 @@
-\section{Carsten Witts worst case input}
-C. Witt proved the RLS and the (1+1) EA find a $(4/3+\epsilon)$ approximation in expected time $\mathcal{O}(n)$ and a $(4/3)$-approximation in expected time $\mathcal{O}(n^2)$~\cite{diekert2005stacs}.
+\section{Carsten Witt's worst case input}
+C. Witt proved that the RLS and the (1+1) EA find a $(4/3+\epsilon)$ approximation in expected time $\mathcal{O}(n)$ and a $(4/3)$-approximation in expected time $\mathcal{O}(n^2)$~\cite{diekert2005stacs}.
+\TODO{why is this citation wrong}
 He then introduced an almost worst case input to prove the bound for the approximation ratio is at least almost tight.
 The input is defined as followed for any $0<\epsilon<1/3$ and even $n$:\newline
-The input contains two numbers of value $1/3 - \epsilon/4$ and n-2 elements of value $(1/3+\epsilon/2)/(n-2)$. 
+The input contains two numbers of value $1/3 - \epsilon/4$ and $n-2$ elements of value $(1/3+\epsilon/2)/(n-2)$. 
 The total volume is normalised to 1.
 When the two large values are in the same bin, the RSHs are tricked into a local optima, where only $w_1$ and $w_2$ are in the first bin and the remaining elements in the other bin.
 This results in an almost worst case.
@@ -26,11 +27,11 @@ This is not really close to the worst case of 4/3 any more but with this setting
 
 The RLS is by far most likely to get stuck in the local optimum.
 The general tendency is the more bits the algorithm flips in expectation the more unlikely the local optimum becomes.
-The only case where this does not hold is the RLS-N$_2$ being better than the RLS-R$_4$, although the RLS-R$_4$ flips more bits in expectation.
-This might be caused by the higher probability for flipping only one bit for the RLS-R$_4$.
+The only case where this does not hold is the \RLSN[2] being better than the \RLSR[4], although the \RLSR[4] flips more bits in expectation.
+This might be caused by the higher probability for flipping only one bit for the \RLSR[4].
 This causes the algorithm to find the local optimum faster before separating $w_1$ and $w_2$.
 So the ranking of the algorithms is completely inverted compared to the OneMax input.
-The RLS-N$_2$ and RLS-N$_3$ both had runs where they neither found the global nor one of the two local optima.
+The \RLSN[2] and \RLSN[3] both had runs where they neither found the global nor one of the two local optima.
 The algorithms were most likely tricked into the direction of the local optimum and did not manage to leave it.
 But they were also not fast enough to reach the local optimum because of their low probability to flip only one bit.
 \subsection{(1+1) EA Comparison}
@@ -50,18 +51,18 @@ So there was no run where any algorithm neither found a global nor the local opt
 \input{tables/twoThirds/pmut_compare.tex}
 
 For $pmut$ the result is the exact same as for the (1+1) EA.
-The higher (lower absolute value) $\beta$ the better the performance as more bits are flipped in each step.
-The algorithm is tricked into the local optima only for $\beta\le-2.5$.
+The lower $\beta$ the better the performance as more bits are flipped in each step.
+The algorithm is tricked into the local optima only for $\beta\le2.5$.
 If the algorithm is on the path to the local optimum it is always fast enough to reach it within the time limit.
 \subsection{Comparison of the best variants}
 
 
 \input{tables/twoThirds/best.tex}
 
-The $pmut_-1.25$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
-The $RLS-N_4$ performs significantly worse.
+The $pmut_1.25$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
+The \RLSN[4] performs significantly worse.
 % The other algorithm flip so many bits that they are almost close to random sampling.
-For the OneMax input $pmut_-1.25$ flipped 224 bits on average per step, but the average of the successful steps was only 5.
+For the OneMax input $pmut_1.25$ flipped 224 bits on average per step, but the average of the successful steps was only 5.
 Here the average of all steps is again 224, but the average of the successful steps is at 194.
 The heavy tail here really increases the performance as most of the high values are accepted.
 In the experiment with different input sizes the mutation rate of $p_m=100/n$ is $\ge1$ for $n\le100$.
@@ -80,6 +81,6 @@ For the lower input sizes the RLS is slower than the remaining algorithm even it
 
 \input{tables/twoThirds/multipleN_totalAvg.tex}
 
-The $pmut_{-1.25}$ is the best variant closely followed by the (1+1) EA.
+The $pmut_{1.25}$ is the best variant closely followed by the (1+1) EA.
 The RLS version is by far slower than the other to variants for the bigger input sizes.
 Even for the smaller inputs it is still slower.

@@ -8,13 +8,13 @@ The complete java code used for all empirical studies is available on \href{http
 \subsection{The Algorithms}
 All different variants of the RLS function more or the less the same. They start with an initial random value and then optimise this one value in the loop. The loop can be summarised like this:
 \begin{enumerate}
-      \item generate a number k of bits to be flipped (algorithm specific)
-      \item flip k random bits
+      \item generate a number $k$ of bits to be flipped (algorithm specific)
+      \item flip $k$ random bits
       \item evaluate fitness of the mutated individual
       \item replace old value with new value if new value is better
       \item repeat if not optimal
 \end{enumerate}
-The (1+1) EA variants behave differently on the first impression as they flip bit each bit independently with probability $c/n$.
+The (1+1) EA variants behave differently at first glance as they flip bit each bit independently with probability $c/n$.
 This can be seen as $n$ independent Bernoulli trials with probability $c/n$.
 The amount of bits that are flipped is therefore binomial distributed and the algorithm can be implemented exactly as the versions of the RLS. The same holds for the $pmut$ operator which generates a number $k$ from a powerlaw distribution and then flips $k$ bits.
 This leads to only one implementation of a partition solving algorithm which is not only given the input array of numbers but also a generator for the amount of bits to be flipped in each step.
@@ -24,8 +24,8 @@ The random values for the amount of bits to be flipped are generated according t
       Algorithm & Returned value                                                                          \\
       \hline
       RLS       & 1                                                                                       \\
-      RLS-N$_k$ & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
-      RLS-R$_k$ & uniform random value $y \in \{1,\dots,k\}$                                              \\
+      \RLSN~    & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
+      \RLSR~    & uniform random value $y \in \{1,\dots,k\}$                                              \\
       (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
       pmut      & powerlaw distributed value from \textasciitilde$D^\beta_n$                              \\
 \end{tabular}
@@ -70,6 +70,7 @@ This method has an expected running time of $\mathcal{O}(mp)$ which is equal to 
 For the case of $p=1/m$ this runs in expected constant time in comparison to $\mathcal{O}(m)$ for the naive way.
 This number generation was also used for the implementation of the (1+1) EA instead of running a loop in every step.
 
+\TODO{explain how and why this algorithm works}
 \begin{algorithm}[h]
       \caption{\textsc{Binomial random number generator}}\label{alg:binomialRNG}
 
@@ -119,16 +120,16 @@ This implementation is also from stackoverflow. The user \href{https://stackover
 \]
 $a$ is the lower bound, $b$ the upper bound, $n$ the parameter of the distribution and $y$ the number generated uniform random $\in \left[0, 1\right)$.
 The idea behind the formula and the formula itself is explained in a \href{https://mathworld.wolfram.com/RandomNumber.html}{mathworld} page.
-
+\TODO{give a brief explanation here}
 
 \section{Do inputs have perfect partitions?}
 \subsection{Binomial Inputs}
 
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger $n$.
 In practice the bound is much smaller depending on the expected value of a single number.
-Another factor deciding how likely an input is to have a perfect partition is whether n is even or odd.
+Another factor deciding how likely an input is to have a perfect partition is whether $n$ is even or odd.
 To determine the influence of all factors multiple experiments were conducted.
-The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if n is even or odd.
+The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if $n$ is even or odd.
 So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were tested for a perfect partition.
 Due to the small values for $n$ it was possible to brute force the results in a short amount of time.
 The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref{fig:lastBinPercentage}.
@@ -139,16 +140,16 @@ The results are visualised in figure~\ref{fig:firstBinPercentage} to figure~\ref
       \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10.png}\label{fig:firstBinPercentage}
 \end{figure}
 
-On the x-axis is the size of the input and on the y-axis the percentage of inputs that had a perfect partition.
-The different graphs in each figure resemble the different values of p used for generating the inputs.
+On the $x$-axis is the size of the input and on the $y$-axis the percentage of inputs that had a perfect partition.
+The different graphs in each figure resemble the different values of $p$ used for generating the inputs.
 The graph for $p=0.1$ resembles the percentage of inputs that had a perfect partition with values generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure.
 For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
 Figure~\ref{fig:firstBinPercentage} is a bit overloaded with information and the zigzag makes it hard to gain any benefit from the graphs.
-That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes $n$ and one for the uneven. 
-For $n\ge10,000$ all values for the uneven input sizes are 0 \%, so there is no point in showing the data in a separate graph. The lines in the separate graphs for even and uneven $n$ are only to visualise the growth in $n$. The displayed values in between the listed input sizes on the x-axis do not have a meaning.\newline
+That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes $n$ and one for the odd. 
+For $n\ge10,000$ all values for the odd input sizes are 0 \%, so there is no point in showing the data in a separate graph. The lines in the separate graphs for even and odd $n$ are only to visualise the growth in $n$. The displayed values in between the listed input sizes on the $x$-axis do not have a meaning.\newline \TODO{rephrase this sentence to make it more obvious what is meant}
 
-It is easy to see that for small inputs sizes it is relevant if n is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
-For uneven inputs the probability of a perfect partition decreases much more drastically with m as for even inputs because the expected value of a single number increases with m.
+It is easy to see that for small inputs sizes it is relevant if $n$ is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
+For odd inputs the probability of a perfect partition decreases much more drastically with $m$ as for even inputs because the expected value of a single number increases with $m$.
 If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
 The oscillation therefore increases with increasing m.
 For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input with a perfect partition.
@@ -157,7 +158,7 @@ Even for only 12 binomial generated values more than 50\% of the inputs had a pe
 Another visible effect is the decreasing percentage with rising $p$.
 This may be a direct result of the value chosen for $p$ but can also be an indirect result as the value for $p$ changes the expected value for a constant $m$.
 The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
-For uniform distributed inputs Borgs \emph{et. al.} showed that the coefficient of \#bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
+For uniform distributed inputs Borgs \emph{et. al.} showed that the coefficient of number of bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
 For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0.
 This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input.
 This leads to the second experiment.
@@ -170,7 +171,7 @@ This leads to the second experiment.
       \end{minipage}
       \hspace{0.75cm}
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for $m = 10$ for uneven $n$}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 10$ for odd $n$}
             \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m10_uneven.png}\label{fig:firstBinPercentageUneven}
       \end{minipage}
 \end{figure}
@@ -183,7 +184,7 @@ This leads to the second experiment.
       \end{minipage}
       \hspace{0.75cm}
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for $m = 100$ for uneven $n$}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 100$ for odd $n$}
             \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m100_uneven.png}
       \end{minipage}
 \end{figure}
@@ -196,7 +197,7 @@ This leads to the second experiment.
       \end{minipage}
       \hspace{0.75cm}
       \begin{minipage}[b]{0.45\textwidth}
-            \caption{Percentage of Binomial inputs with perfect partitions for $m = 1000$ for uneven $n$}
+            \caption{Percentage of Binomial inputs with perfect partitions for $m = 1000$ for odd $n$}
             \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/binomial_Input_Solvable_m1000_uneven.png}
       \end{minipage}
 \end{figure}
@@ -220,7 +221,7 @@ Here the goal was to keep the expected value fixed for any combination of $p$ an
 With this setup the influence of the expected value is almost isolated from the other parameters.
 The probability is still linked to $p$ as $p$ also influences the variance $mp(1-p)$.\newline
 Figure~\ref{fig:firstBinPercentage2} to figure~\ref{fig:lastBinPercentage2} again show the percentage of perfect inputs with different settings of $m,p,n$.
-The x-axis is the expected value $mp$ of a single number of the input. The different graphs show the percentage for different input sizes.
+The $x$-axis is the expected value $mp$ of a single number of the input. The different graphs show the percentage for different input sizes.
 It seems as if the value of $p$ has a much smaller influence than the expected value.
 For a fixed expected value and a fixed input size a higher value for $p$ seems to only slightly increase the percentage of inputs with a perfect partition.
 The expected value influences the percentage significantly more.
@@ -268,15 +269,15 @@ For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor
       \end{minipage}
 \end{figure}
 
-The last experiment showed that for $n=20$ 1000/1000 inputs had a perfect partition. This raised the question of how the amount of perfect partition changes with changing values for $m, p, n$.
+The last experiment showed that for $n=20$, 1000/1000 inputs had a perfect partition. This raised the question of how the amount of perfect partition changes with changing values for $m, p, n$.
 Figure~\ref{fig:firstBinSolCount} to figure~\ref{fig:lastBinSolCount} show the amount of perfect partitions a binomial distribution \textasciitilde$B(m,p$) has.
 For these figures 10,000 random binomial inputs with the given values for $m$ and $p$ were generated.
-Each input was then tested for the amount of perfect partitions it has.
+Each input was then tested for the number of perfect partitions it has.
 The used method was again brute force to ensure correctness which was only possible due to the small input sizes.
 After all runs the average values were combined in the given figures.
 The value of $p$ is dependent on the picture and each value of $m \in \{10,100,1000,10000\}$ has its own graph within the figure.
-The x-axis is the size of the input and the y-axis the amount of perfect partitions the input has.
-Notice that all graphs have a y-axis with a logarithmic scale.
+The $x$-axis is the size of the input and the $y$-axis the number of perfect partitions the input has.
+Notice that all graphs have a $y$-axis with a logarithmic scale.
 Since the graphs are all linear the actual values rise exponentially.
 The number of perfect partitions is mostly multiplied by a factor between 3 and 4 when the input size increases by 2.
 

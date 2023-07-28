@@ -45,8 +45,11 @@ public class RNG {
     }
 
     public static long geometricK(double p) {
+        return geometricK(p, Long.MAX_VALUE);
+    }
+    public static long geometricK(double p, long maxValue) {
         long k = 0;
-        while (randomDouble() >= p && k < Long.MAX_VALUE) {
+        while (randomDouble() >= p && k < maxValue) {
             ++k;
         }
         return k;
