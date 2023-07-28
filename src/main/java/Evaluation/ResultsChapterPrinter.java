@@ -1,6 +1,5 @@
 package Evaluation;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,6 +54,7 @@ public class ResultsChapterPrinter {
         content = before + content + "\n\\end{tabular}\n}";
         println(content);
     }
+
     private static String convertTxtFileToLatexText(String text) {
         text = text.replace("\r\n", "\n");
         text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     ->"));

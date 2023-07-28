@@ -5,8 +5,8 @@ import help.ArrayPrinter;
 import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
-import main.Solution;
 import main.InputGenerator;
+import main.Solution;
 import main.Solver;
 
 import java.util.Arrays;

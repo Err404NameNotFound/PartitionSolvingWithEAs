@@ -3,10 +3,6 @@ package main;
 import java.math.BigInteger;
 import java.util.Set;
 
-import static help.ArrayHelp.fill;
-import static help.ArrayHelp.swap;
-import static help.ArrayPrinter.printFirstAndLastElements;
-
 public class SolutionLong extends BaseSolution {
     private long sum;
     private long optimalValue;
@@ -19,7 +15,7 @@ public class SolutionLong extends BaseSolution {
         lastImprove = 0;
     }
 
-    SolutionLong(SolutionBigInt solution, long[] values){
+    SolutionLong(SolutionBigInt solution, long[] values) {
         super(values);
         int[] temp = solution.getPartition();
         System.arraycopy(temp, 0, partition, 0, partition.length);
@@ -32,7 +28,7 @@ public class SolutionLong extends BaseSolution {
         changes = solution.getChanges();
         bitsFlipped = solution.getFlippedBits();
         bitsTried = solution.getTriedFlips();
-        sumIsEven = totalSum%2==0;
+        sumIsEven = totalSum % 2 == 0;
         lastImprove = solution.getLastImprove();
         lastBitFlippedCount = solution.getLastBitFlippedCount();
         lastBitFlippedTried = solution.getLastBitFlippedTried();
@@ -190,7 +186,7 @@ public class SolutionLong extends BaseSolution {
         setOptimalValue(inputSum / 2);
     }
 
-    public BigInteger getDif(){
+    public BigInteger getDif() {
         return BigInteger.valueOf(dif);
     }
 

@@ -1,10 +1,8 @@
 package help;
 
-import java.time.Instant;
-
 public class RNG {
 
-    private static final MersenneTwisterFast RNG = new MersenneTwisterFast(Instant.now().toEpochMilli());
+    private static final MersenneTwisterFast RNG = new MersenneTwisterFast();
 
     public static int randomInt() {
         return RNG.nextInt();
@@ -44,5 +42,42 @@ public class RNG {
 
     public static boolean randomBoolean(double probability) {
         return RNG.nextBoolean(probability);
+    }
+
+    public static long geometricK(double p) {
+        long k = 0;
+        while (randomDouble() >= p && k < Long.MAX_VALUE) {
+            ++k;
+        }
+        return k;
+    }
+
+    public static int binomialK(int n, double p) {
+        double log_q = Math.log(1.0 - p);
+        int x = 0;
+        double sum = 0;
+        while (true) {
+            sum += Math.log(Math.random()) / (n - x);
+            if (sum < log_q || x >= n) {
+                return x;
+            }
+            x++;
+        }
+    }
+
+    public static int powerlawK(double bottom, double top, double n) {
+        double y, x, a, b, e, f;
+        y = Math.random();
+        a = Math.pow(top, n + 1);
+        b = Math.pow(bottom, n + 1);
+        e = (1 / (n + 1));
+        f = (a - b) * y + b;
+        x = Math.pow(f, e);
+        return (int) Math.round(x);
+    }
+
+    public static double randomDouble(double bottom, double top) {
+        double f = Math.random() / Math.nextDown(1.0);
+        return bottom * (1.0 - f) + top * f;
     }
 }

@@ -43,5 +43,6 @@ public interface Solution {
     long getChanges();
 
     long getTriedFlips();
+
     BigInteger getTotalSum();
 }

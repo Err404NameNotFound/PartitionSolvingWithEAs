@@ -5,11 +5,11 @@ import java.util.Scanner;
 
 import static help.ArrayHelp.fill;
 import static help.ArrayPrinter.printFirstAndLastElements;
-import static help.MathHelp.binomialK;
-import static help.MathHelp.geometricK;
-import static help.MathHelp.powerlawK;
 import static help.Printer.printf;
 import static help.Printer.println;
+import static help.RNG.binomialK;
+import static help.RNG.geometricK;
+import static help.RNG.powerlawK;
 import static help.RNG.randomInt;
 import static main.Main.DEFAULT_BIGGEST_VALUE;
 import static main.Main.DEFAULT_BINOMIAL_SHIFT;
@@ -112,7 +112,7 @@ public class InputGenerator {
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestOne(length, sumCount);
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> lastXSumRestUniformRange(length, low, high, sumCount);
             case BINOMIAL_DISTRIBUTED -> binomialDistributed(length, DEFAULT_N, DEFAULT_P_BINOMIAL);
-            case GEOMETRIC_DISTRIBUTED -> geometricDistributed(length, DEFAULT_P_GEOMETRIC, DEFAULT_N);
+            case GEOMETRIC_DISTRIBUTED -> geometricDistributed(length, DEFAULT_P_GEOMETRIC);
             case BINOMIAL_DISTRIBUTED_SHIFT ->
                     binomialDistributedShifted(length, DEFAULT_N, DEFAULT_P_BINOMIAL, DEFAULT_BINOMIAL_SHIFT);
             case POWERLAW_DISTRIBUTED ->
@@ -208,8 +208,8 @@ public class InputGenerator {
         return fill(length, (i) -> binomialK(n, p));
     }
 
-    public static long[] geometricDistributed(int length, double p, long highestVal) {
-        return fill(length, (i) -> geometricK(highestVal, p));
+    public static long[] geometricDistributed(int length, double p) {
+        return fill(length, (i) -> geometricK(p));
     }
 
     public static long[] binomialDistributedShifted(int length, int n, double p, long shift) {
@@ -221,7 +221,7 @@ public class InputGenerator {
     }
 
     private static long overlappedValue(double bottom, double top, double pBin, int nBin, double pGeom, double nPmut) {
-        return randomInt((int) bottom, (int) top) + binomialK(nBin, pBin) + geometricK((int) top, pGeom)
+        return randomInt((int) bottom, (int) top) + binomialK(nBin, pBin) + geometricK(pGeom)
                 + powerlawK(bottom, top, nPmut);
     }
 
@@ -229,7 +229,7 @@ public class InputGenerator {
         return switch (index) {
             case 0 -> randomInt((int) bottom, (int) top);
             case 1 -> binomialK(nBin, pBin);
-            case 2 -> geometricK((int) top, pGeom);
+            case 2 -> geometricK(pGeom);
             case 3 -> powerlawK(bottom, top, nPmut);
             default -> overlappedValue(bottom, top, pBin, nBin, pGeom, nPmut);
         };
@@ -270,9 +270,9 @@ public class InputGenerator {
                 n, 0, n, p, DEFAULT_PMUT_PARAM);
     }
 
-    public static InputGenerator createGeometric(double p, long maxValue) {
-        return new InputGenerator(GEOMETRIC_DISTRIBUTED, (a) -> geometricDistributed(a, p, maxValue), 0,
-                maxValue, 0, maxValue, p, DEFAULT_PMUT_PARAM);
+    public static InputGenerator createGeometric(double p) {
+        return new InputGenerator(GEOMETRIC_DISTRIBUTED, (a) -> geometricDistributed(a, p), DEFAULT_LOWEST_VALUE,
+                DEFAULT_BIGGEST_VALUE, 0, DEFAULT_N, p, DEFAULT_PMUT_PARAM);
     }
 
     public static InputGenerator createUniform(int min, int max) {

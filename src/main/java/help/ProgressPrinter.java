@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
-import static help.Printer.printf;
 import static java.lang.Math.max;
 
 public class ProgressPrinter {

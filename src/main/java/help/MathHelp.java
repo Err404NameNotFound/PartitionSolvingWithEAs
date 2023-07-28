@@ -13,27 +13,6 @@ public class MathHelp {
         return Math.round(x * Math.log(x));
     }
 
-    public static long geometricK(long maxValue, double p) {
-        long k = 0;
-        while (RNG.randomDouble() >= p && k < maxValue) {
-            ++k;
-        }
-        return k;
-    }
-
-    public static int binomialK(int n, double p) {
-        double log_q = Math.log(1.0 - p);
-        int x = 0;
-        double sum = 0;
-        while (true) {
-            sum += Math.log(Math.random()) / (n - x);
-            if (sum < log_q || x >= n) {
-                return x;
-            }
-            x++;
-        }
-    }
-
     public static long nChooseK(int n, int k) {
         long sum = 1;
         for (int i = 1; i <= k; ++i) {
@@ -50,11 +29,6 @@ public class MathHelp {
             sum /= i;
         }
         return sum;
-    }
-
-    public static double randomDouble(double bottom, double top) {
-        double f = Math.random() / Math.nextDown(1.0);
-        return bottom * (1.0 - f) + top * f;
     }
 
     public static long max(long[] array) {
@@ -85,17 +59,6 @@ public class MathHelp {
             }
         }
         return max;
-    }
-
-    public static int powerlawK(double bottom, double top, double n) {
-        double y, x, a, b, e, f;
-        y = Math.random();
-        a = Math.pow(top, n + 1);
-        b = Math.pow(bottom, n + 1);
-        e = (1 / (n + 1));
-        f = (a - b) * y + b;
-        x = Math.pow(f, e);
-        return (int) Math.round(x);
     }
 
     public interface NumberArray {

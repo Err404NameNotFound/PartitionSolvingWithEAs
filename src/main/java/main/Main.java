@@ -23,8 +23,6 @@ import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
-import static help.MathHelp.powerlawK;
-import static help.MathHelp.randomDouble;
 import static help.Printer.PATH_TEXT_FILES;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
@@ -33,7 +31,9 @@ import static help.Printer.resumeFileWriting;
 import static help.Printer.setPrintToConsole;
 import static help.Printer.startFilePrinting;
 import static help.Printer.stopWritingToFile;
+import static help.RNG.powerlawK;
 import static help.RNG.randomBoolean;
+import static help.RNG.randomDouble;
 import static help.RNG.randomInt;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.GEOMETRIC_DISTRIBUTED;
@@ -61,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = -1.25;
-    public static final int DEFAULT_SELECTION = 56;
+    public static final int DEFAULT_SELECTION = -2;
 
 
     public static void main(String[] args) {
@@ -120,7 +120,7 @@ public class Main {
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(TWO_THIRDS, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
             case 44 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
-            case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC, 10000), 10000);
+            case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
             case 46 -> printDistribution(InputGenerator.createMixedAndOverlapped(
                     1.0, 1000.0, 1000, 0.1, 0.01, -1.25), 10000);
             case 47 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);

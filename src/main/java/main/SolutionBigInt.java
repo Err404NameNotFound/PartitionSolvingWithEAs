@@ -3,9 +3,6 @@ package main;
 import java.math.BigInteger;
 import java.util.Set;
 
-import static help.ArrayHelp.swap;
-import static help.ArrayPrinter.printFirstAndLastElements;
-
 public class SolutionBigInt extends BaseSolution {
     private BigInteger sum;
     private BigInteger optimalValue;
@@ -15,11 +12,6 @@ public class SolutionBigInt extends BaseSolution {
     SolutionBigInt(long[] values) {
         super(values);
         sum = BigInteger.ZERO;
-    }
-
-    void setOptimalValue(BigInteger optimalValue) {
-        this.optimalValue = optimalValue;
-        dif = dif(sum);
     }
 
     void setValue(int index, int value) {
@@ -167,7 +159,6 @@ public class SolutionBigInt extends BaseSolution {
         printTotalStats(maxSteps, totalCount);
     }
 
-
     @Override
     public String toString() {
         return String.format("Sum: %d, dif: %d, tries: %d, changes: %d", sum, dif, tries, changes);
@@ -191,7 +182,12 @@ public class SolutionBigInt extends BaseSolution {
         return sum;
     }
 
-    public BigInteger getOptimalValue(){
+    public BigInteger getOptimalValue() {
         return optimalValue;
+    }
+
+    void setOptimalValue(BigInteger optimalValue) {
+        this.optimalValue = optimalValue;
+        dif = dif(sum);
     }
 }
