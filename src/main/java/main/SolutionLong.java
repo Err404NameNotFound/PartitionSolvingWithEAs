@@ -90,7 +90,7 @@ public class SolutionLong extends BaseSolution {
             bitsTried += indexes.size();
             long nextSum = sum;
             for (Integer i : indexes) {
-                nextSum = nextSum + 1 - partition[i] == 1 ? values[i] : -values[i];
+                nextSum = nextSum + (partition[i] == 0 ? values[i] : -values[i]);
             }
             long nextDif = dif(nextSum);
             if (nextDif < dif) {

@@ -145,8 +145,10 @@ The different graphs in each figure resemble the different values of $p$ used fo
 The graph for $p=0.1$ resembles the percentage of inputs that had a perfect partition with values generated from the distribution \textasciitilde$B(m,0.1)$ with $m$ being dependent on the figure.
 For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
 Figure~\ref{fig:firstBinPercentage} is a bit overloaded with information and the zigzag makes it hard to gain any benefit from the graphs.
-That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes $n$ and one for the odd. 
-For $n\ge10,000$ all values for the odd input sizes are 0 \%, so there is no point in showing the data in a separate graph. The lines in the separate graphs for even and odd $n$ are only to visualise the growth in $n$. The displayed values in between the listed input sizes on the $x$-axis do not have a meaning.\newline \TODO{rephrase this sentence to make it more obvious what is meant}
+That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes of $n$ and one for the odd.
+Figures which show only results for either even or odd values of $n$ have dotted graphs, because the values in between the points do not exist.
+The dotted lines are only present for a better visualisation of the trend and not meant for interpretation outside the marked values.
+For $n\ge10,000$ all values for the odd input sizes are 0 \%, so there is no point in showing the data in a separate figure.
 
 It is easy to see that for small inputs sizes it is relevant if $n$ is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
 For odd inputs the probability of a perfect partition decreases much more drastically with $m$ as for even inputs because the expected value of a single number increases with $m$.

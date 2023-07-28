@@ -24,6 +24,13 @@ public class PartitionSolver {
 
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
+        return solve(values, maxSteps, generator, false);
+    }
+
+    private static Solution solve(long[] values, long maxSteps, KGenerator generator, boolean withProgress) {
+        if(withProgress){
+            return solveWithProgress(values, maxSteps, generator);
+        }
         Solution sol = createStartingPoint(values);
         return solve(values, maxSteps, generator, sol);
     }
@@ -56,12 +63,7 @@ public class PartitionSolver {
     }
 
     public static Solution solveRLS(long[] values, long maxSteps, boolean withProgress) {
-        KGenerator generator = a -> 1;
-        if (withProgress) {
-            return solveWithProgress(values, maxSteps, generator);
-        } else {
-            return solve(values, maxSteps, generator);
-        }
+        return solve(values, maxSteps, a -> 1, withProgress);
     }
 
     public static Solution solveRLS(long[] values, long maxSteps, Solution sol) {
@@ -69,13 +71,7 @@ public class PartitionSolver {
     }
 
     public static Solution solveRLS_UniformRing(long[] values, long maxSteps, int neighbours, boolean withProgress) {
-        KGenerator generator = (a) -> randomInt(1, neighbours + 1);
-        if (withProgress) {
-            return solveWithProgress(values, maxSteps, generator);
-        } else {
-            return solve(values, maxSteps, generator);
-        }
-
+        return solve(values, maxSteps, (a) -> randomInt(1, neighbours + 1), withProgress);
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours) {
@@ -88,10 +84,7 @@ public class PartitionSolver {
             return solveRLS(values, maxSteps, withProgress);
         }
         UniformNeighbourGenerator generator = new UniformNeighbourGenerator(neighbours, values.length);
-        if (withProgress) {
-            return solveWithProgress(values, maxSteps, generator);
-        }
-        return solve(values, maxSteps, generator);
+        return solve(values, maxSteps, generator, withProgress);
     }
 
     public static Solution solveRLS_UniformNeighbour(long[] values, long maxSteps, int neighbours, Solution sol) {
@@ -130,7 +123,11 @@ public class PartitionSolver {
     }
 
     public static Solution solvePmut(long[] values, long maxSteps, double n) {
-        return solve(values, maxSteps, (a) -> powerlawK(1.0, a / 2.0, n));
+        return solvePmut(values, maxSteps, n, false);
+    }
+
+    public static Solution solvePmut(long[] values, long maxSteps, double n, boolean withProgress) {
+        return solve(values, maxSteps, a -> powerlawK(1.0, a / 2.0, n), withProgress);
     }
 
     public static Solution solveWithFirstK(long[] values, long maxSteps, int k) {

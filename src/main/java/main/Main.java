@@ -61,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 43;
+    public static final int DEFAULT_SELECTION = 11;
 
 
     public static void main(String[] args) {
@@ -313,10 +313,10 @@ public class Main {
     }
 
     private static void printSolutionOfOneInput() {
-        int length = 1000;
-        long stepLimit = 10L * 1000 * 1000 * 1000;
-        long[] temp = generateInput(ONEMAX_ONE, length);
-        PartitionSolver.solveRLS_UniformNeighbour(temp, stepLimit, 3, true).printResult();
+        int length = 10000;
+        long stepLimit = 10*nlogn(length);
+        long[] temp = generateInput(GEOMETRIC_DISTRIBUTED, length);
+        PartitionSolver.solvePmut(temp, stepLimit, 3, true).printResult();
     }
 
     private static void readAndSolveInput() {

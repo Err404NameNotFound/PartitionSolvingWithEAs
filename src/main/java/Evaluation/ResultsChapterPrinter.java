@@ -29,14 +29,14 @@ public class ResultsChapterPrinter {
             "\\section{Multiple distributions mixed \\& overlapped}",
     };
 
-    private static final String[] RESULTS_FILE_NAMES = new String[]{
-            "rls_compare.txt", "ea_compare.txt", "pmut_compare.txt", "best.txt"
+    private static final String[] CAPTIONS = new String[]{
+            "Number of runs where the algorithms did not find a perfect partition",
+            "Average runtime of runs returning a perfect partition",
+            "Average runtime of all runs"
     };
 
-
-    private static final String[] ADDITIONAL_TEX_FILES = new String[]{
-            "beforeAll", "beforeRLS", "afterRLS", "beforeEA", "afterEA",
-            "beforePmut", "afterPmut", "beforeBest", "afterBest"
+    private static final String[] RESULTS_FILE_NAMES = new String[]{
+            "rls_compare.txt", "ea_compare.txt", "pmut_compare.txt", "best.txt"
     };
 
     private static void printTable(String path, boolean longTable) {
@@ -55,7 +55,7 @@ public class ResultsChapterPrinter {
         println(content);
     }
 
-    private static String fixAlgoParams(String text){
+    private static String fixAlgoParams(String text) {
         text = text.replace("/n", "$/n$");
         text = text.replace("-1.", "1.");
         text = text.replace("-2.", "2.");
@@ -128,26 +128,35 @@ public class ResultsChapterPrinter {
     }
 
     private static String readAndConvertComparisonTable(String path) {
+        boolean withCaption = false;
         String text = readFileFromPath(path);
         String tableStart = "\\begin{tabular}[h]{" + "c".repeat(getTableLengthForCSVFile(text, ';')) + "}\n";
         String tableEnd = "\\\\\n\\end{tabular}\n";
+        if(withCaption){
+            tableStart = "\\begin{table}[h]\n\\caption{%s}\n"+tableStart;
+            tableEnd = tableEnd+"\\end{table}\n";
+        }
         text = text.trim();
         text = text.replace(";", "&");
         String firstLine = text.substring(0, text.indexOf('\n'));
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\\\\n\\\\\n", tableEnd + "\n" + tableStart);
         text = text.replace(firstLine + "\\\\", "input size" + firstLine + "\\\\\\hline");
-        text = text.replaceFirst("input size", "fails");
+        text = text.replaceFirst("input size", "fails in 1000 runs");
         text = text.replaceFirst("input size", "avg");
         text = text.replaceFirst("input size", "total avg");
-        text = text.replace("RLS-R (2)","\\RLSR[2]");
-        text = text.replace("RLS-R (3)","\\RLSR[3]");
-        text = text.replace("RLS-R (4)","\\RLSR[4]");
-        text = text.replace("RLS-N (2)","\\RLSR[2]");
-        text = text.replace("RLS-N (3)","\\RLSN[3]");
-        text = text.replace("RLS-N (4)","\\RLSN[4]");
+        text = text.replace("RLS-R (2)", "\\RLSR[2]");
+        text = text.replace("RLS-R (3)", "\\RLSR[3]");
+        text = text.replace("RLS-R (4)", "\\RLSR[4]");
+        text = text.replace("RLS-N (2)", "\\RLSR[2]");
+        text = text.replace("RLS-N (3)", "\\RLSN[3]");
+        text = text.replace("RLS-N (4)", "\\RLSN[4]");
         text = fixAlgoParams(text);
-        return tableStart + text + tableEnd;
+        text = tableStart + text + tableEnd;
+        if(withCaption){
+            text = String.format(text, CAPTIONS[0], CAPTIONS[1],CAPTIONS[2]);
+        }
+        return text;
     }
 
     public static void printAllTables() {
