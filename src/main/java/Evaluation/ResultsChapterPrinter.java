@@ -60,6 +60,14 @@ public class ResultsChapterPrinter {
         text = text.substring(text.indexOf("algo type"), text.indexOf("---------\nRLS     ->"));
         text = text.replaceFirst("fails(;\\s*\\d\\.?\\d*)+\\n", "");
         text = text.replaceFirst("avg fail dif(;\\s*\\-1)+\\n", "");
+        int totalAvgIndex = text.indexOf("total avg count;") + 16;
+        int indexAvg = text.indexOf("\n", totalAvgIndex);
+        String totalAvg = text.substring(totalAvgIndex, indexAvg).trim();
+        indexAvg += 16;
+        String avg = text.substring(indexAvg, text.indexOf("\n", indexAvg)).trim();
+        if (totalAvg.equals(avg)) {
+            text = text.replaceFirst("total avg count;\\s*" + totalAvg + "\\n", "");
+        }
         text = text.replace("---------\n", "\\hline");
         text = text.replace("-1;", " -;");
         String tempReplacement = "eofwpfjweofj";
