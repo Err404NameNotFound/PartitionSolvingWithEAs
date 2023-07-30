@@ -47,12 +47,15 @@ public class RNG {
     public static long geometricK(double p) {
         return geometricK(p, Long.MAX_VALUE);
     }
+
     public static long geometricK(double p, long maxValue) {
         long k = 0;
         while (randomDouble() >= p && k < maxValue) {
             ++k;
         }
         return k;
+//        long ret = (long) (Math.log(randomDouble()) / Math.log(1 - p)) + 1;
+//        return Math.min(ret, maxValue);
     }
 
     public static int binomialK(int n, double p) {
@@ -60,7 +63,7 @@ public class RNG {
         int x = 0;
         double sum = 0;
         while (true) {
-            sum += Math.log(Math.random()) / (n - x);
+            sum += Math.log(randomDouble()) / (n - x);
             if (sum < log_q || x >= n) {
                 return x;
             }

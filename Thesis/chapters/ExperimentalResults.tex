@@ -69,13 +69,13 @@ Another more efficient way was implemented by StackOverflow user \href{https://s
 This method has an expected running time of $\mathcal{O}(mp)$ which is equal to the expected value of the distribution.
 For the case of $p=1/m$ this runs in expected constant time in comparison to $\mathcal{O}(m)$ for the naive way.
 This number generation was also used for the implementation of the (1+1) EA instead of running a loop in every step.
+Algorithm~\ref{alg:binomialRNG} uses the second waiting time method which uses the fact that X\textasciitilde$B(m,p)$ if X is the smallest integer so that \(\sum_{i=1}^{X+1}{\frac{E_i}{n-i+1}}<-\log(1-p)\) for $E_i$ iid exponential random variables (Lemma 4.5 section X.4~\cite{devroye2006nonuniform}).
 
-\TODO{explain how and why this algorithm works}
 \begin{algorithm}[h]
       \caption{\textsc{Binomial random number generator}}\label{alg:binomialRNG}
 
       % Some settings
-      \DontPrintSemicolon %dontprintsemicolon
+      \DontPrintSemicolon%dontprintsemicolon
       \SetFuncSty{textsc}
       $q \leftarrow \ln(1.0 - p)$\;
       $x \leftarrow 0$\;
@@ -116,11 +116,17 @@ The last generator needed is for powerlaw distributed values.
 This generator is in contrast to the geometric number generator needed for both the algorithm with the $pmut_\beta$ mutation operator and for generating inputs.
 This implementation is also from stackoverflow. The user \href{https://stackoverflow.com/users/52738/gnovice}{gnovice} provided the following formula on \href{https://stackoverflow.com/questions/918736/random-number-generator-that-produces-a-power-law-distribution}{this} page on stackoverflow:
 \[
-      x = {[(b^{n+1} - q^{n+1})*y + a^{n+1}]}^{1/(n+1)}
+      x = {[(b^{n+1} - a^{n+1})*y + a^{n+1}]}^{1/(n+1)}
 \]
 $a$ is the lower bound, $b$ the upper bound, $n$ the parameter of the distribution and $y$ the number generated uniform random $\in \left[0, 1\right)$.
 The idea behind the formula and the formula itself is explained in a \href{https://mathworld.wolfram.com/RandomNumber.html}{mathworld} page.
-\TODO{give a brief explanation here}
+For a powerlaw distribution \(P(x)=Cx^n\) for \(x\in[a,b]\) normalisation gives 
+\[\int_{a}^{b}{P(x)dx}=C\frac{{[x^{n+1}]}^{b}_{a}}{n+1}=1\Leftrightarrow C = \frac{n+1}{b^{n+1}-a^{n+1}}\]
+Let Y be a uniformly random distributed variate on [0,1]. Then
+\[D(x)=\int_{a}^{x}{P(x')dx'}=C\int_{a}^{x}{{x'}^{n}dx'}=\frac{C}{n+1}(x^{n+1}-a^{n+1})=\frac{(x^{n+1}-a^{n+1})}{b^{n+1}-a^{n+1}}\equiv y\]
+and the variate is given by 
+\[X={[(b^{n+1} - a^{n+1})*y + a^{n+1}]}^{1/(n+1)}\]
+
 
 \section{Do inputs have perfect partitions?}
 \subsection{Binomial Inputs}
@@ -147,7 +153,7 @@ For figure~\ref{fig:firstBinPercentage} $m$ has the value 10.\newline
 Figure~\ref{fig:firstBinPercentage} is a bit overloaded with information and the zigzag makes it hard to gain any benefit from the graphs.
 That's why for $m \in \{10,100,1000\}$ there is one figure for the even input sizes of $n$ and one for the odd.
 Figures which show only results for either even or odd values of $n$ have dotted graphs, because the values in between the points do not exist.
-The dotted lines are only present for a better visualisation of the trend and not meant for interpretation outside the marked values.
+The dotted lines are only in the figure for a better visualisation of the trend and not meant for interpretation apart from the marked values.
 For $n\ge10,000$ all values for the odd input sizes are 0 \%, so there is no point in showing the data in a separate figure.
 
 It is easy to see that for small inputs sizes it is relevant if $n$ is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
@@ -160,7 +166,7 @@ Even for only 12 binomial generated values more than 50\% of the inputs had a pe
 Another visible effect is the decreasing percentage with rising $p$.
 This may be a direct result of the value chosen for $p$ but can also be an indirect result as the value for $p$ changes the expected value for a constant $m$.
 The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
-For uniform distributed inputs Borgs \emph{et. al.} showed that the coefficient of number of bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
+For uniform distributed inputs Borgs \etal~showed that the coefficient of number of bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
 For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0.
 This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input.
 This leads to the second experiment.

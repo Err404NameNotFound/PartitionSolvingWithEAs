@@ -86,8 +86,8 @@ public class ResultsChapterPrinter {
         text = text.replace(';', '&');
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\hline", "\\hline\n");
-        text = text.replace("RLS-R", "\\RLSR");
-        text = text.replace("RLS-N", "\\RLSN");
+        text = text.replace("RLS-R", "\\RLSR[s]");
+        text = text.replace("RLS-N", "\\RLSN[b]");
         text = text.replace("r=", "s=");
         text = text.replace("n=", "b=");
         text = fixAlgoParams(text);

@@ -14,42 +14,42 @@ Reallocated str_pool (elt_size=1) to 130000 items from 65000.
 Reallocated str_pool (elt_size=1) to 195000 items from 130000.
 You've used 7 entries,
             2543 wiz_defined-function locations,
-            8507 strings with 138341 characters,
-and the built_in function-call counts, 2810 in all, are:
-= -- 282
+            8506 strings with 138300 characters,
+and the built_in function-call counts, 2981 in all, are:
+= -- 308
 > -- 119
 < -- 6
 + -- 41
 - -- 41
-* -- 204
-:= -- 465
-add.period$ -- 21
+* -- 212
+:= -- 481
+add.period$ -- 22
 call.type$ -- 7
-change.case$ -- 42
+change.case$ -- 43
 chr.to.int$ -- 7
 cite$ -- 7
-duplicate$ -- 114
-empty$ -- 206
+duplicate$ -- 123
+empty$ -- 222
 format.name$ -- 52
-if$ -- 565
+if$ -- 613
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 8
+missing$ -- 7
 newline$ -- 38
 num.names$ -- 21
 pop$ -- 38
 preamble$ -- 1
 purify$ -- 50
 quote$ -- 0
-skip$ -- 93
+skip$ -- 101
 stack$ -- 0
-substring$ -- 172
-swap$ -- 18
+substring$ -- 196
+swap$ -- 25
 text.length$ -- 6
 text.prefix$ -- 4
 top$ -- 0
-type$ -- 52
+type$ -- 56
 warning$ -- 0
-while$ -- 28
+while$ -- 31
 width$ -- 9
-write$ -- 92
+write$ -- 93

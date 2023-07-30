@@ -10,11 +10,6 @@ Luc Devroye.
 \newblock Nonuniform random variate generation.
 \newblock {\em Handbooks in operations research and management science}, 13:83--121, 2006.
 
-\bibitem[Die05]{diekert2005stacs}
-Volker Diekert.
-\newblock {\em STACS 2005: 22nd Annual Symposium on Theoretical Aspects of Computer Science, Stuttgart, Germany, February 24-26, 2004, Proceedings}, volume 3404.
-\newblock Springer Science \& Business Media, 2005.
-
 \bibitem[DLMN17]{doerr2017fast}
 Benjamin Doerr, Huu~Phuoc Le, R{\'e}gis Makhmara, and Ta~Duy Nguyen.
 \newblock Fast genetic algorithms.
@@ -24,6 +19,11 @@ Benjamin Doerr, Huu~Phuoc Le, R{\'e}gis Makhmara, and Ta~Duy Nguyen.
 Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
 \newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.
 \newblock {\em arXiv preprint arXiv:1805.10902}, 2018.
+
+\bibitem[Wit05]{witt2005worst}
+Carsten Witt.
+\newblock Worst-case and average-case approximations by simple randomized search heuristics.
+\newblock In {\em Annual Symposium on Theoretical Aspects of Computer Science}, pages 44--56. Springer, 2005.
 
 \bibitem[Wit13]{witt2013tight}
 Carsten Witt.

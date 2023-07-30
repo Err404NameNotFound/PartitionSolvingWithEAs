@@ -11,17 +11,37 @@
     A single bit flip of the first bit can only happen, if the emptier bin has a weight of at most $\frac {W-w_1}{2}$.
     After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before a different bit is flipped.
     % After a different bit has been flipped, the RLS wont flip the first bit again, because it will never result in an improvement.
-    The run of the RSHs can be divided into two phases:
+    The run of the RLS can be divided into two phases:
     \begin{itemize}
-        \item[Phase 1:] The RSH reaches a search point with $b_E \ge \frac {W-w_1}{2}$.
-        \item[Phase 2:] The RSH reaches an optimal solution $\Rightarrow w_1$ is in one bin and all other elements are in the other bin.
+        \item[Phase 1:] The RLS reaches a search point with $b_E > \frac {W-w_1}{2}$.
+        \item[Phase 2:] The RLS reaches an optimal solution $\Rightarrow w_1$ is in one bin and all other elements are in the other bin.
     \end{itemize}
 
-    The expected length of the first phase is at most $en$ for the (1+1) EA and $n$ for the RLS because the probability of flipping the first bit is at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\frac{1}{en}^{-1} = en$ for the (1+1) EA and $\frac{1}{n}^{-1}=n$ for the RLS.\newline
+    The expected length of the first phase is at most 
+    % $en$ for the (1+1) EA 
+    and $2n$ because the probability of flipping the first bit is $\frac{1}{n}$ and the expected time for such a step then is at most $n$.
+    After such a step $b_E \ge \frac {W-w_1}{2}$ holds.
+    If the solution is already optimal $b_E = W-w_1>\frac {W-w_1}{2}$, otherwise there is at least one bit that can be flipped.
+    This bit will be flipped in expected time at most $n$ for the same reason as for $w_1$.
+    The total length of first phase is at most $2n$.
+    % at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\frac{1}{en}^{-1} = en$ for the (1+1) EA and. \newline
     In the second phase the RLS can no longer flip $w_1$ as it does not result in an improvement ever again.
-    Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).
-    The (1+1) EA has to minimise a linear function of $n-1$ bits which also takes $\Theta(n\log{}n)$ time as well (Corollary 4.2 in~\cite{witt2013tight}).
-    Flipping the first bit results in the optimal solution being inverted which could decrease the progress of minimising the linear function.
+    Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).\newline
+    The (1+1) EA has to minimise a linear function of $n-1$ bits which takes $\Theta(n\log{}n)$ time as well (Corollary 4.2 in~\cite{witt2013tight}).
+    The only steps that could hinder the algorithm from optimising the linear function in $\Theta(n\log{}n)$ would be a flip of the first bit.
+    Such steps result in the optimal solution being inverted which could decrease the progress of minimising the linear function.
+    If such a step has an expected time of $\omega(n\log{}n)$ the linear function is optimised in expectation before such a step happens.
+    The probability of the (1+1) EA to flip more than $1+\sqrt{6\ln(n)}$ is limited by Chernoff bounds:
+    \begin{gather}
+        \nonumber \probP(\text{(1+1) EA flips more than }1+\sqrt{6\ln(n)}\text{ bits})\\ \nonumber
+        \le\probP(X\ge (1+\sqrt{6\ln(n)})\cdot 1)
+        \le e^{-1\cdot{\sqrt{6\ln(n)}}^2/3}
+        = e^{-6\ln(n)/3}
+        = n^{-2}
+    \end{gather}
+    So the expected time for such a step is at least \(n^2=\omega(n\ln(n))\).
+    Now let's look at steps that flip at most $1+\sqrt{6\ln(n)}$ bits in a single step.
+    Such a step only successfully flips $w_1$ if both $w_1$ is flipped and enough total volume is shifted from $b_E$ to $b_F$.
     Due to Lemma~\ref{lemma:CWittRefined} with $\delta=\frac{1}{n}$ (for $n>1$) the solution is at most $w_1+\delta(W-w_1)$ after expected time
     \[
         2\lceil en\ln(2/\delta)\rceil
@@ -36,12 +56,37 @@
         2\cdot((1-\frac{1}{n})(W-w_1)-\frac{W-w_1}{2})
         =(W-w_1)(2-\frac{2}{n}-1)
         =(1-\frac{2}{n})(W-w_1)
-        =\frac{n-1}{n-2}b_E
+        % =\frac{n-1}{n-2}b_E
     \]
-    
-    \TODO{why can't the first bit be flipped any more? Or why does it not matter?}
-
-    So the total expected time is $\mathcal{O}(n) + \Theta(n\log{}n) = \Theta(n\log{}n)$
+    In order to successfully flip the first bit while flipping $y\ge2$ bits there must be at least one bit with weight at least $(1-\frac{2}{n})(W-w_1)/(y-1)$, because otherwise the total shifted volume is not enough.
+    There are at most that many bits large enough:
+    \[
+        \frac{W-w_1}{(1-\frac{2}{n})(W-w_1)/(y-1)}
+        =\frac{y-1}{1-\frac{2}{n}}
+        \le \frac{\sqrt{6\ln(n)}}{1-\frac{2}{n}}
+    \]
+    The probability of such a step to happen is given by:
+    \begin{gather}
+        \nonumber \probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})\\ \nonumber 
+        \le 1 \cdot \frac{\binom{1}{1}\cdot\binom{y}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
+        =\frac{y\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
+        =\frac{y\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}\\ \nonumber
+        =\frac{y^2(y-1)}{n(n-1)}
+        \le \frac{{(1+\sqrt{6\ln(n)})}^{3}}{n(n-1)}
+    \end{gather}
+    The probability of one of these steps to happen for any value of $y$ is given by
+    \begin{gather}
+        \nonumber \sum_{y=2}^{1+\sqrt{6\ln(n)}}{\probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})}\\
+        \nonumber \le (1+\sqrt{6\ln(n)}) \cdot \frac{{(1+\sqrt{6\ln(n)})}^{3}}{n(n-1)}
+        = \frac{{(1+\sqrt{6\ln(n)})}^{4}}{n(n-1)}\\ \nonumber
+        = \frac{o({({n}^{1/40})}^{4})}{n(n-1)}
+        = \frac{o(n^{0.1})}{\mathcal{O}(n^{-2})}
+        = \mathcal{O}(n^{-1.9})
+    \end{gather}
+    The expected time fur such a step is then $\Omega(n^{1.9})=\omega(n\ln(n))$.
+    So in conclusion a step moving the first bit after expected time $2en\ln(n)+4$ has passed is either unlikely due to the amount of bits shifted or due to the small amount of values needed to be flipped for such a step.
+    The expected time for such a step is in $\omega(n\ln(n))$ and will therefore not happen in expectation before the linear function is optimised.
+    The total runtime for the (1+1) EA is $(2en\ln(n)+4) + \Theta(n\log{}n) = \Theta(n\log{}n)$.
 \end{proof}
 
 \begin{lemma}\label{approximationLemmaHelp1}
@@ -112,7 +157,7 @@
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ in expected time $\mathcal{O}(n\log{}n)$ if $w_1 < W/2$
 \end{lemma}
 \begin{proof}
-    If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (3. Average case analysis, Theorem 1 in~\cite{diekert2005stacs}).
+    If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (3. Average case analysis, Theorem 1 in~\cite{witt2005worst}).
     From then on the following holds.
     If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{approximationCorollaryHelp2}.
     Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}.
