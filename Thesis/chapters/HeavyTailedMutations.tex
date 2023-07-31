@@ -106,12 +106,12 @@ Distributions like this are called heavy tailed mutations because their tail is 
 
 \section{Runtime Analysis of higher mutation rates}
 
-The first analysed input is again the input with $w_1\ge W$.
+The first analysed input is again the input with $w_1\ge W/2$.
 This input is very close to a weighted OneMax and therefore more or less the OneMax equivalent for Partition.
 The first analysed algorithm will be the RLS variants.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
-      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
+      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
 \end{corollary}
 \begin{proof}
       % For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
@@ -133,8 +133,8 @@ The first analysed algorithm will be the RLS variants.
       %       \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2}
       %       \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
       %       \]
-      Using Lemma~\ref{lemma:W1FlipWontHappen2} and the upper bound of $y\le k$ leads to the first part
-      \[ \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2} \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}\]
+      Using Lemma~\ref{lemma:W1FlipWontHappen} and the upper bound of $y\le k$ leads to the first part
+      \[ {(\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2y{(y-1)}^2} \ge\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\]
       $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
 \end{proof}
 
@@ -150,26 +150,27 @@ The first analysed algorithm will be the RLS variants.
       Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
       After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
       This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
-      With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows.\newline
+      With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows.
+      So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
       The \RLSR[2] chooses to flip only one bit with probability $1/2$.
       In these steps it behaves exactly the same as the standard RLS.\
       For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
       Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
       \[
-            E(T_{Phase 2})
+            E(T_{Phase~2})
             \le \sum_{i=1}^{n}{\frac{kn}{i}}
             = kn\cdot\sum_{i=1}^{n}{i}
             % = knH(n) 
             \le kn(\ln(n)+1)
             = kn\ln(n)+kn
-            = \mathcal{O}(n\ln(n))
+            = \mathcal{O}(n\ln n)
       \]
-      So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln(n))$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
+      So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
       The algorithm therefore reaches an optimal solution in expected time
-      \[E(T_{Phase 1}) + E(T_{Phase 2})
+      \[E(T_{Phase~1}) + E(T_{Phase~2})
             \le 4kn + kn\ln(n)+kn
             = kn\ln(n)+5kn
-            = \mathcal{O}(n\ln(n))\]
+            = \mathcal{O}(n\ln n)\]
 \end{proof}
 
 % \begin{lemma}

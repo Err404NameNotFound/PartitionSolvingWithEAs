@@ -92,7 +92,7 @@ The small values in this case are chosen from \textasciitilde$U(1,49999)$ and th
 This input is harder because switching multiple small values for a big value increases the fitness but increases the Hamming distance to the optimum.
 
 \begin{figure}[h]
-      \caption{Runtime for OneMax equivalent with uniform distribution on a $n\ln(n)$ scale}
+      \caption{Runtime for OneMax equivalent with uniform distribution on a $n\ln n$ scale}
       \centering
       \includegraphics[width=0.7\textwidth]{figures/images/oneMaxUniformMultipleN.png}\label{fig:onemaxUniformNlogNBound}
 \end{figure}
@@ -101,3 +101,18 @@ Looking at figure~\ref{fig:onemaxUniformNlogNBound} the uniform distributed vari
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements and there behaves exactly the same.
 But even the other algorithms that are able to switch seem to not do it very often as the runtime is almost the same.
+
+
+
+\begin{figure}[h]
+      \caption{Runtime for OneMax equivalent with uniform distribution on a $n\ln n$ scale for the \RLSR~variants}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/oneMaxUniformMultipleN_RLSRCompare.png}\label{fig:onemaxniformNlogNBoundRLSR}
+\end{figure}
+
+
+\begin{figure}[h]
+      \caption{Runtime for OneMax equivalent with uniform distribution on a $n^y$ scale for the \RLSN~variants}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/oneMaxUniformMultipleN_RLSBCompare.png}\label{fig:onemaxniformNlogNBoundRLSB}
+\end{figure}

@@ -1041,6 +1041,16 @@ INPUT ./figures/images/oneMaxUniformMultipleN.png
 INPUT figures/images/oneMaxUniformMultipleN.png
 INPUT ./figures/images/oneMaxUniformMultipleN.png
 INPUT ./figures/images/oneMaxUniformMultipleN.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSRCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSRCompare.png
+INPUT figures/images/oneMaxUniformMultipleN_RLSRCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSRCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSRCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
+INPUT figures/images/oneMaxUniformMultipleN_RLSBCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
 INPUT ./expRes/twoThirds.tex
 INPUT expRes/twoThirds.tex
 INPUT ./expRes/twoThirds.tex
