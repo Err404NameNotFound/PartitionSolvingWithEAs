@@ -29,6 +29,8 @@ import static help.Printer.stopWritingToFile;
 
 public class Evaluation {
 
+    private static final boolean PRINT_DATA = true;
+
     private long[] avg, totalAverage, avgFailDif;
     private long[] failed, failDifSum;
     private long[] mut, mutSuccess, mutTried;
@@ -173,12 +175,16 @@ public class Evaluation {
         this.generator = generator;
         runCancellableTask(() ->
         {
+            String file = fileName == null || fileName.equals("") ? Printer.getNowAsString() : fileName;
             ProgressPrinter p = new ProgressPrinter(1);
             String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
             setPrintToConsole(false);
+            if(PRINT_DATA){
+                startFilePrinting(folder + file + "_dataOfAllRuns.csv");
+            }
             int temp = calculate(n, inputLengths, stepSizes, !isPrintToConsole());
+            stopWritingToFile();
             setPrintToConsole(true);
-            String file = fileName == null || fileName.equals("") ? Printer.getNowAsString() : fileName;
             println("***************************");
             startFilePrinting(folder + file + ".txt");
             println(p.getElapsedTime());
@@ -226,6 +232,11 @@ public class Evaluation {
     private int calculate(int n, int[] lengths, long[] maxSteps, boolean printProgress) {
         long[] input;
         ProgressPrinter progress = new ProgressPrinter(n);
+        if (PRINT_DATA) {
+            ArrayPrinter.printArray(i -> solvers[i].shortName, solvers.length);
+            ArrayPrinter.printArray(lengths);
+            ArrayPrinter.printArray(maxSteps);
+        }
         int t;
         for (t = 0; t < n; ++t) {
             if (Thread.interrupted()) {
