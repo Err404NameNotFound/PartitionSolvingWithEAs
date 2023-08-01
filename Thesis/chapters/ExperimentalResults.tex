@@ -120,11 +120,11 @@ This implementation is also from stackoverflow. The user \href{https://stackover
 \]
 $a$ is the lower bound, $b$ the upper bound, $n$ the parameter of the distribution and $y$ the number generated uniform random $\in \left[0, 1\right)$.
 The idea behind the formula and the formula itself is explained in a \href{https://mathworld.wolfram.com/RandomNumber.html}{mathworld} page.
-For a powerlaw distribution \(P(x)=Cx^n\) for \(x\in[a,b]\) normalisation gives 
+For a powerlaw distribution \(P(x)=Cx^n\) for \(x\in[a,b]\) normalisation gives
 \[\int_{a}^{b}{P(x)dx}=C\frac{{[x^{n+1}]}^{b}_{a}}{n+1}=1\Leftrightarrow C = \frac{n+1}{b^{n+1}-a^{n+1}}\]
 Let Y be a uniformly random distributed variate on [0,1]. Then
 \[D(x)=\int_{a}^{x}{P(x')dx'}=C\int_{a}^{x}{{x'}^{n}dx'}=\frac{C}{n+1}(x^{n+1}-a^{n+1})=\frac{(x^{n+1}-a^{n+1})}{b^{n+1}-a^{n+1}}\equiv y\]
-and the variate is given by 
+and the variate is given by
 \[X={[(b^{n+1} - a^{n+1})*y + a^{n+1}]}^{1/(n+1)}\]
 
 
@@ -343,8 +343,60 @@ The number of iterations might be high in terms of the big-O notation but should
 \input{expRes/powerlaw.tex}
 \input{expRes/onemax.tex}
 \input{expRes/twoThirds.tex}
-\input{expRes/mixed.tex}
-\input{expRes/overlapped.tex}
+% \input{expRes/mixed.tex}
+% \input{expRes/overlapped.tex}
 \input{expRes/mixedAndOverlapped.tex}
 
 \section{Conclusion of empirical results}
+There is no clear best algorithm for every input for PARTITION and not even a best parameter for every algorithm.
+For inputs that are comparable to a linear function/OneMax for all base algorithms the lowest parameters have the lowest runtime.
+Other instance like the worst case input of C. Witt on the other hand require much higher mutation rates for the optimal performance.
+Inputs generated from a powerlaw distribution showed that the optimal parameter for every algorithm is not even fixed with a specific distribution.
+For inputs drawn from \textasciitilde$D^{2.75}_{50000}$ the higher mutation rates reached an optimum faster than the lower mutation rate for ever algorithm variant.
+If the input was drawn from \textasciitilde$D^{1.25}_{50000}$ then the fastest mutation rates for the (1+1) EA on \textasciitilde$D^{2.75}_{50000}$ distributed inputs then instead become the slowest.
+So almost no general advice is possible, but a few points still hold for every input type.
+The first one is the RLS being most likely to be stuck in a local optimum especially for the smaller input size.
+Even if a variant of the RLS is the fastet for the bigger input sizes it is most likely to be stuck in a local optimum for $n\le100$ for most input type.
+So if the input size $n\le100$ choosing the (1+1) EA or $pmut$ mutation operator is a better choice.
+Another noticeable relation is that inputs that require higher mutation rates are general more easy to solve and are also solved very fast by the lower mutation rates.
+The lower mutation rates are therefore generally a better choice as they are sometimes the faster and are still rather fast if they are not.
+Only if the algorithm is trapped due to its low mutation rate a higher mutation rate makes a huge difference.
+
+Table~\ref{table:BestAlgoVariantsTable} recaps the results of the previous subsections.
+For each input and each algorithm the best three variants are listed in this table ordered by their average runtime. 
+\begin{table}[h]
+      \caption{Best algorithms variants for all researched inputs}
+      \begin{tabular}{c|ccc|ccc|ccc}\label{table:BestAlgoVariantsTable}
+                                                        &
+            \multicolumn{3}{c|}{RLS variants}      &
+            \multicolumn{3}{c|}{(1+1) EA variants} &
+            \multicolumn{3}{c}{$pmut$ variants}                                                                                      \\
+                                                        & 1st      & 2nd      & 3rd      & 1st     & 2nd    & 3rd    & 1st  & 2nd  & 3rd  \\\hline
+            binomial                                    & \RLSN[2] & \RLSN[4] & \RLSR[2] & 3$/n$   & 4$/n$  & 2$/n$  & 2.25 & 2.0  & 1.75 \\
+            geometric                                   & \RLSR[2] & \RLSR[3] & \RLSR[4] & 2$/n$   & 1$/n$  & 3$/n$  & 3.25 & 3.0  & 2.5  \\
+            polwerlaw                                   & \RLSR[4] & \RLSR[3] & \RLSN[3] & 4$/n$   & 3$/n$  & 2$/n$  & 1.5  & 1.75 & 2.0  \\
+            uniform                                     & \RLSN[2] & \RLSR[3] & \RLSR[4] & 3$/n$   & 2$/n$  & 4$/n$  & 2.5  & 2.0  & 2.25 \\
+            linear function                             & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.5  & 3.25 & 3.0  \\
+            worst case                                  & \RLSN[4] & \RLSN[3] & \RLSN[2] & 100$/n$ & 50$/n$ & 10$/n$ & 1.25 & 1.5  & 1.75 \\
+            combined                                    & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.25 & 3.0  & 2.75 \\
+      \end{tabular}
+\end{table}
+
+Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the previous results depending on the distribution and size of the input.
+
+\begin{table}[h]
+      \caption{Suggestions for the fastest algorithm on each input depending on the input size}
+      \begin{tabular}{c|c|c|c|c}\label{table:BestAlgoVariantTable}
+                            & $n\le100$                               & $100<n<500$                        & $500\le n<10,000$ & $10,000\le n$ \\
+            \hline
+            binomial        & \multicolumn{2}{c|}{(1+1) EA $_{3/n}$} & \multicolumn{2}{c}{\RLSN[2]}                                           \\
+            geometric       & \multicolumn{2}{c|}{(1+1) EA $_{2/n}$} & \multicolumn{2}{c}{$pmut_{3.25}$}                                      \\
+            uniform         & \multicolumn{2}{c|}{(1+1) EA $_{4/n}$} & \multicolumn{2}{c}{\RLSN[2]}                                           \\
+            \hline
+            powerlaw        & \multicolumn{4}{c}{$pmut_{1.75}$}                                                                                \\
+            linear function & \multicolumn{4}{c}{RLS}                                                                                          \\
+            worst case      & \multicolumn{4}{c}{$pmut_{1.25}$}                                                                                \\
+            \hline
+            combined        & (1+1) EA $_{2/n}$                      & \multicolumn{2}{c|}{$pmut_{1.25}$} & RLS                               \\
+      \end{tabular}
+\end{table}

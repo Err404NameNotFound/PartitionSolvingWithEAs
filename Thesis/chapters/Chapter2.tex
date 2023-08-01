@@ -3,67 +3,88 @@
 \section{Improving bounds on the RLS and the (1+1) EA}
 
 \begin{lemma}\label{lemma:CWittRefined}
-    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil en\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil en\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
+    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA with mutation rate $c/n$ (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
 \end{lemma}
 \begin{proof}
-    This Lemma is almost the exact same as C. Witt's  Lemma 2 from section `2. Definitions and Proof Methods' in~\cite{witt2005worst}.
+    This Lemma is very similar to C. Witt's  Lemma 2 from section `2. Definitions and Proof Methods' in~\cite{witt2005worst}.
     The proof is almost the same.
-    Instead of choosing $W/2$ as the general upper bound for $p_0$ here the lower value $W-w_1\le W/2$ is chosen.
-    This upper bound is only valid and more tight for the special case $w_1\ge W/2$ with $l=w_1$ and $w_r/2\ge0$ which results into \(p_0\le p(x)=\max\{W-l-w_r/2,0\}=\max\{W-w_1,0\}=W-w_1\).
-    For the \RLSR[k] setting $t'=kn\ln(\gamma/\delta)$ suffices to show the result in the exact same way.
+    He first defines a potential function $p(x)=f(x)-l$.
+    While $p(x)>0$ all steps moving only a small object to the emptier bin are accepted.
+    The expected p-decrease is at least $p_0\cdot q$ where $q$ is a lower bound on the probability of the algorithm to flip one specific bit.
+    This leads to a next $p$ value of $(1-q)p_0$.
+    Since all steps of both algorithms are independent this argumentation remains valid even if the $p$ value is only an expected value.
+    With $q=1/yn$ for a constant $y>0$ the expected $p$ value after $t=yn\ln(\gamma/\delta)$ steps is at most
+    \[p_t\le p_0{(1-1/yn)}^t=p_0{(1-1/yn)}^{yn\ln(\gamma/\delta)}\le p_0\cdot e^{-\frac{1}{y}\cdot yn\ln(\gamma/\delta)}=p_0{(\gamma/\delta)}^{-1} = p_0(\delta/\gamma)\]
+    Applying Markov's inequality to the non-negative $p$ value implies $p_t\le p_0\delta$ with probability $1-1/\gamma$.
+    Repeating independent phases of length $\lceil yn\ln(2/\delta)\rceil$ the expected number of phases is at most 2.
+    Up until here the proof is the same.\newline
+    Instead of choosing $W/2$ as the general upper bound for $p_0$ as in the original lemma here the lower value $W-w_1\le W/2$ is chosen because it is more tight for the special case $w_1\ge W/2$ with $l=w_1$.
+    The probability of the \RLSR[k] to flip one specific bit is \(\frac{1}{k}\cdot\frac{1}{n}\) and for (1+1) EA with mutation rate $c/n$ at least
+    \[
+        \frac{c}{n}{(1-\frac{c}{n})}^{n-1}
+        \ge \frac{c}{n}{(1-\frac{c}{n})}^{n}
+        \ge \frac{c}{n}e^{-c}(1-\frac{c^2}{n})
+        = \frac{c}{e^c n}(1-o(1))
+        % =\frac{c}{n}\cdot\frac{1}{1-\frac{c}{n}}{(1-\frac{c}{n})}^{n}
+        % \ge\frac{c}{e^c n}\cdot(1+\frac{\frac{c}{n}}{1-\frac{c}{n}})
+        % =\frac{c}{e^c n}\cdot(1+\frac{1}{\frac{n}{c}-1})
+        % =\frac{c}{e^c n}\cdot(1+o(1))
+    \]
+    Setting $y=\frac{e^c n}{c\cdot(1-o(1))}$ for the (1+1) EA and $y=k$ for the \RLSR~concludes the result.
 \end{proof}
 
 \begin{lemma}\label{lemma:W1FlipWontHappen}
-    The probability of flipping $w_1$ with $b_E = c\cdot\frac{W-w_1}{2}$ for $1<c<2$ in a step where the algorithm flips $y\le n/2$ bits is at most \(\frac{2y{(y-1)}^2}{n(n-1)(c-1)}\).
+    The probability of flipping $w_1>W/2$ with $b_E = c\cdot\frac{W-w_1}{2}$ for $1<c<2$ in a step where any algorithm flips $2\le y\le n/2$ bits is at most \(\frac{2y{(y-1)}^2}{n(n-1)(c-1)}\).
 \end{lemma}
 \begin{proof}
-    For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
-    Otherwise the step is rejected.
-    If the algorithm moves $2\le y\le k$ elements in this step there are $y-1$ bits left to shift the volume from $b_E$ to $b_F$.
-    The object with the highest shifted volume must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$ because otherwise there is not enough total volume shifted from $b_E$ to $b_F$.
+    For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of at least $z\ge2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
+    Otherwise the step is rejected because
+    \[b_F'=b_E+w_1-z>b_E+w_1-2\cdot(b_E-\frac{W-w_1}{2})=b_E+w_1-2b_E+W-w_1=W-b_E=b_F\]
+    which results in an increase of the fitness ($b_F = f(x), b_F' = f(x')$).
+    Let $I$ be the set of indices of all elements moved from $b_E$ to $b_F$ and $w_{\max}=\max{\{w_i|i\in I\}}$.
+    $|I|\le y-1$ holds because at least $w_1$ is moved from $b_F$ to $b_E$.
+    The sum of all element is at most $w_{\max} \cdot |I| \le (y-1)w_{\max}$.
+    If \(w_{\max}<2\cdot(b_E-\frac{W-w_1}{2})/(y-1)\) then \((y-1)w_{\max}<2\cdot(b_E-\frac{W-w_1}{2})\) and the step is rejected.
+    Thus at least one of the objects moved from $b_E$ to $b_F$ must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$.
     At most \(d\le\frac{W-w_1}{2(c\frac{W-w_1}{2}-\frac{W-w_1}{2})/(y-1)}=\frac{(W-w_1)(y-1)}{(W-w_1)(c-1)}=\frac{y-1}{c-1}\) objects have at least the given volume.
-    For a successful flip $w_1$ and at least one out of these $d$ objects must be switched to the other bin and the probability for such a step flipping $y$ bits is therefore at most
+    For a successful flip $w_1$ and at least one of these $d$ objects must be switched to the other bin and the probability for such a step flipping $y$ bits is therefore at most
     \begin{gather}
         \nonumber \probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})\\ \nonumber
         \le 1\cdot \frac{\binom{1}{1}\cdot\binom{\lceil d\rceil}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
         =\frac{\lceil d\rceil\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
-        =\frac{\lceil d\rceil\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}\\ \nonumber
-        %   =\frac{\lceil d\rceil y(y-1)}{n(n-1)}
-        \le \frac{y{(y-1)}^2}{n(n-1)}\cdot\lceil\frac{y-1}{c-1}\rceil
-        \le \frac{y{(y-1)}^2}{n(n-1)}\cdot(\frac{y-1}{c-1}+1)
+        =\frac{\lceil d\rceil\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}
+        = \frac{\lceil d\rceil y{(y-1)}}{n(n-1)}\\ \nonumber
+        \le \frac{y{(y-1)}}{n(n-1)}\cdot(\frac{y-1}{c-1}+1)
+        = \frac{y{(y-1)}}{n(n-1)}\cdot(\frac{y-1+c-1}{c-1})
         \le \frac{2y{(y-1)}^2}{n(n-1)(c-1)}
     \end{gather}
 \end{proof}
 
 \begin{theorem}\label{theo:OneMaxResult}
-    If $w_1 \ge \frac W 2$  then the RLS and the (1+1) EA reach the optimal solution in expected time $\Theta(n\log{}n)$
+    If $w_1 \ge \frac W 2$  then the RLS and the (1+1) EA with mutation rate $k/n$ reach the optimal solution in expected time $\Theta(n\log{}n)$
 \end{theorem}
 \begin{proof}
     The optimal solution is putting $w_1$ in one bin and all other elements in the other bin.
     So the problem is almost identical to OneMax/ZeroMax.
     A single bit flip of the first bit can only happen, if the emptier bin has a weight of at most $\frac {W-w_1}{2}$.
-    After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before a different bit is flipped.
-    % After a different bit has been flipped, the RLS wont flip the first bit again, because it will never result in an improvement.
+    After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can onl
     The run of the RLS can be divided into two phases:
     \begin{itemize}
         \item[Phase 1:] The RLS reaches a search point with $b_E > \frac {W-w_1}{2}$.
         \item[Phase 2:] The RLS reaches an optimal solution $\Rightarrow w_1$ is in one bin and all other elements are in the other bin.
     \end{itemize}
 
-    The expected length of the first phase is at most
-    % $en$ for the (1+1) EA 
-    and $2n$ because the probability of flipping the first bit is $\frac{1}{n}$ and the expected time for such a step then is at most $n$.
+    The expected length of the first phase is at most $2n$ because the probability of flipping the first bit is $\frac{1}{n}$ and the expected time for such a step then is at most $n$.
     After such a step $b_E \ge \frac {W-w_1}{2}$ holds.
     If the solution is already optimal $b_E = W-w_1>\frac {W-w_1}{2}$, otherwise there is at least one bit that can be flipped.
     This bit will be flipped in expected time at most $n$ for the same reason as for $w_1$.
     The total length of first phase is at most $2n$.
-    % at least ${\frac{1}{n}} \cdot {(1 - \frac{1}{n})}^{n-1} \ge \frac{1}{en}$ and therefore the expected time for such a step is at most $\frac{1}{en}^{-1} = en$ for the (1+1) EA and. \newline
     In the second phase the RLS can no longer flip $w_1$ as it does not result in an improvement ever again.
     Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).\newline
-    The (1+1) EA has to minimise a linear function of $n-1$ bits which takes $(1+o(1))n\ln n$ time (Corollary 4.2 in~\cite{witt2013tight}).
+    The (1+1) EA has to minimize a linear function of $n-1$ bits which takes $(1+o(1))\frac{e^k}{k}n\ln n$ time (Corollary 4.2 in~\cite{witt2013tight}).
     The only steps that could hinder the algorithm from optimising the linear function in $\Theta(n\log{}n)$ would be a flip of the first bit.
     Such steps invert the optimal solution which could decrease the progress of minimising the linear function.
-    If such a step has an expected time of $\omega(n\log{}n)$ the linear function is optimised in expectation before such a step happens.
+    If such a step has an expected time of $\omega(n\log{}n)$ the linear function is likely to be optimised in expectation before such a step happens.
     The probability of the (1+1) EA to flip more than $1+\sqrt{6\ln(n)}$ is limited by Chernoff bounds:
     \begin{gather}
         \nonumber \probP(\text{(1+1) EA flips more than }1+\sqrt{6\ln(n)}\text{ bits})\\ \nonumber
@@ -84,31 +105,8 @@
         \le 2en\ln(n)+4
     \]
     The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
-    % For a successful flip of $w_1$ the algorithm must move $2\cdot(b_E-\frac{W-w_1}{2})$ from $b_E$ to $b_F$ which evaluates to
-    % \[
-    %     2\cdot((1-\frac{1}{n})(W-w_1)-\frac{W-w_1}{2})
-    %     =(W-w_1)(2-\frac{2}{n}-1)
-    %     =(1-\frac{2}{n})(W-w_1)
-    %     % =\frac{n-1}{n-2}b_E
-    % \]
-    % In order to successfully flip the first bit while flipping $y\ge2$ bits there must be at least one bit with weight at least $(1-\frac{2}{n})(W-w_1)/(y-1)$, because otherwise the total shifted volume is not enough.
-    % There are at most that many bits large enough:
-    % \[
-    %     \frac{W-w_1}{(1-\frac{2}{n})(W-w_1)/(y-1)}
-    %     =\frac{y-1}{1-\frac{2}{n}}
-    %     \le \frac{\sqrt{6\ln(n)}}{1-\frac{2}{n}}
-    % \]
-    % The probability of such a step to happen is given by:
-    % \begin{gather}
-    %     \nonumber \probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})\\ \nonumber 
-    %     \le 1 \cdot \frac{\binom{1}{1}\cdot\binom{y}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
-    %     =\frac{y\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
-    %     =\frac{y\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}\\ \nonumber
-    %     =\frac{y^2(y-1)}{n(n-1)}
-    %     \le \frac{{(1+\sqrt{6\ln(n)})}^{3}}{n(n-1)}
-    % \end{gather}
     Lemma~\ref{lemma:W1FlipWontHappen} states that the probability of a step flipping with $w_1$ together with $y-1$ other bits is at most $\frac{2y{(y-1)}^2}{n(n-1)(c-1)}$.
-    Applying the bound $y\le1+\sqrt{6\ln(n)}$ and the value $c=2(1-\frac{1}{n})$ this simplifies to 
+    Applying the bound $y\le1+\sqrt{6\ln(n)}$ and the value $c=2(1-\frac{1}{n})$ this simplifies to
     \[
         \frac{2y{(y-1)}^2}{n(n-1)(c-1)}
         \le\frac{2{(1+\sqrt{6\ln(n)})}^3}{n(n-1)(1-\frac{2}{n})}
@@ -124,10 +122,91 @@
         = \frac{o(n^{0.5})}{\mathcal{O}(n^{2})}
         = \mathcal{O}(n^{-1.5})
     \end{gather}
-    The expected time fur such a step is then $\Omega(n^{1.5})=\omega(n\ln n)$.
-    So in conclusion a step moving the first bit after expected time $2en\ln n+4$ has passed is either unlikely due to the amount of bits shifted or due to the small amount of values needed to be flipped for such a step.
-    The expected time for such a step is $\omega(n\ln(n))$ and will therefore not happen in expectation before the linear function is optimised.
-    The total runtime for the (1+1) EA is $(2en\ln n+4) + (1+o(1))en\ln n = \Theta(n\log{}n)$.
+    The expected time for such a step is then $\Omega(n^{1.5})=\omega(n\ln n)$.
+    The probability that such a step still happens before the linear function is optimised is at most
+    \[
+        \frac{1}{\mathcal{O}(n^{1.5})}\cdot(1+o(1))en\ln n
+        % =\frac{(1+o(1))en\ln n}{\mathcal{O}(n^{1.5})}
+        =\frac{(1+o(1))e\ln n}{\mathcal{O}(n^{0.5})}
+        =\frac{o(n^{0.1})}{\mathcal{O}(n^{0.5})}
+        =o(\frac{1}{n^{0.4}})=o(1)\]
+    The probability of $w_1$ not being flipped after expected time $2en\ln n+4$ is \(1-o(\frac{1}{n^{0.4}})=1-o(1)\).
+    If such a step happens the fitness does not decrease and the bound on the probability of flipping $w_1$ still holds.
+    The algorithm will still find the solution in expected time at most $(1+o(1))en\ln n$.
+    Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $2en\ln n+4$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))en\ln n=\Theta(n\log{}n)\)
+
+    The total runtime for the (1+1) EA is $(2en\ln n+4) + \frac{1+o(1)}{1-o(1)}\cdot en\ln n =\Theta(n\log{}n)$.
+    % \(\frac{1}{1-o(\frac{1}{n^{0.4}})}=\frac{1-o(\frac{1}{n^{0.4}})+o(\frac{1}{n^{0.4}})}{1-o(\frac{1}{n^{0.4}})}=1+\frac{o(\frac{1}{n^{0.4}})}{1-o(\frac{1}{n^{0.4}})}\)
+
+    % \begin{gather}\nonumber
+    %     E(T)\le\frac{E(T*)}{1-p_{\text{fail}}}
+    %     \le\frac{E(T*)}{1-(E(T*)p)}
+    %     =\frac{1}{\frac{1}{E(T*)}-p}
+    %     =\frac{1}{\frac{1}{(1+o(1))en\ln n}-\mathcal{O}(n^{-1.5})}\\ \nonumber
+    %     =\frac{1}{\frac{1-\mathcal{O}(n^{-1.5})\cdot(1+o(1))en\ln n}{(1+o(1))en\ln n}}
+    %     =\frac{(1+o(1))en\ln n}{1-\mathcal{O}(n^{-1.5})\cdot(1+o(1))en\ln n}
+    %     =\frac{(1+o(1))en\ln n}{1-o(\frac{1}{n^{0.4}})}
+    % \end{gather}
+
+    % So in conclusion a step moving the first bit after expected time $2en\ln n+4$ has passed is either unlikely due to the amount of bits shifted or due to the small amount of values needed to be flipped for such a step.
+    % The expected time for such a step is $\omega(n\ln(n))$ and will therefore not happen in expectation before the linear function is optimised.
+
+    -----------------------\newline
+
+    The probability of the (1+1) EA to flip more than $k+\sqrt{6k\ln(n)}=k+k\sqrt{6\ln(n)/k}$ is limited by Chernoff bounds:
+    \begin{gather}
+        \nonumber \probP(\text{(1+1) EA flips more than }k+k\sqrt{6\ln(n)/k}\text{ bits})\\ \nonumber
+        \le\probP(X\ge (1+\sqrt{6\ln(n)/k})\cdot k)
+        \le e^{-k\cdot{\sqrt{6\ln(n)/k}}^2/3}
+        = e^{-k\cdot \frac{6\ln n}{3k}}
+        = n^{-2}
+    \end{gather}
+    So the expected time for such a step is at least \(n^2=\omega(n\ln(n))\).
+    Now let's look at steps that flip at most $k+\sqrt{6k\ln(n)}$ bits in a single step.
+    Such a step only successfully flips $w_1$ if both $w_1$ is flipped and enough total volume is shifted from $b_E$ to $b_F$.
+    Due to Lemma~\ref{lemma:CWittRefined} with $\delta=\frac{1}{n}$ (for $n>1$) the solution is at most $w_1+\delta(W-w_1)$ after expected time
+    \begin{gather}\nonumber
+        2\lceil\frac{e^k}{k(1-o(1))}n\ln(2/\delta)\rceil
+        =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2/\frac{1}{n})\rceil
+        =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2n)\rceil \\ \nonumber
+        =2\lceil\frac{e^k}{k(1-o(1))}n(\ln(n)+\ln(2))\rceil
+        \le\frac{2e^k}{k(1-o(1))}n\ln(n)+4
+    \end{gather}
+    The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
+
+    Lemma~\ref{lemma:W1FlipWontHappen} states that the probability of a step flipping with $w_1$ together with $y-1$ other bits is at most $\frac{2y{(y-1)}^2}{n(n-1)(c-1)}$.
+    Applying the bound $y\le k+\sqrt{6k\ln(n)}$ and the value $c=2(1-\frac{1}{n})$ this simplifies to
+    \[
+        \frac{2y{(y-1)}^2}{n(n-1)(c-1)}
+        \le\frac{2{(k+\sqrt{6k\ln(n)})}^3}{n(n-1)(1-\frac{2}{n})}
+        =\frac{2{(k+\sqrt{6k\ln(n)})}^3}{n(n-1)\frac{n-2}{n}}
+        =\frac{2{(k+\sqrt{6k\ln(n)})}^3}{(n-1)(n-2)}
+    \]
+    The probability of one of these steps to happen for any value of $y$ is given by
+    \begin{gather}
+        \nonumber \sum_{y=2}^{k+\sqrt{6k\ln(n)}}{\probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})}\\
+        \nonumber \le ({k+\sqrt{6k\ln(n)}})\cdot\frac{2{(k+\sqrt{6k\ln(n)})}^{3}}{(n-2)(n-1)}
+        = \frac{2{(k+\sqrt{6k\ln(n)})}^{4}}{(n-2)(n-1)}\\ \nonumber
+        = \frac{2{(o({n}^{1/8}))}^{4}}{(n-2)(n-1)}
+        = \frac{o(n^{0.5})}{\mathcal{O}(n^{2})}
+        = \mathcal{O}(n^{-1.5})
+    \end{gather}
+
+    The expected time for such a step is then $\Omega(n^{1.5})=\omega(n\ln n)$.
+    The probability that such a step still happens before the linear function is optimised is at most
+    \[
+        \frac{1}{\mathcal{O}(n^{1.5})}\cdot(1+o(1))\frac{e^k}{k}n\ln n
+        % =\frac{(1+o(1))\frac{e^k}{k}n\ln n}{\mathcal{O}(n^{1.5})}
+        =\frac{(1+o(1))\frac{e^k}{k}\ln n}{\mathcal{O}(n^{0.5})}
+        =\frac{o(n^{0.1})}{\mathcal{O}(n^{0.5})}
+        =o(\frac{1}{n^{0.4}})=o(1)\]
+    The probability of $w_1$ not being flipped after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ is \(1-o(\frac{1}{n^{0.4}})=1-o(1)\).
+    If such a step happens the fitness does not decrease and the bound on the probability of flipping $w_1$ still holds.
+    The algorithm will still find the solution in expected time at most $(1+o(1))\frac{e^k}{k}n\ln n$.
+    Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))en\ln n=\Theta(n\log{}n)\)
+
+    The total runtime for the (1+1) EA is $\frac{2e^k}{k(1-o(1))}n\ln(n)+4 + \frac{1+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n =\Theta(n\log{}n)$.
+
 \end{proof}
 
 \begin{lemma}\label{approximationLemmaHelp1}
@@ -187,9 +266,9 @@
     The proof for the (1+1) EA is mostly the same.
     The main difference is the (1+1) EA being able to flip more than one bit in a single step.
     Such a step could make the emptier bin the fuller bin or increase the number of bits that must be shifted to the emptier bin.
-    But with the results of Theorem~\ref{theo:OneMaxResult} the proof works exactly the same as for the RLS.
+    But with the results of Theorem~\ref{theo:OneMaxResult} the proof works exactly the same as for the RLS.\
     The case \(w_1 \ge \frac{W}{3}\) does not change only the bin containing $w_1$ might change.
-    Apart from that there is no difference for the (1+1) EA.
+    Apart from that there is no difference for the (1+1) EA.\
     The case $w_1 < \frac{W}{3}$ is also rather similar.
     The (1+1) EA will move elements from the fuller bin to the emptier bin until $b_F < \frac{2W}{3}$ holds. The (1+1) EA can make the emptier bin the fuller bin by moving multiple objects in one step, but this does not hinder it from reaching $b_F < \frac{2W}{3}$. After such a step it will continue moving elements until the condition holds.
 \end{proof}
@@ -240,7 +319,7 @@
         \item There exists an optimal solution with high probability due to last lemma
         \item probability for a value to be very low is almost 0 if m is huge
         \item The RLS only moves one element per step and will reach $b_F$-$b_E$ < $w_n$ without $b_F= opt$ being true
-        \item -> RLS can't make another step and is stuck in a local optimum.
+        \item → RLS can't make another step and is stuck in a local optimum.
     \end{itemize}
     Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability. The probability for small values \dots
 \end{proof}

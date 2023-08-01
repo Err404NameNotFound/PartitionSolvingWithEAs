@@ -111,7 +111,7 @@ This input is very close to a weighted OneMax and therefore more or less the One
 The first analysed algorithm will be the RLS variants.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
-      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
+      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1\ge W/2$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
 \end{corollary}
 \begin{proof}
       % For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
@@ -134,48 +134,123 @@ The first analysed algorithm will be the RLS variants.
       %       \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
       %       \]
       Using Lemma~\ref{lemma:W1FlipWontHappen} and the upper bound of $y\le k$ leads to the first part
-      \[ {(\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2y{(y-1)}^2} \ge\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\]
+      \[ {(\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2y{(y-1)}^2} \le\frac{n(n-1)(c-1)}{2k{(k-1)}^2}\]
       $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
 \end{proof}
 
-\begin{lemma}
-      The \RLSR[k=2] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(nlogn)$
+\begin{lemma}\label{lemma:RLSRoneMaxInput}
+      The \RLSR[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
 \end{lemma}
 \begin{proof}
-      The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
-      The expected length of the first phase is at most $kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
-      Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
-      In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
-      In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
-      Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
+      This proof is similar to proof for the (1+1) EA in Theorem~\ref{theo:OneMaxResult} and is divided in the same two parts.
+      The first part is proving the \RLSR~does not flip the first bit in expected time $\mathcal{O}(n\log{}n)$ after some time T has passed.
+      After time T the algorithm then minimises the linear function in expected time $\mathcal{O}(n\log{}n)$ before the first bit is flipped and the progress of the linear function might be reset.
       After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
       This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
-      With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows.
-      So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
-      The \RLSR[2] chooses to flip only one bit with probability $1/2$.
-      In these steps it behaves exactly the same as the standard RLS.\
-      For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
-      Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
-      \[
-            E(T_{Phase~2})
-            \le \sum_{i=1}^{n}{\frac{kn}{i}}
-            = kn\cdot\sum_{i=1}^{n}{i}
-            % = knH(n) 
-            \le kn(\ln(n)+1)
-            = kn\ln(n)+kn
-            = \mathcal{O}(n\ln n)
-      \]
-      So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
-      The algorithm therefore reaches an optimal solution in expected time
-      \[E(T_{Phase~1}) + E(T_{Phase~2})
-            \le 4kn + kn\ln(n)+kn
-            = kn\ln(n)+5kn
-            = \mathcal{O}(n\ln n)\]
+      With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k{(k-1)}^2}\frac{n(n-1)}{5k{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows. This concludes the first part\newline
+      % So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
+      The \RLSR~can be seen as an unbiased unary black box algorithm with a sequence $\mathcal{D}=(p_1,\dots,p_n)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
+      The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
+      For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore opmtimise the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
+      Applying the same arguments as in Theorem~\ref{theo:OneMaxResult} this results in a probability of not flipping $w_1$ after expected time $(1+o(1))kn\ln n$ of at least
+      \begin{gather}\nonumber
+            1-\frac{(1+o(1))kn\ln n\cdot5k{(k-1)}^2}{n(n-1)}
+            =1-\frac{(1+o(1))5k^4\ln n}{n-1}
+            =1-\frac{o(k^4n^{0.5})}{n-1}
+            =1-\frac{1}{o(\sqrt{n})}
+      \end{gather}
+      The expected time of minimising the linear function then is
+      \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
+      The total expected runtime therefore is at most $4k+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
+
+      % The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
+      % The expected length of the first phase is at most $2kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
+      % Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
+      % In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
+      % In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
+      % Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
+
+      % Now the run is again seen as a optimisation of a linear function 
+
+      % The \RLSR[2] chooses to flip only one bit with probability $1/2$.
+      % In these steps it behaves exactly the same as the standard RLS.\
+      % For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
+      % Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
+      % \[
+      %       E(T_{Phase~2})
+      %       \le \sum_{i=1}^{n}{\frac{kn}{i}}
+      %       = kn\cdot\sum_{i=1}^{n}{i}
+      %       % = knH(n) 
+      %       \le kn(\ln(n)+1)
+      %       = kn\ln(n)+kn
+      %       = \mathcal{O}(n\ln n)
+      % \]
+      % So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
+      % The algorithm therefore reaches an optimal solution in expected time
+      % \[E(T_{Phase~1}) + E(T_{Phase~2})
+      %       \le 4kn + kn\ln(n)+kn
+      %       = kn\ln(n)+5kn
+      %       = \mathcal{O}(n\ln n)\]
 \end{proof}
 
 % \begin{lemma}
-%       The (1+1) EA with mutation rate $p_m=c/n$ for any constant $c>0$ optimises any input with $w_1>W/2$ in expected at most $(2en\ln~n+4) + (1+o(1))(e^c/c)n\ln~n = \Theta(n\log{}n)$
+%       The \RLSN[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time TODO
 % \end{lemma}
 % \begin{proof}
-%       The proof is mostly the same as for the (1+1) EA with static mutation rate $1/n$ in~\ref{theo:OneMaxResult}.
+%       This proof is similar to proof for the (1+1) EA in Theorem~\ref{lemma:RLSRoneMaxInput} and is divided in the same to parts.
+
+%       The \RLSR~can be seen as an unbiased unary black box algorithm with sequence $\mathcal{D}=(1/k, \dots,1/k,0,\dots,0)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
+%       The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
+%       For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore opmtimise the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
+%       The total expected runtime therefore is at most $4k+(1+o(1))kn\ln n=\Theta(n\log{}n)$.
 % \end{proof}
+
+\begin{lemma}
+      The (1+1) EA with mutation rate $p_m=k/n$ for any constant $k>0$ optimises any input with $w_1>W/2$ in expected at most $(2en\ln~n+4) + (1+o(1))(e^k/k)n\ln~n = \Theta(n\log{}n)$ \TODO{update this bound aswell}
+\end{lemma}
+\begin{proof}
+      The proof is mostly the same as for the (1+1) EA with static mutation rate $1/n$ in Theorem~\ref{theo:OneMaxResult}.
+
+      The probability of the (1+1) EA to flip more than $k+k\sqrt{6\ln(n)/k}$ is limited by Chernoff bounds:
+      \begin{gather}
+            \nonumber \probP(\text{(1+1) EA flips more than }k+k\sqrt{6\ln(n)/k}\text{ bits})\\ \nonumber
+            \le\probP(X\ge (1+\sqrt{6\ln(n)/k})\cdot k)
+            \le e^{-k\cdot{\sqrt{6\ln(n)/k}}^2/3}
+            = e^{-k\cdot \frac{6\ln n}{3k}}
+            = n^{-2}
+      \end{gather}
+      So the expected time for such a step is at least \(n^2=\omega(n\ln(n))\).
+      Now let's look at steps that flip at most $k+k\sqrt{6\ln(n)/k}$ bits in a single step.
+      Such a step only successfully flips $w_1$ if both $w_1$ is flipped and enough total volume is shifted from $b_E$ to $b_F$.
+      Due to Lemma~\ref{lemma:CWittRefined} with $\delta=\frac{1}{n}$ (for $n>1$) the solution is at most $w_1+\delta(W-w_1)$ after expected time
+      \begin{gather}\nonumber
+            2\lceil\frac{e^c}{c(1+o(1))}n\ln(2/\delta)\rceil
+            =2\lceil\frac{e^c}{c(1+o(1))}n\ln(2/\frac{1}{n})\rceil
+            =2\lceil\frac{e^c}{c(1+o(1))}n\ln(2n)\rceil \\ \nonumber
+            =2\lceil\frac{e^c}{c(1+o(1))}n(\ln(n)+\ln(2))\rceil
+            \le\frac{e^c}{c(1+o(1))}en\ln(n)+4    
+      \end{gather}
+      The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
+
+      Lemma~\ref{lemma:W1FlipWontHappen} states that the probability of a step flipping with $w_1$ together with $y-1$ other bits is at most $\frac{2y{(y-1)}^2}{n(n-1)(c-1)}$.
+      Applying the bound $y\le k+k\sqrt{6\ln(n)/k}$ and the value $c=2(1-\frac{1}{n})$ this simplifies to
+      \[
+            \frac{2y{(y-1)}^2}{n(n-1)(c-1)}
+            \le\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{n(n-1)(1-\frac{2}{n})}
+            =\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{n(n-1)\frac{n-2}{n}}
+            =\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{(n-1)(n-2)}
+      \]
+      The probability of one of these steps to happen for any value of $y$ is given by
+      \begin{gather}
+            \nonumber \sum_{y=2}^{k+k\sqrt{6\ln(n)/k}}{\probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})}\\
+            \nonumber \le ({k+k\sqrt{6\ln(n)/k}})\cdot\frac{2{(k+k\sqrt{6\ln(n)/k})}^{3}}{(n-2)(n-1)}
+            = \frac{2{(k+k\sqrt{6\ln(n)/k})}^{4}}{(n-2)(n-1)}\\ \nonumber
+            = \frac{2{(o({n}^{1/8}))}^{4}}{(n-2)(n-1)}
+            = \frac{o(n^{0.5})}{\mathcal{O}(n^{2})}
+            = \mathcal{O}(n^{-1.5})
+      \end{gather}
+      The expected time fur such a step is then $\Omega(n^{1.5})=\omega(n\ln n)$.
+      So in conclusion a step moving the first bit after expected time $2en\ln n+4$ has passed is either unlikely due to the amount of bits shifted or due to the small amount of values needed to be flipped for such a step.
+      The expected time for such a step is $\omega(n\ln(n))$ and will therefore not happen in expectation before the linear function is optimised.
+      The total runtime for the (1+1) EA is $(2en\ln n+4) + (1+o(1))en\ln n = \Theta(n\log{}n)$.
+\end{proof}

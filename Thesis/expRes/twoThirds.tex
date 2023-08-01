@@ -58,10 +58,10 @@ If the algorithm is on the path to the local optimum it is always fast enough to
 
 \input{tables/twoThirds/best.tex}
 
-The $pmut_1.25$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
+The $pmut_{1.25}$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
 The \RLSN[4] performs significantly worse.
 % The other algorithm flip so many bits that they are almost close to random sampling.
-For the OneMax input $pmut_1.25$ flipped 224 bits on average per step, but the average of the successful steps was only 5.
+For the OneMax input $pmut_{1.25}$ flipped 224 bits on average per step, but the average of the successful steps was only 5.
 Here the average of all steps is again 224, but the average of the successful steps is at 194.
 The heavy tail here really increases the performance as most of the high values are accepted.
 In the experiment with different input sizes the mutation rate of $p_m=100/n$ is $\ge1$ for $n\le100$.

@@ -217,18 +217,21 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator) {
-//        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
-        int[] lengths = new int[]{500};
-//        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
-        long[] stepSizes = fill(lengths.length, (i) -> 100L * 1000 * 1000 * 1000);
+        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
+        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
+//        int[] lengths = new int[]{500};
+//        long[] stepSizes = fill(lengths.length, (i) -> 100L * 1000 * 1000 * 1000);
         Solver[] solvers = new Solver[]{
 //                Solver.getRLS(),
 //                Solver.getRLSUniformRing(2),
-                Solver.getRLSUniformNeighbour(4),
+//                Solver.getRLSUniformNeighbour(4),
 //                Solver.getEA(),
-//                Solver.getPmut(-3.25),
+                Solver.getPmut(3.25),
+                Solver.getPmut(3.0),
+                Solver.getPmut(3.75),
+                Solver.getPmut(3.5),
         };
-        Evaluation.evaluateMultipleNValues(10, lengths, stepSizes, generator, solvers, null);
+        Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
     }
 
     private static void redoAllExperiments(int n, String postfix) {
