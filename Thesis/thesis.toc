@@ -5,7 +5,7 @@
 \contentsline {section}{\numberline {2.1}Notation}{3}{section.2.1}%
 \contentsline {chapter}{\numberline {3}Improving bounds on the RLS and (1+1) EA}{5}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Improving bounds on the RLS and the (1+1) EA}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Binomial distributed input}{10}{section.3.2}%
+\contentsline {section}{\numberline {3.2}Binomial distributed input}{9}{section.3.2}%
 \contentsline {chapter}{\numberline {4}Higher mutation rates and heavy tailed mutations}{11}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Algorithms}{11}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Runtime Analysis of higher mutation rates}{12}{section.4.2}%

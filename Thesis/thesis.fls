@@ -743,7 +743,6 @@ INPUT chapters/HeavyTailedMutations.tex
 INPUT chapters/HeavyTailedMutations.tex
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmcsc10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbx8.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT ./chapters/ExperimentalResults.tex
 INPUT ./chapters/ExperimentalResults.tex
 OUTPUT chapters/ExperimentalResults.aux
@@ -1163,7 +1162,6 @@ INPUT ./thesis.out
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx8.pfb
-INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb
@@ -1178,4 +1176,5 @@ INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy6.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmsy8.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmtt10.pfb
+INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb

@@ -61,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 11;
+    public static final int DEFAULT_SELECTION = 8;
 
 
     public static void main(String[] args) {
@@ -98,6 +98,8 @@ public class Main {
             case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
+            case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000,10000,1000 ,0.95));
+            case 9 -> BinomialTesting.printBinomialDistribution(1000 ,0.95, 10000);
 
             case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");
             case 12 -> evaluate(20, POWERLAW_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
@@ -194,7 +196,10 @@ public class Main {
     }
 
     public static void printDistribution(InputGenerator generator, int length) {
-        long[] input = generator.generate(length);
+        printDistribution(generator, generator.generate(length));
+    }
+
+    public static void printDistribution(InputGenerator generator, long[] input) {
         long[] minMax = calculateMinMax(input);
         printDistribution(input, generator, minMax[0], minMax[1]);
     }

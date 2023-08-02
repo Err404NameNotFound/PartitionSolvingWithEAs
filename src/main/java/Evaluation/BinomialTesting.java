@@ -137,6 +137,29 @@ public class BinomialTesting {
         return Math.abs(Math.round(m * (n * p)) - sum);
     }
 
+    public static void testRLSDifToOptimum(int T, int length, int n, double p) {
+        long[] difs = fill(T, (i) -> -1);
+        InputGenerator generator = InputGenerator.createBinomial(n, p);
+        ProgressPrinter printer = new ProgressPrinter(T, T / 1000);
+        long[] input;
+//        input = generator.generate(length);
+        for (int t = 0; t < T; ++t) {
+            if (Thread.interrupted()) {
+                long[] ret = new long[t];
+                System.arraycopy(difs, 0, ret, 0, ret.length);
+                difs = ret;
+                break;
+            }
+            input = generator.generate(length);
+            difs[t] = PartitionSolver.solveRLS(input, 1000).getDif().longValue();
+            printer.printProgressIfNecessary(t);
+        }
+        printer.clearProgressAndPrintElapsedTime();
+        System.out.printf("np:    %5f%n", n*p);
+        System.out.printf("n- np: %5f%n", n-n*p);
+        Main.printDistribution(generator, difs);
+    }
+
     public static void testRandomBinomialPartition(long m, long n, double p, long k) {
         printf("testRandomBinomialPartition(%,d, %,d, %.3f, %,d)%n", m, n, p, k);
         MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
