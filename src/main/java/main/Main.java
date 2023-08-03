@@ -98,7 +98,7 @@ public class Main {
             case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
-            case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000,10000,1000 ,0.95));
+            case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000,100000,1000 ,0.5));
             case 9 -> BinomialTesting.printBinomialDistribution(1000 ,0.95, 10000);
 
             case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");

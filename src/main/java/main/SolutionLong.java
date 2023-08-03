@@ -1,19 +1,14 @@
 package main;
 
 import java.math.BigInteger;
+import java.util.HashSet;
 import java.util.Set;
 
 public class SolutionLong extends BaseSolution {
     private long sum;
     private long optimalValue;
-    private long dif;
-    private long totalSum;
-
-    SolutionLong(long[] values) {
-        super(values);
-        sum = 0;
-        lastImprove = 0;
-    }
+    private final long totalSum;
+    private long fitness;
 
     SolutionLong(SolutionBigInt solution, long[] values) {
         super(values);
@@ -21,94 +16,85 @@ public class SolutionLong extends BaseSolution {
         System.arraycopy(temp, 0, partition, 0, partition.length);
         totalSum = solution.getTotalSum().longValue();
         sum = solution.getSum().longValue();
-        optimalValue = solution.getOptimalValue().longValue();
-        dif = solution.getDif().longValue();
+        optimalValue = totalSum / 2;
+        sumIsEven = totalSum % 2 == 0;
+        if (!sumIsEven) {
+            optimalValue += 1;
+        }
+        updateFitness();
         result = solution.result();
         tries = solution.getTries();
         changes = solution.getChanges();
         bitsFlipped = solution.getFlippedBits();
         bitsTried = solution.getTriedFlips();
-        sumIsEven = totalSum % 2 == 0;
         lastImprove = solution.getLastImprove();
         lastBitFlippedCount = solution.getLastBitFlippedCount();
         lastBitFlippedTried = solution.getLastBitFlippedTried();
     }
 
-    void setOptimalValue(long optimalValue) {
-        this.optimalValue = optimalValue;
-        dif = dif(sum);
+    private void updateFitness() {
+        fitness = Math.max(sum, totalSum - sum);
     }
 
-    void setValue(int index, int value) {
-        partition[index] = value;
-        if (value == 1) {
-            sum = sum + values[index];
-        } else {
-            sum = sum - values[index];
-        }
+    private long getFitness(long sum) {
+        return Math.max(sum, totalSum - sum);
     }
 
     public void setValueToOne(int index) {
         if (partition[index] != 1) {
             sum += values[index];
             partition[index] = 1;
+            updateFitness();
         }
     }
 
-    long dif(long sol) {
-        return Math.abs(sol - optimalValue);
+    private void acceptImprovement(long nextFitness, Set<Integer> indexes, long nextSum, boolean lastBitFlipped) {
+        fitness = nextFitness;
+        for (Integer i : indexes) {
+            partition[i] = 1 - partition[i];
+        }
+        sum = nextSum;
+        ++changes;
+        lastImprove = 0;
+        bitsFlipped += indexes.size();
+        if (lastBitFlipped) {
+            ++lastBitFlippedCount;
+        }
+    }
+
+    private void updateFlippedBits(long bitsTriedToFlip, boolean lastBitFlipped) {
+        ++tries;
+        ++lastImprove;
+        bitsTried += bitsTriedToFlip;
+        if (lastBitFlipped) {
+            ++lastBitFlippedTried;
+        }
     }
 
     public void updateIfImprovement(int index) {
-        ++tries;
-        ++lastImprove;
-        ++bitsTried;
-        int nextPart = 1 - partition[index];
-        long nextSum = sum + nextPart == 1 ? values[index] : -values[index];
-        long nextDif = dif(nextSum);
-        if (nextDif < dif) {
-            dif = nextDif;
-            partition[index] = nextPart;
-            sum = nextSum;
-            ++changes;
-            lastImprove = 0;
-            ++bitsFlipped;
-            if (index == partition.length - 1) {
-                ++lastBitFlippedCount;
-            }
-        }
-        if (index == partition.length - 1) {
-            ++lastBitFlippedTried;
+        boolean lastBitFlipped = index == partition.length - 1;
+        updateFlippedBits(1, lastBitFlipped);
+        long nextSum = sum + (partition[index] == 0 ? values[index] : -values[index]);
+        long nextFitness = getFitness(nextSum);
+        if (nextFitness < fitness) {
+            Set<Integer> indexes = new HashSet<>(1);
+            indexes.add(index);
+            acceptImprovement(nextFitness, indexes, nextSum, lastBitFlipped);
         }
     }
 
     public void updateIfImprovementMultiple(Set<Integer> indexes) {
-        ++tries;
+        boolean lastBitFlipped = indexes.contains(partition.length - 1);
+        updateFlippedBits(indexes.size(), lastBitFlipped);
         if (indexes.size() > 0) {
-            //TODO Verzerrung des Durchschnittswert entfernen
-            ++lastImprove;
-            bitsTried += indexes.size();
             long nextSum = sum;
             for (Integer i : indexes) {
                 nextSum = nextSum + (partition[i] == 0 ? values[i] : -values[i]);
             }
-            long nextDif = dif(nextSum);
-            if (nextDif < dif) {
-                dif = nextDif;
-                for (Integer i : indexes) {
-                    partition[i] = 1 - partition[i];
-                }
-                sum = nextSum;
-                ++changes;
-                lastImprove = 0;
-                bitsFlipped += indexes.size();
-                if (indexes.contains(partition.length - 1)) {
-                    ++lastBitFlippedCount;
-                }
+            long nextFitness = getFitness(nextSum);
+            if (nextFitness < fitness) {
+                acceptImprovement(nextFitness, indexes, nextSum, lastBitFlipped);
             }
-        }
-        if (indexes.contains(partition.length - 1)) {
-            ++lastBitFlippedTried;
         }
     }
 
@@ -121,18 +107,11 @@ public class SolutionLong extends BaseSolution {
         } else {
             sum = sum - values[index];
         }
-        dif = dif(sum);
+        updateFitness();
     }
 
     public boolean isNotOptimal(long maxSteps) {
-        if (sum == optimalValue) {
-            return false;
-        } else if (!sumIsEven && Math.abs(sum - optimalValue) == 1) {
-            dif = 0;
-            return false;
-        } else {
-            return tries < maxSteps;
-        }
+        return isNotOptimal() && tries < maxSteps;
     }
 
     public boolean isOptimal() {
@@ -140,13 +119,7 @@ public class SolutionLong extends BaseSolution {
     }
 
     public boolean isNotOptimal() {
-        if (sum == optimalValue) {
-            return false;
-        } else if (Math.abs(sum - optimalValue) == 1) {
-            dif = 0;
-            return false;
-        }
-        return true;
+        return fitness != optimalValue;
     }
 
     public void printResult() {
@@ -160,11 +133,11 @@ public class SolutionLong extends BaseSolution {
             System.out.printf("optimum 2 : %,d%n", totalSum - optimalValue);
         }
         System.out.printf("solution  : %,d%n", sum);
-        System.out.printf("Difference: %,d%n", dif);
-        if (dif == 0) {
+        System.out.printf("Difference: %,d%n", getDif());
+        if (isOptimal()) {
             System.out.println("Percentage: 100%");
         } else {
-            System.out.printf("Percentage: %.15f%%%n", 100 * (1.0 - (double) dif / optimalValue));
+            System.out.printf("Percentage: %.15f%%%n", 100 * (1.0 - (fitness - optimalValue) / optimalValue));
         }
         System.out.printf("Tries     : %,d%n", tries);
         System.out.printf("Changes   : %,d%n", changes);
@@ -177,17 +150,11 @@ public class SolutionLong extends BaseSolution {
 
     @Override
     public String toString() {
-        return String.format("Sum: %d, dif: %d, tries: %d, changes: %d", sum, dif, tries, changes);
-    }
-
-    public void setInputSum(long inputSum) {
-        totalSum = inputSum;
-        sumIsEven = inputSum % 2 == 0;
-        setOptimalValue(inputSum / 2);
+        return String.format("Sum: %d, dif: %d, tries: %d, changes: %d", sum, getDif(), tries, changes);
     }
 
     public BigInteger getDif() {
-        return BigInteger.valueOf(dif);
+        return BigInteger.valueOf(fitness - optimalValue);
     }
 
     public BigInteger getTotalSum() {

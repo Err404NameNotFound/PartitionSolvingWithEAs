@@ -138,9 +138,13 @@ public class BinomialTesting {
     }
 
     public static void testRLSDifToOptimum(int T, int length, int n, double p) {
+        System.out.printf("np:    %5f%n", n * p);
+        System.out.printf("n- np: %5f%n", n - n * p);
+        long maxDif = Math.round(Math.max(n * p, n - n * p) / 2);
         long[] difs = fill(T, (i) -> -1);
         InputGenerator generator = InputGenerator.createBinomial(n, p);
-        ProgressPrinter printer = new ProgressPrinter(T, T / 1000);
+        ProgressPrinter printer = new ProgressPrinter(T, T / 100);
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
         long[] input;
 //        input = generator.generate(length);
         for (int t = 0; t < T; ++t) {
@@ -151,12 +155,24 @@ public class BinomialTesting {
                 break;
             }
             input = generator.generate(length);
-            difs[t] = PartitionSolver.solveRLS(input, 1000).getDif().longValue();
+            Solution sol = PartitionSolver.solveRLS(input, 1000);
+            long dif = sol.getDif().longValue();
+            if (dif > maxDif) {
+                PartitionSolver.solveRLS(input, 5000, sol);
+                dif = sol.getDif().longValue();
+            }
+            difs[t] = dif;
+            evaluator.insert(difs[t]);
             printer.printProgressIfNecessary(t);
+            if (!sol.isNotOptimal() || difs[t] > maxDif) {
+                System.out.println();
+                sol.printResult();
+            }
         }
         printer.clearProgressAndPrintElapsedTime();
-        System.out.printf("np:    %5f%n", n*p);
-        System.out.printf("n- np: %5f%n", n-n*p);
+        System.out.printf("np:    %5f%n", n * p);
+        System.out.printf("n- np: %5f%n", n - n * p);
+        evaluator.printEvaluation();
         Main.printDistribution(generator, difs);
     }
 
