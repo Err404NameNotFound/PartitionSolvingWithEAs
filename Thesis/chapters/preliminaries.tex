@@ -145,3 +145,108 @@ The adapted RSHs reach an approximation ratio of $(2k/k+1)$ in expected time $\b
 On an instance where every weight is the same the expected optimisation time is bounded by $\bigO(n\log{n})$.
 He also adapted the almost worse case to the problem and proved the RLS does not find a solution better than \((2k/k+1)-\epsilon\) in finite time for any $\epsilon>0$.
 The second statement for PARTITION on the uniform distributed input on [0,1] are the exact same for MAKESPAN-SCHEDULING on $k$ machines as well.
+
+\section{Higher mutation rates and heavy tailed mutations}
+For OneMax and all other linear functions the mutation rate of $p_m=1/n$ was proven to be optimal\cite{witt2013tight}.
+This is not the case for every fitness function.
+$\text{Jump}_k$ has a optimal mutation rate of $k/n$ and a small constant factor deviation from $k/n$ results in an increase of the runtime exponential in $\Omega(k)$\cite{doerr2017fast}.
+The same might hold for PARTITION, because the previously discussed literature only analyses mutation rates with a 1-bit flip in expectation.\newline
+One way of creating algorithms with higher mutation rates is adjusting the currently existing algorithms.
+For the (1+1) EA this can be done easily.
+By changing the mutation rate $1/n$ to $c/n$ for any constant $c$ the algorithm now flips $n\cdot c/n=c$ bits in expectation.
+\begin{algorithm}[bt]
+      \caption{\textsc{(1+1) EA with static mutation rate}}\label{alg:EA_SM}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow x$\;
+      flip every bit of $x'$ with probability $c/n$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+For the RLS it is not that simple, as the RLS chooses a random bit and flips it.
+Instead of flipping c bits in every step there should be the possibility to flip different amounts of bits in every step.
+The standard RLS chooses a random neighbour with Hamming distance one.
+So the variant of the RLS could simply choose neighbours that have a Hamming distance larger than one.
+The selection should still be uniform random to keep the idea of the RLS intact.
+One possible way is to choose a random neighbour with Hamming distance $\le k$.
+The amount of neighbours with Hamming distance $y$ is given by $\binom{n}{y}$.
+For $k=4$, this results in $n$ neighbours with Hamming distance 1, $n(n-1)/2$ neighbours with Hamming distance 2, $n(n-1)(n-2)/6$ for 3
+and $n(n-1)(n-2)(n-3)/24$ for 4.
+The probability to choose a random neighbour with Hamming distance $y \le k$ for $k = \mathcal{O}(1)$ is given by
+\[P(\text{\RLSN}_k\text{ flips }y\text{ bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\Theta(n^y)}{\sum_{i=1}^k \Theta(n^i)}
+      = \frac{\Theta(n^y)}{\Theta(n^k)} = \Theta(n^{y-k}) = \Theta(\frac{1}{n^{k-y}})\]
+This variant of the RLS is likely to choose a neighbour with Hamming distance k as the number of neighbours with hamming
+distance $k$ rises with $k$ for $k \le n/2$.
+The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
+For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.
+This algorithm will be called \RLSN[k] from now on, because it chooses a random neighbour in the Hamming ball with radius $k$.
+\begin{algorithm}[bt]
+      \caption{\textsc{\RLSN}}\label{alg:rlsN}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow \text{uniform random neighbour of x with Hamming distance} \le k$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Hamming distance $y$ uniform random.
+Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
+This variant of the RLS will be referred to as \RLSR[k] because it first choses the Hamming sphere and afterwards the neighbour within the selected Hamming sphere.
+
+\begin{algorithm}[bt]
+      \caption{\textsc{\RLSR}}\label{alg:rlsR}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $y \leftarrow \text{uniform random value }\in \{1,\dots,k\}$\;
+      $x' \leftarrow \text{uniform random neighbour of x with Hamming Distance } y$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+Both variants of the RLS change at most $k$ bits in each step and therefore only a constant amount of bits.
+For the (1+1) EA the algorithm will also flip mostly $\mathcal{O}(c)$ bits which is also constant.
+So neither of the new variants is likely to change up to $\mathcal{O}(n)$ bits.
+Quinzan \textit{et al.} therefore introduced another mutation operator in~\cite{friedrich2018evolutionary} called $pmut_\beta$.
+This operator chooses $k$ from a powerlaw distribution $D^\beta_n$ with exponent $\beta$ and maximum value $n$ and then $k$ uniform random bits are flipped.
+This algorithm will mostly flip a small number of bits but occasionally up to n bits.
+Distributions like this are called heavy tailed mutations because their tail is not bounded exponentially.

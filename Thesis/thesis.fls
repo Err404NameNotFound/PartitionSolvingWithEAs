@@ -716,6 +716,11 @@ INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbx8.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmri10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmr8.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmr6.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmr5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmmi5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmsy5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT ./chapters/Chapter2.tex
 INPUT ./chapters/Chapter2.tex
 OUTPUT chapters/Chapter2.aux
@@ -723,11 +728,6 @@ INPUT ./chapters/Chapter2.tex
 INPUT ./chapters/Chapter2.tex
 INPUT chapters/Chapter2.tex
 INPUT chapters/Chapter2.tex
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/rm-lmr5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmmi5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/lmsy5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
