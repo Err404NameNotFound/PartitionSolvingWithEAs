@@ -33,17 +33,17 @@ By changing the mutation rate $1/n$ to $c/n$ for any constant $c$ the algorithm 
 
 For the RLS it is not that simple, as the RLS chooses a random bit and flips it.
 Instead of flipping c bits in every step there should be the possibility to flip different amounts of bits in every step.
-The standard RLS chooses a random neighbour with Theorem~\ref{theo:OneMaxResult} one.
-So the variant of the RLS could simply choose neighbours that have a Theorem~\ref{theo:OneMaxResult} larger than one.
+The standard RLS chooses a random neighbour with Hamming distance one.
+So the variant of the RLS could simply choose neighbours that have a Hamming distance larger than one.
 The selection should still be uniform random to keep the idea of the RLS intact.
-One possible way is to choose a random neighbour with Theorem~\ref{theo:OneMaxResult} $\le k$.
-The amount of neighbours with Theorem~\ref{theo:OneMaxResult} $y$ is given by $\binom{n}{y}$.
-For $k=4$, this results in $n$ neighbours with Theorem~\ref{theo:OneMaxResult} 1, $n(n-1)/2$ neighbours with Theorem~\ref{theo:OneMaxResult} 2, $n(n-1)(n-2)/6$
-and $n(n-1)(n-2)(n-3)/24$.
-The probability to choose a random neighbour with Theorem~\ref{theo:OneMaxResult} $y \le k$ for $k = \mathcal{O}(1)$ is given by
+One possible way is to choose a random neighbour with Hamming distance $\le k$.
+The amount of neighbours with Hamming distance $y$ is given by $\binom{n}{y}$.
+For $k=4$, this results in $n$ neighbours with Hamming distance 1, $n(n-1)/2$ neighbours with Hamming distance 2, $n(n-1)(n-2)/6$ for 3
+and $n(n-1)(n-2)(n-3)/24$ for 4.
+The probability to choose a random neighbour with Hamming distance $y \le k$ for $k = \mathcal{O}(1)$ is given by
 \[P(\text{\RLSN}_k\text{ flips }y\text{ bits}) = \frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}} = \frac{\Theta(n^y)}{\sum_{i=1}^k \Theta(n^i)}
       = \frac{\Theta(n^y)}{\Theta(n^k)} = \Theta(n^{y-k}) = \Theta(\frac{1}{n^{k-y}})\]
-This variant of the RLS is likely to choose a neighbour with Theorem~\ref{theo:OneMaxResult} k as the number of neighbours with hamming
+This variant of the RLS is likely to choose a neighbour with Hamming distance k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
 The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
 For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS which will be called \RLSN~from now on.
@@ -59,7 +59,7 @@ For some inputs flipping only one bit might be more optimal which is rather unli
       choose x uniform from ${\{0,1\}}^n$\;
       \While{$x$ not optimal}
       {
-      $x' \leftarrow \text{uniform random neighbour of x with Theorem~\ref{theo:OneMaxResult}} \le k$\;
+      $x' \leftarrow \text{uniform random neighbour of x with Hamming distance} \le k$\;
       {
       \If{$f(x') \le f(x)$}
       {
@@ -69,7 +69,7 @@ For some inputs flipping only one bit might be more optimal which is rather unli
       }
 \end{algorithm}
 
-An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Theorem~\ref{theo:OneMaxResult} $y$ uniform random.
+An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Hamming distance $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
 This variant of the RLS will be referred to as \RLSR.
 
@@ -203,54 +203,4 @@ The first analysed algorithm will be the RLS variants.
 %       The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
 %       For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore opmtimise the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
 %       The total expected runtime therefore is at most $4k+(1+o(1))kn\ln n=\Theta(n\log{}n)$.
-% \end{proof}
-
-% \begin{lemma}
-%       The (1+1) EA with mutation rate $p_m=k/n$ for any constant $k>0$ optimises any input with $w_1>W/2$ in expected at most $(2en\ln~n+4) + (1+o(1))(e^k/k)n\ln~n = \Theta(n\log{}n)$ \TODO{update this bound aswell}
-% \end{lemma}
-% \begin{proof}
-%       The proof is mostly the same as for the (1+1) EA with static mutation rate $1/n$ in Theorem~\ref{theo:OneMaxResult}.
-
-%       The probability of the (1+1) EA to flip more than $k+k\sqrt{6\ln(n)/k}$ is limited by Chernoff bounds:
-%       \begin{gather}
-%             \nonumber \probP(\text{(1+1) EA flips more than }k+k\sqrt{6\ln(n)/k}\text{ bits})\\ \nonumber
-%             \le\probP(X\ge (1+\sqrt{6\ln(n)/k})\cdot k)
-%             \le e^{-k\cdot{\sqrt{6\ln(n)/k}}^2/3}
-%             = e^{-k\cdot \frac{6\ln n}{3k}}
-%             = n^{-2}
-%       \end{gather}
-%       So the expected time for such a step is at least \(n^2=\omega(n\ln(n))\).
-%       Now let's look at steps that flip at most $k+k\sqrt{6\ln(n)/k}$ bits in a single step.
-%       Such a step only successfully flips $w_1$ if both $w_1$ is flipped and enough total volume is shifted from $b_E$ to $b_F$.
-%       Due to Lemma~\ref{lemma:CWittRefined} with $\delta=\frac{1}{n}$ (for $n>1$) the solution is at most $w_1+\delta(W-w_1)$ after expected time
-%       \begin{gather}\nonumber
-%             2\lceil\frac{e^c}{c(1+o(1))}n\ln(2/\delta)\rceil
-%             =2\lceil\frac{e^c}{c(1+o(1))}n\ln(2/\frac{1}{n})\rceil
-%             =2\lceil\frac{e^c}{c(1+o(1))}n\ln(2n)\rceil \\ \nonumber
-%             =2\lceil\frac{e^c}{c(1+o(1))}n(\ln(n)+\ln(2))\rceil
-%             \le\frac{e^c}{c(1+o(1))}en\ln(n)+4    
-%       \end{gather}
-%       The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
-
-%       Lemma~\ref{lemma:W1FlipWontHappen} states that the probability of a step flipping with $w_1$ together with $y-1$ other bits is at most $\frac{2y{(y-1)}^2}{n(n-1)(c-1)}$.
-%       Applying the bound $y\le k+k\sqrt{6\ln(n)/k}$ and the value $c=2(1-\frac{1}{n})$ this simplifies to
-%       \[
-%             \frac{2y{(y-1)}^2}{n(n-1)(c-1)}
-%             \le\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{n(n-1)(1-\frac{2}{n})}
-%             =\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{n(n-1)\frac{n-2}{n}}
-%             =\frac{2{(k+k\sqrt{6\ln(n)/k})}^3}{(n-1)(n-2)}
-%       \]
-%       The probability of one of these steps to happen for any value of $y$ is given by
-%       \begin{gather}
-%             \nonumber \sum_{y=2}^{k+k\sqrt{6\ln(n)/k}}{\probP(y \text{ bits are flipped})\cdot\probP(\text{the correct $y$ bits are flipped} | y \text{ bits are flipped})}\\
-%             \nonumber \le ({k+k\sqrt{6\ln(n)/k}})\cdot\frac{2{(k+k\sqrt{6\ln(n)/k})}^{3}}{(n-2)(n-1)}
-%             = \frac{2{(k+k\sqrt{6\ln(n)/k})}^{4}}{(n-2)(n-1)}\\ \nonumber
-%             = \frac{2{(o({n}^{1/8}))}^{4}}{(n-2)(n-1)}
-%             = \frac{o(n^{0.5})}{\mathcal{O}(n^{2})}
-%             = \mathcal{O}(n^{-1.5})
-%       \end{gather}
-%       The expected time fur such a step is then $\Omega(n^{1.5})=\omega(n\ln n)$.
-%       So in conclusion a step moving the first bit after expected time $2en\ln n+4$ has passed is either unlikely due to the amount of bits shifted or due to the small amount of values needed to be flipped for such a step.
-%       The expected time for such a step is $\omega(n\ln(n))$ and will therefore not happen in expectation before the linear function is optimised.
-%       The total runtime for the (1+1) EA is $(2en\ln n+4) + (1+o(1))en\ln n = \Theta(n\log{}n)$.
 % \end{proof}
