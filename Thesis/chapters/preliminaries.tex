@@ -6,5 +6,142 @@
 %% ==============
 
 %This chapter should provide the foundations of the thesis.
+\section{Notation}
+\begin{enumerate}
+    \item \textbf{RLS:} Randomised Local Search
+    \item \textbf{RSH:} Randomised Search Heuristic referring to all analysed Evolutionary algorithms
+    \item \textbf{$n$:} The input length of the problem
+    \item \textbf{$w_i$:} The $i$-th object of the input. If not mentioned otherwise the weights are sorted in non-increasing order so: \(w_1 \ge w_2 \ge \ldots \ge w_{n-1} \ge w_{n}\)
+    \item \textbf{$W$:} The sum of all objects: W = $\sum_{i=1}^{n}w_i$
+    \item \textbf{bin:} When solving Partition a set of numbers is divided into two distinct subsets and in this paper both subsets are referred to as bins
+    \item \textbf{$b_F$:} The fuller bin (the bin with more total weight)
+    \item \textbf{$b_E$:} The emptier bin (the bin with less total weight)
+    \item \textbf{$b_{w_i}$:} The bin containing the object $w_i$
+    \item \textbf{$opt$:} The optimal solution for a given partition instance.
+    \item \textbf{$x$:} A vector $x \in {\{0, 1\}}^n$ describing a solution
+\end{enumerate}
 
-\input{chapters/Notation.tex}
+\section{Background}
+\subsection{Known algorithms for partition}
+Multiple methods for generating a solution of PARTITION already exist.
+Solving the problem with a greedy approach in runtime $\mathcal{O}(n)$ results in an approximation ratio of 3/2 if the elements are not sorted or a ratio of 7/6 if the numbers are sorted.
+Greedy in this case means putting each element in the currently emptier set while looking at each value exactly once.
+Another approximation algorithm is the KK-algorithm or also called Largest Differencing Method.
+With expected time $\mathcal{O}(n\log{}n)$ it has the same runtime as greedy with sorting and also the same worst case approximation of 7/6.
+For inputs chosen uniform random from [0,1] the KK has an expected ratio of \(1+\frac{1}{n^{\Theta(\log{}n)}}\) in comparison to the greedy algorithm which only reaches an approximation ratio of \(1+\mathcal{O}(\frac{1}{n})\).
+Instead of putting each element in the currently emptier set the currently largest two values are combined to one value by either subtracting or adding them depending on which results in a better solution.
+Adding them corresponds to putting the elements in the same set whereas subtracting them means putting them in different sets. 
+There is even a fully polynomial time algorithm (FPTAS) for the subsetsum problem~\cite{KELLERER2003349} which can be used by setting the required sum to half the sum of all values.
+FPTAS return a solution of at most (1+$\epsilon$) the optimum in a time that is polynomial both in $n$ and in $\frac{1}{\epsilon}$.
+There are lots of other approximation-algorithms as well but also some algorithms that always return the best solution.
+The Pseudopolynomial time number partitioning algorithm always returns an optimal solution but needs time and space $\mathcal{O}(n\frac{m}{2})$ where $m$ is the largest number in the input.
+The runtime is only pseudopolynomial because to encode $m$ in the input only $\log_{2}{(m)}$ bits are required which causes \(m=2^{\log_{2}{(m)}}\) to be exponential in the input size.
+The Complete Greedy Algorithm (CGA)~\cite{korf1998complete} traverses a binary Tree depth first and searches the complete $2^n$ search space in a greedy way.
+It functions the same way as the simple greedy algorithm but instead of only looking at the greedy option it also chooses to evaluate the other option afterwards as well.
+The algorithm continues the depth first search until it either found a perfect partition or has traversed the whole tree.
+In the second case it will return the best value found on the way.
+While the space complexity in only $\mathcal{O}(n)$ the runtime is $\mathcal{O}(2^n)$.
+Another exact algorithm is the Complete Karmarkar-Karp (CKK)~\cite{korf1998complete}.
+This algorithm works similar to the greedy approach by traversing the binary tree of all solutions.
+Instead of greedily selecting the next edge here the algorithm behaves like the KK-algorithm described above.
+It performs better than the CGA for the same reasons as before but also has the same worst case running time as the GCA.
+
+\subsection{Evolutionary Algorithm}
+Evolutionary Algorithms mimic the process of evolution and normally behave mostly the same.
+A run typically looks like this:
+\begin{enumerate}
+      \item Generate initial population at random
+      \item if stopping condition are met return the currently best solution
+      \item generate offspring population (e.g.\ by mutation)
+      \item evaluate fitness of the offspring
+      \item select fittest individuals and update population
+      \item go back to step 2.
+\end{enumerate}
+For PARTITION a solution $x\in{\{0,1\}}^{n}$ where $n$ is the size of the inputs separates all numbers into two different sets with $x_i=0$ meaning $w_i$ is in set 0 whereas $x_i=1$ meaning $w_i$ is in set 1.
+So every possible value of $x$ describes a feasible solution but not necessarily a good one.
+To evaluate the quality of a solution the EA is given a fitness function.
+The fitness function in this case is \(f(x)=\max\{\sum_{i=1}^{n}w_i\cdot x_i, \sum_{i=1}^{n}w_i\cdot(1-x_i)\}\).
+The goal of the algorithm is to return a solution with minimal fitness.
+A mutation step in the PARTITION problem will change an algorithm-dependent number of bits from 1 to 0 or vice versa.
+In this case flipping a bit means putting the element in the other set.
+A simple implementation of an EA is the so called (1+1) EA (Algorithm~\ref{alg:EA}).\
+The first 1 in the brackets refers to size of the population and the second to the amount of mutants created in each iteration of the loop.
+So it always has only one solution and just generates one new solution in each step.
+The mutation of the current individual is performed by flipping each bit independently with probability $1/n$.
+The amount of flipped bits is binomial distributed with an expected value of $n\cdot\frac{1}{n}=1$.
+By changing the mutation rate $1/n$ to $c/n$ for any constant $c$ the algorithm now flips $n\cdot c/n=c$ bits in expectation.\newline
+\begin{algorithm}[bt]
+      \caption{\textsc{(1+1) EA}}\label{alg:EA}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow x$\;
+      flip every bit of $x'$ with probability $1/n$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+Another simple EA is the randomised local search or short RLS (Algorithm~\ref{alg:RLS}).\
+Instead of flipping each bit with probability $1/n$ here one random bit is flipped at uniform random.
+Apart from that the algorithms are the same.
+\begin{algorithm}[bt]
+      \caption{\textsc{RLS}}\label{alg:RLS}
+
+      % Some settings
+      \DontPrintSemicolon %dontprintsemicolon
+      \SetFuncSty{textsc}
+
+      % The algorithm
+      \BlankLine
+      choose x uniform from ${\{0,1\}}^n$\;
+      \While{$x$ not optimal}
+      {
+      $x' \leftarrow x$\;
+      flip one uniform random bit of $x'$\;
+      {
+      \If{$f(x') \le f(x)$}
+      {
+            $x \leftarrow x'$\;
+      }
+      }
+      }
+\end{algorithm}
+
+\subsection{Literature on the RLS and (1+1) EA for partition}
+Carsten Witt proved that the RLS and the (1+1) EA find a $(4/3+\epsilon)$ approximation in expected time $\bigO(n)$ and a $(4/3)$-approximation in expected time $\bigO(n^2)$~\cite{witt2005worst}.
+He then introduced an almost worst case input to prove the bound for the approximation ratio is at least almost tight.
+The input is defined as followed for any $0<\epsilon<1/3$ and even $n$:\newline
+The input contains two numbers of value $1/3 - \epsilon/4$ and $n-2$ elements of value $(1/3+\epsilon/2)/(n-2)$. 
+The total volume is normalised to 1.
+When the two large values are in the same bin, the RSHs are tricked into a local optimum, where only $w_1$ and $w_2$ are in the first bin and the remaining elements in the other bin.
+This results in an almost worst case.
+To leave this $\Omega(n)$ bits must be moved in a step separating the two large values.
+Such a step will never happen for the RLS and only in expected exponential time for the (1+1) EA.\
+This worst case happens with probability $\Omega(1)$.
+He also proved the both RSHs return a (1+$\epsilon$) for $\epsilon\ge4n$ in expected time \(\lceil en\ln(4/\epsilon)\rceil\) for the (1+1) EA and \(\lceil en\ln(4/\epsilon)\rceil\) for the RLS with probability at least \(2^{-(e\log{e}+e)\lceil 2/\epsilon}\rceil \ln(4/\epsilon)-\lceil 2/\epsilon\) for the (1+1) EA and at least \(2^{-(\log{e}+1)\lceil 2/\epsilon}\rceil \ln(4/\epsilon)-\lceil 2/\epsilon\) for the RLS.\
+Afterwards he proved both RHSs reach a solution where the difference between the two bins is at most 1 for uniform distributed inputs on [0,1] after expected time $\bigO(n^2)$ for the (1+1) EA and $\bigO(n\log{n})$.
+The difference between the two bis is even bounded by $\bigO(\log{n}/n)$ after $\bigO(n^{c+4}\log{n})$ steps with probability at least $1-\bigO(1-1/n^c)$.
+This leads to an expected difference of $\bigO(\log{n}/n)$ after $\bigO(n^{c+4}\log{n})$ steps.
+He also analysed exponential distributed inputs with parameter 1.
+With probability $1-\bigO(1/n^c)$ the difference on those inputs is bounded by $\bigO(\log{n})$ after $\bigO(n^2\log{n})$ steps and even by $\bigO(\log{n}/n)$ after $\bigO(n^{c+4}\log^2{n})$ steps.
+Additionally he described a polynomial time randomised approximation scheme (PRAS) for the RLS and the (1+1) EA for values of $\epsilon=\Omega(\log{\log{}}n/\log{n})$.\newline
+For MAKESPAN-SCHEDULING a list of processing times has to be distributed on a set of machines while minimising the total time of the fullest machine.
+With 2 machines this problem is exactly the same as PARTITION.\
+So in a sense MAKESPAN-SCHEDULING is a more general version of PARTITION.\
+This lead to Christian Gunia generalising some results previously shown by C. Witt to MAKESPAN-SCHEDULING on $k$ machines~\cite{gunia2005analysis}.
+Solutions for MAKESPAN-SCHEDULING are \(x\in{\{0,\dots,k-1\}}^n\) and therefore during a mutation $x_i$ is set to a uniform random value from $\{0,\dots,k-1\}\text{\textbackslash}\{x_i\}$ instead of $1-x_i$.
+The adapted RSHs reach an approximation ratio of $(2k/k+1)$ in expected time $\bigO(Wn^{2k-2}/w_n)$.
+On an instance where every weight is the same the expected optimisation time is bounded by $\bigO(n\log{n})$.
+He also adapted the almost worse case to the problem and proved the RLS does not find a solution better than \((2k/k+1)-\epsilon\) in finite time for any $\epsilon>0$.
+The second statement for PARTITION on the uniform distributed input on [0,1] are the exact same for MAKESPAN-SCHEDULING on $k$ machines as well.

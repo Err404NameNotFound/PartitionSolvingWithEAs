@@ -324,17 +324,10 @@
 
 
 \begin{lemma}
-    With high probability the RLS does not find an optimal solution for an input with distribution \textasciitilde$B(m,p)$ if n and m are large enough.
+    With high probability the RLS does not find a perfect partition for an input with distribution \textasciitilde$B(m,p)$ if n is large enough, $mp\ge50$ and $m-mp\ge50$.
 \end{lemma}
 \begin{proof}
-    Sketch:
-    \begin{itemize}
-        \item There exists an optimal solution with high probability due to last lemma
-        \item probability for a value to be very low is almost 0 if m is huge
-        \item The RLS only moves one element per step and will reach $b_F$-$b_E$ < $w_n$ without $b_F= opt$ being true
-        \item → RLS can't make another step and is stuck in a local optimum.
-    \end{itemize}
-    Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability. The probability for small values \dots\newline
+    % Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability.
     % As long as $b_F-b_E>w_1$ holds moving any object $w_i$ from $b_F$ to $b_E$ results in a decrease of the fitness of $w_i$.
     % The RLS will continue moving elements to the emptier bin at least until $b_F-b_E$ holds which will eventually happen because there is always at least one bit left in $b_F$ that can be shifted to the emptier bin as long as $b_F-b_E>w_1$.
     % When the RLS reaches a search point of $b_F-b_E\le w_1$ there are two cases.
@@ -343,24 +336,29 @@
     % If the moved object $w_i\le (b_F-b_E/2)$ then $b_F'-b_E'=(b_F-w_i)-(b_E-w_i)\le w_1-w_n$.
     % If the moved object $w_i> b_F-b_E$ then $b_F'-b_E'=(b_F-w_i)-(b_E-w_i)=b_F-b_E-2w_i\le \dots$.
 
+    % Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability
     The RLS will always move one object per step from fuller to the emptier bin.
     As long as $b_F-b_E>w_i$ holds moving any object of weight at most $w_i$ from $b_F$ to $b_E$ results in a decrease of the fitness ($b_F'=b_E+w_i<b_F-w_i+w_i=b_F$).
-    If the RLS does not decrease the difference $b_F-b_E$ to at most $w_n$ the solution is never optimal and the RLS therefore must be stuck.
+    If the RLS does not decrease the difference $b_F-b_E$ to at most $w_n$ in any step the solution is never optimal and the RLS therefore must be stuck.
     So now assume the RLS eventually reaches a search point with $b_F-b_E\le w_n$.
-    Consider the step wich decreases the difference from more than $w_n$ to at most $w_n$.
+    Consider the step which decreases the difference from more than $w_n$ to at most $w_n$.
     If this step does not decrease the difference to 0 for even $n$ or 1 for odd $n$ the RLS is stuck due to Corollary~\ref{cor:RLSStuck}.
     For a step to decrease $b_F-b_E$ from more than $w_n$ to 0 the RLS must move an object of weight $y$ which is given by $b_F'-b_E'=(b_F-y)-(b_E+y)=0\Leftrightarrow b_F-b_E-2y=0\Leftrightarrow y=(b_F-b_E)/2$.
     Such an element can only exist for even $n$ because only for even n either both bins have an even sum or neither of them.
     Odd inputs will always have exactly one bin with an even sum and one with an odd sum.
-    For odd $n$ a difference of 1 suffices for an optimal solution and therefore the value of $y$ must be either $\lceil(b_F-b_E)/2\rceil$ or $\lfloor(b_F-b_E)/2\rfloor$.
+    For odd $n$ a difference of 1 suffices for a perfect partition and therefore the value of $y$ must be either $\lceil(b_F-b_E)/2\rceil$ or $\lfloor(b_F-b_E)/2\rfloor$.
     For any binomial distribution the value which occurs the most in expectation is the expected value if $mp\in\N$ or $\lceil mp\rceil$ and $\lfloor mp\rfloor$ otherwise.
-    Let's assume that exactly objects with this volume must be selected and that there are two options because $mp\notin\N$.
+    Even if the behaviour of the algorithm forces values smaller or bigger than $mp$ in the emptier bin, the number of bigger/smaller values in the fuller bin will still be less in expectation than the amount of $mp$ in both bins.
+    Let's assume that objects with exactly this volume must be selected and that there are two options because $mp\notin\N$.
     This will give an upper bound on the probability of flipping the right object in the crucial step.
-    The probability of a number to be $\lfloor mp\rfloor$ is $p^{\lfloor mp\rfloor}{(1-p)}^{m-\lfloor mp\rfloor}\le0.5^{50}\le\frac{1}{1024^5}\le10^{-15}$ because both $mp\ge50$ and $m-mp\ge50$ and $p\le0.5$ or $1-p\le0.5$.
+    The probability of a number to be $\lfloor mp\rfloor$ is $p^{\lfloor mp\rfloor}{(1-p)}^{m-\lfloor mp\rfloor}\le0.5^{50}=\frac{1}{1024^5}<10^{-15}$ because both $mp\ge50$ and $m-mp\ge50$ and $p\le0.5$ or $1-p\le0.5$.
     For $\lceil mp\rceil$ the same bound applies with the same arguments.
     The probability of either of these numbers to be drawn from the binomial distribution is at most $2\cdot 0.5^{50}=0.5^{49}\le10^{-15}$.
-    This leads to $n\cdot 10^{-15}$ values with the right value.
-    All bits are flipped uniformly at random and therefore the probability of flipping a good bit is at most \(\frac{n\cdot 10^{-15}}{n}=10^{-15}\).
+    This leads to $n\cdot 10^{-15}$ values with the right value in expectation.
+    All bits are flipped uniformly at random and therefore the probability of flipping a good bit is at most
+    \(\frac{n\cdot 10^{-15}}{|b_F|}\le \frac{n\cdot 10^{-15}}{n} =10^{-15}\).
+    
+
     This means the RLS is very unlikely to find a perfect partition.
     Given the solution has a perfect partition the RLS will get stuck in a local optimum.
 

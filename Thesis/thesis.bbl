@@ -25,6 +25,26 @@ Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
 \newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.
 \newblock {\em arXiv preprint arXiv:1805.10902}, 2018.
 
+\bibitem[Gun05]{gunia2005analysis}
+Christian Gunia.
+\newblock On the analysis of the approximation capability of simple evolutionary algorithms for scheduling problems.
+\newblock In {\em Proceedings of the 7th annual conference on Genetic and evolutionary computation}, pages 571--578, 2005.
+
+\bibitem[Hay02]{hayes2002computing}
+Brian Hayes.
+\newblock Computing science: The easiest hard problem.
+\newblock {\em American Scientist}, 90(2):113--117, 2002.
+
+\bibitem[KMPS03]{KELLERER2003349}
+Hans Kellerer, Renata Mansini, Ulrich Pferschy, and Maria~Grazia Speranza.
+\newblock An efficient fully polynomial approximation scheme for the subset-sum problem.
+\newblock {\em Journal of Computer and System Sciences}, 66(2):349--370, 2003.
+
+\bibitem[Kor98]{korf1998complete}
+Richard~E Korf.
+\newblock A complete anytime algorithm for number partitioning.
+\newblock {\em Artificial Intelligence}, 106(2):181--203, 1998.
+
 \bibitem[Wit05]{witt2005worst}
 Carsten Witt.
 \newblock Worst-case and average-case approximations by simple randomized search heuristics.
