@@ -233,8 +233,11 @@ public class Evaluation {
         long[] input;
         ProgressPrinter progress = new ProgressPrinter(n);
         if (PRINT_DATA) {
+            print(";");
             ArrayPrinter.printArray(i -> solvers[i].shortName, solvers.length);
+            print(";");
             ArrayPrinter.printArray(lengths);
+            print(";");
             ArrayPrinter.printArray(maxSteps);
         }
         int t;

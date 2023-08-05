@@ -61,7 +61,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 8;
+    public static final int DEFAULT_SELECTION = 17;
 
 
     public static void main(String[] args) {
@@ -102,12 +102,12 @@ public class Main {
             case 9 -> BinomialTesting.printBinomialDistribution(1000 ,0.95, 10000);
 
             case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");
-            case 12 -> evaluate(20, POWERLAW_DISTRIBUTED, 10 * 1000, Solver.getPmutComparison(), "DELETE");
+            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getRLSRingComparison(1,2,3,4), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
-            case 17 -> redoAllExperiments(10000, "newRNG10k");
+            case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance");
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -257,7 +257,7 @@ public class Main {
         };
         Solver[] bestSolvers = new Solver[3];
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
-        for (int i = 1; i < inputTypes.length; ++i) {
+        for (int i = 2; i < inputTypes.length; ++i) {
             bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
             bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
             bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[2], "pmut_comparison-" + postfix);

@@ -71,9 +71,15 @@ public class Solver {
         };
     }
 
-    public static Solver[] getRLSNeighbourComparison(int[] values) {
+    public static Solver[] getRLSNeighbourComparison(int... values) {
         Solver[] ret = new Solver[values.length];
         ArrayHelp.fill(ret, (i) -> getRLSUniformNeighbour(values[i]));
+        return ret;
+    }
+
+    public static Solver[] getRLSRingComparison(int ... values) {
+        Solver[] ret = new Solver[values.length];
+        ArrayHelp.fill(ret, (i) -> getRLSUniformRing(values[i]));
         return ret;
     }
 
@@ -85,8 +91,8 @@ public class Solver {
                 getEA(4),
                 getEA(5),
                 getEA(10),
-//                getEA(50),
-//                getEA(100),
+                getEA(50),
+                getEA(100),
         };
     }
 
