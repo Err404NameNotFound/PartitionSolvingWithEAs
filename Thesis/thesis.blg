@@ -4,14 +4,14 @@ The top-level auxiliary file: thesis.aux
 A level-1 auxiliary file: chapters/titlepage.aux
 A level-1 auxiliary file: chapters/introduction.aux
 A level-1 auxiliary file: chapters/preliminaries.aux
-A level-1 auxiliary file: chapters/Chapter2.aux
+A level-1 auxiliary file: chapters/proofs.aux
 A level-1 auxiliary file: chapters/ExperimentalResults.aux
 A level-1 auxiliary file: conclusion.aux
 The style file: alpha.bst
 Database file #1: references.bib
 You've used 16 entries,
             2543 wiz_defined-function locations,
-            667 strings with 7265 characters,
+            667 strings with 7263 characters,
 and the built_in function-call counts, 6453 in all, are:
 = -- 665
 > -- 242
