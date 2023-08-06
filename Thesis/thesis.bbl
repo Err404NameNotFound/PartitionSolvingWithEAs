@@ -20,10 +20,20 @@ Benjamin Doerr, Huu~Phuoc Le, R{\'e}gis Makhmara, and Ta~Duy Nguyen.
 \newblock Fast genetic algorithms.
 \newblock In {\em Proceedings of the genetic and evolutionary computation conference}, pages 777--784, 2017.
 
+\bibitem[Fer05]{fernau2005parameterized}
+Henning Fernau.
+\newblock {\em Parameterized algorithmics: A graph-theoretic approach}.
+\newblock PhD thesis, Citeseer, 2005.
+
 \bibitem[FGQW18]{friedrich2018evolutionary}
 Tobias Friedrich, Andreas G{\"o}bel, Francesco Quinzan, and Markus Wagner.
 \newblock Evolutionary algorithms and submodular functions: Benefits of heavy-tailed mutations.
 \newblock {\em arXiv preprint arXiv:1805.10902}, 2018.
+
+\bibitem[Gra66]{graham1966bounds}
+Ronald~L Graham.
+\newblock Bounds for certain multiprocessing anomalies.
+\newblock {\em Bell system technical journal}, 45(9):1563--1581, 1966.
 
 \bibitem[Gun05]{gunia2005analysis}
 Christian Gunia.
@@ -44,6 +54,16 @@ Hans Kellerer, Renata Mansini, Ulrich Pferschy, and Maria~Grazia Speranza.
 Richard~E Korf.
 \newblock A complete anytime algorithm for number partitioning.
 \newblock {\em Artificial Intelligence}, 106(2):181--203, 1998.
+
+\bibitem[Kor09]{korf2009multi}
+Richard~Earl Korf.
+\newblock Multi-way number partitioning.
+\newblock In {\em Twenty-First International Joint Conference on Artificial Intelligence}, 2009.
+
+\bibitem[SN12]{sutton2012parameterized}
+Andrew~M Sutton and Frank Neumann.
+\newblock A parameterized runtime analysis of simple evolutionary algorithms for makespan scheduling.
+\newblock In {\em International Conference on Parallel Problem Solving from Nature}, pages 52--61. Springer, 2012.
 
 \bibitem[Wit05]{witt2005worst}
 Carsten Witt.
