@@ -2,7 +2,6 @@ package Evaluation;
 
 import help.ArrayHelp;
 import help.ArrayPrinter;
-import help.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 import main.InputGenerator;

@@ -4,7 +4,7 @@ import Evaluation.BinomialTesting;
 import Evaluation.Evaluation;
 import Evaluation.ResultsChapterPrinter;
 import help.ArrayPrinter;
-import help.MinMaxAvgEvaluator;
+import Evaluation.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 
@@ -98,16 +98,16 @@ public class Main {
             case 5 -> BinomialTesting.testBinomialSolutionCount(1000, 20, 10000, 0.1);
             case 6 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20}, 10000, 0.5);
             case 7 -> BinomialTesting.testBinomialSolutionCount(10000, new int[]{10, 12, 14, 16, 18, 20});
-            case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000,100000,1000 ,0.5));
-            case 9 -> BinomialTesting.printBinomialDistribution(1000 ,0.95, 10000);
+            case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000, 100000, 1000, 0.5));
+            case 9 -> BinomialTesting.printBinomialDistribution(1000, 0.95, 10000);
 
             case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");
-            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getRLSRingComparison(1,2,3,4), "DELETE");
+            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getRLSRingComparison(1, 2, 3, 4), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
-            case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance");
+            case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{1, 7, 8});
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -239,7 +239,7 @@ public class Main {
         Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
     }
 
-    private static void redoAllExperiments(int n, String postfix) {
+    private static void redoAllExperiments(int n, String postfix, int[] indexes) {
         int[] inputTypes = new int[]{
                 UNIFORM_INTERVALL, ONEMAX_ONE, TWO_THIRDS,
                 BINOMIAL_DISTRIBUTED, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,
@@ -250,17 +250,25 @@ public class Main {
                 10 * 1000, 10 * 1000, 20 * 1000,
                 10 * 1000, 10 * 1000, 10 * 1000
         };
-        Solver[][] solvers = new Solver[][]{
-                Solver.getRLSComparison(),
-                Solver.getEAComparison(),
-                Solver.getPmutComparison()
+        Solver[][] eaSolvers = new Solver[][]{
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
+                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
         };
+        Solver[] rlsVariants = Solver.getRLSComparison();
+        Solver[] pmutVariants = Solver.getPmutComparison();
         Solver[] bestSolvers = new Solver[3];
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
-        for (int i = 2; i < inputTypes.length; ++i) {
-            bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[0], "rls_comparison-" + postfix);
-            bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[1], "ea_comparison-" + postfix);
-            bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], solvers[2], "pmut_comparison-" + postfix);
+        for (int i : indexes) {
+            bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], rlsVariants, "rls_comparison-" + postfix);
+            bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], eaSolvers[i], "ea_comparison-" + postfix);
+            bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], pmutVariants, "pmut_comparison-" + postfix);
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], bestSolvers, "best-" + postfix);
             System.out.println(getName(inputTypes[i]) + " done");
         }
@@ -322,7 +330,7 @@ public class Main {
 
     private static void printSolutionOfOneInput() {
         int length = 10000;
-        long stepLimit = 10*nlogn(length);
+        long stepLimit = 10 * nlogn(length);
         long[] temp = generateInput(GEOMETRIC_DISTRIBUTED, length);
         PartitionSolver.solvePmut(temp, stepLimit, 3, true).printResult();
     }
