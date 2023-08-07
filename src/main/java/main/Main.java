@@ -62,7 +62,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 44;
+    public static final int DEFAULT_SELECTION = 43;
 
 
     public static void main(String[] args) {

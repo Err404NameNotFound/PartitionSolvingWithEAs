@@ -1,27 +1,31 @@
-Input; [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 9999]
-input type;      OneMax equivalent for partition (2)
-array length;    10.000
-number of runs;  1.000
+Elapsed time: 00:11:47
+
+number of runs;  10.000
 Limit per run;   921.030
+array length;    10.000
 ratio 100 * m/n; 0,13288 -> easy
+input type;      OneMax equivalent for partition (2)
+Fields with sum; 1
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 9999]
 ---------
-algo type;            RLS;    pmut;      EA
-algo param;             -;   -3,25;       -
-avg mut/change;     1,000;   1,287;   1,272
-avg mut/step;       1,000;   1,729;   1,000
+algo type;             RLS;     pmut;       EA
+algo param;              -;     3,25;        -
+avg mut/change;      1,000;    1,287;    1,272
+avg mut/step;        1,000;    1,729;    1,000
 ---------
-total avg count;   91.171; 143.121; 231.082
-avg eval count;    91.171; 143.121; 231.082
-max eval count;   153.143; 227.737; 446.942
-min eval count;    65.783;  93.602; 165.818
+total avg count;    91.049;  143.454;  231.543
+avg eval count;     91.049;  143.454;  231.543
+max eval count;    170.273;  298.918;  517.244
+min eval count;     59.480;   92.742;  158.420
 ---------
-fails;                  0;       0;       0
-fail ratio;         0,000;   0,000;   0,000
-avg fail dif;          -1;      -1;      -1
+fails;                   0;        0;        0
+fail ratio;          0,000;    0,000;    0,000
+avg fail dif;           -1;       -1;       -1
 ---------
-RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
-RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
-EA      -> standard EA ; each bit is flipped with prob 1/n
-EA-SM   -> modified EA ; each bit is flipped with prob c/n
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution

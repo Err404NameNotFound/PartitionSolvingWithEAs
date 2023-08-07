@@ -1,4 +1,6 @@
-number of runs;  1.000
+Elapsed time: 00:00:43
+
+number of runs;  10.000
 Limit per run;   921.030
 array length;    10.000
 ratio 100 * m/n; 0,12384 -> easy
@@ -6,19 +8,19 @@ input type;      Carsten Witts worst case input (1/3, 1/3, 1/(3(n-2)), ...) (4)
 Fields with sum; 2
 Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 5344, 5344]
 ---------
-algo type;             pmut;     EA-SM;     RLS-N
-algo param;           -1,25;     100/n;       n=4
-avg mut/change;     195,454;    99,875;     3,998
-avg mut/step;       224,523;    99,980;     4,000
+algo type;            pmut;    EA-SM;    RLS-N
+algo param;           1,25;    100/n;      n=4
+avg mut/change;    196,835;   99,936;    3,998
+avg mut/step;      225,471;   99,996;    4,000
 ---------
-total avg count;         43;        67;     4.458
-avg eval count;          43;        67;     4.458
-max eval count;         240;       521;    43.317
-min eval count;           0;         0;         0
+total avg count;        43;       69;    4.434
+avg eval count;         43;       69;    4.434
+max eval count;        299;      613;   68.848
+min eval count;          0;        0;        0
 ---------
-fails;                    0;         0;         0
-fail ratio;           0,000;     0,000;     0,000
-avg fail dif;            -1;        -1;        -1
+fails;                   0;        0;        0
+fail ratio;          0,000;    0,000;    0,000
+avg fail dif;           -1;       -1;       -1
 ---------
 RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
 RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n

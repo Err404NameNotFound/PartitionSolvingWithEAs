@@ -1,27 +1,31 @@
-Input; [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 9999]
-input type;      OneMax equivalent for partition (2)
-array length;    10.000
-number of runs;  52
+Elapsed time: 05:26:38
+
+number of runs;  1.798
 Limit per run;   921.030
+array length;    10.000
 ratio 100 * m/n; 0,13288 -> easy
+input type;      OneMax equivalent for partition (2)
+Fields with sum; 1
+Input: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ..., 1, 1, 1, 1, 1, 1, 1, 1, 1, 9999]
 ---------
-algo type;           pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut;    pmut
-algo param;         -3,25;   -3,00;   -2,75;   -2,50;   -2,25;   -2,00;   -1,75;   -1,50;   -1,25
-avg mut/change;     1,289;   1,359;   1,459;   1,591;   1,813;   2,207;   2,760;   3,604;   5,382
-avg mut/step;       1,731;   1,934;   2,270;   2,907;   4,371;   8,486;  22,299;  70,692; 224,466
+algo type;            pmut;     pmut;     pmut;     pmut;     pmut;     pmut;     pmut;     pmut;     pmut
+algo param;           3,25;     3,00;     2,75;     2,50;     2,25;     2,00;     1,75;     1,50;     1,25
+avg mut/change;      1,286;    1,359;    1,459;    1,598;    1,814;    2,152;    2,722;    3,719;    5,197
+avg mut/step;        1,729;    1,935;    2,270;    2,905;    4,359;    8,479;   22,233;   70,692;  224,570
 ---------
-total avg count;  145.095; 149.664; 170.912; 181.099; 214.361; 249.102; 301.566; 415.413; 715.219
-avg eval count;   145.095; 149.664; 170.912; 181.099; 214.361; 249.102; 301.566; 415.413; 683.204
-max eval count;   217.932; 223.561; 254.330; 246.635; 365.378; 376.768; 431.629; 735.214; 853.181
-min eval count;   111.061; 119.931; 120.965; 130.174; 161.244; 180.570; 232.166; 311.979; 492.686
+total avg count;   142.937;  153.214;  167.454;  181.340;  206.641;  243.262;  302.445;  422.885;  698.772
+avg eval count;    142.937;  153.214;  167.454;  181.340;  206.641;  243.262;  302.445;  422.885;  686.374
+max eval count;    262.484;  294.880;  315.836;  359.104;  376.693;  431.924;  615.506;  899.296;  920.942
+min eval count;     97.595;  107.234;  113.518;  126.834;  142.210;  162.092;  205.614;  286.108;  472.286
 ---------
-fails;                  0;       0;       0;       0;       0;       0;       0;       0;       7
-fail ratio;         0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,000;   0,135
-avg fail dif;          -1;      -1;      -1;      -1;      -1;      -1;      -1;      -1;       1
+fails;                   0;        0;        0;        0;        0;        0;        0;        0;       95
+fail ratio;          0,000;    0,000;    0,000;    0,000;    0,000;    0,000;    0,000;    0,000;    0,053
+avg fail dif;           -1;       -1;       -1;       -1;       -1;       -1;       -1;       -1;        1
 ---------
-RLS     -> standard RLS; uniform random neighbour with Hamming Distance == 1
-RLS-N   -> modified RLS; uniform random neighbour with Hamming Distance <= k
-RLS-R   -> modified RLS; uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,k}
-EA      -> standard EA ; each bit is flipped with prob 1/n
-EA-SM   -> modified EA ; each bit is flipped with prob c/n
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
 fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
