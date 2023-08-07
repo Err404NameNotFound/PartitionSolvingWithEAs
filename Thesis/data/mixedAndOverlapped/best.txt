@@ -1,18 +1,22 @@
-number of runs;  1.000
+Elapsed time: 00:29:19
+
+number of runs;  10.000
 Limit per run;   921.030
 array length;    10.000
-ratio 100 * m/n; 0,16561 -> easy
+ratio 100 * m/n; 0,16589 -> easy
 input type;      mixed and overlapped (13)
+lowest value;    1
+highest value;   50.000
 ---------
 algo type;          RLS;  pmut;    EA
-algo param;           -; -3,25;     -
-avg mut/change;   1,000; 1,593; 1,485
-avg mut/step;     1,000; 1,731; 1,000
+algo param;           -;  3,25;     -
+avg mut/change;   1,000; 1,582; 1,481
+avg mut/step;     1,000; 1,729; 1,000
 ---------
-total avg count;    436;   561;   917
-avg eval count;     436;   561;   917
-max eval count;   1.556; 2.359; 4.134
-min eval count;      46;    48;    28
+total avg count;    419;   542;   875
+avg eval count;     419;   542;   875
+max eval count;   1.895; 2.573; 4.186
+min eval count;      21;    32;    43
 ---------
 fails;                0;     0;     0
 fail ratio;       0,000; 0,000; 0,000
