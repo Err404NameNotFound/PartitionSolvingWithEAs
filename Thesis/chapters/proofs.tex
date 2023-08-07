@@ -14,11 +14,11 @@ For the analysis of mutation rates $c/n$ the work of C. Witt only has to be slig
 The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
 
 \begin{lemma}\label{lemma:CWittRefined}
-    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA with mutation rate $c/n$ with constant $0<c<n, c=o(\sqrt{n})$ (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
+    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA with mutation rate $c/n$ with constant $0<c<\sqrt{n}$ (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
 \end{lemma}
 \begin{proof}
     This Lemma is very similar to C. Witt's  Lemma 2 from section `2. Definitions and Proof Methods' in~\cite{witt2005worst}.
-    The proof is almost the same.
+    The proof is mostly the same.
     He first defines a potential function $p(x)=f(x)-l$.
     While $p(x)>0$ all steps moving only a small object to the emptier bin are accepted.
     The expected p-decrease is at least $p_0\cdot q$ where $q$ is a lower bound on the probability of the algorithm to flip one specific bit.
@@ -85,7 +85,12 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     \end{gather}
 \end{proof}
 
-
+Theorem~\ref{theo:OneMaxResult} is the last analysis for inputs with $w_1 \ge \frac W 2$.
+It uses the results of the two previous lemmas and gives an asymptotic bound on the runtime.
+Instead of giving a runtime for a 4/3-approximation this lemma gives the expected runtime for reaching one of the two optimal solutions.
+For a non-optimal solution moving one element from the fuller to the emptier bin will always result in an improvement.
+There are also no local optima which neither of the algorithms is unlikely to leave.
+So this input is rather easy to solve for the RLS and (1+1) EA and comparable to a linear function or even OneMax if $w_2=\cdots=w_n$.
 
 \begin{theorem}\label{theo:OneMaxResult}
     If $w_1 \ge \frac W 2$  then the RLS and the (1+1) EA with mutation rate $k/n$ with constant $0<k<\sqrt{n}$ reach the optimal solution in expected time $\Theta(n\log{}n)$
@@ -94,7 +99,7 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     The optimal solution is putting $w_1$ in one bin and all other elements in the other bin.
     So the problem is almost identical to OneMax/ZeroMax.
     A single bit flip of the first bit can only happen, if the emptier bin has a weight of at most $\frac {W-w_1}{2}$.
-    After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can onl
+    After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before another bit is flipped.
     The run of the RLS can be divided into two phases:
     \begin{description}
         \item[Phase 1:] The RLS reaches a search point with $b_E > \frac {W-w_1}{2}$.
@@ -199,7 +204,7 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
         =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2/\frac{1}{n})\rceil
         =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2n)\rceil \\ \nonumber
         =2\lceil\frac{e^k}{k(1-o(1))}n(\ln(n)+\ln(2))\rceil
-        \le\frac{2e^k}{k(1-o(1))}n\ln(n)+4
+        \le\frac{2e^k}{k(1-o(1))}n(\ln(n)+4)
     \end{gather}
     The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
 
@@ -239,21 +244,26 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
 
 \end{proof}
 
-\begin{lemma}\label{approximationLemmaHelp1}
+The next few Lemmas and Corollaries help to prove the runtime of $\bigO(n\log{n})$ for the (1+1) EA and the RLS on inputs with $w1<W/2$ for reaching an approximation ratio of 4/3.
+They are mostly rather short with a proof of only a few lines.
+The only Lemma with a longer proof is Lemma~\ref{lemma:movingObjects2}.
+It shows the runtime bound for a more restricted type of input and is used to simplify the proof of Lemma~\ref{lemma:approximation}
+
+\begin{lemma}\label{lemma:approximationHelp}
     If \(b_F \le \frac{2}{3} \cdot W\) the approximation ratio is at most $\frac{4}{3}$
 \end{lemma}
 \begin{proof}
     \(\frac{b_F}{opt} \le \frac{(2/3) \cdot W}{opt} \le \frac{(2/3) \cdot W}{(1/2) \cdot W} = \frac{4}{3}\), since \(opt \ge \frac{W}{2}\)
 \end{proof}
 
-\begin{corollary}\label{approximationCorollaryHelp2}
+\begin{corollary}\label{cor:approximationHelp}
     If \(w_1 \ge \frac{W}{3}\) and \(w_1\) is in the emptier bin, then the approximation ratio is at most $\frac{4}{3}$
 \end{corollary}
 \begin{proof}
-    $w_1$ is in the emptier bin, so \( b_F \le W - w_1 \le W - \frac{W}{3} = \frac{2W}{3} \) and with Lemma~\ref{approximationLemmaHelp1} the assumption follows.
+    $w_1$ is in the emptier bin, so \( b_F \le W - w_1 \le W - \frac{W}{3} = \frac{2W}{3} \) and with Lemma~\ref{lemma:approximationHelp} the assumption follows.
 \end{proof}
 
-\begin{lemma}\label{movingObjectsLemma}
+\begin{lemma}\label{lemma:movingObjects}
     Any object of weight $v$ can be moved from $b_F$ to $b_E$ if and only if \(b_F - b_E \ge v\)
 \end{lemma}
 \begin{proof}
@@ -272,23 +282,23 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     Since the RLS can only move one bit at a time and only if it results in an improvement, the RLS is stuck.
 \end{proof}
 
-\begin{corollary}\label{movingObjectsCorollary}
+\begin{corollary}\label{cor:movingObjects}
     Every object \(\le \frac{W}{3}\) can be moved from $b_F$ to $b_E$ if \(b_F \ge \frac{2W}{3}\)
 \end{corollary}
 \begin{proof}
-    \(b_F \ge \frac{2W}{3} \Rightarrow b_E \le W - \frac{2W}{3} \le \frac{W}{3} \Rightarrow b_F - b_E \ge \frac{2W}{3} - \frac{W}{3} = \frac{W}{3}\) and with Lemma~\ref{movingObjectsLemma} the assumption follows.
+    \(b_F \ge \frac{2W}{3} \Rightarrow b_E \le W - \frac{2W}{3} \le \frac{W}{3} \Rightarrow b_F - b_E \ge \frac{2W}{3} - \frac{W}{3} = \frac{W}{3}\) and with Lemma~\ref{lemma:movingObjects} the assumption follows.
 \end{proof}
 
-\begin{lemma}\label{movingObjectsLemma2}
+\begin{lemma}\label{lemma:movingObjects2}
     In expected time $\mathcal{O}(n\log{}n)$ the weight of the fuller bin can be decreased to \(\le \frac{2W}{3}\) by the RLS and the (1+1) EA if every object besides the biggest in the fuller bin is at most $\frac{W}{3}$ and \(w_1 \le \frac{W}{2}\).
 \end{lemma}
 \begin{proof}
-    In expected time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{W}{3}$ to the emptier bin as long as $b_F \ge \frac{2W}{3}$ due to Corollary~\ref{movingObjectsCorollary} and Theorem~\ref{theo:OneMaxResult}.
+    In expected time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{W}{3}$ to the emptier bin as long as $b_F \ge \frac{2W}{3}$ due to Corollary~\ref{cor:movingObjects} and Theorem~\ref{theo:OneMaxResult}.
     So in expected time $\mathcal{O}(n\log{}n)$ the solution can be shifted to $w_1$ being in one bin and all other objects in the other bin.
-    The RSH will only stop moving the elements if the condition $b_F \ge \frac{2W}{3}$ is no longer satisfied (Corollary~\ref{movingObjectsCorollary}).
+    The RSH will only stop moving the elements if the condition $b_F \ge \frac{2W}{3}$ is no longer satisfied (Corollary~\ref{cor:movingObjects}).
     If \(w_1 \ge \frac{W}{3}\) and every object was moved to the bin without $w_1$, then \(b_F = \max\{W-w_1, w_1\} = W-w_1 \le \frac{2W}{3}\), because \(w_1 \le \frac{W}{2}\).
     So either the RSH moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2W}{3}$ both resulting in $b_F \le \frac{2W}{3}$.
-    If $w_1$ is not in the fuller bin, then the result follows by Corollary~\ref{approximationCorollaryHelp2}.\newline
+    If $w_1$ is not in the fuller bin, then the result follows by Corollary~\ref{cor:approximationHelp}.\newline
     Now assume \(w_1 < \frac{W}{3}\).
     In this case the RLS will move one object per step to the emptier bin.
     Each object has weight $< \frac{W}{3}$ and therefore one step cannot decrease the weight of the fuller bin from $> \frac{2W}{3}$ to $\le \frac{W}{3}$.
@@ -304,22 +314,22 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     The (1+1) EA will move elements from the fuller bin to the emptier bin until $b_F < \frac{2W}{3}$ holds. The (1+1) EA can make the emptier bin the fuller bin by moving multiple objects in one step, but this does not hinder it from reaching $b_F < \frac{2W}{3}$. After such a step it will continue moving elements until the condition holds.
 \end{proof}
 
-\begin{lemma}\label{approximationLemma}
+\begin{lemma}\label{lemma:approximation}
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ in expected time $\mathcal{O}(n\log{}n)$ if $w_1 < W/2$
 \end{lemma}
 \begin{proof}
     If \(w_1+w_2 > \frac{2W}{3}\) after time $\mathcal{O}(n)$ $w_1$ and $w_2$ are separated and will remain separated afterwards (3. Average case analysis, Theorem 1 in~\cite{witt2005worst}).
     From then on the following holds.
-    If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{approximationCorollaryHelp2}.
-    Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}.
-    If \(w_1+w_2 \le \frac{2W}{3}\) the result follows directly by Lemma~\ref{movingObjectsLemma2} and Lemma~\ref{approximationLemmaHelp1}.
+    If $w_1$ is in the emptier bin, then the result follows directly by Corollary~\ref{cor:approximationHelp}.
+    Otherwise all elements in the fuller bin except $w_1$ have a weight of at most $\frac{1}{3}$ and therefore the result follows by Lemma~\ref{lemma:movingObjects2} and Lemma~\ref{lemma:approximationHelp}.
+    If \(w_1+w_2 \le \frac{2W}{3}\) the result follows directly by Lemma~\ref{lemma:movingObjects2} and Lemma~\ref{lemma:approximationHelp}.
 \end{proof}
 
 \begin{corollary}
     The RLS and the (1+1) EA reach an approximation ratio of at most $\frac{4}{3}$ for every input in expected time $\mathcal{O}(n\log{}n)$
 \end{corollary}
 \begin{proof}
-    This follows directly from Theorem~\ref{theo:OneMaxResult} and Lemma~\ref{approximationLemma}.
+    This follows directly from Theorem~\ref{theo:OneMaxResult} and Lemma~\ref{lemma:approximation}.
 \end{proof}
 
 \section{Runtime Analysis of higher mutation rates}

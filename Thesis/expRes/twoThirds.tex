@@ -1,63 +1,52 @@
 \section{Carsten Witt's worst case input}
-This input is the worst case in put as discussed in the background section.
-As all researched inputs in this paper contained only integer values this input is adjusted a bit.
+This input is the worst case input from C. Witt in~\cite{witt2005worst} as discussed in the background section.
+As all experimentally researched inputs in this paper contained only integer values this input is adjusted a bit.
 To prevent the small values to be below zero they are instead normalised to 1.
-The two big values are scaled by the same factor of $((1/3+\epsilon/2)/(n-2))^{-1}$.
+The two big values are scaled by the same factor of ${((1/3+\epsilon/2)/(n-2))}^{-1}$.
 The higher the value for $\epsilon$ the more likely the input is to get stuck in the local optima.
-With increasing $\epsilon$ the local optima becomes better and better.
+With increasing $\epsilon$ the local optima becomes less bad.
 For the small values of $\epsilon$ there were only a few cases where some algorithms did not find an optimal solution.
 To make this effect more visible the value of $\epsilon$ was set to $\epsilon=0.3$.\newline
 For $n=10,000$ this evaluates to $w_1=w_2=5344$ and $W=9998 \cdot 1 + 2 \cdot 5344 = 20686$.
-The input then looks like this: $[1, 1, \dots, 1, 1, 5344, 5344]$.
+The input then looks like this: $[5344, 5344, 1, 1, \dots, 1, 1]$.
 The fitness of the local optimum is $f(x) = 2 \cdot 5433 = 10688$.
 To leave the local optimum the algorithm therefore has to flip at least  $5433+9998-10688 = 4654$ bits as well in the same step.
 The best fitness is $f(x) = 5344 + 9998/2 = 10343$, which leads to a difference of $f(localOptimum)-f(opt) = 345$ and a approximation ratio of $f(localOptimum)/f(opt)=10688/10343=1.033$.
-This is not really close to the worst case of 4/3 any more but with this setting at least many algorithms are stuck in the local optimum at least once for the 1000 runs.
+This is not really close to the worst case of 4/3 any more but with this setting at least many algorithms are stuck in the local optimum at least once for the 10000 runs.
 \subsection{RLS Comparison}
-
-
 \input{tables/twoThirds/rls_compare.tex}
 
 The RLS is by far most likely to get stuck in the local optimum.
-The general tendency is the more bits the algorithm flips in expectation the more unlikely the local optimum becomes.
-The only case where this does not hold is the \RLSN[2] being better than the \RLSR[4], although the \RLSR[4] flips more bits in expectation.
-This might be caused by the higher probability for flipping only one bit for the \RLSR[4].
-This causes the algorithm to find the local optimum faster before separating $w_1$ and $w_2$.
-So the ranking of the algorithms is completely inverted compared to the OneMax input.
-The \RLSN[2] and \RLSN[3] both had runs where they neither found the global nor one of the two local optima.
+The general tendency is the more bits the algorithm can flip the more unlikely the local optimum becomes.
+The only case where this does not hold is the \RLSN[2] being better than the \RLSR[3], although the \RLSR[3] can also flip 3 bits.
+All \RLSN[s] variants had runs where they neither found the global nor one of the two local optima.
 The algorithms were most likely tricked into the direction of the local optimum and did not manage to leave it.
 But they were also not fast enough to reach the local optimum because of their low probability to flip only one bit.
 \subsection{(1+1) EA Comparison}
-
-
 \input{tables/twoThirds/ea_compare.tex}
 
-For the (1+1) EA the result is also the inversion of the results for the OneMax equivalent.
-The higher the mutation rate the faster the algorithms reach a global optimum.
+For the (1+1) EA the result is the inversion of the results for the OneMax equivalent.
+The higher the mutation rate the faster the algorithm reaches a global optimum.
 This holds at least up to $p_m\le100/n$.
-With mutation rate $p_m\le3/n$ the algorithm reaches the worst case at least once in 1000 runs.
+With mutation rate $p_m\le4/n$ the algorithm reaches the worst case at least once in 10000 runs.
 If the algorithm did not manage to find an optimal solution the fitness was always the same.
 So there was no run where any algorithm neither found a global nor the local optimum.
 \subsection{pmut Comparison}
-
-
 \input{tables/twoThirds/pmut_compare.tex}
 
-For $pmut$ the result is the exact same as for the (1+1) EA.
+For $pmut$ the result is the exact same as for the (1+1) EA.\ 
 The lower $\beta$ the better the performance as more bits are flipped in each step.
-The algorithm is tricked into the local optima only for $\beta\le2.5$.
-If the algorithm is on the path to the local optimum it is always fast enough to reach it within the time limit.
-\subsection{Comparison of the best variants}
-
-
-\input{tables/twoThirds/best.tex}
-
-The $pmut_{1.25}$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 600 iterations and even under 100 on the average case.
-The \RLSN[4] performs significantly worse.
-% The other algorithm flip so many bits that they are almost close to random sampling.
 For the OneMax input $pmut_{1.25}$ flipped 224 bits on average per step, but the average of the successful steps was only 5.
 Here the average of all steps is again 224, but the average of the successful steps is at 194.
 The heavy tail here really increases the performance as most of the high values are accepted.
+The algorithm is tricked into the local optima only for $\beta\le2.25$.
+If the algorithm is on the path to the local optimum it is always fast enough to reach it within the time limit.
+\subsection{Comparison of the best variants}
+% \input{tables/twoThirds/best.tex}
+% 
+The $pmut_{1.25}$ and the (1+1) EA with $p_m=100/n$ perform the best and always find an optimal solution within 700 iterations and even under 100 on the average case.
+The \RLSN[4] performs significantly worse.
+% The other algorithm flip so many bits that they are almost close to random sampling.
 In the experiment with different input sizes the mutation rate of $p_m=100/n$ is $\ge1$ for $n\le100$.
 If the algorithm flips every bit then it won't change its solution.
 In these cases the mutation rate was then set to $p_m=1/2$.

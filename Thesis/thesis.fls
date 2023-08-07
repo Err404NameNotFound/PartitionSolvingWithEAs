@@ -855,10 +855,6 @@ INPUT ./tables/binomial/pmut_compare.tex
 INPUT tables/binomial/pmut_compare.tex
 INPUT ./tables/binomial/pmut_compare.tex
 INPUT tables/binomial/pmut_compare.tex
-INPUT ./tables/binomial/best.tex
-INPUT tables/binomial/best.tex
-INPUT ./tables/binomial/best.tex
-INPUT tables/binomial/best.tex
 INPUT ./tables/binomial/multipleN_fails.tex
 INPUT tables/binomial/multipleN_fails.tex
 INPUT ./tables/binomial/multipleN_fails.tex
@@ -892,10 +888,6 @@ INPUT ./tables/geometric/pmut_compare.tex
 INPUT tables/geometric/pmut_compare.tex
 INPUT ./tables/geometric/pmut_compare.tex
 INPUT tables/geometric/pmut_compare.tex
-INPUT ./tables/geometric/best.tex
-INPUT tables/geometric/best.tex
-INPUT ./tables/geometric/best.tex
-INPUT tables/geometric/best.tex
 INPUT ./tables/geometric/multipleN_fails.tex
 INPUT tables/geometric/multipleN_fails.tex
 INPUT ./tables/geometric/multipleN_fails.tex
@@ -912,6 +904,7 @@ INPUT ./expRes/uniform.tex
 INPUT expRes/uniform.tex
 INPUT ./expRes/uniform.tex
 INPUT expRes/uniform.tex
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
 INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
 INPUT figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
@@ -1019,10 +1012,6 @@ INPUT ./tables/oneMax/pmut_compare.tex
 INPUT tables/oneMax/pmut_compare.tex
 INPUT ./tables/oneMax/pmut_compare.tex
 INPUT tables/oneMax/pmut_compare.tex
-INPUT ./tables/oneMax/best.tex
-INPUT tables/oneMax/best.tex
-INPUT ./tables/oneMax/best.tex
-INPUT tables/oneMax/best.tex
 INPUT ./tables/oneMax/multipleN_avg.tex
 INPUT tables/oneMax/multipleN_avg.tex
 INPUT ./tables/oneMax/multipleN_avg.tex
@@ -1063,10 +1052,6 @@ INPUT ./tables/twoThirds/pmut_compare.tex
 INPUT tables/twoThirds/pmut_compare.tex
 INPUT ./tables/twoThirds/pmut_compare.tex
 INPUT tables/twoThirds/pmut_compare.tex
-INPUT ./tables/twoThirds/best.tex
-INPUT tables/twoThirds/best.tex
-INPUT ./tables/twoThirds/best.tex
-INPUT tables/twoThirds/best.tex
 INPUT ./tables/twoThirds/multipleN_fails.tex
 INPUT tables/twoThirds/multipleN_fails.tex
 INPUT ./tables/twoThirds/multipleN_fails.tex
@@ -1100,10 +1085,6 @@ INPUT ./tables/mixedAndOverlapped/pmut_compare.tex
 INPUT tables/mixedAndOverlapped/pmut_compare.tex
 INPUT ./tables/mixedAndOverlapped/pmut_compare.tex
 INPUT tables/mixedAndOverlapped/pmut_compare.tex
-INPUT ./tables/mixedAndOverlapped/best.tex
-INPUT tables/mixedAndOverlapped/best.tex
-INPUT ./tables/mixedAndOverlapped/best.tex
-INPUT tables/mixedAndOverlapped/best.tex
 INPUT ./tables/mixedAndOverlapped/multipleN_fails.tex
 INPUT tables/mixedAndOverlapped/multipleN_fails.tex
 INPUT ./tables/mixedAndOverlapped/multipleN_fails.tex
@@ -1151,6 +1132,7 @@ INPUT ./thesis.out
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx8.pfb
+INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb

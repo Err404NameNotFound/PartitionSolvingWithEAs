@@ -3,14 +3,6 @@ This subsection covers inputs that do not follow a specific distribution.
 So instead of sampling from one distribution here instead the value is chosen from a set of distributions.
 The used distributions were \textasciitilde$U(1,49999)$, \textasciitilde$B(10000,0.1)$, \textasciitilde$Geo(0.001)$, \textasciitilde$D^{1.25}_{50000}$.
 Each distribution is chosen with probability $1/8$ and with remaining probability $1/2$ one value is drawn from every distribution and added together.
-
-\begin{figure}[h]
-      \caption{Distribution of a mixed and overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{1.25}_{1000}$}
-      \centering
-      \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixedAndOverlapped.png}\label{fig:mixAndOverlDistExample}
-\end{figure}
-
-
 An input of this distribution is shown in figure~\ref{fig:mixAndOverlDistExample}.
 There are a lot of values close to 0 drawn from the powerlaw (and geometric) distribution.
 The amount of values then decreases to around 50.
@@ -18,45 +10,49 @@ From then on the amount of generated numbers rises again until 100, the expected
 After the spike caused by the binomial distribution the values look more uniform distributed until 1200 where they fall of again.
 The higher the numbers get the less often they occur.
 
-\subsection{RLS Comparison}
+\begin{figure}[h]
+      \caption{Distribution of a mixed and overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{1.25}_{1000}$}
+      \centering
+      \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixedAndOverlapped.png}\label{fig:mixAndOverlDistExample}
+\end{figure}
 
+\subsection{RLS Comparison}
 \input{tables/mixedAndOverlapped/rls_compare.tex}
 
 There is a clear preference of algorithms with higher probability to flip only one bit per step similar to the geometric distribution.
-For geometric distributions all variants had a rather equal runtime but here the \RLSN[4] needs more than 100 the iterations on average than the fastest RLS variant.
+For geometric distributions all variants had a rather equal runtime but here the \RLSN[4] needs more than 100 time the iterations on average than the fastest RLS variant.
 This type of input punishes the worse mutation operators more than geometric inputs but not as extreme as the equivalent to linear functions.
 Here still every variant reaches an optimal solution in every case as opposed to the linear function equivalent.
+For the geometric input only the RLS failed to reach an optimal value in every run but here it does not.
+This leads to the RLS being the best RLS variants for this type of input in contrast to the geometric inputs.
 \subsection{(1+1) EA Comparison}
-
-
 \input{tables/mixedAndOverlapped/ea_compare.tex}
 
 The results here are pretty similar to the results of the RLS.\
 The lower the mutation rates the faster the algorithm reaches an optimal solution.
-Even the worst analysed mutation rate managed to find an optimal solution in $10n\ln n$ steps in all 1000 runs.
+For $p_m\le10/n$ every mutation rate managed to find an optimal solution in $10n\ln n$ steps in all 10000 runs.
+The higher mutation rates had unsuccessful runs and $100/n$ even failed to reach the optimal solution in about 15 \% of the inputs.
 
 \subsection{pmut Comparison}
-
-
 \input{tables/mixedAndOverlapped/pmut_compare.tex}
 
-Here the same holds.
-The higher mutation rates are less impacted than the higher rates for the RLS and the (1+1) EA.
+Here the results are similar again, but there are a few differences.
+$\beta=2.5$ seems to perform better despite not being the highest value for $\beta$.
+Here using a worse mutation rates are has less impact on the runtime in contrast to the geometric inputs where the penalty is higher.
+Apart from that these inputs seem similar as every value of $\beta$ also reaches an optimal value in every run.
+
 \subsection{Comparison of the best variants}
-
-
-\input{tables/mixedAndOverlapped/best.tex}
-
+% \input{tables/mixedAndOverlapped/best.tex}
+% 
 The ranking of the algorithm is the same as for the other inputs with a similar preference of low mutation rates.
-The RLS has the best performance closely follow by $pmut_{3.25}$ and lastly be the standard (1+1) EA.
-
+The RLS variant has the best performance closely follow by $pmut_{3.25}$ and lastly be the standard (1+1) EA.\
+For smaller values of $n$ the results are similar too.
 \input{tables/mixedAndOverlapped/multipleN_fails.tex}
 
-No unexpected results for the different input sizes.
 The RLS variants perform the worst for $n\le 100$.
 For this input it is also rather hard to find a perfect partition for $n\le50$.
 For the lower values there were probability multiple inputs generated with mostly small values and an uneven number of large values.
-Even if the amount of large numbers is even there might still be no perfect partition.
+Even if the amount of large numbers is even there might still be no perfect partition, hence no algorithm is able to reach one and the run is treated as a failed run.
 
 \input{tables/mixedAndOverlapped/multipleN_avg.tex}
 

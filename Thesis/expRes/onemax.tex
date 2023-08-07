@@ -1,7 +1,8 @@
 \section{Eqiuvalent of linear functions for PARTITION}
-The input of this subsection is more or less equivalent to linear functions. All values except the last follow any distribution whereas the last value is the sum of all other values. The optimal solution is therefore the 000\dots01 or
-the 111\dots01 string. So the best solution is almost identical to a linear function with positive weights that is maximised/minimised depending on the value of the last bit.\newline
-For linear functions the mutation rate of 1/n is proven to be optimal for the (1+1) EA~\cite{witt2013tight}.
+The input of this section is more or less equivalent to linear functions. All values except the first follow any distribution whereas the first value is the sum of all other values.
+The optimal solution is therefore the 100\dots00 or the 011\dots11 string.
+So the input is almost identical to a linear function with positive weights that is maximised/minimised depending on the value of the first bit.\newline
+For linear functions the mutation rate of 1/n was proven to be optimal for the (1+1) EA~\cite{witt2013tight}.
 This should also hold for this input.
 The RLS variants should also perform worse than the standard RLS.\
 The higher the value for $\beta$ the better the $pmut_\beta$ mutation should perform.
@@ -10,21 +11,18 @@ By doing some testing with various algorithm variants of the RLS and the (1+1) E
 There was only one case where it was flipped twice, but it was never flipped more than twice per run.
 The average number of flips was also mostly closer to zero than to one.\newline
 The experiments where conducted with the variant where the smaller values are all one.
-So for every run of each algorithm the input was $[1, 1, \dots, 1, n-1]$.
+So for every run of each algorithm the input was $[n-1, 1, 1, \dots, 1, 1]$.
 An input like this takes less time for every algorithm, but the results are mostly the same.
-For some experiments not all 1000 repetitions were executed as there was a clear tendency which of the algorithms performs better.
 \subsection{RLS Comparison}
-
-
 \input{tables/onemax/rls_compare.tex}
 
 As expected the standard RLS reaches an optimal solution the fastest.
-It also reaches the optimal value for every instance.
-The \RLSR~variants need more iterations to find an optimal solution.
-By looking at the average values more closely it seems like the average number of steps for the \RLSR[k] is roughly $25,000 + 70,000k \pm 5,000$.
+It also reaches an optimal value for every instance.
+The \RLSR[s] variants need more iterations to find an optimal solution.
+By looking at the average values more closely it seems like the average number of steps for the \RLSR[s] is roughly $25,000 + 70,000s \pm 5,000$.
 The standard RLS is equivalent to \RLSR~or \RLSN~with $k=1$.
 So the value of $k=1$ seems to be optimal for the RLS variants too.
-The \RLSN~variants on the other hand do not reach any of the two optimal solutions in any run.
+The \RLSN[b] variants on the other hand do not reach any of the two optimal solutions in any run.
 This is most likely caused by their very low possibility of flipping only one bit in a single step.
 They would eventually reach the optimal solution as well, but this would take much longer than for the RLS.\
 The probability of flipping only one bit in a step is $\mathcal{O}(n^{1-k})$ which results in a single bit flip every $\mathcal{O}(n^{k-1})$ steps in expectation.
@@ -35,15 +33,12 @@ $\mathcal{O}(n\cdot\mathcal{O}(n^{k-1})\cdot \log(n\cdot\mathcal{O}(n^{k-1})))
 =\mathcal{O}(kn^{k}\cdot\log(n))$
 This problem is not equivalent to OneMax, as a flip of the bit with the highest value inverts the fitness function to ZeroMax but the result might still hold as the bound for the standard RLS for this input is the same as for the RLS on OneMax.
 \subsection{(1+1) EA Comparison}
-
-
 \input{tables/onemax/ea_compare.tex}
 
-This experiment was terminated after 224 runs of the algorithms, as the results were already clear enough.
 For this input the same as for OneMax holds. 
 The static mutation rate $p_m=1/n$ is the optimal value and the performance of the (1+1) EA decreases with rising mutation rate.
-Only for $p_m\le3/n$ the (1+1) EA managed to find one of the two optimal solutions in $10 \cdot n\ln(n)$ steps every time.
-With mutation rate $p_m=4/n$ the (1+1) EA only managed to find the optimal solution in about 55 \% of the inputs.
+Only for $p_m\le2/n$ the (1+1) EA managed to find one of the two optimal solutions in $10 \cdot n\ln(n)$ steps every time.
+With mutation rate $p_m=4/n$ the (1+1) EA only managed to find the optimal solution in about 50 \% of the inputs.
 The remaining mutation rates did not manage to find an optimal solution in any of the runs.
 Another interesting fact is the average number of bits flipped in a successful step.
 For the other inputs the overall average number of bits flipped in any step was mostly the same as for the average value of the successful steps. Here this is not the case.
@@ -51,36 +46,34 @@ All mutation rates flipped fewer bits in the successful steps than in the averag
 The only exception is the standard mutation rate which is caused by the steps where the algorithm would flip no bit.
 Those steps decrease the number of the average case but not of the successful case as those steps were skipped.
 \subsection{pmut Comparison}
+For $pmut$ only 1798/10000 repetitions were executed as there was a clear tendency which of the algorithms performs better.
 
 \input{tables/onemax/pmut_compare.tex}
 
-The results for the $pmut$ operator are pretty similar to the results for the (1+1) EA and the RLS.
+The results for the $pmut$ operator are pretty similar to the results for the (1+1) EA and the RLS.\
 The parameter $\beta=3.25$ which flips the least bits on average finds the solution the fastest.
-The other values for $\beta$ increase the time needed for finding one of the two optimums with decreasing value for $\beta$.
+Decreasing value for $\beta$ lead to more time needed for finding one of the two optimums.
 All variants find an optimum in every run except for $\beta=1.25$ which has a much higher value for the number of flipped bits per steps.
 The average number of bits flipped in a successful mutation is much lower than for the other inputs especially for the lower values for $\beta$.
 For the binomial and geometric input the successful average was around 100 for $\beta=1.25$ but for the OneMax equivalent it was only at 5.
 
 \subsection{Comparison of the best variants}
-
-\input{tables/onemax/best.tex}
-
-The results for this experiment are as expected.
-All three algorithms find the optimal value within the time limit.
-The RLS performs better than the (1+1) EA because it does only single bit flips.
-The $pmut_{3.25}$ performs better than the standard (1+1) EA although flipping more bits on average.
-This is most likely cause by the few steps where $pmut$ flips many bits which increase the average.
-But $pmut$ most likely chooses to flip only one bit more often as the (1+1) EA.\newline
+% \input{tables/onemax/best.tex}
+% 
 For this comparison neither of the algorithms failed to find one of the two optimal solutions.
 The following table lists the amount of iterations the algorithms needed to find an optimal solution.
 
 \input{tables/oneMax/multipleN_avg.tex}
 
-The RLS performs the best closely follow by both $pmut$ variants.
-The standard (1+1) EA performs a bit worse than the other three algorithms and approaches $en\ln(n)$ instead of staying close to $n\ln(n)$.
+The results for this experiment are as expected.
+The RLS performs better than the (1+1) EA because it does only single bit flips.
+The $pmut_{3.25}$ performs better than the standard (1+1) EA although flipping more bits on average.
+This is most likely cause by the few steps where $pmut$ flips many bits which increase the average.
+But $pmut$ most likely chooses to flip only one bit more often as the (1+1) EA.\
 In a previous chapter the $\mathcal{O}(n\log n)$ bound was proven for the (1+1) EA and the RLS (Theorem~\ref{theo:OneMaxResult}).
 This seems to hold in practice at least for the easiest version of this input where the small values are one (see figure~\ref{fig:onemaxNlogNBound}).
 The scale of this figure is $n\ln n$ which means that a value of 2 on the $y$-axis means the algorithm needs $2n\ln n$ steps on average to reach the optimal solution.
+The standard (1+1) EA performs a bit worse than the other three algorithms and approaches $en\ln n$ instead of staying close to $n\ln n$.
 
 \begin{figure}[h]
       \centering
@@ -96,7 +89,7 @@ The scale of this figure is $n\ln n$ which means that a value of 2 on the $y$-ax
 \end{figure}
 
 Another variant of this input are uniform distributed inputs for example.
-The small values in this case are chosen from \textasciitilde$U(1,49999)$ and the last value again is the sum of all other values.
+The small values in this case are chosen from \textasciitilde$U(1,49999)$ and the first value again is the sum of all other values.
 This input is harder because switching multiple small values for a big value increases the fitness but also increases the Hamming distance to the optimum. Looking at figure~\ref{fig:onemaxUniformNlogNBound} the equivalent to uniform distributed linear functions looks not much harder compared to the variant where all values are one.
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements which leads to the exact same behaviour.

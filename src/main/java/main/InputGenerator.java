@@ -341,17 +341,17 @@ public class InputGenerator {
 
     private String getFolder(int type) {
         return switch (type) {
-            case UNIFORM_INTEGER, UNIFORM_INTERVALL -> "UniformIntervall";
-            case ONEMAX_ONE, ONEMAX_UNIFORM -> "OneMax";
-            case TWO_THIRDS -> "TwoThirds";
-            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_One";
-            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "MultipleSumsAtEnd_Range";
-            case BINOMIAL_DISTRIBUTED -> "Binomial";
-            case GEOMETRIC_DISTRIBUTED -> "Geometric";
+            case UNIFORM_INTEGER, UNIFORM_INTERVALL -> "uniformIntervall";
+            case ONEMAX_ONE, ONEMAX_UNIFORM -> "oneMax";
+            case TWO_THIRDS -> "twoThirds";
+            case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "multipleSumsAtEnd_One";
+            case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "multipleSumsAtEnd_Range";
+            case BINOMIAL_DISTRIBUTED -> "binomial";
+            case GEOMETRIC_DISTRIBUTED -> "geometric";
             case POWERLAW_DISTRIBUTED -> "powerLawDistributed";
-            case MIXED -> "Mixed";
-            case OVERLAPPED -> "Overlapped";
-            case MIXED_AND_OVERLAPPED -> "MixedAndOverlapped";
+            case MIXED -> "mixed";
+            case OVERLAPPED -> "overlapped";
+            case MIXED_AND_OVERLAPPED -> "mixedAndOverlapped";
             default -> "other";
         } + "\\";
     }

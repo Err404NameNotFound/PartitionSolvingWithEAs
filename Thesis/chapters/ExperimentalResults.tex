@@ -57,9 +57,11 @@ The random values for the amount of bits to be flipped are generated according t
 \end{algorithm}
 
 \subsection{Random number generation}
-
 Java only provides a random number generator for uniform distributed values for any integer interval or random double values $\in \left[0, 1\right)$.
-For this project this does not suffice as for an efficient way of implementing the (1+1) EA or simply for generating a binomial distributed input another random number generator is needed.
+The same holds for the \href{http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/emt.html}{MersenneTwister} with an implementation used from this \href{https://cs.gmu.edu/~sean/research/}{page}.
+All experiment were executed with both uniform random number generators.
+The results were rather similar, so only the results for the Fast Mersenne Twister are shown.
+For this project uniform random numbers do not suffice as for an efficient way of implementing the (1+1) EA or simply for generating a binomial distributed input another random number generator is needed.
 One of the needed distributions is a binomial distribution.
 The simplest way to generate a number \textasciitilde$B(m,p)$ would be to run a loop $m$ times and add 1 to the generated number if a uniform random value $\in \left[0, 1\right)$ is less than $p$.
 This works perfectly fine and generates numbers according to the distribution.
@@ -126,10 +128,11 @@ Let Y be a uniformly random distributed variate on [0,1]. Then
 \[D(x)=\int_{a}^{x}{P(x')dx'}=C\int_{a}^{x}{{x'}^{n}dx'}=\frac{C}{n+1}(x^{n+1}-a^{n+1})=\frac{(x^{n+1}-a^{n+1})}{b^{n+1}-a^{n+1}}\equiv y\]
 and the variate is given by
 \[X={[(b^{n+1} - a^{n+1})*y + a^{n+1}]}^{1/(n+1)}\]
+The values inserted in this formula must be negative.
+In the original paper for the $pmut_{\beta}$ operator and in the definition normally a powerlaw distribution is \(P(x)=Cx^{-n}\) and therefore any positive value for $n$ in this case was negated.
+Apart from this negation the generator was not changed.
 
-
-\section{Do inputs have perfect partitions?}
-\subsection{Binomial Inputs}
+\section{Do binomial inputs have perfect partitions?}
 
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger $n$.
 In practice the bound is much smaller depending on the expected value of a single number.
@@ -349,22 +352,27 @@ The number of iterations might be high in terms of the big-O notation but should
 
 \section{Conclusion of empirical results}
 There is no clear best algorithm for every input for PARTITION and not even a best parameter for every algorithm.
-For inputs that are comparable to a linear function/OneMax for all base algorithms the lowest parameters have the lowest runtime.
-Other instance like the worst case input of C. Witt on the other hand require much higher mutation rates for the optimal performance.
+For inputs that are comparable to a linear function/OneMax for all base algorithms the parameters with the lowest mutation rate have the best runtime.
+Other instances like the worst case input of C. Witt on the other hand require much higher mutation rates for the optimal performance.
 Inputs generated from a powerlaw distribution showed that the optimal parameter for every algorithm is not even fixed with a specific distribution.
-For inputs drawn from \textasciitilde$D^{2.75}_{50000}$ the higher mutation rates reached an optimum faster than the lower mutation rate for ever algorithm variant.
+For inputs drawn from \textasciitilde$D^{2.75}_{50000}$ the higher mutation rates reached an optimum faster than the lower mutation rate for every algorithm variant.
 If the input was drawn from \textasciitilde$D^{1.25}_{50000}$ then the fastest mutation rates for the (1+1) EA on \textasciitilde$D^{2.75}_{50000}$ distributed inputs then instead become the slowest.
 So almost no general advice is possible, but a few points still hold for every input type.
 The first one is the RLS being most likely to be stuck in a local optimum especially for the smaller input size.
-Even if a variant of the RLS is the fastet for the bigger input sizes it is most likely to be stuck in a local optimum for $n\le100$ for most input type.
+Even if a variant of the RLS is the fastet for the bigger input sizes it is most likely to be stuck in a local optimum for $n\le100$ for most input types.
 So if the input size $n\le100$ choosing the (1+1) EA or $pmut$ mutation operator is a better choice.
-Another noticeable relation is that inputs that require higher mutation rates are general more easy to solve and are also solved very fast by the lower mutation rates.
-The lower mutation rates are therefore generally a better choice as they are sometimes the faster and are still rather fast if they are not.
+Another noticeable relation is that inputs that require higher mutation rates are generally easy to solve and are also solved very fast by the lower mutation rates.
+A lower number of iterations also does not imply a shorter runtime in every case.
+If the mutation rate $1/n$ needs only a few iterations more than $100/n$ it will still be much faster since one iteration is much shorter.
+The lower mutation rates are therefore generally a better choice as they will need less time in most cases and are still rather fast if they are not the fastest.
 Only if the algorithm is trapped due to its low mutation rate a higher mutation rate makes a huge difference.
 
-Table~\ref{table:BestAlgoVariantsTable} recaps the results of the previous subsections.
-For each input and each algorithm the best three variants are listed in this table ordered by their average runtime. 
-\begin{table}[h]
+Now to round this paper up there are two tables that summaries the previous results.
+For each input and each algorithm the best three variants are listed in Table~\ref{table:BestAlgoVariantsTable} ordered by their average runtime.
+This implies a general tendency of better algorithms but is not necessarily a complete insight as the best parameter changes depending on $n$.
+Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the previous results depending on the distribution and size of the input.
+
+\begin{table}[t]
       \caption{Best algorithms variants for all researched inputs}
       \begin{tabular}{c|ccc|ccc|ccc}\label{table:BestAlgoVariantsTable}
                                                         &
@@ -382,9 +390,7 @@ For each input and each algorithm the best three variants are listed in this tab
       \end{tabular}
 \end{table}
 
-Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the previous results depending on the distribution and size of the input.
-
-\begin{table}[h]
+\begin{table}[t]
       \caption{Suggestions for the fastest algorithm on each input depending on the input size}
       \begin{tabular}{c|c|c|c|c}\label{table:BestAlgoVariantTable}
                             & $n\le100$                               & $100<n<500$                        & $500\le n<10,000$ & $10,000\le n$ \\

@@ -2,9 +2,9 @@ package main;
 
 import Evaluation.BinomialTesting;
 import Evaluation.Evaluation;
+import Evaluation.MinMaxAvgEvaluator;
 import Evaluation.ResultsChapterPrinter;
 import help.ArrayPrinter;
-import Evaluation.MinMaxAvgEvaluator;
 import help.Printer;
 import help.ProgressPrinter;
 
@@ -23,6 +23,7 @@ import static help.Help.runCancellableTask;
 import static help.Help.runCancellableTasks;
 import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
+import static help.Printer.PATH_AUTO_GENERATED;
 import static help.Printer.PATH_TEXT_FILES;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
@@ -61,7 +62,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 17;
+    public static final int DEFAULT_SELECTION = 44;
 
 
     public static void main(String[] args) {
@@ -107,7 +108,7 @@ public class Main {
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
-            case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{1, 7, 8});
+            case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{0});
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -121,11 +122,16 @@ public class Main {
             case 41 -> printDistribution(InputGenerator.createPowerlaw(1.25, 1.0, 1000.0), 10000);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(TWO_THIRDS, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
-            case 44 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
-            case 45 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
-            case 46 -> printDistribution(InputGenerator.createMixedAndOverlapped(
+            case 44 -> ResultsChapterPrinter.renameFilesToFitLatex(PATH_AUTO_GENERATED, new String[]{
+                    "rls_comparison-newRNG10kWithSignificance.txt",
+                    "ea_comparison-newRNG10kWithSignificance.txt",
+                    "pmut_comparison-newRNG10kWithSignificance.txt",
+                    "best-newRNG10kWithSignificance.txt"});
+            case 45 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
+            case 46 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
+            case 47 -> printDistribution(InputGenerator.createMixedAndOverlapped(
                     1.0, 1000.0, 1000, 0.1, 0.01, 1.25), 10000);
-            case 47 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);
+            case 48 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
@@ -266,9 +272,9 @@ public class Main {
         Solver[] bestSolvers = new Solver[3];
         long[] stepSizes = fill(inputLengths.length, i -> 10 * nlogn(inputLengths[i]));
         for (int i : indexes) {
-            bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], rlsVariants, "rls_comparison-" + postfix);
-            bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], eaSolvers[i], "ea_comparison-" + postfix);
-            bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], pmutVariants, "pmut_comparison-" + postfix);
+            bestSolvers[0] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], rlsVariants, "rls_compare-" + postfix);
+            bestSolvers[1] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], eaSolvers[i], "ea_compare-" + postfix);
+            bestSolvers[2] = evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], pmutVariants, "pmut_compare-" + postfix);
             evaluate(n, inputTypes[i], inputLengths[i], stepSizes[i], bestSolvers, "best-" + postfix);
             System.out.println(getName(inputTypes[i]) + " done");
         }

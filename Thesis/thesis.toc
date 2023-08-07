@@ -16,8 +16,7 @@
 \contentsline {section}{\numberline {4.1}Code}{17}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}The Algorithms}{17}{subsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.1.2}Random number generation}{18}{subsection.4.1.2}%
-\contentsline {section}{\numberline {4.2}Do inputs have perfect partitions?}{19}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Binomial Inputs}{19}{subsection.4.2.1}%
+\contentsline {section}{\numberline {4.2}Do binomial inputs have perfect partitions?}{19}{section.4.2}%
 \contentsline {section}{\numberline {4.3}Binomial distributed values}{22}{section.4.3}%
 \contentsline {subsection}{\numberline {4.3.1}RLS Comparison}{25}{subsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.3.2}(1+1) EA Comparison}{25}{subsection.4.3.2}%
@@ -37,11 +36,11 @@
 \contentsline {subsection}{\numberline {4.6.1}RLS Comparison}{33}{subsection.4.6.1}%
 \contentsline {subsection}{\numberline {4.6.2}(1+1) EA Comparison}{34}{subsection.4.6.2}%
 \contentsline {subsection}{\numberline {4.6.3}pmut Comparison}{35}{subsection.4.6.3}%
-\contentsline {subsection}{\numberline {4.6.4}Comparison of the best variants}{35}{subsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.6.4}Comparison of the best variants}{36}{subsection.4.6.4}%
 \contentsline {section}{\numberline {4.7}Eqiuvalent of linear functions for PARTITION}{37}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}RLS Comparison}{37}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.1}RLS Comparison}{38}{subsection.4.7.1}%
 \contentsline {subsection}{\numberline {4.7.2}(1+1) EA Comparison}{38}{subsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.7.3}pmut Comparison}{38}{subsection.4.7.3}%
+\contentsline {subsection}{\numberline {4.7.3}pmut Comparison}{39}{subsection.4.7.3}%
 \contentsline {subsection}{\numberline {4.7.4}Comparison of the best variants}{39}{subsection.4.7.4}%
 \contentsline {section}{\numberline {4.8}Carsten Witt's worst case input}{40}{section.4.8}%
 \contentsline {subsection}{\numberline {4.8.1}RLS Comparison}{41}{subsection.4.8.1}%
