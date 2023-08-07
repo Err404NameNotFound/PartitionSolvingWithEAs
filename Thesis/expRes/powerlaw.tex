@@ -1,7 +1,9 @@
-\section{powerlaw distributed inputs}\TODO{reread}
+\section{powerlaw distributed inputs}
 This distribution has mostly small values, but occasionally it also generates bigger values.
 The lower the parameter the higher the values get and also the amount of big values increases.
 For a parameter of $\beta=2.75$ and a maximum value of 10,000 the distribution looks like in Figure~\ref{fig:powerDistExample1}.
+All values are rather small and less than 100, also half of the values are one.
+So this input seems rather easy for $\beta=2.75$.
 
 \begin{figure}[h]
       \caption{Distribution of a random powerlaw input with $\beta=2.75$}
@@ -14,6 +16,9 @@ There are less small values close to one and instead also big values even over 1
 Figure~\ref{fig:powerDistExample2} is cropped to get a more clear view for the smaller values.
 The higher values mostly occurred 0 to 2 times.
 The highest value 9948 occurred only once.
+Researching inputs like this should be more interesting which is why for the experiment $\beta=1.25$ was chosen.
+To give a better view on this type of input there is also a table $\beta=2.75$ at the evaluation of the (1+1) EA.\
+The results for the other algorithms were mostly the same, but these are not shown here for better readability.
 
 \begin{figure}[h]
       \caption{Distribution of a random powerlaw input with $\beta=1.25$}
@@ -21,25 +26,14 @@ The highest value 9948 occurred only once.
       \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/powerlaw_-1_25.png}\label{fig:powerDistExample2}
 \end{figure}
 \subsection{RLS Comparison}
-The following table lists the results for the RLS for inputs that are chosen from a powerlaw distribution with $\beta=2.75$.
-
 \input{tables/powerlaw/rls_compare.tex}
 
-Due to the many small values and all values being relatively small in general the higher mutation rates perform better.
-So the algorithms are ranked by the amount of bits they flip in an average step.
-For this parameter the input is relatively easy as all variants manage to find an optimal solution in 400 steps on average for an input size of 20,000.
-The next table lists the results for $\beta=1.25$ and an input size of 10,000.
-
-\input{tables/powerlaw/rls_compare_2.tex}
-
-The input is still easy to solve for the RLS variants, but the concept of the more bits flipped the better does not hold any more.
-So the optimal algorithm parameter for an input from a specific distribution is not fixed for the complete distribution.
-Instead the optimal value can change even within the distribution if the parameters of the distribution change.
-Generally the \RLSR~variants seem to perform good for the different parameters of the distribution especially with increasing value of $k$.
+The input is even easier to solve for the RLS variants than the binomial distributed inputs.
+There is no clear tendency and all algorithms have a rather equal runtime and also every algorithm manages to find an optimal solution in every run.
 \subsection{(1+1) EA Comparison}
-The first table again shows the results for parameter $\beta=2.75$
+The first table shows the results for parameter $\beta=2.75$
 
-\input{tables/powerlaw/ea_compare.tex}
+\input{tables/powerlaw/ea_compare2_75.tex}
 
 Here the same rule holds for the RLS to some extent.
 Until $p_m\le50/n$ the speed of convergence increases but at $p_m=100/n$ the speed decreases again.
@@ -48,23 +42,19 @@ The (1+1) variants are generally faster than all RLS variants when comparing the
 For mutation rates $3/n\le p_m \le 100/n$ the (1+1) EA is also faster on average.
 The next table shows the results for a powerlaw distribution with $\beta=1.25$.
 
-\input{tables/powerlaw/ea_compare_2.tex}
+\input{tables/powerlaw/ea_compare.tex}
 
 With this setting the optimal value is shifted to somewhere around $p_m=4/n$.
 The higher mutation rates perform drastically slower with $p_m=100/n$ being 500 times slower than the optimal value.
 The speed of convergence is sometimes even to slow find an optimal solution in time $10\cdot n\ln(n)$.
 \subsection{pmut Comparison}
-The first table again shows the results for parameter $\beta=2.75$
-
-\input{tables/powerlaw/pmut_compare.tex}
-
 For pmut the same holds as for the RLS.\
 The more bits the algorithms flips on average the better the performance on average.
 Surprisingly the performance in the worst runs behaves inverted.
 The fewer bits the algorithm flips on average the more stable the search becomes.
 This might be caused by the really large amount of bits flipped for the lower values.
 
-\input{tables/powerlaw/pmut_compare_2.tex}
+\input{tables/powerlaw/pmut_compare.tex}
 
 The optimal value here seems to be somewhere around $\beta=1.5$, so only lightly smaller in comparison to the (1+1) EA where the optimal value almost change from one side of the spectrum to the other.
 Here the inverted stability of the search does not occur.

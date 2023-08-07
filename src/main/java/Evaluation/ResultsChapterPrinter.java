@@ -157,6 +157,15 @@ public class ResultsChapterPrinter {
 
     public static void printAllTables() {
         printSingleNTablesFromTo(PATH_THESIS + "\\data", RESULTS_FILE_NAMES, PATH_THESIS + "\\tables");
+        printMultipleNTablesFromTo(PATH_THESIS + "\\data", PATH_THESIS + "\\tables");
+        updatePowerlaw2_75EATable2();
+    }
+
+    private static void updatePowerlaw2_75EATable2() {
+        String resultsFileName = "ea_compare2_75.txt";
+        startFilePrinting(PATH_THESIS + "tables\\powerlaw\\" + resultsFileName.replace(".txt,", ".tex"), true);
+        printTable(PATH_THESIS + "data\\powerlaw\\" + resultsFileName, false);
+        stopWritingToFile();
     }
 
     public static void printSingleNTablesFromTo(String pathRead, String[] fileNames, String pathWrite) {
