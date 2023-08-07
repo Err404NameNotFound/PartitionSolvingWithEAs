@@ -1,0 +1,59 @@
+\babel@toc {ngerman}{}\relax 
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Preliminaries}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Notation}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Background}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Known algorithms for partition}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Evolutionary Algorithm}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Literature on the RLS and (1+1) EA for partition}{5}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Higher mutation rates and heavy tailed mutations}{6}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Runtime Analysis of different EAs on PARTITION}{9}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Improving bounds on the RLS and the (1+1) EA}{9}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Runtime Analysis of higher mutation rates}{14}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Binomial distributed input}{15}{section.3.3}%
+\contentsline {chapter}{\numberline {4}Experimental Results}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Code}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}The Algorithms}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Random number generation}{18}{subsection.4.1.2}%
+\contentsline {section}{\numberline {4.2}Do binomial inputs have perfect partitions?}{19}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Binomial distributed values}{22}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}RLS Comparison}{25}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}(1+1) EA Comparison}{25}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}pmut Comparison}{26}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Comparison of the best variants}{26}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Geometric distributed values}{27}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}RLS Comparison}{28}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}(1+1) EA Comparison}{28}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}pmut Comparison}{29}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Comparison of the best variants}{29}{subsection.4.4.4}%
+\contentsline {section}{\numberline {4.5}Uniform distributed inputs}{30}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}RLS Comparison}{31}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}(1+1) EA Comparison}{31}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}pmut Comparison}{32}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}Comparison of the best variants}{32}{subsection.4.5.4}%
+\contentsline {section}{\numberline {4.6}powerlaw distributed inputs}{33}{section.4.6}%
+\contentsline {subsection}{\numberline {4.6.1}RLS Comparison}{34}{subsection.4.6.1}%
+\contentsline {subsection}{\numberline {4.6.2}(1+1) EA Comparison}{34}{subsection.4.6.2}%
+\contentsline {subsection}{\numberline {4.6.3}pmut Comparison}{35}{subsection.4.6.3}%
+\contentsline {subsection}{\numberline {4.6.4}Comparison of the best variants}{35}{subsection.4.6.4}%
+\contentsline {section}{\numberline {4.7}Eqiuvalent of linear functions for PARTITION}{36}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}RLS Comparison}{37}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}(1+1) EA Comparison}{37}{subsection.4.7.2}%
+\contentsline {subsection}{\numberline {4.7.3}pmut Comparison}{38}{subsection.4.7.3}%
+\contentsline {subsection}{\numberline {4.7.4}Comparison of the best variants}{38}{subsection.4.7.4}%
+\contentsline {section}{\numberline {4.8}Carsten Witt's worst case input}{39}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}RLS Comparison}{40}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}(1+1) EA Comparison}{41}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}pmut Comparison}{41}{subsection.4.8.3}%
+\contentsline {subsection}{\numberline {4.8.4}Comparison of the best variants}{41}{subsection.4.8.4}%
+\contentsline {section}{\numberline {4.9}Multiple distributions combined}{42}{section.4.9}%
+\contentsline {subsection}{\numberline {4.9.1}RLS Comparison}{43}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.2}(1+1) EA Comparison}{43}{subsection.4.9.2}%
+\contentsline {subsection}{\numberline {4.9.3}pmut Comparison}{43}{subsection.4.9.3}%
+\contentsline {subsection}{\numberline {4.9.4}Comparison of the best variants}{44}{subsection.4.9.4}%
+\contentsline {section}{\numberline {4.10}Conclusion of empirical results}{44}{section.4.10}%
+\contentsline {chapter}{Bibliography}{47}{section*.29}%
+\contentsline {chapter}{\nonumberline Appendix}{49}{chapter*.31}%
+\contentsline {section}{\numberline {A}Appendix Section 1}{49}{section.4.1}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
