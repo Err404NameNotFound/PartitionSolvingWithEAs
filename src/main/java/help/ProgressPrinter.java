@@ -64,7 +64,7 @@ public class ProgressPrinter {
         epochSeconds -= hours*HOUR;
         long minutes = epochSeconds/MINUTE;
         long seconds = (epochSeconds - minutes*MINUTE)/SECOND;
-        return String.format("%1dd%02d:%02d:%02d", days, hours, minutes, seconds);
+        return String.format("%dd%02d:%02d:%02d", days, hours, minutes, seconds);
 
     }
 
