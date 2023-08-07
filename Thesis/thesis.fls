@@ -968,10 +968,6 @@ INPUT ./tables/powerlaw/pmut_compare.tex
 INPUT tables/powerlaw/pmut_compare.tex
 INPUT ./tables/powerlaw/pmut_compare.tex
 INPUT tables/powerlaw/pmut_compare.tex
-INPUT ./tables/powerlaw/best.tex
-INPUT tables/powerlaw/best.tex
-INPUT ./tables/powerlaw/best.tex
-INPUT tables/powerlaw/best.tex
 INPUT ./tables/powerlaw/multipleN_fails.tex
 INPUT tables/powerlaw/multipleN_fails.tex
 INPUT ./tables/powerlaw/multipleN_fails.tex

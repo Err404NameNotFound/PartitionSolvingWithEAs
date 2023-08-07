@@ -44,14 +44,14 @@
 \contentsline {subsection}{\numberline {4.7.4}Comparison of the best variants}{38}{subsection.4.7.4}%
 \contentsline {section}{\numberline {4.8}Carsten Witt's worst case input}{39}{section.4.8}%
 \contentsline {subsection}{\numberline {4.8.1}RLS Comparison}{40}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}(1+1) EA Comparison}{41}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.2}(1+1) EA Comparison}{40}{subsection.4.8.2}%
 \contentsline {subsection}{\numberline {4.8.3}pmut Comparison}{41}{subsection.4.8.3}%
 \contentsline {subsection}{\numberline {4.8.4}Comparison of the best variants}{41}{subsection.4.8.4}%
 \contentsline {section}{\numberline {4.9}Multiple distributions combined}{42}{section.4.9}%
-\contentsline {subsection}{\numberline {4.9.1}RLS Comparison}{43}{subsection.4.9.1}%
+\contentsline {subsection}{\numberline {4.9.1}RLS Comparison}{42}{subsection.4.9.1}%
 \contentsline {subsection}{\numberline {4.9.2}(1+1) EA Comparison}{43}{subsection.4.9.2}%
 \contentsline {subsection}{\numberline {4.9.3}pmut Comparison}{43}{subsection.4.9.3}%
-\contentsline {subsection}{\numberline {4.9.4}Comparison of the best variants}{44}{subsection.4.9.4}%
+\contentsline {subsection}{\numberline {4.9.4}Comparison of the best variants}{43}{subsection.4.9.4}%
 \contentsline {section}{\numberline {4.10}Conclusion of empirical results}{44}{section.4.10}%
 \contentsline {chapter}{Bibliography}{47}{section*.29}%
 \contentsline {chapter}{\nonumberline Appendix}{49}{chapter*.31}%
