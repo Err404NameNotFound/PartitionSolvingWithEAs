@@ -62,7 +62,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 43;
+    public static final int DEFAULT_SELECTION = 12;
 
 
     public static void main(String[] args) {
@@ -102,8 +102,8 @@ public class Main {
             case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000, 100000, 1000, 0.5));
             case 9 -> BinomialTesting.printBinomialDistribution(1000, 0.95, 10000);
 
-            case 11 -> evaluateMultiple(1000, GEOMETRIC_DISTRIBUTED, 10000, "best");
-            case 12 -> evaluate(1000, ONEMAX_ONE, 10 * 1000, Solver.getRLSRingComparison(1, 2, 3, 4), "DELETE");
+            case 11 -> evaluateMultiple(10000, GEOMETRIC_DISTRIBUTED, 10000, "best");
+            case 12 -> evaluate(10000, UNIFORM_INTERVALL, 50 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");

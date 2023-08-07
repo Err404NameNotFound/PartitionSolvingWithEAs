@@ -14,7 +14,7 @@ All different variants of the RLS function more or the less the same. They start
       \item replace old value with new value if new value is better
       \item repeat if not optimal
 \end{enumerate}
-The (1+1) EA variants behave differently at first glance as they flip bit each bit independently with probability $c/n$.
+The (1+1) EA variants behave differently at first glance as they flip each bit independently with probability $c/n$.
 This can be seen as $n$ independent Bernoulli trials with probability $c/n$.
 The amount of bits that are flipped is therefore binomial distributed and the algorithm can be implemented exactly as the versions of the RLS. The same holds for the $pmut$ operator which generates a number $k$ from a powerlaw distribution and then flips $k$ bits.
 This leads to only one implementation of a partition solving algorithm which is not only given the input array of numbers but also a generator for the amount of bits to be flipped in each step.
@@ -27,7 +27,7 @@ The random values for the amount of bits to be flipped are generated according t
       \RLSN~    & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
       \RLSR~    & uniform random value $y \in \{1,\dots,k\}$                                              \\
       (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
-      pmut      & powerlaw distributed value from \textasciitilde$D^\beta_n$                              \\
+      pmut      & powerlaw distributed value from \textasciitilde$D^\beta_{n/2}$                          \\
 \end{tabular}
 
 
@@ -159,21 +159,6 @@ Figures which show only results for either even or odd values of $n$ have dotted
 The dotted lines are only in the figure for a better visualisation of the trend and not meant for interpretation apart from the marked values.
 For $n\ge10,000$ all values for the odd input sizes are 0 \%, so there is no point in showing the data in a separate figure.
 
-It is easy to see that for small inputs sizes it is relevant if $n$ is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
-For odd inputs the probability of a perfect partition decreases much more drastically with $m$ as for even inputs because the expected value of a single number increases with $m$.
-If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
-The oscillation therefore increases with increasing m.
-For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input with a perfect partition.
-For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
-Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}).
-Another visible effect is the decreasing percentage with rising $p$.
-This may be a direct result of the value chosen for $p$ but can also be an indirect result as the value for $p$ changes the expected value for a constant $m$.
-The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
-For uniform distributed inputs Borgs \etal~showed that the coefficient of number of bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
-For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0.
-This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input.
-This leads to the second experiment.
-
 \begin{figure}[h]
       \centering
       \begin{minipage}[b]{0.45\textwidth}
@@ -226,7 +211,20 @@ This leads to the second experiment.
       \end{minipage}
 \end{figure}
 
-
+It is easy to see that for small inputs sizes it is relevant if $n$ is even or odd for higher expected values as all curves in figure~\ref{fig:lastBinPercentage} oscillate between 0\% and 100\% for $n\ge14$.
+For odd inputs the probability of a perfect partition decreases much more drastically with $m$ as for even inputs because the expected value of a single number increases with $m$.
+If all values are much higher the small differences between the values can no longer even out the fact of one set having more elements than the other.
+The oscillation therefore increases with increasing m.
+For $n=20$ all 1000 inputs had a perfect partition for every combination of $p$ and $m$ but for $n=19$ only combinations where $mp\le300$ holds had at least one input with a perfect partition.
+For expected values of up to $10^5$ it seems to be almost granted that an input of length 20 has a perfect partition if it is binomial distributed.
+Even for only 12 binomial generated values more than 50\% of the inputs had a perfect partition (see figure~\ref{fig:lastBinPercentage}).
+Another visible effect is the decreasing percentage with rising $p$.
+This may be a direct result of the value chosen for $p$ but can also be an indirect result as the value for $p$ changes the expected value for a constant $m$.
+The expected value may have an influence on the number of perfect partitions because it influences the highest value of the input.
+For uniform distributed inputs Borgs \etal~showed that the coefficient of number of bits needed to encode the max value/$n$ has a huge impact on the number of perfect partitions~\cite{borgs2001phase}.
+For a coefficient < 1 the probability of a perfect partition tends to 1 and for a coefficient > 1 it tends to 0.
+This was only proven for the uniform distributed input, but it might also hold for a binomial distributed input.
+This leads to the second experiment.\newline
 In the second experiment the inputs were generated a bit differently.
 Here the goal was to keep the expected value fixed for any combination of $p$ and $n$ and set the value of $m$ to $e/p$ for all $e \in \{10, 20, 30, 40, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 50000\}$ so that $E(X)=mp=e/p\cdot p=e$.
 With this setup the influence of the expected value is almost isolated from the other parameters.
@@ -375,34 +373,35 @@ Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the 
 \begin{table}[t]
       \caption{Best algorithms variants for all researched inputs}
       \begin{tabular}{c|ccc|ccc|ccc}\label{table:BestAlgoVariantsTable}
-                                                        &
+                                                   &
             \multicolumn{3}{c|}{RLS variants}      &
             \multicolumn{3}{c|}{(1+1) EA variants} &
             \multicolumn{3}{c}{$pmut$ variants}                                                                                      \\
-                                                        & 1st      & 2nd      & 3rd      & 1st     & 2nd    & 3rd    & 1st  & 2nd  & 3rd  \\\hline
-            binomial                                    & \RLSN[2] & \RLSN[4] & \RLSR[2] & 3$/n$   & 4$/n$  & 2$/n$  & 2.25 & 2.0  & 1.75 \\
-            geometric                                   & \RLSR[2] & \RLSR[3] & \RLSR[4] & 2$/n$   & 1$/n$  & 3$/n$  & 3.25 & 3.0  & 2.5  \\
-            polwerlaw                                   & \RLSR[4] & \RLSR[3] & \RLSN[3] & 4$/n$   & 3$/n$  & 2$/n$  & 1.5  & 1.75 & 2.0  \\
-            uniform                                     & \RLSN[2] & \RLSR[3] & \RLSR[4] & 3$/n$   & 2$/n$  & 4$/n$  & 2.5  & 2.0  & 2.25 \\
-            linear function                             & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.5  & 3.25 & 3.0  \\
-            worst case                                  & \RLSN[4] & \RLSN[3] & \RLSN[2] & 100$/n$ & 50$/n$ & 10$/n$ & 1.25 & 1.5  & 1.75 \\
-            combined                                    & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.25 & 3.0  & 2.75 \\
+                                                   & 1st      & 2nd      & 3rd      & 1st     & 2nd    & 3rd    & 1st  & 2nd  & 3rd  \\\hline
+            binomial                               & \RLSN[2] & \RLSN[4] & \RLSR[2] & 3$/n$   & 4$/n$  & 2$/n$  & 2.25 & 2.0  & 1.75 \\
+            geometric                              & \RLSR[2] & \RLSR[3] & \RLSR[4] & 2$/n$   & 1$/n$  & 3$/n$  & 3.25 & 3.0  & 2.5  \\
+            polwerlaw                              & \RLSR[4] & \RLSR[3] & \RLSN[3] & 4$/n$   & 3$/n$  & 2$/n$  & 1.5  & 1.75 & 2.0  \\
+            uniform                                & \RLSN[2] & \RLSR[3] & \RLSR[4] & 3$/n$   & 2$/n$  & 4$/n$  & 2.5  & 2.0  & 2.25 \\
+            linear function                        & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.5  & 3.25 & 3.0  \\
+            worst case                             & \RLSN[4] & \RLSN[3] & \RLSN[2] & 100$/n$ & 50$/n$ & 10$/n$ & 1.25 & 1.5  & 1.75 \\
+            combined                               & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.25 & 3.0  & 2.75 \\
       \end{tabular}
 \end{table}
 
 \begin{table}[t]
       \caption{Suggestions for the fastest algorithm on each input depending on the input size}
       \begin{tabular}{c|c|c|c|c}\label{table:BestAlgoVariantTable}
-                            & $n\le100$                               & $100<n<500$                        & $500\le n<10,000$ & $10,000\le n$ \\
+                            & $n\le100$                                         & $100<n<500$
+                            & $500\le n<10,000$                                 & $10,000\le n$                            \\
             \hline
-            binomial        & \multicolumn{2}{c|}{(1+1) EA $_{3/n}$} & \multicolumn{2}{c}{\RLSN[2]}                                            \\
-            geometric       & \multicolumn{2}{c|}{(1+1) EA $_{2/n}$} & \multicolumn{2}{c}{$pmut_{3.25}$}                                       \\
-            uniform         & \multicolumn{2}{c|}{(1+1) EA $_{4/n}$} & \multicolumn{2}{c}{\RLSN[2]}                                            \\
+            binomial        & \multicolumn{2}{c|}{(1+1) EA $_{3/n}$}            & \multicolumn{2}{c}{\RLSN[2]}             \\
+            geometric       & \multicolumn{2}{c|}{(1+1) EA $_{2/n}$}            & \multicolumn{2}{c}{$pmut_{3.25}$}        \\
+            uniform         & \multicolumn{2}{c|}{(1+1) EA $_{4/n}$}            & \multicolumn{2}{c}{\RLSN[2]}             \\
             \hline
-            powerlaw        & \multicolumn{4}{c}{$pmut_{1.5}$ or $pmut_{1.75}$}                                                                \\
-            linear function & \multicolumn{4}{c}{RLS}                                                                                          \\
-            worst case      & \multicolumn{4}{c}{$pmut_{1.25}$}                                                                                \\
+            powerlaw        & \multicolumn{4}{c}{$pmut_{1.5}$ or $pmut_{1.75}$}                                            \\
+            linear function & \multicolumn{4}{c}{RLS}                                                                      \\
+            worst case      & \multicolumn{4}{c}{$pmut_{1.25}$}                                                            \\
             \hline
-            combined        & (1+1) EA $_{2/n}$                      & \multicolumn{2}{c|}{$pmut_{1.25}$} & RLS                               \\
+            combined        & (1+1) EA $_{2/n}$                                 & \multicolumn{2}{c|}{$pmut_{1.25}$} & RLS \\
       \end{tabular}
 \end{table}

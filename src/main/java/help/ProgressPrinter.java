@@ -1,5 +1,6 @@
 package help;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -9,7 +10,7 @@ import static java.lang.Math.max;
 
 public class ProgressPrinter {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-    private static final String clearString = "\b".repeat(47);
+    private static final String clearString = "\b".repeat(51);
     private final static int BUFFER_SIZE = 60;
     private static final long UPDATE_EVERY_SECOND = 1000;
     private final long startTime;
@@ -19,6 +20,10 @@ public class ProgressPrinter {
     private final RingBufferFifo<Long> iterationBuffer;
     private long nextUpdate;
     private long stepSize;
+    private static final long DAY = 24*3600*1000;
+    private static final long HOUR = 3600*1000;
+    private static final long MINUTE = 60*1000;
+    private static final long SECOND = 1000;
 
     private ProgressPrinter(long end, boolean byTime) {
         this.end = end;
@@ -52,7 +57,15 @@ public class ProgressPrinter {
     }
 
     private static String timeString(long epochSeconds) {
-        return formatter.format(LocalDateTime.ofEpochSecond(epochSeconds / 1000, 0, ZoneOffset.UTC));
+//        return formatter.format(LocalDateTime.ofEpochSecond(epochSeconds / 1000, 0, ZoneOffset.UTC));
+        long days = epochSeconds/DAY;
+        epochSeconds -= DAY*days;
+        long hours = epochSeconds/HOUR ;
+        epochSeconds -= hours*HOUR;
+        long minutes = epochSeconds/MINUTE;
+        long seconds = (epochSeconds - minutes*MINUTE)/SECOND;
+        return String.format("%1dd%02d:%02d:%02d", days, hours, minutes, seconds);
+
     }
 
     public static void clearProgressAndPrintElapsedTime(long start) {

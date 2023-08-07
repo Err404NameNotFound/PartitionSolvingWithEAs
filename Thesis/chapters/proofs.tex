@@ -1,12 +1,12 @@
 \chapter{Runtime Analysis of different EAs on PARTITION}\label{ch:Content1}
 
-This chapter focuses on the theoretical analysis of the runtime of Evolutionary Algorithms for PARTITION.\ 
-The first section is focused on improving previously shown bounds for the (1+1) EA and the RLS.\ 
+This chapter focuses on the theoretical analysis of the runtime of Evolutionary Algorithms for PARTITION.\
+The first section is focused on improving previously shown bounds for the (1+1) EA and the RLS.\
 Afterwards there is also an analysis of Evolutionary Algorithms that flip more than one bit in expectation.
 The last section analyses inputs that follow a binomial distribution.
 
 \section{Improving bounds on the RLS and the (1+1) EA}
-As discussed in the Background section C. Witt already showed multiple results for the RLS and the standard (1+1) EA.\ 
+As discussed in the Background section C. Witt already showed multiple results for the RLS and the standard (1+1) EA.\
 One of the results is the approximation ratio of at most 4/3 after expected time at most $\bigO(n^2)$.
 In this section this bound will be lowered to $\bigO(n\log{n})$ for both algorithms.
 The special input with $w_1\ge W/2$ is also analysed for the (1+1) EA with mutation rate $c/n$.
@@ -168,8 +168,8 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
     % Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $2en\ln n+4$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))en\ln n=\Theta(n\log{}n)\)
 
     % The total runtime for the (1+1) EA is $(2en\ln n+4) + \frac{1+o(1)}{1-o(1)}\cdot en\ln n =\Theta(n\log{}n)$.
-    
-    
+
+
     % \(\frac{1}{1-o(\frac{1}{n^{0.4}})}=\frac{1-o(\frac{1}{n^{0.4}})+o(\frac{1}{n^{0.4}})}{1-o(\frac{1}{n^{0.4}})}=1+\frac{o(\frac{1}{n^{0.4}})}{1-o(\frac{1}{n^{0.4}})}\)
 
     % \begin{gather}\nonumber
@@ -339,86 +339,86 @@ This input is very close to a weighted OneMax and therefore more or less the One
 The first analysed algorithm will be the RLS variants.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
-      The expected time until the \RLSR[k] and \RLSN[k] flips $w_1\ge W/2$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
+    The expected time until the \RLSR[k] and \RLSN[k] flips $w_1\ge W/2$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
 \end{corollary}
 \begin{proof}
-      % For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
-      % Otherwise the step is rejected.
-      % If the algorithm moves $2\le y\le k$ elements in this step there are $y-1$ bits left to shift the volume from $b_E$ to $b_F$.
-      % The object with the highest shifted volume must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$ because otherwise there is not enough total volume shifted from $b_E$ to $b_F$.
-      % For $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ this leads to at most \(d\le\frac{W-w_1}{2(c\frac{W-w_1}{2}-\frac{W-w_1}{2})/(y-1)}=\frac{(W-w_1)(y-1)}{(W-w_1)(c-1)}=\frac{y-1}{c-1}\) objects with the given weight.
-      % % For $c=1.2$, which means $b_E = 0.6(W-w_1)$, this evaluates to $d\le5(y-1)$ which is constant for any constant k.
-      % The probability for such a step, given the algorithm flips $y$ bits, is therefore at most
-      % \[
-      %       \frac{\binom{1}{1}\cdot\binom{d}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
-      %       =\frac{d\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
-      %       =\frac{d\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}
-      %       =\frac{dy(y-1)}{n(n-1)}
-      %       \]
-      % The expected time for such a step to happen is at least
-      % \[
-      %       \frac{1}{\probP(y\text{ bits are flipped})}\cdot\frac{n(n-1)}{dy(y-1)}
-      %       \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2}
-      %       \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
-      %       \]
-      Using Lemma~\ref{lemma:W1FlipWontHappen}, the upper bound of $y\le k$ and the fact that both algorithms flip at most $k$ bits leads to the first part
-      \[ {(k\cdot\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2ky{(y-1)}^2} \le\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\]
-      $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
+    % For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
+    % Otherwise the step is rejected.
+    % If the algorithm moves $2\le y\le k$ elements in this step there are $y-1$ bits left to shift the volume from $b_E$ to $b_F$.
+    % The object with the highest shifted volume must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$ because otherwise there is not enough total volume shifted from $b_E$ to $b_F$.
+    % For $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ this leads to at most \(d\le\frac{W-w_1}{2(c\frac{W-w_1}{2}-\frac{W-w_1}{2})/(y-1)}=\frac{(W-w_1)(y-1)}{(W-w_1)(c-1)}=\frac{y-1}{c-1}\) objects with the given weight.
+    % % For $c=1.2$, which means $b_E = 0.6(W-w_1)$, this evaluates to $d\le5(y-1)$ which is constant for any constant k.
+    % The probability for such a step, given the algorithm flips $y$ bits, is therefore at most
+    % \[
+    %       \frac{\binom{1}{1}\cdot\binom{d}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
+    %       =\frac{d\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
+    %       =\frac{d\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}
+    %       =\frac{dy(y-1)}{n(n-1)}
+    %       \]
+    % The expected time for such a step to happen is at least
+    % \[
+    %       \frac{1}{\probP(y\text{ bits are flipped})}\cdot\frac{n(n-1)}{dy(y-1)}
+    %       \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2}
+    %       \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
+    %       \]
+    Using Lemma~\ref{lemma:W1FlipWontHappen}, the upper bound of $y\le k$ and the fact that both algorithms flip at most $k$ bits leads to the first part
+    \[ {(k\cdot\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2ky{(y-1)}^2} \le\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\]
+    $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
 \end{proof}
 
 \begin{lemma}\label{lemma:RLSRoneMaxInput}
-      The \RLSR[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
+    The \RLSR[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
 \end{lemma}
 \begin{proof}
-      This proof is similar to proof for the (1+1) EA in Theorem~\ref{theo:OneMaxResult} and is divided in the same two parts.
-      The first part is proving the \RLSR~does not flip the first bit in expected time $\mathcal{O}(n\log{}n)$ after some time $T$ has passed.
-      After time $T$ the algorithm then minimises the linear function in expected time $\mathcal{O}(n\log{}n)$ before the first bit is flipped and the progress of the linear function might be reset.
-      After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
-      This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
-      With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k^2{(k-1)}^2}\frac{n(n-1)}{5k^2{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows. This concludes the first part\newline
-      % So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
-      The \RLSR~can be seen as an unbiased unary black box algorithm with a sequence $\mathcal{D}=(p_1,\dots,p_n)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
-      The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
-      For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore the \RLSR~optimises the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
-      Applying the same arguments as in Theorem~\ref{theo:OneMaxResult} this results in a probability of not flipping $w_1$ after expected time $4kn$ of at least
-      \begin{gather}\nonumber
-            1-\frac{(1+o(1))kn\ln n\cdot5k^2{(k-1)}^2}{n(n-1)}
-            =1-\frac{(1+o(1))5k^5\ln n}{n-1}
-            =1-\frac{o(k^5n^{0.5})}{n-1}
-            =1-\frac{1}{o(\sqrt{n})}
-      \end{gather}
-      The expected time of minimising the linear function then is
-      \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
-      The total expected runtime therefore is at most $4kn+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
+    This proof is similar to proof for the (1+1) EA in Theorem~\ref{theo:OneMaxResult} and is divided in the same two parts.
+    The first part is proving the \RLSR~does not flip the first bit in expected time $\mathcal{O}(n\log{}n)$ after some time $T$ has passed.
+    After time $T$ the algorithm then minimises the linear function in expected time $\mathcal{O}(n\log{}n)$ before the first bit is flipped and the progress of the linear function might be reset.
+    After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
+    This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
+    With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k^2{(k-1)}^2}\frac{n(n-1)}{5k^2{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows. This concludes the first part\newline
+    % So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
+    The \RLSR~can be seen as an unbiased unary black box algorithm with a sequence $\mathcal{D}=(p_1,\dots,p_n)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
+    The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
+    For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore the \RLSR~optimises the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
+    Applying the same arguments as in Theorem~\ref{theo:OneMaxResult} this results in a probability of not flipping $w_1$ after expected time $4kn$ of at least
+    \begin{gather}\nonumber
+        1-\frac{(1+o(1))kn\ln n\cdot5k^2{(k-1)}^2}{n(n-1)}
+        =1-\frac{(1+o(1))5k^5\ln n}{n-1}
+        =1-\frac{o(k^5n^{0.5})}{n-1}
+        =1-\frac{1}{o(\sqrt{n})}
+    \end{gather}
+    The expected time of minimising the linear function then is
+    \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
+    The total expected runtime therefore is at most $4kn+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
 
-      % The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
-      % The expected length of the first phase is at most $2kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
-      % Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
-      % In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
-      % In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
-      % Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
+    % The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
+    % The expected length of the first phase is at most $2kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
+    % Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
+    % In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
+    % In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
+    % Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
 
-      % Now the run is again seen as a optimisation of a linear function 
+    % Now the run is again seen as a optimisation of a linear function 
 
-      % The \RLSR[2] chooses to flip only one bit with probability $1/2$.
-      % In these steps it behaves exactly the same as the standard RLS.\
-      % For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
-      % Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
-      % \[
-      %       E(T_{Phase~2})
-      %       \le \sum_{i=1}^{n}{\frac{kn}{i}}
-      %       = kn\cdot\sum_{i=1}^{n}{i}
-      %       % = knH(n) 
-      %       \le kn(\ln(n)+1)
-      %       = kn\ln(n)+kn
-      %       = \mathcal{O}(n\ln n)
-      % \]
-      % So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
-      % The algorithm therefore reaches an optimal solution in expected time
-      % \[E(T_{Phase~1}) + E(T_{Phase~2})
-      %       \le 4kn + kn\ln(n)+kn
-      %       = kn\ln(n)+5kn
-      %       = \mathcal{O}(n\ln n)\]
+    % The \RLSR[2] chooses to flip only one bit with probability $1/2$.
+    % In these steps it behaves exactly the same as the standard RLS.\
+    % For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
+    % Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
+    % \[
+    %       E(T_{Phase~2})
+    %       \le \sum_{i=1}^{n}{\frac{kn}{i}}
+    %       = kn\cdot\sum_{i=1}^{n}{i}
+    %       % = knH(n) 
+    %       \le kn(\ln(n)+1)
+    %       = kn\ln(n)+kn
+    %       = \mathcal{O}(n\ln n)
+    % \]
+    % So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
+    % The algorithm therefore reaches an optimal solution in expected time
+    % \[E(T_{Phase~1}) + E(T_{Phase~2})
+    %       \le 4kn + kn\ln(n)+kn
+    %       = kn\ln(n)+5kn
+    %       = \mathcal{O}(n\ln n)\]
 \end{proof}
 
 % \begin{lemma}
@@ -434,6 +434,17 @@ The first analysed algorithm will be the RLS variants.
 % \end{proof}
 
 \section{Binomial distributed input}
+This section discusses binomial inputs.
+At first they seem uninteresting as all values are rather close to the expected value of the distribution.
+So it seems like the Evolutionary Algorithm only has to find a search point where both bins have an equal amount of values.
+After investigating this input experimentally this is not true to that extend.
+Solutions with an equal amount of bits with value 0 and value 1 are indeed close to the optimum but just close.
+There is mostly still a difference of at least one to the optimum.
+This might cause algorithm like the RLS to get stuck despite the input looking easy at first glance.
+If elements can be swapped this input should become solvable again because there are many small values slightly bigger or smaller than the expected value.
+If the algorithm switches those the small difference to the optimum can be closed.
+The first lemma tries to prove that these input are indeed easy to solve in a sense that this input is very likely to have a perfect partition.
+
 \begin{lemma}\label{lemma:BinomialSolvable}
     A binomial distributed input \textasciitilde$B(m,p)$ has a perfect partition ($b_F - b_E = 0$ for even $W$ and $b_F - b_E = 1$ for uneven $W$) with high probability if the input size $n$ is large enough.
 \end{lemma}
@@ -486,14 +497,14 @@ The first analysed algorithm will be the RLS variants.
     This leads to $n\cdot 10^{-15}$ values with the right value in expectation.
     All bits are flipped uniformly at random and therefore the probability of flipping a good bit is at most
     \(\frac{n\cdot 10^{-15}}{|b_F|}\le \frac{n\cdot 10^{-15}}{n} =10^{-15}\).
-    
+
 
     This means the RLS is very unlikely to find a perfect partition.
     Given the solution has a perfect partition the RLS will get stuck in a local optimum.
-
-    Note: The restriction of $mp\ge50$ and $m-mp\ge50$ was not chosen to make the proof work but is also necessary.
-    If the algorithm produces many small values and especially elements close to 1.
-    When there are many small values these can be used to fill the small gaps which makes it easy for the RLS to find a perfect partition.
-    On the other hand if $p$ is almost one, then almost every element will be same for smaller values of $m$.
-    If every element is the same then the RLS must only find a search point with equal amounts of 0s and 1s.
 \end{proof}
+
+The restriction of $mp\ge50$ and $m-mp\ge50$ was not chosen to make the proof work but is also necessary.
+Without those restrictions the distribution might have many small values and especially elements close to 1.
+When there are many small values these can be used to fill the small gaps which makes it easy for the RLS to find a perfect partition.
+On the other hand if $p$ is almost one, then almost every element will be same for smaller values of $m$.
+If every element is the same then the RLS must only find a search point with equal amounts of 0s and 1s.
