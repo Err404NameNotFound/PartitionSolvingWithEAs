@@ -16,7 +16,7 @@ public class ResultsChapterPrinter {
     private static final String[] FOLDERS = new String[]{
             "binomial",
             "geometric",
-//            "uniform",
+            "uniform",
             "powerlaw",
             "onemax",
             "twoThirds",
