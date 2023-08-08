@@ -94,7 +94,7 @@ The amount of flipped bits is binomial distributed with an expected value of $n\
       }
       }
 \end{algorithm}
-Another simple EA is the randomised local search or short RLS (Algorithm~\ref{alg:RLS}).\
+Another simple EA is the Randomised Local Search (RLS see Algorithm~\ref{alg:RLS}).\
 Instead of flipping each bit with probability $1/n$ here one bit is flipped at uniform random.
 Apart from that the algorithms are the same.
 \begin{algorithm}[bt]
@@ -145,7 +145,7 @@ This lead to Christian Gunia generalising some results previously shown by C. Wi
 Solutions for MAKESPAN-SCHEDULING are \(x\in{\{0,\dots,k-1\}}^n\) and therefore during a mutation $x_i$ is set to a uniform random value from $\{0,\dots,k-1\}\text{\textbackslash}\{x_i\}$ instead of $1-x_i$.
 The adapted RSHs reach an approximation ratio of $(2k/k+1)$ in expected time $\bigO(Wn^{2k-2}/w_n)$.
 On an instance where every weight is the same the expected optimisation time is bounded by $\bigO(n\log{n})$.
-He also adapted the almost worse case to the more general problem and proved the RLS does not find a solution better than \((2k/k+1)-\epsilon\) in finite time for any $\epsilon>0$ with constant probability.
+He also adapted the almost worse case to the more general problem and proved the RLS does not find a solution better than \((2k/(k+1)-\epsilon)\) in finite time for any $\epsilon>0$ with constant probability.
 The second statement for PARTITION on the uniform distributed inputs on [0,1] has an equivalent lemma for MAKESPAN-SCHEDULING on $k$ machines as well.
 
 Another way of dealing with $NP$-hard problems is identifying a parameter $k$ which defines how hard the problem is to solve.
@@ -158,8 +158,22 @@ One of their parametrisation was: given an integer $k$, is there a solution of a
 They showed that a multistart of the (1+1) EA or RLS using runs of length \(\lceil en\ln(2k)\rceil\) is a Monte Carlo-fpt algorithm for this parametrised version of PARTITION.\
 They also analysed a parametrisation of the size of the critical path and also the discrepancy (the difference between the two bins).
 
+\subsection{Problems for Evolutionary Algorithms}
+There are two well analysed problems for Evolutionary Algorithms which are relevant for this thesis.
+One of those is OneMax.
+For OneMax the fitness function $f(x)=\sum_{i=1}^{n}{x_i}$ has to be maximised.
+In the optimal solution every bit is set to one.
+This problem is rather easy as it has only one global optimum and no local optimum.
+So every step the algorithms makes decreases the Hamming distance to the optimum if the fitness increases.
+A more general version of this problem are linear functions where every bit is given a weight.
+Here the fitness function is $f(x)=\sum_{i=1}^{n}{w_i \cdot x_i}$ which either has to be maximised or minimised.
+The weights $w_i$ can be any real value.
+In contrast to OneMax increasing the fitness can increase the Hamming distance to the global optimum if multiple small values switch places with a big value.
+The runtime for both the RLS and the (1+1) EA is $\Theta(n\log{n})$ for both problems and the optimal mutation rate for the (1+1) EA is $1/n$ which was proven multiple times (\cite{witt2013tight},~\cite{doerr2023tight}).
+The optimality of $1/n$ does not hold for every problem which leads to the next section.
+
 \section{Higher mutation rates and heavy tailed mutations}
-For OneMax and all other linear functions the mutation rate of $p_m=1/n$ was proven to be optimal\cite{witt2013tight}.
+The RLS and the standard (1+1) EA flip one bit in expectation which is optimal for some problems as seen in the last section.
 This is not the case for every fitness function.
 $\text{Jump}_k$ has an optimal mutation rate of $k/n$ and a small constant factor deviation from $k/n$ results in an increase of the runtime exponential in $\Omega(k)$\cite{doerr2017fast}.
 The same might hold for PARTITION, because the previously discussed literature only analyses mutation rates with a 1-bit flip in expectation.\newline
@@ -195,6 +209,7 @@ The standard RLS chooses a random neighbour with Hamming distance one.
 So the variant of the RLS could simply choose neighbours that have a Hamming distance larger than one.
 The selection should still be uniform random to keep the idea of the RLS intact.
 One possible way is to choose a random neighbour with Hamming distance $\le k$.
+This algorithm will be called \RLSN[k] from now on, because it chooses a random neighbour within the Hamming ball with radius $k$.
 The amount of neighbours with Hamming distance $y$ is given by $\binom{n}{y}$.
 For $k=4$, this results in $n$ neighbours with Hamming distance 1, $n(n-1)/2$ neighbours with Hamming distance 2, $n(n-1)(n-2)/6$ for 3
 and $n(n-1)(n-2)(n-3)/24$ for 4.
@@ -204,8 +219,7 @@ The probability to choose a random neighbour with Hamming distance $y \le k$ for
 This variant of the RLS is likely to choose a neighbour with Hamming distance k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
 The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
-For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.
-This algorithm will be called \RLSN[k] from now on, because it chooses a random neighbour in the Hamming ball with radius $k$.\newline
+For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.\newline
 An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Hamming distance $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
 This variant of the RLS will be referred to as \RLSR[k] because it first choses the Hamming sphere and afterwards the neighbour within the selected Hamming sphere.
@@ -259,6 +273,6 @@ Both variants of the RLS change at most $k$ bits in each step and therefore only
 For the (1+1) EA the algorithm will also flip mostly $\mathcal{O}(c)$ bits which is also constant.
 So neither of the new variants is likely to change up to $\Theta(n)$ bits.
 Quinzan \textit{et al.} therefore introduced another mutation operator in~\cite{friedrich2018evolutionary} called $pmut_\beta$.
-This operator chooses $k$ from a powerlaw distribution $D^\beta_n$ with exponent $\beta$ and maximum value $n$ and then $k$ uniform random bits are flipped.
+This operator chooses $k$ from a powerlaw distribution $D^\beta_n$ with exponent $\beta$ and maximum value $n$ and then flips $k$ uniform random bits.
 This algorithm will mostly flip a small number of bits but occasionally up to n bits.
-Distributions like this are called heavy tailed mutations because their tail is not bounded exponentially.
+Mutation operators like this are called heavy tailed mutations because their tail is not bounded exponentially.

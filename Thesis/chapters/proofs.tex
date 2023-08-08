@@ -19,7 +19,7 @@ The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
 \begin{proof}
     This Lemma is very similar to C. Witt's  Lemma 2 from section `2. Definitions and Proof Methods' in~\cite{witt2005worst}.
     The proof is mostly the same.
-    He first defines a potential function $p(x)=f(x)-l$.
+    He first defines a potential function $p(x)=f(x)-f(opt)$.
     While $p(x)>0$ all steps moving only a small object to the emptier bin are accepted.
     The expected p-decrease is at least $p_0\cdot q$ where $q$ is a lower bound on the probability of the algorithm to flip one specific bit.
     This leads to a next $p$ value of $(1-q)p_0$.
@@ -29,7 +29,7 @@ The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
     Applying Markov's inequality to the non-negative $p$ value implies $p_t\le p_0\delta$ with probability $1-1/\gamma$.
     Repeating independent phases of length $\lceil yn\ln(2/\delta)\rceil$ the expected number of phases is at most 2.
     Up until here the proof is the same.\newline
-    Instead of choosing $W/2$ as the general upper bound for $p_0$ as in the original lemma here the lower value $W-w_1\le W/2$ is chosen because it is more tight for the special case $w_1\ge W/2$ with $l=w_1$.
+    Instead of choosing $W/2$ as the general upper bound for $p_0$ as in the original lemma here the lower value $W-w_1\le W/2$ is chosen because it is more tight for the special case $w_1\ge W/2$ with $f(opt)=w_1$.
     The probability of the \RLSR[k] to flip one specific bit is \(\frac{1}{k}\cdot\frac{1}{n}\) and for (1+1) EA with mutation rate $c/n$ at least
     \[
         \frac{c}{n}{(1-\frac{c}{n})}^{n-1}
@@ -85,7 +85,7 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     \end{gather}
 \end{proof}
 
-Theorem~\ref{theo:OneMaxResult} is the last analysis for inputs with $w_1 \ge \frac W 2$.
+Theorem~\ref{theo:OneMaxResult} is the last analysis on inputs with $w_1 \ge \frac W 2$.
 It uses the results of the two previous lemmas and gives an asymptotic bound on the runtime.
 Instead of giving a runtime for a 4/3-approximation this lemma gives the expected runtime for reaching one of the two optimal solutions.
 For a non-optimal solution moving one element from the fuller to the emptier bin will always result in an improvement.
@@ -110,7 +110,7 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
     After such a step $b_E \ge \frac {W-w_1}{2}$ holds.
     If the solution is already optimal $b_E = W-w_1>\frac {W-w_1}{2}$, otherwise there is at least one bit that can be flipped.
     This bit will be flipped in expected time at most $n$ for the same reason as for $w_1$.
-    The total length of first phase is at most $2n$.
+    This leads to a total length of first phase of at most $2n$.
     In the second phase the RLS can no longer flip $w_1$ as it does not result in an improvement ever again.
     Therefore the RLS behaves exactly as on OneMax/ZeroMax depending on the value of the first bit and reaches an optimal solution in $\Theta(n\log{}n)$ resulting in a total runtime of $\Theta(n\log{}n)$ (Theorem 3 in~\cite{witt2014fitness}).\newline
     As long as $w_1$ does not flip the (1+1) EA has to minimize a linear function of $n-1$ bits which takes $(1+o(1))\frac{e^k}{k}n\ln n$ time (Corollary 4.2 in~\cite{witt2013tight}).
@@ -244,7 +244,10 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
 
 \end{proof}
 
-The next few Lemmas and Corollaries help to prove the runtime of $\bigO(n\log{n})$ for the (1+1) EA and the RLS on inputs with $w1<W/2$ for reaching an approximation ratio of 4/3.
+Theorem~\ref{theo:OneMaxResult} only proved the asymptotic expected runtime of the (1+1) EA with different mutation rates.
+It does not proof which mutation rate reaches the solution the fastest in expectation, but it suggests the runtime increases for higher mutation rates.
+Later in the thesis there is an analysis for this lemma in Section~\ref{evalSec:onemax} which also suggests the optimality of $1/n$.\newline
+The next few Lemmas and Corollaries help to prove the runtime of $\bigO(n\log{n})$ for the (1+1) EA and the RLS on inputs with $w_1<W/2$ for reaching an approximation ratio of 4/3.
 They are mostly rather short with a proof of only a few lines.
 The only Lemma with a longer proof is Lemma~\ref{lemma:movingObjects2}.
 It shows the runtime bound for a more restricted type of input and is used to simplify the proof of Lemma~\ref{lemma:approximation}
@@ -293,11 +296,11 @@ It shows the runtime bound for a more restricted type of input and is used to si
     In expected time $\mathcal{O}(n\log{}n)$ the weight of the fuller bin can be decreased to \(\le \frac{2W}{3}\) by the RLS and the (1+1) EA if every object besides the biggest in the fuller bin is at most $\frac{W}{3}$ and \(w_1 \le \frac{W}{2}\).
 \end{lemma}
 \begin{proof}
-    In expected time $\mathcal{O}(n\log{}n)$ the RSH can move every object $\le \frac{W}{3}$ to the emptier bin as long as $b_F \ge \frac{2W}{3}$ due to Corollary~\ref{cor:movingObjects} and Theorem~\ref{theo:OneMaxResult}.
+    In expected time $\mathcal{O}(n\log{}n)$ the RLS can move every object $\le \frac{W}{3}$ to the emptier bin as long as $b_F \ge \frac{2W}{3}$ due to Corollary~\ref{cor:movingObjects} and Theorem~\ref{theo:OneMaxResult}.
     So in expected time $\mathcal{O}(n\log{}n)$ the solution can be shifted to $w_1$ being in one bin and all other objects in the other bin.
-    The RSH will only stop moving the elements if the condition $b_F \ge \frac{2W}{3}$ is no longer satisfied (Corollary~\ref{cor:movingObjects}).
+    The RLS will only stop moving the elements if the condition $b_F \ge \frac{2W}{3}$ is no longer satisfied (Corollary~\ref{cor:movingObjects}).
     If \(w_1 \ge \frac{W}{3}\) and every object was moved to the bin without $w_1$, then \(b_F = \max\{W-w_1, w_1\} = W-w_1 \le \frac{2W}{3}\), because \(w_1 \le \frac{W}{2}\).
-    So either the RSH moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2W}{3}$ both resulting in $b_F \le \frac{2W}{3}$.
+    So either the RLS moves all objects to the emptier bin or stops moving objects because $b_F < \frac{2W}{3}$ both resulting in $b_F \le \frac{2W}{3}$.
     If $w_1$ is not in the fuller bin, then the result follows by Corollary~\ref{cor:approximationHelp}.\newline
     Now assume \(w_1 < \frac{W}{3}\).
     In this case the RLS will move one object per step to the emptier bin.
@@ -311,7 +314,8 @@ It shows the runtime bound for a more restricted type of input and is used to si
     The case \(w_1 \ge \frac{W}{3}\) does not change only the bin containing $w_1$ might change.
     Apart from that there is no difference for the (1+1) EA.\
     The case $w_1 < \frac{W}{3}$ is also rather similar.
-    The (1+1) EA will move elements from the fuller bin to the emptier bin until $b_F < \frac{2W}{3}$ holds. The (1+1) EA can make the emptier bin the fuller bin by moving multiple objects in one step, but this does not hinder it from reaching $b_F < \frac{2W}{3}$. After such a step it will continue moving elements until the condition holds.
+    The (1+1) EA will move elements from the fuller bin to the emptier bin until $b_F < \frac{2W}{3}$ holds. The (1+1) EA can make the emptier bin the fuller bin by moving multiple objects in one step, but this does not hinder it from reaching $b_F < \frac{2W}{3}$.
+    After a step making the previously fuller bin the emptier bin it will continue moving elements until the condition holds.
 \end{proof}
 
 \begin{lemma}\label{lemma:approximation}
@@ -335,8 +339,6 @@ It shows the runtime bound for a more restricted type of input and is used to si
 \section{Runtime Analysis of higher mutation rates}
 
 The first analysed input is again the input with $w_1\ge W/2$.
-This input is very close to a weighted OneMax and therefore more or less the OneMax equivalent for Partition.
-The first analysed algorithm will be the RLS variants.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
     The expected time until the \RLSR[k] and \RLSN[k] flips $w_1\ge W/2$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
@@ -419,6 +421,31 @@ The first analysed algorithm will be the RLS variants.
     %       \le 4kn + kn\ln(n)+kn
     %       = kn\ln(n)+5kn
     %       = \mathcal{O}(n\ln n)\]
+\end{proof}
+
+\begin{lemma}
+    The expected optimisation time of the \RLSN[k] for $2\le k=O(1)$ on inputs with $w_1\ge W/2$ is $\Omega(n^k)$ if the solution is not already optimal after the initialisation.
+\end{lemma}
+\begin{proof}
+    The solution has only two global optima.
+    The optimum is defined by $x_1$ because every other $x_i$ must have a value of $1-x_1$.
+    If the \RLSN[k] reaches a search point where the Hamming distance to the optimum is $y\le k$ there are exactly $y$ bits left that must be flipped for an optimal solution.
+    The other solution requires $n-y$ bits to be flipped which needs even more time.
+    The probability of reaching the optimum from a Hamming distance of $y$ is given by
+    \begin{gather}\nonumber
+        \probP(\text{\RLSN[k] flips $y$ bits})\cdot\probP(\text{\RLSN[k] flips the correct $y$ bits | \RLSN[k] flips $y$ bits})\\ \nonumber
+        =  \Theta(\frac{1}{n^{k-y}}) \cdot \frac{\binom{y}{y}}{\binom{n}{y}}
+        =  \Theta(\frac{1}{n^{k-y}}) \cdot \frac{1}{\frac{n!}{(n-y)!y!}}
+        =  \Theta(\frac{1}{n^{k-y}}) \cdot \Theta(\frac{y!}{n^y})
+        =  \Theta(\frac{y!}{n^{k}})
+    \end{gather}
+    Because $y\le k = O(1)$ holds $\Theta(\frac{y!}{n^{k}})=\Theta(\frac{1}{n^{k}})$ also holds.
+    The expected time for such a step to happen is ${(\Theta(\frac{1}{n^{k}}))}^{-1}=\Theta(n^{k})$.
+    If the algorithm instead successfully flips less than $y$ bits it reaches a search point where the expected optimisation time is still $\Theta(n^{k})$.
+    Either way the expected optimisation time is $\Theta(n^{k})$ when the algorithm has reached a search point with Hamming distance $1\le y\le k$.
+    For every value of $k$ the \RLSN[k] can only flip at most $k$ bits in each step.
+    So it will reach a search point of \RLSN[k] if the initial Hamming distance is at least one.
+    This will happen with probability $1-1\cdot{(1/2)}^{n-1}=1-\frac{1}{2^{n-1}}$.
 \end{proof}
 
 % \begin{lemma}
