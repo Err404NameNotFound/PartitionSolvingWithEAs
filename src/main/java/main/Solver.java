@@ -21,7 +21,7 @@ public class Solver {
         return new Solver("RLS", "-", "RLS", "RLS", PartitionSolver::solveRLS);
     }
 
-    public static Solver getRLSUniformNeighbour(int n) {
+    public static Solver getRLSN(int n) {
         if (n == 1) {
             return getRLS();
         }
@@ -29,7 +29,7 @@ public class Solver {
                 (a, b) -> PartitionSolver.solveRLS_UniformNeighbour(a, b, n));
     }
 
-    public static Solver getRLSUniformRing(int r) {
+    public static Solver getRLSR(int r) {
         if (r == 1) {
             return getRLS();
         }
@@ -62,24 +62,24 @@ public class Solver {
     public static Solver[] getRLSComparison() {
         return new Solver[]{
                 getRLS(),
-                getRLSUniformNeighbour(2),
-                getRLSUniformNeighbour(3),
-                getRLSUniformNeighbour(4),
-                getRLSUniformRing(2),
-                getRLSUniformRing(3),
-                getRLSUniformRing(4)
+                getRLSN(2),
+                getRLSN(3),
+                getRLSN(4),
+                getRLSR(2),
+                getRLSR(3),
+                getRLSR(4)
         };
     }
 
     public static Solver[] getRLSNeighbourComparison(int... values) {
         Solver[] ret = new Solver[values.length];
-        ArrayHelp.fill(ret, (i) -> getRLSUniformNeighbour(values[i]));
+        ArrayHelp.fill(ret, (i) -> getRLSN(values[i]));
         return ret;
     }
 
     public static Solver[] getRLSRingComparison(int ... values) {
         Solver[] ret = new Solver[values.length];
-        ArrayHelp.fill(ret, (i) -> getRLSUniformRing(values[i]));
+        ArrayHelp.fill(ret, (i) -> getRLSR(values[i]));
         return ret;
     }
 
@@ -139,8 +139,8 @@ public class Solver {
     public static Solver[] getComparison(int k_Ring, int k_Neighbour, int c_EA, double p_pmut) {
         return new Solver[]{
                 getRLS(),
-                getRLSUniformNeighbour(k_Neighbour),
-                getRLSUniformRing(k_Ring),
+                getRLSN(k_Neighbour),
+                getRLSR(k_Ring),
                 getEA(),
                 getEA(c_EA),
                 getPmut(p_pmut),
@@ -150,8 +150,8 @@ public class Solver {
     public static Solver[] getComparison() {
         return new Solver[]{
                 getRLS(),
-                getRLSUniformRing(2),
-                getRLSUniformNeighbour(2),
+                getRLSR(2),
+                getRLSN(2),
                 getEA(),
                 getEA(2),
                 getPmut(2.75)

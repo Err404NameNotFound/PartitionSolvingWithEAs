@@ -48,6 +48,11 @@ import static main.InputGenerator.TWO_THIRDS;
 import static main.InputGenerator.UNIFORM_INTERVALL;
 import static main.InputGenerator.generateInput;
 import static main.InputGenerator.getName;
+import static main.Solver.getEA;
+import static main.Solver.getPmut;
+import static main.Solver.getRLS;
+import static main.Solver.getRLSN;
+import static main.Solver.getRLSR;
 
 public class Main {
 
@@ -62,7 +67,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 12;
+    public static final int DEFAULT_SELECTION = 18;
 
 
     public static void main(String[] args) {
@@ -109,6 +114,7 @@ public class Main {
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
             case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{0});
+            case 18 -> redoMultipleNEvaluation(10000);
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);
@@ -126,7 +132,7 @@ public class Main {
                     "rls_comparison-newRNG10kWithSignificance.txt",
                     "ea_comparison-newRNG10kWithSignificance.txt",
                     "pmut_comparison-newRNG10kWithSignificance.txt",
-                    "best-newRNG10kWithSignificance.txt"});
+                    "best.txt"});
             case 45 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
             case 46 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
             case 47 -> printDistribution(InputGenerator.createMixedAndOverlapped(
@@ -196,7 +202,7 @@ public class Main {
         int[] eaParams = new int[]{3, 4, 3};
         for (int i = 0; i < pmutParams.length; ++i) {
             Solver solver = evaluate(1000, inputTypes[i], inputLengths[i], Solver.getRLSComparison(), "rls_compare");
-            Solver[] solvers = new Solver[]{solver, Solver.getEA(eaParams[i]), Solver.getPmut(pmutParams[i])};
+            Solver[] solvers = new Solver[]{solver, getEA(eaParams[i]), getPmut(pmutParams[i])};
             evaluate(1000, inputTypes[i], inputLengths[i], solvers, "best");
         }
     }
@@ -227,21 +233,48 @@ public class Main {
         ArrayPrinter.printArray("offset; ", values, digits);
     }
 
-    private static void fineEvaluation(InputGenerator generator) {
+    private static void redoMultipleNEvaluation(int n) {
+        int[] inputTypes = new int[]{
+                ONEMAX_ONE, TWO_THIRDS, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,BINOMIAL_DISTRIBUTED,UNIFORM_INTERVALL,
+                MIXED_AND_OVERLAPPED
+        };
+        InputGenerator[] generators = new InputGenerator[inputTypes.length];
+        fill(generators, i -> InputGenerator.create(inputTypes[i]));
+        Solver[][] solvers = new Solver[][]{
+                new Solver[]{getRLS(), getEA(), getPmut(3.25), getPmut(3.5)},
+                new Solver[]{getRLSN(4), getEA(100), getPmut(1.25)},
+                new Solver[]{getRLS(), getRLSR(2), getEA(), getEA(2), getPmut(3.25), getPmut(3.0)},
+                new Solver[]{getRLSR(4), getRLSN(3), getEA(4), getEA(3), getPmut(1.5), getPmut(1.75)},
+                new Solver[]{getRLSN(2), getRLSN(4), getRLSR(2), getEA(3), getEA(4), getPmut(2.0), getPmut(2.25)},
+                new Solver[]{getRLSN(2), getRLSR(3), getRLSR(4), getEA(4), getEA(3), getPmut(2.0), getPmut(2.25)},
+                new Solver[]{getRLS(), getRLSR(2), getEA(1), getEA(2), getPmut(3.25), getPmut(3.0)}
+        };
         int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
-//        int[] lengths = new int[]{500};
-//        long[] stepSizes = fill(lengths.length, (i) -> 100L * 1000 * 1000 * 1000);
+        for (int i = 0; i < generators.length; ++i) {
+            Evaluation.evaluateMultipleNValues(n, lengths, stepSizes, generators[i], solvers[i], null);
+        }
+    }
+
+    private static void fineEvaluation(InputGenerator generator) {
         Solver[] solvers = new Solver[]{
-//                Solver.getRLS(),
-//                Solver.getRLSUniformRing(2),
-//                Solver.getRLSUniformNeighbour(4),
-//                Solver.getEA(),
-                Solver.getPmut(3.25),
-                Solver.getPmut(3.0),
-                Solver.getPmut(3.75),
-                Solver.getPmut(3.5),
+//                getRLS(),
+//                getEA(),
+                getPmut(3.25),
+                getPmut(3.0),
+                getPmut(3.75),
+                getPmut(3.5),
         };
+        fineEvaluation(generator,solvers);
+    }
+
+    private static void fineEvaluation(InputGenerator generator, Solver[] solvers) {
+        int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
+        long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
+        fineEvaluation(generator, lengths, stepSizes, solvers);
+    }
+
+    private static void fineEvaluation(InputGenerator generator, int[] lengths, long[] stepSizes, Solver[] solvers) {
         Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
     }
 
@@ -249,12 +282,12 @@ public class Main {
         int[] inputTypes = new int[]{
                 UNIFORM_INTERVALL, ONEMAX_ONE, TWO_THIRDS,
                 BINOMIAL_DISTRIBUTED, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,
-                MIXED, OVERLAPPED, MIXED_AND_OVERLAPPED
+                MIXED_AND_OVERLAPPED
         };
         int[] inputLengths = new int[]{
                 50 * 1000, 10 * 1000, 10 * 1000,
                 10 * 1000, 10 * 1000, 20 * 1000,
-                10 * 1000, 10 * 1000, 10 * 1000
+                10 * 1000
         };
         Solver[][] eaSolvers = new Solver[][]{
                 Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
@@ -263,8 +296,6 @@ public class Main {
                 Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
                 Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
                 Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
-                Solver.getEAComparison(1, 2, 3, 4, 5, 10, 50, 100),
-                Solver.getEAComparison(1, 2, 3, 4, 5, 10),
                 Solver.getEAComparison(1, 2, 3, 4, 5, 10),
         };
         Solver[] rlsVariants = Solver.getRLSComparison();

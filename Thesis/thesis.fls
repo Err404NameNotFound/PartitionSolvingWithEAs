@@ -904,7 +904,6 @@ INPUT ./expRes/uniform.tex
 INPUT expRes/uniform.tex
 INPUT ./expRes/uniform.tex
 INPUT expRes/uniform.tex
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
 INPUT ./figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
 INPUT figures/images/numberGenerator/uniformDistributionMin1Max101n10000.png
@@ -922,10 +921,6 @@ INPUT ./tables/uniform/pmut_compare.tex
 INPUT tables/uniform/pmut_compare.tex
 INPUT ./tables/uniform/pmut_compare.tex
 INPUT tables/uniform/pmut_compare.tex
-INPUT ./tables/uniform/best.tex
-INPUT tables/uniform/best.tex
-INPUT ./tables/uniform/best.tex
-INPUT tables/uniform/best.tex
 INPUT ./tables/uniform/multipleN_fails.tex
 INPUT tables/uniform/multipleN_fails.tex
 INPUT ./tables/uniform/multipleN_fails.tex
@@ -1065,6 +1060,7 @@ INPUT ./tables/mixedAndOverlapped/ea_compare.tex
 INPUT tables/mixedAndOverlapped/ea_compare.tex
 INPUT ./tables/mixedAndOverlapped/ea_compare.tex
 INPUT tables/mixedAndOverlapped/ea_compare.tex
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT ./tables/mixedAndOverlapped/pmut_compare.tex
 INPUT tables/mixedAndOverlapped/pmut_compare.tex
 INPUT ./tables/mixedAndOverlapped/pmut_compare.tex

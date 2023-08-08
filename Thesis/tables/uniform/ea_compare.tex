@@ -1,16 +1,18 @@
 \makebox[\linewidth]{
 \begin{tabular}{lp{3cm}p{6cm}p{6cm}}
-\begin{tabular}[h]{ccccccc}
-algo type&            EA-SM&     EA-SM&     EA-SM&     EA-SM&     EA-SM&        EA\\
-algo param&             3$/n$&       2$/n$&       4$/n$&       5$/n$&      10$/n$&         -\\
-avg mut/change&       3.102&     2.287&     4.014&     4.937&     9.924&     1.577\\
-avg mut/step&         3.000&     2.000&     4.000&     5.000&    10.000&     1.000\\
+\begin{tabular}[h]{ccccccccc}
+algo type&            EA-SM&     EA-SM&     EA-SM&     EA-SM&     EA-SM&        EA-SM&     EA-SM&     EA-SM\\
+algo param&             4$/n$&       3$/n$&       2$/n$&       5$/n$&      10$/n$&         -&      50$/n$&     100$/n$\\
+avg mut/change&       4.012&     3.096&     2.292&     4.945&     9.887&     1.580&    49.788&    99.729\\
+avg mut/step&         4.000&     3.000&     2.000&     5.000&    10.000&     1.000&    50.000&   100.000\\
 \hline
-avg eval count&     122,098&   122,690&   124,634&   132,509&   183,213&   213,186\\
-max eval count&     956,375&   920,658& 1,128,158& 1,457,069& 1,298,089& 2,509,163\\
-min eval count&         174&       188&       265&       384&         6&       111\\
+total avg count&    107,309&   111,459&   115,595&   115,597&   166,608&   188,301&   369,943&   551,189\\
+avg eval count&     107,309&   111,459&   115,595&   115,597&   166,608&   188,301&   369,943&   548,386\\
+max eval count&     943,738& 1,166,443& 1,099,884& 1,368,459& 1,579,593& 2,516,372& 4,093,515& 4,552,116\\
+min eval count&         182&       173&        22&       228&       107&       245&       365&       157\\
 \hline
-fail ratio&           0.000&     0.000&     0.000&     0.000&     0.000&     0.000\\
+fail ratio&           0.000&     0.000&     0.000&     0.000&     0.000&     0.000&     0.000&     0.001\\
+avg fail dif&             -&         -&         -&         -&         -&         -&         -&         1\\
 \end{tabular}
 \end{tabular}
 }

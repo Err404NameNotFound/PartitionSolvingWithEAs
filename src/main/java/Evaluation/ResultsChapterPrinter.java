@@ -163,7 +163,7 @@ public class ResultsChapterPrinter {
 
     private static void updatePowerlaw2_75EATable2() {
         String resultsFileName = "ea_compare2_75.txt";
-        startFilePrinting(PATH_THESIS + "tables\\powerlaw\\" + resultsFileName.replace(".txt,", ".tex"), true);
+        startFilePrinting(PATH_THESIS + "tables\\powerlaw\\" + resultsFileName.replace(".txt", ".tex"), true);
         printTable(PATH_THESIS + "data\\powerlaw\\" + resultsFileName, false);
         stopWritingToFile();
     }
