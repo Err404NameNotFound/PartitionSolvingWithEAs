@@ -344,25 +344,6 @@ The first analysed input is again the input with $w_1\ge W/2$.
     The expected time until the \RLSR[k] and \RLSN[k] flips $w_1\ge W/2$ after they reached a solution with $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ is at least \(\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\). For constant values of $c$ the expected time is $=\Omega(n^2)$.
 \end{corollary}
 \begin{proof}
-    % For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of $2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
-    % Otherwise the step is rejected.
-    % If the algorithm moves $2\le y\le k$ elements in this step there are $y-1$ bits left to shift the volume from $b_E$ to $b_F$.
-    % The object with the highest shifted volume must have a volume of at least $2\cdot(b_E-\frac{W-w_1}{2})/(y-1)$ because otherwise there is not enough total volume shifted from $b_E$ to $b_F$.
-    % For $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ this leads to at most \(d\le\frac{W-w_1}{2(c\frac{W-w_1}{2}-\frac{W-w_1}{2})/(y-1)}=\frac{(W-w_1)(y-1)}{(W-w_1)(c-1)}=\frac{y-1}{c-1}\) objects with the given weight.
-    % % For $c=1.2$, which means $b_E = 0.6(W-w_1)$, this evaluates to $d\le5(y-1)$ which is constant for any constant k.
-    % The probability for such a step, given the algorithm flips $y$ bits, is therefore at most
-    % \[
-    %       \frac{\binom{1}{1}\cdot\binom{d}{1}\cdot\binom{n-2}{y-2}}{\binom{n}{y}}
-    %       =\frac{d\frac{(n-2)!}{(n-2-y+2)!\cdot (y-2)!}}{\frac{n!}{(n-y)!\cdot y!}}
-    %       =\frac{d\cdot(n-2)!\cdot(n-y)!\cdot y!}{n!\cdot(n-y)!\cdot(y-2)!}
-    %       =\frac{dy(y-1)}{n(n-1)}
-    %       \]
-    % The expected time for such a step to happen is at least
-    % \[
-    %       \frac{1}{\probP(y\text{ bits are flipped})}\cdot\frac{n(n-1)}{dy(y-1)}
-    %       \ge\frac{1}{1}\cdot\frac{n(n-1)(c-1)}{y{(y-1)}^2}
-    %       \ge\frac{n(n-1)(c-1)}{k{(k-1)}^2}
-    %       \]
     Using Lemma~\ref{lemma:W1FlipWontHappen}, the upper bound of $y\le k$ and the fact that both algorithms flip at most $k$ bits leads to the first part
     \[ {(k\cdot\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2ky{(y-1)}^2} \le\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\]
     $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
@@ -392,35 +373,6 @@ The first analysed input is again the input with $w_1\ge W/2$.
     The expected time of minimising the linear function then is
     \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
     The total expected runtime therefore is at most $4kn+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
-
-    % The run can be divided in the same two phases as in Theorem~\ref{theo:OneMaxResult}.
-    % The expected length of the first phase is at most $2kn$ in expectation because the probability of flipping only the first bit is $1/kn$.
-    % Flipping the first bit together with other bits might be successful as well, but it will not be accepted in every case.\newline
-    % In the second Phase the \RLSR~tries to remove every element of the bin containing $w_1$.
-    % In contrast to the RLS it can make steps increasing the hamming distance to the optimum once the algorithm is in phase 2.
-    % Steps where the first bit is not flipped can increase the Hamming distance at most by $k-1$, since the global optimum cannot change without changing $w_1$ and moving all $k$ elements in the wrong direction will always be rejected.
-
-    % Now the run is again seen as a optimisation of a linear function 
-
-    % The \RLSR[2] chooses to flip only one bit with probability $1/2$.
-    % In these steps it behaves exactly the same as the standard RLS.\
-    % For $k=2$ a step moving two elements cannot increase the Hamming distance if $w_1$ is not flipped.
-    % Using a fitness level argument the expected running time of phase 2 if steps flipping the first bit are always rejected is at most
-    % \[
-    %       E(T_{Phase~2})
-    %       \le \sum_{i=1}^{n}{\frac{kn}{i}}
-    %       = kn\cdot\sum_{i=1}^{n}{i}
-    %       % = knH(n) 
-    %       \le kn(\ln(n)+1)
-    %       = kn\ln(n)+kn
-    %       = \mathcal{O}(n\ln n)
-    % \]
-    % So the algorithm reaches an optimal solution in expected time $\mathcal{O}(n\ln n)$ whereas a second flip of $w_1$ only happens in expected time $\Omega(n^2)$.
-    % The algorithm therefore reaches an optimal solution in expected time
-    % \[E(T_{Phase~1}) + E(T_{Phase~2})
-    %       \le 4kn + kn\ln(n)+kn
-    %       = kn\ln(n)+5kn
-    %       = \mathcal{O}(n\ln n)\]
 \end{proof}
 
 \begin{lemma}
@@ -447,18 +399,6 @@ The first analysed input is again the input with $w_1\ge W/2$.
     So it will reach a search point of \RLSN[k] if the initial Hamming distance is at least one.
     This will happen with probability $1-1\cdot{(1/2)}^{n-1}=1-\frac{1}{2^{n-1}}$.
 \end{proof}
-
-% \begin{lemma}
-%       The \RLSN[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time TODO
-% \end{lemma}
-% \begin{proof}
-%       This proof is similar to proof for the (1+1) EA in Theorem~\ref{lemma:RLSRoneMaxInput} and is divided in the same to parts.
-
-%       The \RLSR~can be seen as an unbiased unary black box algorithm with sequence $\mathcal{D}=(1/k, \dots,1/k,0,\dots,0)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
-%       The mean of this sequence is \(\mathcal{X}=\sum_{i=1}^{n}{\probP(X=i)i}=\sum_{i=1}^{k}{\frac{i}{k}}=\frac{1}{k}\cdot\sum_{i=1}^{k}{i}=\frac{k+1}{2}\).
-%       For any constant value $k$ both the probability $p_1=\frac{1}{k}=\Theta(1)$ and mean $\mathcal{X}=\frac{k+1}{2}=O(1)$ meet the conditions of Theorem 1 in~\cite{doerr2023tight} and therefore opmtimise the linear function in expected time \((1+o(1))\frac{1}{p_1}n\ln n=(1+o(1))kn\ln n\).
-%       The total expected runtime therefore is at most $4k+(1+o(1))kn\ln n=\Theta(n\log{}n)$.
-% \end{proof}
 
 \section{Binomial distributed input}
 This section discusses binomial inputs.

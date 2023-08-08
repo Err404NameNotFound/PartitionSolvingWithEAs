@@ -4,6 +4,7 @@ import Evaluation.BinomialTesting;
 import Evaluation.Evaluation;
 import Evaluation.MinMaxAvgEvaluator;
 import Evaluation.ResultsChapterPrinter;
+import help.ArrayHelp;
 import help.ArrayPrinter;
 import help.Printer;
 import help.ProgressPrinter;
@@ -234,9 +235,13 @@ public class Main {
     }
 
     private static void redoMultipleNEvaluation(int n) {
+        redoMultipleNEvaluation(n, ArrayHelp.generateIntArray(7, i -> i));
+    }
+
+    private static void redoMultipleNEvaluation(int n, int[] indexes) {
         int[] inputTypes = new int[]{
-                ONEMAX_ONE, TWO_THIRDS, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,BINOMIAL_DISTRIBUTED,UNIFORM_INTERVALL,
-                MIXED_AND_OVERLAPPED
+                ONEMAX_ONE, TWO_THIRDS, GEOMETRIC_DISTRIBUTED, POWERLAW_DISTRIBUTED,
+                BINOMIAL_DISTRIBUTED, UNIFORM_INTERVALL, MIXED_AND_OVERLAPPED
         };
         InputGenerator[] generators = new InputGenerator[inputTypes.length];
         fill(generators, i -> InputGenerator.create(inputTypes[i]));
@@ -251,8 +256,8 @@ public class Main {
         };
         int[] lengths = new int[]{20, 50, 100, 500, 1000, 5000, 10000, 50000};
         long[] stepSizes = fill(lengths.length, (i) -> Math.max(100000, 10 * nlogn(lengths[i])));
-        for (int i = 0; i < generators.length; ++i) {
-            Evaluation.evaluateMultipleNValues(n, lengths, stepSizes, generators[i], solvers[i], null);
+        for (int i : indexes) {
+            Evaluation.evaluateMultipleNValues(n, lengths, stepSizes, generators[i], solvers[i], "multipleN");
         }
     }
 
@@ -265,7 +270,7 @@ public class Main {
                 getPmut(3.75),
                 getPmut(3.5),
         };
-        fineEvaluation(generator,solvers);
+        fineEvaluation(generator, solvers);
     }
 
     private static void fineEvaluation(InputGenerator generator, Solver[] solvers) {
