@@ -13,10 +13,10 @@
 %   \item Outline of the thesis.
 % \end{enumerate}
 
-The question of $P=NP$ is still unanswered to this day and solving $NP$-hard problems for every instance still needs exponential time.
+The question of $P=NP$ is still unanswered to this day and solving $NP$-hard problems for every instance still requires exponential time.
 To avoid the exponential running time on $NP$-hard optimisation problems one might use approximation algorithms.
 Those algorithms do not always return the best possible solution but only a solution with a guaranteed solution quality.
-For a minimisation problem a (1+0.5)-approximation algorithm will always return a solution that has at most 1.5 the optimal value.
+For a minimisation problem a (1+0.5)-approximation algorithm will always return a solution that has at most 1.5 times the optimal value.
 An example of an $NP$-hard optimisation problem is PARTITION.\ 
 An instance of this problem is a multiset of $n$ positive numbers $\{w_1,\dots,w_n\}$ which has to be divided in two subsets with sums that are as close as possible.
 So a solution of PARTITION is a subset of $I\subset \{1,\dots,n\}$ which splits the multiset into two subsets.
@@ -35,11 +35,11 @@ This is the principle of an anytime algorithm which can be terminated at anytime
 The longer the waiting time the better the solution might get.
 The main usage of EA lies in problems without a problem specific algorithms as these mostly outperform the EAs.
 To better understand their behaviour analysing them on well researched problems might still be beneficial to learn more about this class of algorithms.
-This thesis researches the runtime of basic EAs such as (1+1) EA and variations of RLS.
+This thesis researches the runtime of basic EAs such as (1+1) EA and variations of the RLS.\ 
 The first part is a theoretical analysis with a main focus of lowering bounds that were previously shown.
 Additionally there are new results for other algorithm variants and also a lemma on different type of inputs.
 The remainder of this thesis is an empirical analysis of multiple base algorithms with different parameter setting on different kinds of inputs.
 Here not only the (1+1) EA with different mutation rate and variants of the RLS with different parameter values are researched but also a heavy tailed mutation operator.
-Apart from typical distributions such as the uniform, geometric and binomial distribution there are also results for specific problem specific instances such as an input where one values is as large as all other values combined.
-In the end the empirical results are condensed into a personal suggestion which algorithm should best be chosen to solve the problem, depending on the input but also a general suggestion.
+Apart from typical distributions such as the uniform, geometric and binomial distribution there are also results for problem specific instances such as an input where one values is as large as all other values combined.
+In the end the empirical results are condensed into a personal suggestion which algorithm should best be chosen to solve the problem, depending on the input but also in general.
 

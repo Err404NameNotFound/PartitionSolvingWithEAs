@@ -1,0 +1,31 @@
+Elapsed time: 05:34:55
+
+number of runs;  1.027
+Limit per run;   5.409.890
+array length;    50.000
+ratio 100 * m/n; 0,03122 -> easy
+input type;      uniform random values from given range (1)
+lowest value;    1
+highest value;   50.000
+---------
+algo type;             pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut;      pmut
+algo param;            2,00;      2,25;      1,75;      2,75;      2,50;      3,00;      3,25;      1,50;      1,25
+avg mut/change;       7,943;     4,039;    24,963;     2,220;     3,079;     1,905;     1,708;    99,853;   314,277
+avg mut/step;        10,095;     4,562;    34,759;     2,274;     2,931;     1,934;     1,729;   158,122;   719,683
+---------
+total avg count;    106.010;   109.947;   110.591;   110.601;   113.455;   116.213;   117.593;   137.223;   167.556
+avg eval count;     106.010;   109.947;   110.591;   110.601;   113.455;   116.213;   117.593;   137.223;   167.556
+max eval count;   1.468.480; 1.490.905; 1.104.274; 1.588.457; 1.571.705; 1.675.031; 1.269.567; 1.473.465; 1.814.702
+min eval count;          67;       137;       223;       257;       109;       128;       316;        50;       379
+---------
+fails;                    0;         0;         0;         0;         0;         0;         0;         0;         0
+fail ratio;           0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000;     0,000
+avg fail dif;            -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1;        -1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution
