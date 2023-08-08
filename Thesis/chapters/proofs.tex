@@ -336,6 +336,8 @@ It shows the runtime bound for a more restricted type of input and is used to si
     This follows directly from Theorem~\ref{theo:OneMaxResult} and Lemma~\ref{lemma:approximation}.
 \end{proof}
 
+\TODO{find out what to write here as a conclusion of this section}
+
 \section{Runtime Analysis of higher mutation rates}
 
 The first analysed input is again the input with $w_1\ge W/2$.
@@ -350,7 +352,7 @@ The first analysed input is again the input with $w_1\ge W/2$.
 \end{proof}
 
 \begin{lemma}\label{lemma:RLSRoneMaxInput}
-    The \RLSR[k] reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
+    The \RLSR[k] for $2\le k=O(1)$ reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
 \end{lemma}
 \begin{proof}
     This proof is similar to proof for the (1+1) EA in Theorem~\ref{theo:OneMaxResult} and is divided in the same two parts.
@@ -374,6 +376,14 @@ The first analysed input is again the input with $w_1\ge W/2$.
     \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
     The total expected runtime therefore is at most $4kn+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
 \end{proof}
+
+In expectation all \RLSR~variants have the same asymptotic runtime on inputs with $w_1\ge W/2$.
+They also have the same expected asymptotic Runtime as the standard RLS and the (1+1) EA with static mutation rate $c/n$ for constant values of $c$.
+Here the same applies as for the (1+1) EA.\
+There proof does not contain the optimality of flipping only 1 bit in expectation, but it strongly suggests it.
+The main factor deciding the runtime is the runtime on linear functions which is minimal for $k=1$.
+Later in Section~\ref{evalSec:onemax} there is also an experiment for the different values of $k$ for the \RLSR[k].
+Another algorithms mentioned later is the \RLSN~which has a much worse runtime as the next lemma suggests.
 
 \begin{lemma}
     The expected optimisation time of the \RLSN[k] for $2\le k=O(1)$ on inputs with $w_1\ge W/2$ is $\Omega(n^k)$ if the solution is not already optimal after the initialisation.
@@ -400,15 +410,21 @@ The first analysed input is again the input with $w_1\ge W/2$.
     This will happen with probability $1-1\cdot{(1/2)}^{n-1}=1-\frac{1}{2^{n-1}}$.
 \end{proof}
 
+For smaller values of $n$ the actual runtime in might be lower due to constants such as $y!\le k!$ which were absorbed by the big-O notation.
+This difference should be noticeable for the smaller values of $n$ but not for higher values.
+Since the standard RLS is the same as the \RLSN[1] the optimal values for the \RLSN[k] variants again is at $k=1$.
+This algorithm is also evaluated in the same Section~\ref{evalSec:onemax} as the other algorithms that were analysed for inputs similar to a linear function.
+
 \section{Binomial distributed input}
-This section discusses binomial inputs.
+This section discusses inputs following a binomial distribution\textasciitilde$B(m,p)$.
+Since $n$ is reserved for the size of the input $m$ is used for the distribution instead.
 At first they seem uninteresting as all values are rather close to the expected value of the distribution.
 So it seems like the Evolutionary Algorithm only has to find a search point where both bins have an equal amount of values.
 After investigating this input experimentally this is not true to that extend.
-Solutions with an equal amount of bits with value 0 and value 1 are indeed close to the optimum but just close.
+Solutions with an equal amount of bits with value 0 and value 1 are indeed close to the optimum, but they are just close and not optimal.
 There is mostly still a difference of at least one to the optimum.
-This might cause algorithm like the RLS to get stuck despite the input looking easy at first glance.
-If elements can be swapped this input should become solvable again because there are many small values slightly bigger or smaller than the expected value.
+This might cause algorithms like the RLS to get stuck despite the input looking easy at first glance if there are no small elements.
+If elements can be swapped this input should become solvable again because there are many values slightly bigger or smaller than the expected value.
 If the algorithm switches those the small difference to the optimum can be closed.
 The first lemma tries to prove that these input are indeed easy to solve in a sense that this input is very likely to have a perfect partition.
 

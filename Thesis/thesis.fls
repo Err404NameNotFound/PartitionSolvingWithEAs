@@ -731,6 +731,7 @@ INPUT ./chapters/proofs.tex
 INPUT ./chapters/proofs.tex
 INPUT chapters/proofs.tex
 INPUT chapters/proofs.tex
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/lm/ts1lmr.fd
@@ -1060,7 +1061,6 @@ INPUT ./tables/mixedAndOverlapped/ea_compare.tex
 INPUT tables/mixedAndOverlapped/ea_compare.tex
 INPUT ./tables/mixedAndOverlapped/ea_compare.tex
 INPUT tables/mixedAndOverlapped/ea_compare.tex
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT ./tables/mixedAndOverlapped/pmut_compare.tex
 INPUT tables/mixedAndOverlapped/pmut_compare.tex
 INPUT ./tables/mixedAndOverlapped/pmut_compare.tex

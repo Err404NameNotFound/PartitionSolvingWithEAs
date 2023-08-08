@@ -116,6 +116,7 @@ public class Main {
             case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
             case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{0});
             case 18 -> redoMultipleNEvaluation(10000);
+            case 19 -> redoMultipleNEvaluation(10000, new int[]{3,4,5,6});
 
             case 21 -> evaluateParallel(1000, 7, 1000, Solver.getEAComparison(), 2);
             case 22 -> testParallelRun(6);

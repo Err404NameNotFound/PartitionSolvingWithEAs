@@ -348,7 +348,7 @@ public class InputGenerator {
             case ALL_IN_RANGE_EXCEPT_LAST_X_ELEMENTS -> "multipleSumsAtEnd_Range";
             case BINOMIAL_DISTRIBUTED -> "binomial";
             case GEOMETRIC_DISTRIBUTED -> "geometric";
-            case POWERLAW_DISTRIBUTED -> "powerLawDistributed";
+            case POWERLAW_DISTRIBUTED -> "powerlaw";
             case MIXED -> "mixed";
             case OVERLAPPED -> "overlapped";
             case MIXED_AND_OVERLAPPED -> "mixedAndOverlapped";

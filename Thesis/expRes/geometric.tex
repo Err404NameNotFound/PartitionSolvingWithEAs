@@ -66,9 +66,10 @@ The variants of the (1+1) EA and of the $pmut$ algorithm seem to take about 20,0
 They also perform better and better the bigger the input gets.
 This is probability caused by the many additional small values that can be used for smaller adjustments to the fitness.
 Also a really high value does not have as much of an effect, because there are possibly other larger values which cancel each other out, if they are in different bins.
-The standard (1+1) EA does not only find a perfect partition less often, it also needs more iterations on average if it does.
+The standard (1+1) EA does not only find a perfect partition less often than with $p_m=2/n$, it also needs more iterations on average if it does.
 So the (1+1) EA with $p_m=2/n$ performs indeed better for every input size.
 The last table again lists the total average number of steps.
 
 \input{tables/geometric/multipleN_totalAvg.tex}
-The RLS is only an option if the input is large enough ($n \ge 10,000$). For smaller input sizes especially for $n \le 100$ choosing the (1+1) EA with mutation rate $2/n$ seems like the best choice. For larger values this (1+1) EA does not find an optimal solution the fastest but is still fast enough to be a viable option. Another rather save option is $pmut_{3.25}$. This algorithm performs worse for $n \le 100$ but is still good in comparison to the other algorithms. For $n \ge 1000$ $pmut_{3.25}$ starts to outperform the best version of the (1+1) EA and almost all other researched algorithms.
+\TODO{fix table at the end (bound 100 was changed to 1000}
+The RLS is only an option if the input is large enough ($n \ge 50,000$). For smaller input sizes especially for $n \le 1000$ choosing the (1+1) EA with mutation rate $2/n$ seems like the best choice. For larger values this (1+1) EA does not find an optimal solution the fastest but is still fast enough to be a viable option. Another rather save option is $pmut_{3.25}$. This algorithm performs worse for $n \le 1000$ but is still good in comparison to the other algorithms. For $n > 1000$ $pmut_{3.25}$ starts to outperform the best version of the (1+1) EA and almost all other researched algorithms.
