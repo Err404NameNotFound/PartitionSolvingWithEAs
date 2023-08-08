@@ -55,6 +55,4 @@
 \contentsline {subsection}{\numberline {4.9.4}Comparison of the best variants}{45}{subsection.4.9.4}%
 \contentsline {section}{\numberline {4.10}Conclusion of empirical results}{45}{section.4.10}%
 \contentsline {chapter}{Bibliography}{47}{section*.29}%
-\contentsline {chapter}{\nonumberline Appendix}{49}{chapter*.31}%
-\contentsline {section}{\numberline {A}Appendix Section 1}{49}{section.4.1}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

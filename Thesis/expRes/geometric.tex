@@ -71,5 +71,4 @@ So the (1+1) EA with $p_m=2/n$ performs indeed better for every input size.
 The last table again lists the total average number of steps.
 
 \input{tables/geometric/multipleN_totalAvg.tex}
-\TODO{fix table at the end (bound 100 was changed to 1000}
 The RLS is only an option if the input is large enough ($n \ge 50,000$). For smaller input sizes especially for $n \le 1000$ choosing the (1+1) EA with mutation rate $2/n$ seems like the best choice. For larger values this (1+1) EA does not find an optimal solution the fastest but is still fast enough to be a viable option. Another rather save option is $pmut_{3.25}$. This algorithm performs worse for $n \le 1000$ but is still good in comparison to the other algorithms. For $n > 1000$ $pmut_{3.25}$ starts to outperform the best version of the (1+1) EA and almost all other researched algorithms.
