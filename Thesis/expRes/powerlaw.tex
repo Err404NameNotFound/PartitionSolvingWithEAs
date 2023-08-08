@@ -68,7 +68,7 @@ Only for $n<500$ the algorithms do not find a global optimum in every run.
 The setting of the parameter and the choice of the algorithm almost doesn't affect the amount of runs without an optimal result.
 This type of input is probably easy to solve if it has a perfect partition.
 The two stopping conditions where a step limit and finding a perfect partition or a partition with difference of one between the two bin for uneven $n$.
-So in 80\% of the runs the algorithms might have found an optimal solution, but the stopping conditions did not trigger as the solutions where not close to a perfect partition.
+So in 78\% of the runs the algorithms might have found an optimal solution, but the stopping conditions did not trigger as the found solutions were no perfect partitions.
 
 \input{tables/powerlaw/multipleN_avg.tex}
 
@@ -80,4 +80,4 @@ Due to the increasing size of the input the algorithms need more time for the bi
 \input{tables/powerlaw/multipleN_totalAvg.tex}
 
 $pmut_{1.75}$ and $pmut_{1.5}$ are not only the best variant for the bigger values of n but also for smaller inputs as well.
-It is the least likely to be stuck in a local optimum, and it is also the fastest if it reaches a global optimum.
+They are the least likely to be stuck in a local optimum, and are  also the fastest if they reach a global optimum.

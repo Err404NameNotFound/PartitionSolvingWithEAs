@@ -138,7 +138,7 @@ public class ResultsChapterPrinter {
         text = text.replace("\n", "\\\\\n");
         text = text.replace("\\\\\n\\\\\n", tableEnd + "\n" + tableStart);
         text = text.replace(firstLine + "\\\\", "input size" + firstLine + "\\\\\\hline");
-        text = text.replaceFirst("input size", "fails in 1000 runs");
+        text = text.replaceFirst("input size", "fails in 10000 runs");
         text = text.replaceFirst("input size", "avg");
         text = text.replaceFirst("input size", "total avg");
         text = text.replace("RLS-R (2)", "\\RLSR[2]");
