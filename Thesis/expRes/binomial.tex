@@ -98,23 +98,22 @@ This is likely from the fact that this version of the RLS flips almost only two 
 There are many values close to the expected value which can be switched to make small adjustments to the fitness value.
 To further investigate which algorithm performs best on all binomial distributed inputs now a comparison with different input lengths follows.
 The parameters of the distribution were not changed.\newline
-The following table shows the number of runs in which the algorithms did not find an optimal solution within 50,000 steps.
-The time limit was set 50,000 because the algorithms normally reach the optimal solution within a few thousand steps.
-If the solutions is not found after 50,000 steps, the algorithm is most likely stuck in a local optimum which could only be left by flipping more bits than possible for the algorithm.
+The following table shows the number of runs in which the algorithms did not find an optimal solution within $\max\{100,000;10 \cdot n\ln(n)\}$ steps for different input sizes of $n$.
+For $n\le1382$ the step limit is 100,000 and for the bigger values of $n$ it is $10 \cdot n\ln(n)$.
 
 \input{tables/binomial/multipleN_fails.tex}
 
 The (1+1) EA and $pmut_\beta$ always reach an optimal solution but the RLS variants do not.
-The RLS variants that can only flip two bits per step perform significantly worse for small inputs.
+The RLS variants that can only flip two bits per step perform significantly worse for very small inputs.
 They are probably more likely to get stuck in a local optimum where a step flipping 4 bits or more would be necessary.
-So the \RLSN[2] does perform better for larger inputs but is much more likely to get stuck in a local optima.
+So the \RLSN[2] does perform better for larger inputs but is much more likely to get stuck in a local optimum.
 The next table contains the average number of iterations the algorithm needed to find an optimal solution for all runs where the algorithms managed to find an optimal solution.
 Here it still looks like the \RLSN[2] finds the solution with the lowest amount of steps, because the cases where the algorithm is stuck in a local optima are not contained in this table.
 
 \input{tables/binomial/multipleN_avg.tex}
 
 The next table contains the overall average amount of iterations for every run.
-So runs where no optimal result was found add 50,000 to the sum of all iterations.
+So runs where no optimal result was found add 100,000 to the sum of all iterations for small values of $n$.
 
 \input{tables/binomial/multipleN_totalAvg.tex}
 
