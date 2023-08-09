@@ -221,7 +221,7 @@ public class Main {
         values = sort(values);
         double[] ret = new double[values.length - 1];
         for (int i = 0; i < values.length - 1; ++i) {
-            ret[i] = test.mannWhitneyUTest(values[i], values[i + 1]);
+            ret[i] = test.mannWhitneyUTest(values[i], values[i + 1])/2.0;
         }
         return ret;
     }
@@ -236,9 +236,9 @@ public class Main {
             String path = PATH_AUTO_GENERATED + folder + "\\";
             for (int j = 0, fileNamesLength = fileNames.length; j < fileNamesLength; j++) {
                 double[] res = doMannWhitneyUTests(path + fileNames[j]);
-                printf("%15s%n", files[j] + ";");
-                ArrayPrinter.printArray(i -> String.format("%.10f", res[i]), res.length);
-                ArrayPrinter.printArray(i -> String.format("%12s", res[i] < alpha), res.length);
+                println(files[j]);
+                ArrayPrinter.printArray(";", i -> String.format("%.4f", res[i]), res.length);
+                ArrayPrinter.printArray(";",i -> String.format("%6s", res[i] < alpha), res.length);
             }
             println("------------------");
         }

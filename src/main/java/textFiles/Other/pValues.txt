@@ -77,4 +77,81 @@ pmut_comparison;
         true;        true;        true;        true;        true;        true;        true;        true
 ------------------
 
-Process finished with exit code 0
+**************************************************************
+
+binomial
+rls_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,0000;0,0000;0,0001;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true
+pmut_comparison
+;0,1821;0,0008;0,1088;0,0004;0,0000;0,0000;0,0000;0,0000
+; false;  true; false;  true;  true;  true;  true;  true
+------------------
+geometric
+rls_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,0000;0,2110;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true; false;  true;  true;  true;  true;  true
+pmut_comparison
+;0,0714;0,0006;0,0171;0,0008;0,0000;0,0000;0,0000;0,0000
+; false;  true;  true;  true;  true;  true;  true;  true
+------------------
+uniform
+rls_comparison
+;0,0000;0,0219;0,0001;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,2651;0,4099;0,0137;0,0000;0,0283;0,0000;0,0000
+; false; false;  true;  true;  true;  true;  true
+pmut_comparison
+;0,2914;0,0441;0,0196;0,2822;0,4535;0,4001;0,0000;0,0000
+; false;  true;  true; false; false; false;  true;  true
+------------------
+powerlaw
+rls_comparison
+;0,0000;0,0155;0,0000;0,0002;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,0000;0,0016;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true
+pmut_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true;  true
+------------------
+oneMax
+rls_comparison
+;0,0000;0,0000;0,0000;0,0000;0,5000;0,5000
+;  true;  true;  true;  true; false; false
+ea_comparison
+;0,0000;0,0000;0,0000;0,0000;0,5000
+;  true;  true;  true;  true; false
+pmut_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true;  true
+------------------
+twoThirds
+rls_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true
+pmut_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0034;0,0068
+;  true;  true;  true;  true;  true;  true;  true;  true
+------------------
+mixedAndOverlapped
+rls_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true
+ea_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true
+pmut_comparison
+;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+;  true;  true;  true;  true;  true;  true;  true;  true
