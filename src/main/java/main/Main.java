@@ -43,7 +43,6 @@ import static main.InputGenerator.GEOMETRIC_DISTRIBUTED;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
 import static main.InputGenerator.ONEMAX_ONE;
-import static main.InputGenerator.ONEMAX_UNIFORM;
 import static main.InputGenerator.OVERLAPPED;
 import static main.InputGenerator.POWERLAW_DISTRIBUTED;
 import static main.InputGenerator.TWO_THIRDS;

@@ -77,7 +77,7 @@ public class Solver {
         return ret;
     }
 
-    public static Solver[] getRLSRingComparison(int ... values) {
+    public static Solver[] getRLSRingComparison(int... values) {
         Solver[] ret = new Solver[values.length];
         ArrayHelp.fill(ret, (i) -> getRLSR(values[i]));
         return ret;

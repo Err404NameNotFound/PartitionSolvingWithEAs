@@ -28,7 +28,7 @@ public class PartitionSolver {
     }
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator, boolean withProgress) {
-        if(withProgress){
+        if (withProgress) {
             return solveWithProgress(values, maxSteps, generator);
         }
         Solution sol = createStartingPoint(values);

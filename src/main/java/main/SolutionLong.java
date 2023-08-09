@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SolutionLong extends BaseSolution {
+    private final long totalSum;
     private long sum;
     private long optimalValue;
-    private final long totalSum;
     private long fitness;
 
     SolutionLong(SolutionBigInt solution, long[] values) {

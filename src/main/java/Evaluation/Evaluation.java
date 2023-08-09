@@ -178,7 +178,7 @@ public class Evaluation {
             ProgressPrinter p = new ProgressPrinter(1);
             String folder = Printer.PATH_AUTO_GENERATED + generator.folder;
             setPrintToConsole(false);
-            if(PRINT_DATA){
+            if (PRINT_DATA) {
                 startFilePrinting(folder + file + "_dataOfAllRuns.csv");
             }
             int temp = calculate(n, inputLengths, stepSizes, !isPrintToConsole());
