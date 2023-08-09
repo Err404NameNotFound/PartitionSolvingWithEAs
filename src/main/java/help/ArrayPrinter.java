@@ -109,6 +109,11 @@ public class ArrayPrinter {
         println();
     }
 
+    public static void printArray(String before, Array array, int length) {
+        printf(before);
+        printArray(array, length);
+    }
+
     public static void printArray(Array array, int length) {
         printf("%s", array.get(0));
         for (int i = 1; i < length; ++i) {

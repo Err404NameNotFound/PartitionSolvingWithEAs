@@ -1,0 +1,80 @@
+C:\Users\Dani\.jdks\openjdk-19.0.1\bin\java.exe -javaagent:C:\Users\Dani\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9225.16\lib\idea_rt.jar=56804:C:\Users\Dani\AppData\Local\JetBrains\Toolbox\apps\IDEA-U\ch-0\231.9225.16\bin -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8 -classpath C:\Users\Dani\Workspaces\IntelliJ\Sonstiges\PartitionSolvingWithEAs\target\classes;C:\Users\Dani\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\Dani\.m2\repository\org\apache\commons\commons-math3\3.4.1\commons-math3-3.4.1.jar main.Main
+binomial
+rls_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,0000083521;0,0000879571;0,0001147021;0,0000000000;0,0000000041;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true;        true
+pmut_comparison;
+0,3641360868;0,0015936128;0,2176582293;0,0007353691;0,0000120707;0,0000004197;0,0000011047;0,0000000000
+       false;        true;       false;        true;        true;        true;        true;        true
+------------------
+geometric
+rls_comparison;
+0,0000000000;0,0000000000;0,0000012625;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,0000000000;0,4220243905;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;       false;        true;        true;        true;        true;        true
+pmut_comparison;
+0,1428792869;0,0012717336;0,0342394259;0,0016124627;0,0000033032;0,0000000000;0,0000000000;0,0000000000
+       false;        true;        true;        true;        true;        true;        true;        true
+------------------
+uniform
+rls_comparison;
+0,0000000000;0,0437310273;0,0001441119;0,0000000000;0,0000000001;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,5301784424;0,8197900311;0,0274359168;0,0000000000;0,0565344253;0,0000000000;0,0000000000
+       false;       false;        true;        true;       false;        true;        true
+pmut_comparison;
+0,5828946505;0,0881456687;0,0391292859;0,5644743053;0,9069149482;0,8002517704;0,0000169866;0,0000000947
+       false;       false;        true;       false;       false;       false;        true;        true
+------------------
+powerlaw
+rls_comparison;
+0,0000000000;0,0310707225;0,0000000010;0,0004466613;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,0000001565;0,0032192268;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true;        true
+pmut_comparison;
+0,0000000000;0,0000000000;0,0000000002;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000013
+        true;        true;        true;        true;        true;        true;        true;        true
+------------------
+oneMax
+rls_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;1,0000000000;1,0000000000
+        true;        true;        true;        true;       false;       false
+ ea_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;1,0000000000
+        true;        true;        true;        true;       false
+pmut_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true;        true;        true
+------------------
+twoThirds
+rls_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000103;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true;        true
+pmut_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0067130089;0,0136807511
+        true;        true;        true;        true;        true;        true;        true;        true
+------------------
+mixedAndOverlapped
+rls_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true
+ ea_comparison;
+0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true
+pmut_comparison;
+0,0000000000;0,0000000447;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000;0,0000000000
+        true;        true;        true;        true;        true;        true;        true;        true
+------------------
+
+Process finished with exit code 0

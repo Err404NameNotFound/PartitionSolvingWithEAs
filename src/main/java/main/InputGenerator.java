@@ -343,7 +343,7 @@ public class InputGenerator {
 
     private String getFolder(int type) {
         return switch (type) {
-            case UNIFORM_INTEGER, UNIFORM_INTERVALL -> "uniformIntervall";
+            case UNIFORM_INTEGER, UNIFORM_INTERVALL -> "uniform";
             case ONEMAX_ONE, ONEMAX_UNIFORM -> "oneMax";
             case TWO_THIRDS -> "twoThirds";
             case ALL_ONE_EXCEPT_LAST_X_ELEMENTS -> "multipleSumsAtEnd_One";

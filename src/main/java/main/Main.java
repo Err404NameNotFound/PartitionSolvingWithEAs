@@ -8,10 +8,15 @@ import help.ArrayHelp;
 import help.ArrayPrinter;
 import help.Printer;
 import help.ProgressPrinter;
+import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import static Evaluation.Evaluation.evaluate;
@@ -69,7 +74,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 43;
+    public static final int DEFAULT_SELECTION = 61;
 
 
     public static void main(String[] args) {
@@ -152,7 +157,90 @@ public class Main {
             case 58 -> testingTwoThirdsInput(0.3);
             case 59 -> testRandomInt();
             case 60 -> testDuplicateFileName();
+            case 61 -> printAllMannWhitneyUTests(0.05);
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
+        }
+    }
+
+    private static double[][] getCSVasArray(String file) {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(Path.of(file));
+        } catch (IOException e) {
+            throw new RuntimeException("could not read file: " + file);
+        }
+        double[][] allValues = new double[lines.get(0).split(";").length - 1][];
+        int length = lines.size() - 3;
+        for (int i = 0; i < allValues.length; ++i) {
+            allValues[i] = new double[length];
+        }
+        int stepLimit = parseValues(lines.get(2), Integer.MIN_VALUE)[1];
+        if (stepLimit < 0) {
+            throw new IllegalArgumentException("Csv is not valid (max stepsize is negative");
+        }
+        for (int i = 3; i < lines.size(); ++i) {
+            int[] rowValues = parseValues(lines.get(i), stepLimit);
+            for (int v = 1; v < rowValues.length; ++v) {
+                allValues[v - 1][i - 3] = rowValues[v];
+            }
+        }
+        return allValues;
+    }
+
+    private static double[][] sort(double[][] allValues) {
+        double[] sums = new double[allValues.length];
+        for (int i = 0; i < allValues.length; ++i) {
+            sums[i] = Arrays.stream(allValues[i]).sum();
+        }
+        Integer[] indexes = new Integer[sums.length];
+        fill(indexes, i -> i);
+        Arrays.sort(indexes, (a, b) -> Double.compare(sums[a], sums[b]));
+        double[][] ret = new double[allValues.length][];
+        for (int i = 0; i < indexes.length; i++) {
+            ret[i] = allValues[indexes[i]];
+        }
+        return ret;
+    }
+
+    private static int[] parseValues(String csvRow, int altValue) {
+        String[] values = csvRow.split(";");
+        int[] ret = new int[values.length];
+        for (int i = 0; i < values.length; ++i) {
+            try {
+                ret[i] = Integer.parseInt(values[i]);
+            } catch (NumberFormatException e) {
+                ret[i] = altValue;
+            }
+        }
+        return ret;
+    }
+
+    private static double[] doMannWhitneyUTests(String path) {
+        MannWhitneyUTest test = new MannWhitneyUTest();
+        double[][] values = getCSVasArray(path);
+        values = sort(values);
+        double[] ret = new double[values.length - 1];
+        for (int i = 0; i < values.length - 1; ++i) {
+            ret[i] = test.mannWhitneyUTest(values[i], values[i + 1]);
+        }
+        return ret;
+    }
+
+    private static void printAllMannWhitneyUTests(double alpha) {
+        String[] folders = new String[]{"binomial", "geometric", "uniform", "powerlaw", "oneMax", "twoThirds", "mixedAndOverlapped"};
+        String[] files = new String[]{"rls_comparison", "ea_comparison", "pmut_comparison"};
+        String[] fileNames = new String[files.length];
+        fill(fileNames, i -> files[i] + "-newRNG10kWithSignificance_dataOfAllRuns.csv");
+        for (String folder : folders) {
+            println(folder);
+            String path = PATH_AUTO_GENERATED + folder + "\\";
+            for (int j = 0, fileNamesLength = fileNames.length; j < fileNamesLength; j++) {
+                double[] res = doMannWhitneyUTests(path + fileNames[j]);
+                printf("%15s%n", files[j] + ";");
+                ArrayPrinter.printArray(i -> String.format("%.10f", res[i]), res.length);
+                ArrayPrinter.printArray(i -> String.format("%12s", res[i] < alpha), res.length);
+            }
+            println("------------------");
         }
     }
 
