@@ -22,6 +22,8 @@ fails;                   2;       37;       55;       52;      146;      327;   
 fail ratio;          0,000;    0,004;    0,006;    0,005;    0,015;    0,033;    0,110
 avg fail dif;          595;      345;      380;      398;      345;      345;      345
 ---------
+p-value;;0,0000;0,0000;0,0000;0,0000;0,0000;0,0000
+---------
 RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
 RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
 RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
