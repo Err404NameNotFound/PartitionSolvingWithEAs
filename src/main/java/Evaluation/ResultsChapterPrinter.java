@@ -144,7 +144,7 @@ public class ResultsChapterPrinter {
         text = text.replace("RLS-R (2)", "\\RLSR[2]");
         text = text.replace("RLS-R (3)", "\\RLSR[3]");
         text = text.replace("RLS-R (4)", "\\RLSR[4]");
-        text = text.replace("RLS-N (2)", "\\RLSR[2]");
+        text = text.replace("RLS-N (2)", "\\RLSN[2]");
         text = text.replace("RLS-N (3)", "\\RLSN[3]");
         text = text.replace("RLS-N (4)", "\\RLSN[4]");
         text = fixAlgoParams(text);
