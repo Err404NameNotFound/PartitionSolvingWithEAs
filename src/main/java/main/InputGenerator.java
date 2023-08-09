@@ -36,6 +36,7 @@ public class InputGenerator {
     public static final int MIXED = 11;
     public static final int OVERLAPPED = 12;
     public static final int MIXED_AND_OVERLAPPED = 13;
+    public static final int ALL_ONE = 14;
     public final int type;
     public final String folder;
     public final String description;
@@ -125,6 +126,7 @@ public class InputGenerator {
             case MIXED_AND_OVERLAPPED ->
                     mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
                             DEFAULT_P_GEOMETRIC, DEFAULT_PMUT_PARAM);
+            case ALL_ONE -> fill(length, i -> 1);
             default -> null;
         };
     }

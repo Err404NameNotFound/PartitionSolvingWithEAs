@@ -37,6 +37,7 @@ import static help.RNG.powerlawK;
 import static help.RNG.randomBoolean;
 import static help.RNG.randomDouble;
 import static help.RNG.randomInt;
+import static main.InputGenerator.ALL_ONE;
 import static main.InputGenerator.BINOMIAL_DISTRIBUTED;
 import static main.InputGenerator.GEOMETRIC_DISTRIBUTED;
 import static main.InputGenerator.MIXED;
@@ -50,6 +51,7 @@ import static main.InputGenerator.UNIFORM_INTERVALL;
 import static main.InputGenerator.generateInput;
 import static main.InputGenerator.getName;
 import static main.Solver.getEA;
+import static main.Solver.getEAComparison;
 import static main.Solver.getPmut;
 import static main.Solver.getRLS;
 import static main.Solver.getRLSN;
@@ -108,12 +110,12 @@ public class Main {
             case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000, 100000, 1000, 0.5));
             case 9 -> BinomialTesting.printBinomialDistribution(1000, 0.95, 10000);
 
-            case 11 -> evaluateMultiple(10000, GEOMETRIC_DISTRIBUTED, 10000, "best");
+            case 11 -> evaluateMultiple(10000, ALL_ONE, 10000, "best");
             case 12 -> evaluate(10000, UNIFORM_INTERVALL, 50 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
             case 15 -> compareAllOnAllInstances(100, Solver.getPmutComparison(), "X_pmut_compare");
-            case 16 -> fineEvaluation(InputGenerator.create(ONEMAX_UNIFORM));
+            case 16 -> fineEvaluation(InputGenerator.create(ALL_ONE));
             case 17 -> redoAllExperiments(10000, "newRNG10kWithSignificance", new int[]{0});
             case 18 -> redoMultipleNEvaluation(10000);
             case 19 -> redoMultipleNEvaluation(10000, new int[]{6});
@@ -263,14 +265,15 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator) {
-        Solver[] solvers = new Solver[]{
-//                getRLS(),
-//                getEA(),
-                getPmut(3.25),
-                getPmut(3.0),
-                getPmut(3.75),
-                getPmut(3.5),
-        };
+//        Solver[] solvers = new Solver[]{
+////                getRLS(),
+////                getEA(),
+//                getPmut(3.25),
+//                getPmut(3.0),
+//                getPmut(3.75),
+//                getPmut(3.5),
+//        };
+        Solver[] solvers = getEAComparison();
         fineEvaluation(generator, solvers);
     }
 
@@ -281,7 +284,7 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator, int[] lengths, long[] stepSizes, Solver[] solvers) {
-        Evaluation.evaluateMultipleNValues(1000, lengths, stepSizes, generator, solvers, null);
+        Evaluation.evaluateMultipleNValues(100000, lengths, stepSizes, generator, solvers, null);
     }
 
     private static void redoAllExperiments(int n, String postfix, int[] indexes) {

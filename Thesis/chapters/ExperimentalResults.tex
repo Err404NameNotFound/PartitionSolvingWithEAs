@@ -371,44 +371,44 @@ This implies a general tendency of better algorithms but is not necessarily a co
 Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the previous results depending on the distribution and size of the input.
 
 \begin{table}[t]
-      \caption{Best algorithms variants for all researched inputs}
+      \caption{Best algorithms variants for all evaluated input types}
       \begin{tabular}{c|ccc|ccc|ccc}\label{table:BestAlgoVariantsTable}
                                                    &
             \multicolumn{3}{c|}{RLS variants}      &
             \multicolumn{3}{c|}{(1+1) EA variants} &
             \multicolumn{3}{c}{$pmut$ variants}                                                                                      \\
                                                    & 1st      & 2nd      & 3rd      & 1st     & 2nd    & 3rd    & 1st  & 2nd  & 3rd  \\\hline
-            binomial                               & \RLSN[2] & \RLSN[4] & \RLSR[2] & 3$/n$   & 4$/n$  & 2$/n$  & 2.25 & 2.0  & 1.75 \\
-            geometric                              & \RLSR[2] & \RLSR[3] & \RLSR[4] & 2$/n$   & 1$/n$  & 3$/n$  & 3.25 & 3.0  & 2.5  \\
-            polwerlaw                              & \RLSR[4] & \RLSR[3] & \RLSN[3] & 4$/n$   & 3$/n$  & 2$/n$  & 1.5  & 1.75 & 2.0  \\
-            uniform                                & \RLSN[2] & \RLSR[3] & \RLSR[4] & 3$/n$   & 2$/n$  & 4$/n$  & 2.5  & 2.0  & 2.25 \\
+            binomial                               & \RLSN[2] & \RLSN[4] & \RLSR[2] & 3$/n$   & 4$/n$  & 2$/n$  & 2.0  & 2.25 & 2.5  \\
+            geometric                              & \RLSR[2] & \RLSR[3] & \RLSR[4] & 2$/n$   & 1$/n$  & 3$/n$  & 3.25 & 3.0  & 2.75 \\
+            uniform                                & \RLSN[2] & \RLSR[3] & \RLSR[4] & 4$/n$   & 3$/n$  & 2$/n$  & 2.0  & 2.25 & 2.75 \\
+            polwerlaw                              & \RLSR[4] & \RLSN[3] & \RLSR[3] & 4$/n$   & 3$/n$  & 5$/n$  & 1.5  & 1.75 & 1.25 \\
             linear function                        & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.5  & 3.25 & 3.0  \\
-            worst case                             & \RLSN[4] & \RLSN[3] & \RLSN[2] & 100$/n$ & 50$/n$ & 10$/n$ & 1.25 & 1.5  & 1.75 \\
+            worst case                             & \RLSN[4] & \RLSR[4] & \RLSN[3] & 100$/n$ & 50$/n$ & 10$/n$ & 1.25 & 1.5  & 1.75 \\
             combined                               & RLS      & \RLSR[2] & \RLSR[3] & 1$/n$   & 2$/n$  & 3$/n$  & 3.25 & 3.0  & 2.75 \\
       \end{tabular}
 \end{table}
 
 \begin{table}[t]
-      \caption{Suggestions for the fastest algorithm on each input depending on the input size}
+      \caption{Suggestions for the fastest algorithm on each input depending on the input size (the (1+1) EA is listed as EA to make the table shorter)}
       % \begin{tabular}{cccccccccc}\label{table:BestAlgoVariantTable}
-      \begin{tabular}{m{2.5cm}m{2cm}m{2cm}m{0.5cm}m{0.5cm}m{0.5cm}m{0.5cm}m{1cm}m{1cm}}\label{table:BestAlgoVariantTable}
-            $n$             & \multicolumn{2}{|c}{$100$}
-                            & \multicolumn{2}{c}{$500$}
-                            & \multicolumn{2}{c}{$1000$}
-                            & \multicolumn{2}{c}{$50,000$}                                                                                      \\
+      \begin{tabular}{m{2.5cm}m{1cm}m{1cm}m{0.5cm}m{0.5cm}m{0.5cm}m{0.5cm}m{0.5cm}m{0.5cm}m{1cm}m{1cm}}\label{table:BestAlgoVariantTable}
+            input size $n$  & \multicolumn{2}{|c}{$100$}                          & \multicolumn{2}{c}{$500$}
+                            & \multicolumn{2}{c}{$1000$}                          & \multicolumn{2}{c}{$5000$}
+                            & \multicolumn{2}{c}{$50,000$}                                                                                         \\
             \hline
-            geometric       & \multicolumn{5}{|c|}{(1+1) EA $_{2/n}$}            & \multicolumn{2}{c|}{$pmut_{3.25}$} & RLS                     \\
+            geometric       & \multicolumn{5}{|c|}{EA $_{2/n}$}                   & \multicolumn{4}{c|}{$pmut_{3.25}$} & RLS                       \\
             \hline
-            binomial        & \multicolumn{3}{|c|}{(1+1) EA $_{3/n}$}            & \multicolumn{5}{c}{\RLSN[2]}                                 \\
-            uniform         & \multicolumn{3}{|c|}{(1+1) EA $_{4/n}$}            & \multicolumn{5}{c}{\RLSN[2]}                                 \\
+            binomial        & \multicolumn{3}{|c|}{EA $_{3/n}$}                   &
+            \multicolumn{7}{c}{\multirow{2}{*}{\RLSN[2]}}                                                                                          \\
+            uniform         & \multicolumn{3}{|c|}{EA $_{4/n}$}                   & \multicolumn{7}{c}{}                                           \\
             \hline
-            powerlaw        & \multicolumn{8}{|c}{$pmut_{1.5}$ or $pmut_{1.75}$}                                                                \\
-            linear function & \multicolumn{8}{|c}{RLS}                                                                                          \\
-            worst case      & \multicolumn{8}{|c}{$pmut_{1.25}$}                                                                                \\
+            powerlaw        & \multicolumn{10}{|c}{$pmut_{1.5}$ or $pmut_{1.75}$}                                                                  \\
+            linear function & \multicolumn{10}{|c}{RLS}                                                                                            \\
+            worst case      & \multicolumn{10}{|c}{$pmut_{1.25}$}                                                                                  \\
             \hline
-            combined        & \multicolumn{1}{|c|}{(1+1) EA $_{2/n}$}            & \multicolumn{4}{c|}{$pmut_{3.0}$}  & \multicolumn{3}{c}{RLS} \\
-                            &                                                    &                                    &
-                            &                                                    &                                    &
-                            &                                                    &                                                              \\
+            combined        & \multicolumn{1}{|c|}{EA $_{2/n}$}                   & \multicolumn{6}{c|}{$pmut_{3.25}$} & \multicolumn{3}{c}{RLS}   \\
+                            &                                                     &                                    &
+                            &                                                     &                                    &
+                            &                                                     &                                    &                         & \\
       \end{tabular}
 \end{table}

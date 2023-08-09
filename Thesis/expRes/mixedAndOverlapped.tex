@@ -11,7 +11,7 @@ After the spike caused by the binomial distribution the values look more uniform
 The higher the numbers get the less often they occur.
 
 \begin{figure}[h]
-      \caption{Distribution of a mixed and overlapped input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{1.25}_{1000}$}
+      \caption{Distribution of a combined input with \textasciitilde$U(1,999)$, \textasciitilde$B(1000,0.1)$, \textasciitilde$Geo(0.01)$, \textasciitilde$D^{1.25}_{1000}$}
       \centering
       \includegraphics[width=0.7\textwidth]{figures/images/numberGenerator/mixedAndOverlapped.png}\label{fig:mixAndOverlDistExample}
 \end{figure}
@@ -30,8 +30,9 @@ This leads to the RLS being the best RLS variants for this type of input in cont
 
 The results here are pretty similar to the results of the RLS.\
 The lower the mutation rates the faster the algorithm reaches an optimal solution.
-For $p_m\le10/n$ every mutation rate managed to find an optimal solution in $10n\ln n$ steps in all 10000 runs.\TODO{delete this or rerun}
-The higher mutation rates had unsuccessful runs and $100/n$ even failed to reach the optimal solution in about 15 \% of the inputs.
+For $p_m\le10/n$ did not find an optimal solution in $10n\ln n$ steps in of the 10000 runs.
+In other shorter experiments higher mutation rates reached an optimal solution less often.
+The highest researched rate of $100/n$ even failed to reach the optimal solution in about 15 \% of the inputs.
 
 \subsection{pmut Comparison}
 \input{tables/mixedAndOverlapped/pmut_compare.tex}
@@ -45,19 +46,21 @@ Apart from that these inputs seem similar as every value of $\beta$ also reaches
 The ranking of the algorithm is the same as for the other inputs with a similar preference of low mutation rates.
 The RLS variant has the best performance closely follow by $pmut_{3.25}$ and lastly be the standard (1+1) EA.\
 For smaller values of $n$ the results are similar too.
+
 \input{tables/mixedAndOverlapped/multipleN_fails.tex}
 
-The RLS variants perform the worst for $n\le 100$.
+The RLS variants perform the worst for at least $n\le 100$.
 For this input it is also rather hard to find a perfect partition for $n\le50$.
 For the lower values there were probability multiple inputs generated with mostly small values and an uneven number of large values.
 Even if the amount of large numbers is even there might still be no perfect partition, hence no algorithm is able to reach one and the run is treated as a failed run.
 
 \input{tables/mixedAndOverlapped/multipleN_avg.tex}
 
-The input gets easier to solve up until $n=5000$ and from then on gets harder again with increasing input size.
+The inputs get easier to solve up until $n=5000$ and from then on get harder again with increasing input size.
 The increase for larger input sizes is much smaller than the decrease for the small values.
 
 \input{tables/mixedAndOverlapped/multipleN_totalAvg.tex}
 
-This type of inputs are best solved by the (1+1) EA with $p_m=2/n$ for $n\le100$ and also relatively good for $n=500$.
-After $n\ge1000$ the standard RLS becomes the best option and it seems like it stays that way for the remaining input sizes.
+This type of inputs are best solved by the (1+1) EA with $p_m=2/n$ for $n\le100$.
+Until $n<5000$ instead using $pmut_{3.0}$ or $pmut_{3.25}$ leads to a better running time.
+After $n\ge5000$ the standard RLS becomes the best option and it seems like it stays that way for the remaining input sizes.
