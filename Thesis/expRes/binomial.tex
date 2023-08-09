@@ -26,11 +26,14 @@ The data is explained in the table below.
       min eval count  & minimum \#iterations of runs returning an optimal solution      \\ \hline
       % fails           & number of runs that did not find an optimal solution            \\
       fail ratio      & ratio of unsuccessful runs to all runs                          \\
-      avg fail dif    & average value of $b_F-f(opt)$ for non-optimal solutions         \\
+      avg fail dif    & average value of $b_F-f(opt)$ for non-optimal solutions         \\ \hline
+      p-value         & the p-value of a MannWhitnesUTest comparing the left algorithm  \\ 
 \end{tabular}
 
 Sometimes every algorithm managed to find an optimum in each run.
-To avoid redundancy and shorten the thesis the rows `total avg count' and `avg fail dif' are not shown in the table in those cases.\newline
+To avoid redundancy and shorten the thesis the rows `total avg count' and `avg fail dif' are not shown in the table in those cases.
+The p-value refers to the p-value of a MannWhitnesUTest between the algorithm in the given column and its column on the left.
+$H_1$ in this case was algorithm to the left is better than algorithm in the given column.\newline
 Firstly the different variants of the RLS are compared with values of $k \in\{2,3,4\}$, then the performance of the (1+1) EA with static mutation rate $c/n$ with $c \in\{1,2,3,5,10,50,100\}$ and lastly the performance of the $pmut_\beta$ mutation operator with the parameter $\beta \in \{1.25, 1.5, \dots, 2.75,3.0,3.25\}$.
 Afterwards there is a comparison for multiple input sizes of the best algorithms because the best algorithm is often dependent on the size of the input.
 Normally there are three tables for each input.
