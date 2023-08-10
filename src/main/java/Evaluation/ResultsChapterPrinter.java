@@ -37,8 +37,11 @@ public class ResultsChapterPrinter {
 
     private static void printTable(String path, boolean longTable) {
         String text = convertFileWithPath(path);
+        int length = 2 * getTableLengthForCSVFile(text) - 2;
+        text = text + "&".repeat(length);
+        String smallColumnLength = String.format("%.2f", (17.0 - 2.5) / (2*length));
         String content = "\\begin{tabular}[h]{" +
-                "c".repeat(getTableLengthForCSVFile(text)) +
+                "m{2.5cm}" + ("m{" + smallColumnLength + "cm}").repeat(2 * getTableLengthForCSVFile(text) - 2) +
                 "}\n" +
                 text +
                 "\\end{tabular}";
@@ -88,6 +91,15 @@ public class ResultsChapterPrinter {
         text = text.replace("n=", "b=");
         text = fixAlgoParams(text);
         text = text.replace("EA&", "EA-SM&");
+        text = text.replace("p-value&", "\\multicolumn{1}{c}{p-value");
+        text = text.replace("&", "}&\\multicolumn{2}{c}{");
+        text = text.replace("\\\\", "}\\\\");
+        text = "\\multicolumn{1}{c}{" + text;
+        text = text.replace("\na", "\n\\multicolumn{1}{c}{a");
+        text = text.replace("\nt", "\n\\multicolumn{1}{c}{t");
+        text = text.replace("\nm", "\n\\multicolumn{1}{c}{m");
+        text = text.replace("\nf", "\n\\multicolumn{1}{c}{f");
+        text = text.replace("p-value}", "p-value}&");
 //        text = text.replace("EA-SM", "(1+1) EA");
 //        text = text.replace("EA-SM", "EA");
         return text;
