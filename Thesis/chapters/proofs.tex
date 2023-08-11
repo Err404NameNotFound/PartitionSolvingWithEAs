@@ -240,7 +240,12 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
     The algorithm will still find the solution in expected time at most $(1+o(1))\frac{e^k}{k}n\ln n$.
     Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))\frac{e^k}{k}n\ln n=\Theta(n\log{}n)\)
 
-    The total runtime for the (1+1) EA is $\frac{2e^k}{k(1-o(1))}n\ln(n)+4 + \frac{1+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n =\Theta(n\log{}n)$.
+    The total runtime for the (1+1) EA is
+    \[
+        \frac{2e^k}{k(1-o(1))}n\ln(n)+4 + \frac{1+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
+        = 4+\frac{3+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
+        =\Theta(n\log{}n)
+    \]
 
 \end{proof}
 
@@ -385,7 +390,7 @@ The main factor deciding the runtime is the runtime on linear functions which is
 Later in Section~\ref{evalSec:onemax} there is also an experiment for the different values of $k$ for the \RLSR[k].
 Another algorithms mentioned later is the \RLSN~which has a much worse runtime as the next lemma suggests.
 
-\begin{lemma}
+\begin{lemma}\label{lemma:RLSNBad}
     The expected optimisation time of the \RLSN[k] for $2\le k=O(1)$ on inputs with $w_1\ge W/2$ is $\Omega(n^k)$ if the solution is not already optimal after the initialisation.
 \end{lemma}
 \begin{proof}

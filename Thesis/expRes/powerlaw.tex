@@ -19,6 +19,7 @@ The highest value 9948 occurred only once.
 Researching inputs like this should be more interesting which is why $\beta=1.25$ was chosen for the experiment.
 To give a better view on this type of input there is also a table for $\beta=2.75$ at the evaluation of the (1+1) EA.\
 The results for the other algorithms were mostly the same, but these are not shown here for better readability.
+The size of the input in this case is 20,000.
 
 \begin{figure}[h]
       \caption{Distribution of a random powerlaw input with $\beta=1.25$}
@@ -27,7 +28,6 @@ The results for the other algorithms were mostly the same, but these are not sho
 \end{figure}
 \subsection{RLS Comparison}
 \input{tables/powerlaw/rls_compare.tex}
-
 The input is even easier to solve for the RLS variants than the binomial distributed inputs.
 There is no clear tendency and all algorithms have a rather equal runtime.
 All algorithm manage to find an optimal solution in every run.
@@ -39,15 +39,13 @@ The first table shows the results for parameter $\beta=2.75$
 For $\beta=2.75$ the results are much different from $\beta=1.25$.
 Until $p_m\le50/n$ the speed of convergence increases but at $p_m=100/n$ the speed decreases again.
 The optimal value seems to be somewhere around $p_m=50/n$.
-The (1+1) variants are generally faster than all RLS variants when comparing the maximum number of iterations.
+The (1+1) EA variants are generally faster than all RLS variants when comparing the maximum number of iterations.
 For mutation rates $3/n\le p_m \le 100/n$ the (1+1) EA is also faster on average.
 The next table shows the results for a powerlaw distribution with $\beta=1.25$.
 
 \input{tables/powerlaw/ea_compare.tex}
-
 With this setting the optimal value is shifted to somewhere around $p_m=4/n$.
 The higher mutation rates perform drastically slower with $p_m=100/n$ being 500 times slower than the optimal value.
-The speed of convergence is sometimes even to slow find an optimal solution in time $10\cdot n\ln(n)$.
 So the parameter of the distribution does change the optimal parameter for the Evolutionary Algorithm solving the input.
 The same was true for the RLS and also for $pmut$.
 \subsection{pmut Comparison}

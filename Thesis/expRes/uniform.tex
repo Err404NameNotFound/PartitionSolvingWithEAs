@@ -13,10 +13,9 @@ The length of the input was 50000.
 \end{figure}
 \subsection{RLS Comparison}
 \input{tables/uniform/rls_compare.tex}
-
 The picture for the RLS variants on this type of input is not clear.
-There in no obvious tendency for neither of the variants.
-The only obvious thing is the RLS being the worst of the RLS variants again.
+There in no obvious tendency for all variants.
+The only obvious thing is the RLS being the worst RLS variant again.
 Every variant reaches the optimal solution in every case except for the RLS which only manages for 61 \% of the inputs.
 All other variants reach an optimal solution for every input.
 The \RLSN[2] seems to be the best variant for these kinds of inputs.
@@ -24,21 +23,17 @@ The next best variants are the three \RLSR[s] variants which differ only slightl
 
 \subsection{(1+1) EA Comparison}
 \input{tables/uniform/ea_compare.tex}
-
 The (1+1) EA seems to perform better with a lower mutation rate.
-$p_m=4/n$ reaches an optimal solution the fastest.
-To both sides the speed of convergence decreases with decreasing/increasing mutation rate.
+$p_m=4/n$ reaches an optimal solution the fastest but there is no statistically significant difference between $4/n$ and $3/n$ and also not between $3/n$ and $2/n$.
+To both sides the average speed of convergence decreases with decreasing/increasing mutation rate.
 For the uniform distributed input all variants of the (1+1) EA reach an optimal solution within the step limit except for $100/n$ which does not find an optimal solution in about 0.1 \% of the inputs.
 \subsection{pmut Comparison}
 \input{tables/uniform/pmut_compare.tex}
-
-The optimal value for $\beta$ seems to be somewhere around 2.0.
+The optimal value for $\beta$ seems to be somewhere around 2.0 to 2.25 as there is no statistically significant difference between those two.
 The neighbouring values in both directions need more time the greater the difference to 2.0
 A major increase of the runtime happens at $\beta=1.5$ and even worse at $\beta=1.25$, yet even the worst parameter manages to find an optimal solution in every run.
 
 \subsection{Comparison of the best variants}
-% \input{tables/uniform/best.tex}
-% 
 For the uniform distributed input the best variant of the RLS once again seems to perform the best.
 But by looking at the smaller values this does not hold in general.
 

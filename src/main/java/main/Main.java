@@ -31,6 +31,7 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.Printer.PATH_AUTO_GENERATED;
 import static help.Printer.PATH_TEXT_FILES;
+import static help.Printer.PATH_THESIS;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;

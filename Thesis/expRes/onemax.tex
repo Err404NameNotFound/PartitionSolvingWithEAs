@@ -15,7 +15,6 @@ So for every run of each algorithm the input was $[n-1, 1, 1, \dots, 1, 1]$.
 An input like this takes less time for every algorithm, but the results are mostly the same.
 \subsection{RLS Comparison}
 \input{tables/onemax/rls_compare.tex}
-
 As expected the standard RLS reaches an optimal solution the fastest.
 It also reaches an optimal value for every instance.
 The \RLSR[s] variants need more iterations to find an optimal solution.
@@ -32,9 +31,11 @@ $\mathcal{O}(n\cdot\mathcal{O}(n^{k-1})\cdot \log(n\cdot\mathcal{O}(n^{k-1})))
 =\mathcal{O}(n^{k-1+1}\cdot (k-1+1)\cdot\log(n))
 =\mathcal{O}(kn^{k}\cdot\log(n))$
 This problem is not equivalent to OneMax, as a flip of the bit with the highest value inverts the fitness function to ZeroMax but the result might still hold as the bound for the standard RLS for this input is the same as for the RLS on OneMax.
+There is no statistically significant difference between the \RLSN[b] variants because all variants reached the step limit in each run.
+Only the amount of steps was used to for the significance test it looks like all variants are the same.
+If the test was executed with the differences to the optimum there would be a statistically significant difference between each algorithm.
 \subsection{(1+1) EA Comparison}
 \input{tables/onemax/ea_compare.tex}
-
 For this input the same as for OneMax holds. 
 The static mutation rate $p_m=1/n$ is the optimal value and the performance of the (1+1) EA decreases with rising mutation rate.
 Only for $p_m\le2/n$ the (1+1) EA managed to find one of the two optimal solutions in $10 \cdot n\ln(n)$ steps every time.
@@ -45,11 +46,11 @@ For the other inputs the overall average number of bits flipped in any step was 
 All mutation rates flipped fewer bits in the successful steps than in the average step.
 The only exception is the standard mutation rate which is caused by the steps where the algorithm would flip no bit.
 Those steps decrease the number of the average case but not of the successful case as those steps were skipped.
+The p-value between $5/n$ and $10/n$ is 1.0 for the same reason as for the \RLSN[b] variants.
 \subsection{pmut Comparison}
 For $pmut$ only 1798/10000 repetitions were executed as there was a clear tendency which of the algorithms performs better.
 
 \input{tables/onemax/pmut_compare.tex}
-
 The results for the $pmut$ operator are pretty similar to the results for the (1+1) EA and the RLS.\
 The parameter $\beta=3.25$ which flips the least bits on average finds the solution the fastest.
 Decreasing value for $\beta$ lead to more time needed for finding one of the two optimums.
@@ -58,8 +59,6 @@ The average number of bits flipped in a successful mutation is much lower than f
 For the binomial and geometric input the successful average was around 100 for $\beta=1.25$ but for the OneMax equivalent it was only at 5.
 
 \subsection{Comparison of the best variants}
-% \input{tables/onemax/best.tex}
-% 
 For this comparison neither of the algorithms failed to find one of the two optimal solutions.
 The following table lists the amount of iterations the algorithms needed to find an optimal solution.
 
@@ -94,17 +93,6 @@ This input is harder because switching multiple small values for a big value inc
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements which leads to the exact same behaviour.
 But even the other algorithms that are able to switch seem to not harm the hamming distance drastically by switching elements.
-
-Figure~\ref{fig:onemaxniformNlogNBoundRLSR} shows the average number of steps needed by the \RLSR~for the equivalent to linear functions with uniform distribution.
-Lemma~\ref{lemma:RLSRoneMaxInput} proved the \RLSR~needs time $4k+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n$ but the actual expected running time seems to be lower.
-All \RLSR[k]~variants in the figure approach the value of $kn\ln n$ from below and for at least $n\le50,000$ do not need more time than $kn\ln n$.
-The \RLSN[k]~variants on the other hand have a significantly worse performance.
-Their average runtime is shown in figure~\ref{fig:onemaxniformNlogNBoundRLSB} with a logarithmic $y$-axis.
-A value of 2 on the $x$-axis here means that the algorithm needed $n^2$ steps on average to find an optimal solution.
-All \RLSN[k] variants needs at least $n^2$ steps on average, but all variants seem to approach $n^k$ from below.
-The higher the value of $k$ the less clear the asymptotic runtime appears.
-Testing higher values for $k=4$ should reveal a better view on the asymptotic runtime but if the asymptotic runtime is actually close to $n^4$ then it would take $1000^4=10^{12}$ steps for $n=1000$.
-With a runtime that high it was out of this thesis time budget to test multiple runs of the \RLSN[4] with higher input sizes.
 \begin{figure}[h]
       \centering
       \begin{minipage}[b]{0.45\textwidth}
@@ -118,3 +106,30 @@ With a runtime that high it was out of this thesis time budget to test multiple 
       \end{minipage}
 \end{figure}
 
+Figure~\ref{fig:onemaxniformNlogNBoundRLSR} shows the average number of steps needed by the \RLSR~for the equivalent to linear functions with uniform distribution.
+Lemma~\ref{lemma:RLSRoneMaxInput} proved the \RLSR~needs time $4k+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n$ but the actual expected running time seems to be lower.
+All \RLSR[k]~variants in the figure approach the value of $kn\ln n$ from below and for at least $n\le50,000$ do not need more time than $kn\ln n$.
+The \RLSN[k]~variants on the other hand have a significantly worse performance.
+Their average runtime is shown in figure~\ref{fig:onemaxniformNlogNBoundRLSB} with a logarithmic $y$-axis.
+A value of 2 on the $y$-axis here means that the algorithm needed $n^2$ steps on average to find an optimal solution.
+All \RLSN[k] variants needs at least $n^2$ steps on average, but all variants seem to approach $n^k$ from below (see Lemma~\ref{lemma:RLSNBad}).
+% The actual runtime is below $n^k$ for greater values of $k$ and smaller input sizes which is likely a consequence of the constants.
+With the less strict lower bound of $\frac{n^k}{k!}$ proven in the Lemma for small values of $n$ the constant $k!$ matters.
+This is why the higher the value of $k$ the less clear the asymptotic runtime appears.
+Testing higher values for $k=4$ should reveal a better view on the asymptotic runtime but if the asymptotic runtime is actually close to $n^4$ then it would take $1000^4=10^{12}$ steps for $n=1000$.
+With a runtime that high it was out of this thesis time budget to test multiple runs of the \RLSN[4] with higher input sizes.
+The bound proven for the (1+1) EA with mutation rate $c/n$ was \(4+\frac{3+o(1)}{1-o(1)}\cdot \frac{e^c}{c}n\ln n\) (Theorem~\ref{theo:OneMaxResult}) but looking at Figure~\ref{fig:onemaxuniformEA} the actual bound seems more like \(\frac{e^c}{c}n\ln n\).
+For $pmut$ there was no proof in this thesis but the bigger values of $pmut$ also seem to take time $\Theta(n\ln n)$ (Figure~\ref{fig:onemaxniformPmut}).
+
+\begin{figure}[h]
+      \centering
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Runtime of the (1+1) EA for the OneMax equivalent with uniform distribution on a $n\ln n$ scale}
+            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_EACompareNlnn.png}\label{fig:onemaxuniformEA}
+      \end{minipage}
+      \hspace{0.75cm}
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Runtime of $pmut$ for the OneMax equivalent with uniform distribution on a $n\ln n$ scale}
+            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_pmutCompare.png}\label{fig:onemaxniformPmut}
+      \end{minipage}
+\end{figure}

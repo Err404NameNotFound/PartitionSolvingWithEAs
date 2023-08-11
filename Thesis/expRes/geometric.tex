@@ -18,7 +18,6 @@ Because there are so many small values moving only one bit might be better than 
 \end{figure}
 \subsection{RLS Comparison}
 \input{tables/geometric/rls_compare.tex}
-
 For these inputs the variants of the RLS perform differently to the binomial input.
 The only similarity is the RLS being the only algorithm that did not find an optimal solution for every input.
 If the RLS did find an optimal solution in those 21 cases it instead might be the best RLS variant.
@@ -29,23 +28,21 @@ In the 21 cases where the RLS did not find an optimal solution it was most likel
 
 \subsection{(1+1) EA Comparison}
 \input{tables/geometric/ea_compare.tex}
-
-The results for the (1+1) EA are similar to the results of the RLS. From mutation rate $2/n$ on the runtime increases with rising mutation rate.
+The results for the (1+1) EA are similar to the results of the RLS.\ 
+From mutation rate $2/n$ on the runtime increases with rising mutation rate.
 The only part that does not fit into the theory of 1 bit flips being superior is the mutation rate $2/n$ performing better than the standard $1/n$.
+There is also no statistically significant difference between $1/n$ and $3/n$.
 All variants reach an optimal solution within the given limit for the number of iterations.
 \subsection{pmut Comparison}
 \input{tables/geometric/pmut_compare.tex}
-
 The results for the $pmut_\beta$ operator are even more clear than for the (1+1) EA.\
 With decreasing values for $\beta$ the amount of flipped bits per step increases.
 The performance decreases as well with decreasing values for $\beta$ which fits into the theory of one bit flips being better for geometric distributed inputs.
 The number of repetitions of the algorithm might simply be too small to make the small difference in the performance between the two values visible.
 The difference in the performance for the $pmut_\beta$ operator is not as drastic as for the (1+1) EA.
-Only $\beta=1.5$ and $\beta=1.25$ perform significantly worse the next best value.
+Only $\beta=1.5$ and $\beta=1.25$ perform much worse the next best value.
 
 \subsection{Comparison of the best variants}
-% \input{tables/geometric/best.tex}
-% 
 The setup for the evaluation of lower values for $n$ is the same as for binomial distributed inputs.
 The first table lists the number of runs where the different algorithms did not find the optimal solution within the time limit.
 
@@ -64,7 +61,7 @@ The variants of the (1+1) EA and of the $pmut$ algorithm seem to take about 20,0
 They also perform better and better the bigger the input gets.
 This is probability caused by the many additional small values that can be used for smaller adjustments to the fitness.
 Also a really high value does not have as much of an effect, because there are possibly other larger values which cancel each other out, if they are in different bins.
-The standard (1+1) EA does not only find a perfect partition less often than with $p_m=2/n$, it also needs more iterations on average if it does.
+The standard (1+1) EA does not only find a perfect partition less often than the (1+1) EA with $p_m=2/n$, it also needs more iterations on average if it does.
 So the (1+1) EA with $p_m=2/n$ performs indeed better for every input size.
 The last table again lists the total average number of steps.
 
