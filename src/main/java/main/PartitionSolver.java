@@ -22,6 +22,19 @@ import static help.RNG.randomInt;
 
 public class PartitionSolver {
 
+    public static Solution solveGreedy(long[] values){
+        long sum = values[0];
+        Solution sol = new SolutionLong(values);
+        for(int i = 1;i<values.length;++i){
+            if(sum > 0){
+                sum -= values[i];
+                sol.setValueToOne(i);
+            }else{
+                sum += values[i];
+            }
+        }
+        return sol;
+    }
 
     private static Solution solve(long[] values, long maxSteps, KGenerator generator) {
         return solve(values, maxSteps, generator, false);

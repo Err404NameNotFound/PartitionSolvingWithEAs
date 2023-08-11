@@ -1,0 +1,29 @@
+Elapsed time: 0d00:02:44
+
+number of runs;  2.465
+Limit per run;   921.030
+array length;    10.000
+ratio 100 * m/n; 0,13288 -> easy
+input type;      invalid input (15)
+---------
+algo type;           RLS-N;    RLS-R;    RLS-R;    RLS-R;    RLS-N;    RLS-N;      RLS
+algo param;            n=2;      r=3;      r=4;      r=2;      n=3;      n=4;        -
+avg mut/change;      2,000;    1,985;    2,464;    1,501;    3,000;    4,000;    1,000
+avg mut/step;        2,000;    2,000;    2,500;    1,500;    3,000;    4,000;    1,000
+---------
+total avg count;    20.341;   24.057;   24.839;   24.946;   26.259;   30.304;  401.007
+avg eval count;     20.341;   24.057;   24.839;   24.946;   26.259;   30.304;   11.912
+max eval count;    158.655;  279.596;  318.067;  277.488;  183.800;  212.056;   86.027
+min eval count;         20;       48;       29;       35;       27;       48;       90
+---------
+fails;                   0;        0;        0;        0;        0;        0;    1.055
+fail ratio;          0,000;    0,000;    0,000;    0,000;    0,000;    0,000;    0,428
+avg fail dif;           -1;       -1;       -1;       -1;       -1;       -1;        1
+---------
+RLS     -> standard RLS: uniform random neighbour with Hamming Distance == 1
+RLS-N   -> modified RLS: uniform random neighbour with Hamming Distance <= n
+RLS-R   -> modified RLS: uniform random neighbour with Hamming Distance == x, where x is chosen uniform random from {1,...,r}
+EA      -> standard EA : each bit is flipped with prob 1/n
+EA-SM   -> modified EA : each bit is flipped with prob c/n
+fmut    -> 1 bit flip with prob p and uniform random amount with 1-p
+pmut    -> flips k random bits where k is chosen from powerlaw distribution

@@ -70,7 +70,7 @@ The $pmut_{3.25}$ performs better than the standard (1+1) EA although flipping m
 This is most likely cause by the few steps where $pmut$ flips many bits which increase the average.
 But $pmut$ most likely chooses to flip only one bit more often as the (1+1) EA.\
 In a previous chapter the $\mathcal{O}(n\log n)$ bound was proven for the (1+1) EA and the RLS (Theorem~\ref{theo:OneMaxResult}).
-This seems to hold in practice at least for the easiest version of this input where the small values are one (see figure~\ref{fig:onemaxNlogNBound}).
+This seems to hold in practice at least for the easiest version of this input where the small values are one (see Figure~\ref{fig:onemaxNlogNBound}).
 The scale of this figure is $n\ln n$ which means that a value of 2 on the $y$-axis means the algorithm needs $2n\ln n$ steps on average to reach the optimal solution.
 The standard (1+1) EA performs a bit worse than the other three algorithms and approaches $en\ln n$ instead of staying close to $n\ln n$.
 
@@ -89,7 +89,7 @@ The standard (1+1) EA performs a bit worse than the other three algorithms and a
 
 Another variant of this input are uniform distributed inputs for example.
 The small values in this case are chosen from \textasciitilde$U(1,49999)$ and the first value again is the sum of all other values.
-This input is harder because switching multiple small values for a big value increases the fitness but also increases the Hamming distance to the optimum. Looking at figure~\ref{fig:onemaxUniformNlogNBound} the equivalent to uniform distributed linear functions looks not much harder compared to the variant where all values are one.
+This input is harder because switching multiple small values for a big value increases the fitness but also increases the Hamming distance to the optimum. Looking at Figure~\ref{fig:onemaxUniformNlogNBound} the equivalent to uniform distributed linear functions looks not much harder compared to the variant where all values are one.
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements which leads to the exact same behaviour.
 But even the other algorithms that are able to switch seem to not harm the hamming distance drastically by switching elements.

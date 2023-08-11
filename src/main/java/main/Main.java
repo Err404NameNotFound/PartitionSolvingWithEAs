@@ -31,7 +31,6 @@ import static help.MathHelp.max;
 import static help.MathHelp.nlogn;
 import static help.Printer.PATH_AUTO_GENERATED;
 import static help.Printer.PATH_TEXT_FILES;
-import static help.Printer.PATH_THESIS;
 import static help.Printer.pauseFileWriting;
 import static help.Printer.printf;
 import static help.Printer.println;
@@ -49,6 +48,7 @@ import static main.InputGenerator.GEOMETRIC_DISTRIBUTED;
 import static main.InputGenerator.MIXED;
 import static main.InputGenerator.MIXED_AND_OVERLAPPED;
 import static main.InputGenerator.ONEMAX_ONE;
+import static main.InputGenerator.ORDERED;
 import static main.InputGenerator.OVERLAPPED;
 import static main.InputGenerator.POWERLAW_DISTRIBUTED;
 import static main.InputGenerator.TWO_THIRDS;
@@ -75,7 +75,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 43;
+    public static final int DEFAULT_SELECTION = 62;
 
 
     public static void main(String[] args) {
@@ -115,7 +115,7 @@ public class Main {
             case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000, 100000, 1000, 0.5));
             case 9 -> BinomialTesting.printBinomialDistribution(1000, 0.95, 10000);
 
-            case 11 -> evaluateMultiple(10000, ALL_ONE, 10000, "best");
+            case 11 -> evaluateMultiple(10000, ORDERED, 10000, "best");
             case 12 -> evaluate(10000, UNIFORM_INTERVALL, 50 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
@@ -135,7 +135,7 @@ public class Main {
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
             case 41 -> printDistribution(InputGenerator.createPowerlaw(1.25, 1.0, 1000.0), 10000);
-            case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(TWO_THIRDS, 20)));
+            case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(ORDERED, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
             case 44 -> ResultsChapterPrinter.renameFilesToFitLatex(PATH_AUTO_GENERATED, new String[]{
                     "rls_comparison-newRNG10kWithSignificance.txt",
@@ -159,6 +159,7 @@ public class Main {
             case 59 -> testRandomInt();
             case 60 -> testDuplicateFileName();
             case 61 -> printAllMannWhitneyUTests(0.05);
+            case 62 -> tryGreedy(100000);
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
@@ -222,7 +223,7 @@ public class Main {
         values = sort(values);
         double[] ret = new double[values.length - 1];
         for (int i = 0; i < values.length - 1; ++i) {
-            ret[i] = test.mannWhitneyUTest(values[i], values[i + 1])/2.0;
+            ret[i] = test.mannWhitneyUTest(values[i], values[i + 1]) / 2.0;
         }
         return ret;
     }
@@ -239,7 +240,7 @@ public class Main {
                 double[] res = doMannWhitneyUTests(path + fileNames[j]);
                 println(files[j]);
                 ArrayPrinter.printArray(";", i -> String.format("%.4f", res[i]), res.length);
-                ArrayPrinter.printArray(";",i -> String.format("%6s", res[i] < alpha), res.length);
+                ArrayPrinter.printArray(";", i -> String.format("%6s", res[i] < alpha), res.length);
             }
             println("------------------");
         }
@@ -462,11 +463,20 @@ public class Main {
         }
     }
 
+    private static void tryGreedy(int n) {
+        for (int i = 1; i <= n; ++i) {
+            long[] input = InputGenerator.generateInput(ORDERED, i);
+            if (PartitionSolver.solveGreedy(input).isNotOptimal()) {
+                System.out.println(i);
+            }
+        }
+    }
+
     private static void printSolutionOfOneInput() {
-        int length = 10000;
+        int length = 10;
         long stepLimit = 10 * nlogn(length);
-        long[] temp = generateInput(GEOMETRIC_DISTRIBUTED, length);
-        PartitionSolver.solvePmut(temp, stepLimit, 3, true).printResult();
+        long[] temp = generateInput(ORDERED, length);
+        PartitionSolver.solveEA(temp, stepLimit).printResult();
     }
 
     private static void readAndSolveInput() {

@@ -347,7 +347,7 @@ The analysis of the special case was also expanded to the (1+1) EA with a mutati
 
 \section{Runtime Analysis of higher mutation rates}
 
-In this section the analysis is expanded to variants of the RLS.\ 
+In this section the analysis is expanded to variants of the RLS, but also another type of inputs is analysed.
 The first analysed input is again the input with $w_1\ge W/2$.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
@@ -421,7 +421,71 @@ Another algorithms mentioned later is the \RLSN~which has a much worse runtime a
 For smaller values of $n$ the actual runtime in might be lower due to constants such as $y!\le k!$ which were absorbed by the big-O notation.
 This difference should be noticeable for the smaller values of $n$ but not for higher values.
 Since the standard RLS is the same as the \RLSN[1] the optimal values for the \RLSN[k] variants again is at $k=1$.
-This algorithm is also evaluated in the same Section~\ref{evalSec:onemax} as the other algorithms that were analysed for inputs similar to a linear function.
+This algorithm is also evaluated in the same Section~\ref{evalSec:onemax} as the other algorithms that were analysed for inputs similar to a linear function.\newline
+Now on to another input.
+In this case the input contains every number from 1 to $n$ where $n$ is the size of the input.
+So the input looks like this if the weights are sorted: [n,n-1,n-2,\dots,3,2,1].
+Solving this input greedily if the input is sorted will always result in an optimal solution.
+As the greedy approach has nothing to do with Evolutionary Algorithms the proof is left an exercise for the reader.
+A brief sketch here:\newline
+Let $n=4k+y$ with $k\in \N_0, y \in\{0,1,2,3\}$. Then the difference to an equal partition ($b_F-b_E=0$) is given by:
+\begin{itemize}
+    \item starting with no element in both bins the initial difference to an equal partition is 0 at step 0
+    \item after placing $w_1$ in one bin the difference is $n$ at step 1
+    \item after step 2 the difference is $1$ after placing $n-1$
+    \item after step 3 the difference is $n-3$ after placing $n-2$
+    \item then the next cycle is 0, $n-4$, 1, $n-7$
+    \item then $n-7$, 1, $n-9$, 0
+    \item \dots
+    \item all the way to 0, $n-4k$, 1, $n-(4k+3)$ (ending at step $n$)
+\end{itemize}
+This means the difference to an equal partition after $n=4k+y$ steps is 0 for $y=0$, $n-4k=1$ for $y=1$, 1 for $y=2$ and $n-4k-3=0$ for $y=3$.
+The partition for $y=0$ and $y=3$ is already perfect.
+For $y=1$ and $y=2$ there is an odd amount of odd values, so one bin must be even while the other has a difference of one, hence the solution is optimal in those cases as well.
+This will be hard to beat for Evolutionary Algorithms, but they perform good as well as the next lemma shows.
+
+\begin{lemma}
+    On an input [n,n-1,n-2,\dots,3,2,1] every algorithm with probability $p$ to flip only one bit reaches an approximation ratio of at most $(1+\frac{2}{n+1})$ (which means $b_F-f(opt)\le w_1$) in expected time at most $2n/p$.
+    This results in expected time at most $\frac{e^c}{c(1-o(1))}$ for the (1+1) EA with mutation rate $c/n$ with constant $c>0$ and expected time at most $2kn$ for the \RLSR[k] with constant $k$.
+\end{lemma}
+\begin{proof}
+    The total volume \(w=\sum_{i=1}^{n}{w_i}=\sum_{i=1}^{n}{i}=\frac{n(n+1)}{2}\).
+    If the emptier bin contained only the smallest $r=\lceil n/\sqrt{2}\rceil\ge 0.7n$ elements then it has a volume of
+    \begin{gather}\nonumber
+        b_E=\sum_{i}^{r}{i}
+        =\frac{\lceil \frac{n}{\sqrt{2}}\rceil(\lceil \frac{n}{\sqrt{2}}\rceil+1)}{2}
+        \ge\frac{\frac{n}{\sqrt{2}}(\frac{n}{\sqrt{2}}+1)}{2}
+        =\frac{n(n+\frac{1}{\sqrt{2}})}{4}
+        =\frac{n^2+n-(n-\frac{n}{\sqrt{2}})}{4}\\ \nonumber
+        =W/2-\frac{n-\frac{n}{\sqrt{2}}}{4}
+        \ge W/2-\frac{n-\frac{n}{2}}{4}
+        = W/2-\frac{n}{8}
+        % \ge W/2-n
+        % = W/2-w_1
+    \end{gather}
+    This also means that the emptier bin always has at most r elements ($w_{r+1}>r>n/8$) and therefore the fuller bin always has at least $n-r\ge 0.3n$ elements.
+    As long as $b_F-f(opt)>w_1$ holds moving any object $w_i$ from the fuller to the emptier bin decreases the fitness by $w_i$.
+    Let $p$ be the probability of any algorithm to flip only one bit.
+    Then probability of moving one element from the fuller to the emptier bin is at least $p\cdot\frac{0.3n}{n}=0.3p$.
+    This results in an excepted time for a step decreasing the fuller bin of ${0.3p}^{-1}=10/(3p)$.
+    At the beginning the fuller bin has at most $n$ elements and it will always have at least $0.3n$ elements, so there are at most $n-0.3n=0.7n$ elements that have to be moved before $b_F-f(opt)\le w_1$ holds.
+    The expected time until $b_F-f(opt)\le w_1$ holds therefore is at most \(0.7n\cdot10/(3p)=7n/(3p)\le 2n/p\).
+    This results in an approximation-ratio of
+    \[
+        \frac{f(x)}{opt}
+        =\frac{b_F}{f(opt)}
+        =\le\frac{w_1+f(opt)}{f(opt)}
+        =1+\frac{w_1}{f(opt)}
+        \le1+\frac{n}{\frac{n(n+1)}{2}}
+        =1+\frac{2}{n+1}
+    \]
+    Inserting the probability $\frac{c(1-o(1))}{e^c}$ for the (1+1) EA and $1/k$ for the \RLSR[k] completes the proof.
+\end{proof}
+
+The same lemma should be possible for the \RLSN[k] too.
+Instead of looking at steps flipping only one bit here steps flipping $k$ bits are relevant as those happen with probability $\Theta(1)$.
+The probability of choosing 4 bits from 0.3n is constant as well \(\binom{\lfloor 0.3n\rfloor}{k}/\binom{n}{k}=\frac{\Theta((0.3n)^k)}{\Theta(n^k)}=\Theta(0.3^k)=\Theta(1)\) for constant $k$.
+This results in expected time $\bigO(n)$ for the \RLSN[k] to reach a search point with a $1+\frac{2k}{n+1}$-approximation.
 
 \section{Binomial distributed input}
 This section discusses inputs following a binomial distribution\textasciitilde$B(m,p)$.

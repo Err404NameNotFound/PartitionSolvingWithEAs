@@ -37,6 +37,7 @@ public class InputGenerator {
     public static final int OVERLAPPED = 12;
     public static final int MIXED_AND_OVERLAPPED = 13;
     public static final int ALL_ONE = 14;
+    public static final int ORDERED = 15;
     public final int type;
     public final String folder;
     public final String description;
@@ -127,8 +128,17 @@ public class InputGenerator {
                     mixedAndOverlapped(length, DEFAULT_LOWEST_VALUE, DEFAULT_BIGGEST_VALUE, DEFAULT_N, DEFAULT_P_BINOMIAL,
                             DEFAULT_P_GEOMETRIC, DEFAULT_PMUT_PARAM);
             case ALL_ONE -> fill(length, i -> 1);
+            case ORDERED -> number1toN(length);
             default -> null;
         };
+    }
+
+    private static long[] number1toN(int length) {
+        long[] array = new long[length];
+        for (int i = length; i > 0; --i) {
+            array[length - i] = i;
+        }
+        return array;
     }
 
     private static long epsilonDif(int length, int sumCount) {

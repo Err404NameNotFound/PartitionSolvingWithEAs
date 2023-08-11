@@ -56,7 +56,7 @@ The more perfect partitions an input has relative to the number of all possible 
 Therefore researching inputs with higher expected values seems more interesting but generating higher values takes more time with a random number generator that needs $\mathcal{O}(mp)$ time.
 To keep the time for generating one set of numbers reasonable the values chosen for all tests are $m=10000, p=0.1, n=10000$ with the expected value for a single number being $mp=1000$.
 Figure~\ref{fig:binDistExample} shows a random binomial distributed input of length $n=10000$.
-For this input type almost every time all elements were sharply concentrated around the expected value with all values being at $1000\pm200$ (for figure~\ref{fig:binDistExample} even closer at $1000\pm121$).
+For this input type almost every time all elements were sharply concentrated around the expected value with all values being at $1000\pm200$ (for Figure~\ref{fig:binDistExample} even closer at $1000\pm121$).
 So after reaching a difference to the optimum of below $(1000-200)/2=400$ the algorithm can no longer achieve an improvement by flipping a single bit (Corollary~\ref{cor:RLSStuck})
 
 \begin{figure}[h]

@@ -1,6 +1,7 @@
 package main;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,17 +11,21 @@ public class SolutionLong extends BaseSolution {
     private long optimalValue;
     private long fitness;
 
+    SolutionLong(long[] values){
+        super(values);
+        sum = 0;
+        totalSum = Arrays.stream(values).sum();
+        setOptimalValue();
+        updateFitness();
+    }
+
     SolutionLong(SolutionBigInt solution, long[] values) {
         super(values);
         int[] temp = solution.getPartition();
         System.arraycopy(temp, 0, partition, 0, partition.length);
         totalSum = solution.getTotalSum().longValue();
         sum = solution.getSum().longValue();
-        optimalValue = totalSum / 2;
-        sumIsEven = totalSum % 2 == 0;
-        if (!sumIsEven) {
-            optimalValue += 1;
-        }
+        setOptimalValue();
         updateFitness();
         result = solution.result();
         tries = solution.getTries();
@@ -30,6 +35,14 @@ public class SolutionLong extends BaseSolution {
         lastImprove = solution.getLastImprove();
         lastBitFlippedCount = solution.getLastBitFlippedCount();
         lastBitFlippedTried = solution.getLastBitFlippedTried();
+    }
+
+    private void setOptimalValue(){
+        optimalValue = totalSum / 2;
+        sumIsEven = totalSum % 2 == 0;
+        if (!sumIsEven) {
+            optimalValue += 1;
+        }
     }
 
     private void updateFitness() {
