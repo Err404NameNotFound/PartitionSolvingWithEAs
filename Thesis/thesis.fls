@@ -680,7 +680,6 @@ INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
 INPUT c:/texlive/2023/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmr17.tfm
@@ -1016,6 +1015,11 @@ INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
 INPUT figures/images/oneMaxUniformMultipleN_RLSBCompare.png
 INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
 INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompare.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png
+INPUT figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png
+INPUT ./figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png
 INPUT ./figures/images/oneMaxUniformMultipleN_EACompareNlnn.png
 INPUT ./figures/images/oneMaxUniformMultipleN_EACompareNlnn.png
 INPUT figures/images/oneMaxUniformMultipleN_EACompareNlnn.png
@@ -1116,7 +1120,6 @@ INPUT ./thesis.out
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx8.pfb
-INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb

@@ -93,31 +93,43 @@ This input is harder because switching multiple small values for a big value inc
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements which leads to the exact same behaviour.
 But even the other algorithms that are able to switch seem to not harm the hamming distance drastically by switching elements.
+
 \begin{figure}[h]
       \centering
-      \begin{minipage}[b]{0.45\textwidth}
             \caption{Runtime of the \RLSR~variants for the OneMax equivalent with uniform distribution on a $n\ln n$ scale}
-            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_RLSRCompare.png}\label{fig:onemaxniformNlogNBoundRLSR}
-      \end{minipage}
-      \hspace{0.75cm}
-      \begin{minipage}[b]{0.45\textwidth}
-            \caption{Runtime of the \RLSN~variants for the OneMax equivalent with uniform distribution on a $n^y$ scale}
-            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_RLSBCompare.png}\label{fig:onemaxniformNlogNBoundRLSB}
-      \end{minipage}
+            \includegraphics[width=0.5\textwidth]{figures/images/oneMaxUniformMultipleN_RLSRCompare.png}\label{fig:onemaxniformNlogNBoundRLSR}
 \end{figure}
 
 Figure~\ref{fig:onemaxniformNlogNBoundRLSR} shows the average number of steps needed by the \RLSR~for the equivalent to linear functions with uniform distribution.
 Lemma~\ref{lemma:RLSRoneMaxInput} proved the \RLSR~needs time $4k+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n$ but the actual expected running time seems to be lower.
 All \RLSR[k]~variants in the figure approach the value of $kn\ln n$ from below and for at least $n\le50,000$ do not need more time than $kn\ln n$.
 The \RLSN[k]~variants on the other hand have a significantly worse performance.
-Their average runtime is shown in figure~\ref{fig:onemaxniformNlogNBoundRLSB} with a logarithmic $y$-axis.
+Their average runtime is shown in Figure~\ref{fig:onemaxniformNlogNBoundRLSB} with a logarithmic $y$-axis.
 A value of 2 on the $y$-axis here means that the algorithm needed $n^2$ steps on average to find an optimal solution.
-All \RLSN[k] variants needs at least $n^2$ steps on average, but all variants seem to approach $n^k$ from below (see Lemma~\ref{lemma:RLSNBad}).
-% The actual runtime is below $n^k$ for greater values of $k$ and smaller input sizes which is likely a consequence of the constants.
-With the less strict lower bound of $\frac{n^k}{k!}$ proven in the Lemma for small values of $n$ the constant $k!$ matters.
-This is why the higher the value of $k$ the less clear the asymptotic runtime appears.
-Testing higher values for $k=4$ should reveal a better view on the asymptotic runtime but if the asymptotic runtime is actually close to $n^4$ then it would take $1000^4=10^{12}$ steps for $n=1000$.
-With a runtime that high it was out of this thesis time budget to test multiple runs of the \RLSN[4] with higher input sizes.
+All \RLSN[k] variants needs at least almost $n^2$ steps on average, but all variants seem to approach $n^k$ from below (see Lemma~\ref{lemma:RLSNBad}).
+The actual runtime is below $n^k$ for greater values of $k$ and smaller input sizes which is likely a consequence of the constants.
+For small input sizes $k!$ has a much higher impact but the more $n$ grows the less noticeable the constant becomes.
+Figure~\ref{fig:onemaxniformNlogNBoundRLSBWeirdScale} shows their runtime on a different scale.
+A value of 2 on the $y$-axis here means that the algorithm needed $n^2/k!$ steps on average to find an optimal solution where $k$ is dependent on the algorithm.
+So all \RLSN[k] variants needed about $n^k/k!$ steps on average to find an optimal solution for any input size.
+This is exactly the lower bound proven in Lemma~\ref{lemma:RLSNBad}.
+% With the less strict lower bound of $\frac{n^k}{k!}$ proven in the Lemma for small values of $n$ the constant $k!$ matters.
+% This is why the higher the value of $k$ the less clear the asymptotic runtime appears.
+% Testing higher values for $k=4$ should reveal a better view on the asymptotic runtime but if the asymptotic runtime is actually close to $n^4$ then it would take $1000^4=10^{12}$ steps for $n=1000$.
+% With a runtime that high it was out of this thesis time budget to test multiple runs of the \RLSN[4] with higher input sizes.
+
+\begin{figure}[h]
+      \centering
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Runtime of the \RLSN~variants for the OneMax equivalent with uniform distribution on a $n^y$ scale}
+            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_RLSBCompare.png}\label{fig:onemaxniformNlogNBoundRLSB}
+      \end{minipage}
+      \hspace{0.75cm}
+      \begin{minipage}[b]{0.45\textwidth}
+            \caption{Runtime of the \RLSN~variants for the OneMax equivalent with uniform distribution on a $n^y/k!$ scale}
+            \includegraphics[width=\textwidth]{figures/images/oneMaxUniformMultipleN_RLSBCompareScaleWithConstant.png}\label{fig:onemaxniformNlogNBoundRLSBWeirdScale}
+      \end{minipage}
+\end{figure}
 The bound proven for the (1+1) EA with mutation rate $c/n$ was \(4+\frac{3+o(1)}{1-o(1)}\cdot \frac{e^c}{c}n\ln n\) (Theorem~\ref{theo:OneMaxResult}) but looking at Figure~\ref{fig:onemaxuniformEA} the actual bound seems more like \(\frac{e^c}{c}n\ln n\).
 For $pmut$ there was no proof in this thesis but the bigger values of $pmut$ also seem to take time $\Theta(n\ln n)$ (Figure~\ref{fig:onemaxniformPmut}).
 

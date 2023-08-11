@@ -341,10 +341,13 @@ It shows the runtime bound for a more restricted type of input and is used to si
     This follows directly from Theorem~\ref{theo:OneMaxResult} and Lemma~\ref{lemma:approximation}.
 \end{proof}
 
-\TODO{find out what to write here as a conclusion of this section}
+This concludes the first part of the theoretical analysed aimed at improving previously shown bounds.
+Not only do the (1+1) EA and the RLS find a 4/3-approximation in expected time $\bigO(n\log{n})$ instead of only $\bigO(n^2)$ but also do they find the exact solution in expected time $\Theta(n\log{n})$ for the special case $w_1\ge W/2$.
+The analysis of the special case was also expanded to the (1+1) EA with a mutation rate $c/n$ for a constant $c>0$.
 
 \section{Runtime Analysis of higher mutation rates}
 
+In this section the analysis is expanded to variants of the RLS.\ 
 The first analysed input is again the input with $w_1\ge W/2$.
 
 \begin{corollary}\label{corollary:W1FlipWontHappen}
