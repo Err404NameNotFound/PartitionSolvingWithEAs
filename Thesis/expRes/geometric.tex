@@ -1,6 +1,6 @@
 \section{Geometric distributed values}
 For the geometric distribution the chosen default value is $p=0.001$.
-This results in an expected value of 1000 which is the same as for the binomial distribution in the last subsection.
+This results in an expected value of 1000 which is the same as for the binomial distribution in the last section.
 This should make the results more comparable.
 The maximum value is theoretically not limited but for the implementation in Java the maximum value was set to the maximum value of a long value $= 2^{63}-1 = 9,223,372,036,854,775,807$.
 Without this maximum the value might overflow and instead be negative with high absolute value.
@@ -31,15 +31,15 @@ In the 21 cases where the RLS did not find an optimal solution it was most likel
 The results for the (1+1) EA are similar to the results of the RLS.\ 
 From mutation rate $2/n$ on the runtime increases with rising mutation rate.
 The only part that does not fit into the theory of 1 bit flips being superior is the mutation rate $2/n$ performing better than the standard $1/n$.
+This might be caused by $1/n$ often trying to flip 0 bits which increases the amount of iterations without any benefit.
 There is also no statistically significant difference between $1/n$ and $3/n$.
 All variants reach an optimal solution within the given limit for the number of iterations.
 \subsection{pmut Comparison}
 \input{tables/geometric/pmut_compare.tex}
 The results for the $pmut_\beta$ operator are even more clear than for the (1+1) EA.\
 With decreasing values for $\beta$ the amount of flipped bits per step increases.
-The performance decreases as well with decreasing values for $\beta$ which fits into the theory of one bit flips being better for geometric distributed inputs.
-The number of repetitions of the algorithm might simply be too small to make the small difference in the performance between the two values visible.
-The difference in the performance for the $pmut_\beta$ operator is not as drastic as for the (1+1) EA.
+The runtime on the other hand decreases with decreasing values for $\beta$ which fits into the theory of one bit flips being better for geometric distributed inputs.
+The difference in the performance for the $pmut_\beta$ operator is not as drastic as for the (1+1) EA.\ 
 Only $\beta=1.5$ and $\beta=1.25$ perform much worse the next best value.
 
 \subsection{Comparison of the best variants}
@@ -48,7 +48,7 @@ The first table lists the number of runs where the different algorithms did not 
 
 \input{tables/geometric/multipleN_fails.tex}
 
-For small inputs the geometric distributed input seems to have inputs without a perfect partition because there were many iterations where neither of the algorithms found an optimal solution within the time limit.
+For small values of $n$ the geometric distributed input seems to have inputs without a perfect partition because there were many iterations where neither of the algorithms found an optimal solution within the time limit.
 It is still likely to have a perfect partition even for the small values in comparison to other distributions which follow afterwards.
 Many algorithms especially the variants of the RLS seem to be likely to get stuck in a local optimum.
 The (1+1) EA finds an optimum in most of the runs, so the geometric distributed inputs also seem to be likely to have a perfect partition for small values.
