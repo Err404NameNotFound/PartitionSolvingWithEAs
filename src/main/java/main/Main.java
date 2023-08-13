@@ -67,7 +67,7 @@ public class Main {
     //default params
     public static final int DEFAULT_LENGTH = 10 * 1000 * 1000;
     public static final long DEFAULT_TIME = Math.round(10 * nlogn(DEFAULT_LENGTH));
-    public static final int DEFAULT_LOWEST_VALUE = 1;
+    public static final int DEFAULT_LOWEST_VALUE = 10 * 1000;
     public static final int DEFAULT_BIGGEST_VALUE = 50 * 1000;
     public static final int DEFAULT_SUM_COUNT = 100;
     public static final int DEFAULT_N = 10000;
@@ -75,7 +75,7 @@ public class Main {
     public static final double DEFAULT_P_GEOMETRIC = 0.001;
     public static final long DEFAULT_BINOMIAL_SHIFT = 100000000000000L;
     public static final double DEFAULT_PMUT_PARAM = 1.25;
-    public static final int DEFAULT_SELECTION = 62;
+    public static final int DEFAULT_SELECTION = 11;
 
 
     public static void main(String[] args) {
@@ -115,7 +115,7 @@ public class Main {
             case 8 -> runCancellableTask(() -> BinomialTesting.testRLSDifToOptimum(1000, 100000, 1000, 0.5));
             case 9 -> BinomialTesting.printBinomialDistribution(1000, 0.95, 10000);
 
-            case 11 -> evaluateMultiple(10000, ORDERED, 10000, "best");
+            case 11 -> evaluateMultiple(1000, UNIFORM_INTERVALL, 10000, "best");
             case 12 -> evaluate(10000, UNIFORM_INTERVALL, 50 * 1000, Solver.getPmutComparison(), "DELETE");
             case 13 -> evaluateSameSolver(1000, new int[]{10, 100, 1000, 10000, 100000}, InputGenerator.create(MIXED));
             case 14 -> compareAllOnAllInstances(1000, 6);
@@ -134,7 +134,7 @@ public class Main {
             case 33 -> bruteForceAll(InputGenerator.createBinomial(1000000, 0.1), 1000, 20);
             case 34 -> runCancellableTask(Main::bruteForceMultiple);
 
-            case 41 -> printDistribution(InputGenerator.createPowerlaw(1.25, 1.0, 1000.0), 10000);
+            case 41 -> printDistribution(InputGenerator.createPowerlaw(1.25, 1.0, 1000.0), 10000, false);
             case 42 -> System.out.println(Arrays.toString(InputGenerator.generateInput(ORDERED, 20)));
             case 43 -> ResultsChapterPrinter.printAllTables();
             case 44 -> ResultsChapterPrinter.renameFilesToFitLatex(PATH_AUTO_GENERATED, new String[]{
@@ -143,10 +143,10 @@ public class Main {
                     "pmut_comparison-newRNG10kWithSignificance.txt",
                     "best.txt"});
             case 45 -> BinomialTesting.printBinomialDistribution(DEFAULT_N, DEFAULT_P_BINOMIAL, 10000);
-            case 46 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000);
+            case 46 -> printDistribution(InputGenerator.createGeometric(DEFAULT_P_GEOMETRIC), 10000, false);
             case 47 -> printDistribution(InputGenerator.createMixedAndOverlapped(
-                    1.0, 1000.0, 1000, 0.1, 0.01, 1.25), 10000);
-            case 48 -> printDistribution(InputGenerator.createUniform(1, 100), 10000);
+                    1.0, 1000.0, 1000, 0.1, 0.01, 1.25), 10000, false);
+            case 48 -> printDistribution(InputGenerator.createUniform(1, 100), 10000, false);
 
             case 51 -> testRandomPowerLaw();
             case 52 -> testRandomNextBoolean();
@@ -160,6 +160,7 @@ public class Main {
             case 60 -> testDuplicateFileName();
             case 61 -> printAllMannWhitneyUTests(0.05);
             case 62 -> tryGreedy(100000);
+            case 63 -> testRLSDifToOptimum(1000, InputGenerator.createUniform(1000, 50000), 10000);
             default -> System.out.printf("Invalid input: \"%d\"%n", selection);
         }
     }
@@ -300,16 +301,16 @@ public class Main {
         }
     }
 
-    public static void printDistribution(InputGenerator generator, int length) {
-        printDistribution(generator, generator.generate(length));
+    public static void printDistribution(InputGenerator generator, int length, boolean printOffset) {
+        printDistribution(generator, generator.generate(length), printOffset);
     }
 
-    public static void printDistribution(InputGenerator generator, long[] input) {
+    public static void printDistribution(InputGenerator generator, long[] input, boolean printOffset) {
         long[] minMax = calculateMinMax(input);
-        printDistribution(input, generator, minMax[0], minMax[1]);
+        printDistribution(input, generator, minMax[0], minMax[1], printOffset);
     }
 
-    public static void printDistribution(long[] input, InputGenerator generator, long min, long max) {
+    public static void printDistribution(long[] input, InputGenerator generator, long min, long max, boolean printOffset) {
         long[] amount = new long[(int) (max - min + 1)];
         for (long l : input) {
             amount[(int) (l - min)]++;
@@ -320,10 +321,35 @@ public class Main {
         generator.printDescription();
         ArrayPrinter.printArray("value;  ", values, digits);
         ArrayPrinter.printArray("count;  ", amount, digits);
-        for (int i = 0; i < values.length; ++i) {
-            values[i] -= generator.expectedValue;
+        if (printOffset) {
+            for (int i = 0; i < values.length; ++i) {
+                values[i] -= generator.expectedValue;
+            }
+            ArrayPrinter.printArray("offset; ", values, digits);
         }
-        ArrayPrinter.printArray("offset; ", values, digits);
+    }
+
+    public static void testRLSDifToOptimum(int T, InputGenerator generator, int length) {
+        long[] difs = fill(T, (i) -> -1);
+        ProgressPrinter printer = new ProgressPrinter(T, T / 100);
+        MinMaxAvgEvaluator evaluator = new MinMaxAvgEvaluator(false);
+        long[] input;
+        for (int t = 0; t < T; ++t) {
+            if (Thread.interrupted()) {
+                long[] ret = new long[t];
+                System.arraycopy(difs, 0, ret, 0, ret.length);
+                difs = ret;
+                break;
+            }
+            input = generator.generate(length);
+            Solution sol = PartitionSolver.solveRLS(input, 100000);
+            difs[t] = sol.getDif().longValue();
+            evaluator.insert(difs[t]);
+            printer.printProgressIfNecessary(t);
+        }
+        printer.clearProgressAndPrintElapsedTime();
+        evaluator.printEvaluation();
+        Main.printDistribution(generator, difs, false);
     }
 
     private static void redoMultipleNEvaluation(int n) {

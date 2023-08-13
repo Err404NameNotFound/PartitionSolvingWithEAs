@@ -14,7 +14,7 @@ For the analysis of mutation rates $c/n$ the work of C. Witt only has to be slig
 The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
 
 \begin{lemma}\label{lemma:CWittRefined}
-    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA with mutation rate $c/n$ with constant $0<c<\sqrt{n}$ (\RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
+    Let $w_1\ge W/2$, then for any $\gamma$ > 1 and 0 < $\delta$ < 1, the (1+1) EA with mutation rate $c/n$ with constant $0<c<\sqrt{n}$ (and the \RLSR[k]) reaches an f-value at most $w_1$ + $\delta(W-w_1)$ in at most $\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(\gamma/\delta)\rceil$ $(\lceil kn\ln(\gamma/\delta)\rceil)$ steps with probability at least $1-\gamma^{-1}$. Moreover, the expected number of steps is at most $2\lceil\frac{e^c}{c\cdot(1-o(1))}n\ln(2/\delta)\rceil$ $(2\lceil kn\ln(2/\delta)\rceil)$.
 \end{lemma}
 \begin{proof}
     This Lemma is very similar to C. Witt's  Lemma 2 from section `2. Definitions and Proof Methods' in~\cite{witt2005worst}.
@@ -25,7 +25,7 @@ The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
     This leads to a next $p$ value of $(1-q)p_0$.
     Since all steps of both algorithms are independent this argumentation remains valid even if the $p$ value is only an expected value.
     With $q=1/yn$ for a constant $y>0$ the expected $p$ value after $t=yn\ln(\gamma/\delta)$ steps is at most
-    \[p_t\le p_0{(1-1/yn)}^t=p_0{(1-1/yn)}^{yn\ln(\gamma/\delta)}\le p_0\cdot e^{-\frac{1}{y}\cdot yn\ln(\gamma/\delta)}=p_0{(\gamma/\delta)}^{-1} = p_0(\delta/\gamma)\]
+    \[p_t\le p_0{(1-1/yn)}^t=p_0{(1-1/yn)}^{yn\ln(\gamma/\delta)}\le p_0\cdot e^{-\frac{1}{y}\cdot y\ln(\gamma/\delta)}=p_0{(\gamma/\delta)}^{-1} = p_0(\delta/\gamma)\]
     Applying Markov's inequality to the non-negative $p$ value implies $p_t\le p_0\delta$ with probability $1-1/\gamma$.
     Repeating independent phases of length $\lceil yn\ln(2/\delta)\rceil$ the expected number of phases is at most 2.
     Up until here the proof is the same.\newline
@@ -45,13 +45,13 @@ The first Lemma is a modification of a Lemma in~\cite{witt2005worst}.
     Setting $y=\frac{e^c n}{c\cdot(1-o(1))}$ for the (1+1) EA and $y=k$ for the \RLSR~concludes the result.
 \end{proof}
 
-The next Lemma also analyses inputs with $w_1>W/2$.
+The next Lemma also analyses inputs with $w_1\ge W/2$.
 Its goal is to bound the probability of the (1+1) EA with mutation rate $c/n$ and the \RLSR[k\ge2] of flipping the first bit after a certain solution quality has been reached.
-Inputs with $w_1>W/2$ are similar to linear functions which strongly suggest a runtime of $\bigO(n\log{n})$ without flips of $w_1$.
+Inputs with $w_1\ge W/2$ are similar to linear functions which strongly suggest a runtime of $\bigO(n\log{n})$ without flips of $w_1$.
 If such a step is too unlikely the algorithms might find an optimal solution before $w_1$ is flipped and the Hamming distance to the optimum might increase drastically.
 
 \begin{lemma}\label{lemma:W1FlipWontHappen}
-    For instances with $w_1>W/2$ the probability of flipping $w_1$ when $b_E = c\cdot\frac{W-w_1}{2}$ for $1<c<2$ holds, is at most \(\frac{2y{(y-1)}^2}{n(n-1)(c-1)}\) in a step where any algorithm flips $2\le y\le n/2$ bits.
+    For instances with $w_1\ge W/2$ the probability of flipping $w_1$ when $b_E = c\cdot\frac{W-w_1}{2}$ for $1<c<2$ holds, is at most \(\frac{2y{(y-1)}^2}{n(n-1)(c-1)}\) in a step where any algorithm flips $2\le y\le n/2$ uniform random bits.
 \end{lemma}
 \begin{proof}
     For a successful flip of $w_1$ after $b_E \ge \frac{W-w_1}{2}$ holds a total volume of at least $z\ge2\cdot(b_E-\frac{W-w_1}{2})$ must be shifted from $b_E$ to $b_F$.
@@ -85,7 +85,7 @@ If such a step is too unlikely the algorithms might find an optimal solution bef
     \end{gather}
 \end{proof}
 
-Theorem~\ref{theo:OneMaxResult} is the last analysis on inputs with $w_1 \ge \frac W 2$.
+Theorem~\ref{theo:OneMaxResult} is the last analysis on inputs with $w_1 \ge \frac W 2$ for this section.
 It uses the results of the two previous lemmas and gives an asymptotic bound on the runtime.
 Instead of giving a runtime for a 4/3-approximation this lemma gives the expected runtime for reaching one of the two optimal solutions.
 For a non-optimal solution moving one element from the fuller to the emptier bin will always result in an improvement.
@@ -97,7 +97,7 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
 \end{theorem}
 \begin{proof}
     The optimal solution is putting $w_1$ in one bin and all other elements in the other bin.
-    So the problem is almost identical to OneMax/ZeroMax.
+    So the problem is almost identical to a linear function.
     A single bit flip of the first bit can only happen, if the emptier bin has a weight of at most $\frac {W-w_1}{2}$.
     After this flip the weight of the emptier bin is at least $\frac {W-w_1}{2}$ and therefore another single bit flip of $w_1$ can only happen before another bit is flipped.
     The run of the RLS can be divided into two phases:
@@ -204,7 +204,7 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
         =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2/\frac{1}{n})\rceil
         =2\lceil\frac{e^k}{k(1-o(1))}n\ln(2n)\rceil \\ \nonumber
         =2\lceil\frac{e^k}{k(1-o(1))}n(\ln(n)+\ln(2))\rceil
-        \le\frac{2e^k}{k(1-o(1))}n(\ln(n)+4)
+        \le\frac{2e^k}{k(1-o(1))}n(\ln(n)+2)+2
     \end{gather}
     The value of $b_E$ is then at least \(W-(w_1+\delta(W-w_1))=(1-\delta)(W-w_1)=(1-\frac{1}{n})(W-w_1)\).
 
@@ -228,22 +228,23 @@ So this input is rather easy to solve for the RLS and (1+1) EA and comparable to
 
     The expected time for any step successfully flipping $w_1$ is then $\Omega(n^{1.5})=\omega(n\ln n)$.
     Let $T$ be the time until the linear function is optimised and $p$ the probability of successfully flipping $w_1$.
-    Then the probability that $w_1$ flips after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ before the linear function is optimised is at most
+    Then the probability that $w_1$ flips after expected time $\frac{2e^k}{k(1-o(1))}n(\ln(n)+2)+2$ before the linear function is optimised is at most
     \[
         p\cdot E(T) \le \frac{1}{\mathcal{O}(n^{1.5})}\cdot(1+o(1))\frac{e^k}{k}n\ln n
         % =\frac{(1+o(1))\frac{e^k}{k}n\ln n}{\mathcal{O}(n^{1.5})}
         =\frac{(1+o(1))\frac{e^k}{k}\ln n}{\mathcal{O}(n^{0.5})}
         =\frac{o(n^{0.1})}{\mathcal{O}(n^{0.5})}
         =o(\frac{1}{n^{0.4}})=o(1)\]
-    The probability of $w_1$ not being flipped after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ is \(1-o(\frac{1}{n^{0.4}})=1-o(1)\).
+    The probability of $w_1$ not being flipped after expected time $\frac{2e^k}{k(1-o(1))}n(\ln(n)+2)+2$ is \(1-o(\frac{1}{n^{0.4}})=1-o(1)\).
     If such a step happens the fitness does not decrease and the bound on the probability of flipping $w_1$ still holds.
     The algorithm will still find the solution in expected time at most $(1+o(1))\frac{e^k}{k}n\ln n$.
-    Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $\frac{2e^k}{k(1-o(1))}n\ln(n)+4$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))\frac{e^k}{k}n\ln n=\Theta(n\log{}n)\)
+    Since even after a flip all condition are still true the expected time of optimising the linear function after expected time $\frac{2e^k}{k(1-o(1))}n(\ln(n)+2)+2$ is given by \(\frac{1}{1-o(1)}\cdot(1+o(1))\frac{e^k}{k}n\ln n=\Theta(n\log{}n)\)
 
     The total runtime for the (1+1) EA is
     \[
-        \frac{2e^k}{k(1-o(1))}n\ln(n)+4 + \frac{1+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
-        = 4+\frac{3+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
+        \frac{2e^k}{k(1-o(1))}n(\ln(n)+2)+2 + \frac{1+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
+        % = 2+\frac{3+o(1)}{1-o(1)}\cdot \frac{e^k}{k}n\ln n
+        =2+\Theta(n\log{}n)+\Theta(n\log{}n)
         =\Theta(n\log{}n)
     \]
 
@@ -261,7 +262,7 @@ It shows the runtime bound for a more restricted type of input and is used to si
     If \(b_F \le \frac{2}{3} \cdot W\) the approximation ratio is at most $\frac{4}{3}$
 \end{lemma}
 \begin{proof}
-    \(\frac{b_F}{opt} \le \frac{(2/3) \cdot W}{opt} \le \frac{(2/3) \cdot W}{(1/2) \cdot W} = \frac{4}{3}\), since \(opt \ge \frac{W}{2}\)
+    \(\frac{f(x)}{f(opt)}=\frac{b_F}{f(opt)} \le \frac{(2/3) \cdot W}{opt} \le \frac{(2/3) \cdot W}{(1/2) \cdot W} = \frac{4}{3}\), since \(opt \ge \frac{W}{2}\)
 \end{proof}
 
 \begin{corollary}\label{cor:approximationHelp}
@@ -279,15 +280,6 @@ It shows the runtime bound for a more restricted type of input and is used to si
     \(b_F - b_E \ge v \Leftrightarrow b_F \ge b_E + v\), so after moving an object with weight $v$ from $b_F$ to $b_E$, the new weight of $b_E$ is at most the weight of $b_F$ before moving the object, thus the RSH accepts the step.\newline
     $''\Rightarrow''$:\newline
     \(b_F - b_E < v \Leftrightarrow b_F < b_E + v\), so moving an object of weight $v$ results in ${b_F}' = b_E+v > b_F$ which results in the step being rejected.
-\end{proof}
-
-\begin{corollary}\label{cor:RLSStuck}
-    The RLS is stuck in a local optimum if \(b_F-b_E \le w_n\) holds and \(b_F > opt\).
-\end{corollary}
-\begin{proof}
-    A single bit flip of weight $v$ can only happen if \(b_F - b_E \ge v\) (Corollary~\ref{cor:RLSStuck}). If \(b_F-b_E < w_n\) there is no weight which satisfies the condition and therefore no single bit flip is possible.
-    If \(b_F-b_E = w_n\) then only objects with weight \(w_n\) can be flipped, but those do not change the fitness ($b_F' = b_E + w_n = b_F - w_n +w_n = b_F$).
-    Since the RLS can only move one bit at a time and only if it results in an improvement, the RLS is stuck.
 \end{proof}
 
 \begin{corollary}\label{cor:movingObjects}
@@ -309,7 +301,7 @@ It shows the runtime bound for a more restricted type of input and is used to si
     If $w_1$ is not in the fuller bin, then the result follows by Corollary~\ref{cor:approximationHelp}.\newline
     Now assume \(w_1 < \frac{W}{3}\).
     In this case the RLS will move one object per step to the emptier bin.
-    Each object has weight $< \frac{W}{3}$ and therefore one step cannot decrease the weight of the fuller bin from $> \frac{2W}{3}$ to $\le \frac{W}{3}$.
+    Each object has a weight $< \frac{W}{3}$ and therefore one step cannot decrease the weight of the fuller bin from $> \frac{2W}{3}$ to $\le \frac{W}{3}$.
     If all objects except one where moved to one bin, the other bin would have a weight of at least \(W-w_1 > \frac{2W}{3}\).
     Therefore the RLS will find a solution with $b_F < \frac{2W}{3}$ before moving all elements from the first to the second bin.\newline
     The proof for the (1+1) EA is mostly the same.
@@ -341,7 +333,7 @@ It shows the runtime bound for a more restricted type of input and is used to si
     This follows directly from Theorem~\ref{theo:OneMaxResult} and Lemma~\ref{lemma:approximation}.
 \end{proof}
 
-This concludes the first part of the theoretical analysed aimed at improving previously shown bounds.
+This concludes the first part of the theoretical analysis aimed at improving previously shown bounds.
 Not only do the (1+1) EA and the RLS find a 4/3-approximation in expected time $\bigO(n\log{n})$ instead of only $\bigO(n^2)$ but also do they find the exact solution in expected time $\Theta(n\log{n})$ for the special case $w_1\ge W/2$.
 The analysis of the special case was also expanded to the (1+1) EA with a mutation rate $c/n$ for a constant $c>0$.
 
@@ -355,19 +347,23 @@ The first analysed input is again the input with $w_1\ge W/2$.
 \end{corollary}
 \begin{proof}
     Using Lemma~\ref{lemma:W1FlipWontHappen}, the upper bound of $y\le k$ and the fact that both algorithms flip at most $k$ bits leads to the first part
-    \[ {(k\cdot\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}=\frac{n(n-1)(c-1)}{2ky{(y-1)}^2} \le\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}\]
+    \[
+        {(\sum_{i=2}^{k}\frac{2y{(y-1)}^2}{n(n-1)(c-1)})}^{-1}
+        \le\frac{n(n-1)(c-1)}{2ky{(y-1)}^2}
+        \le\frac{n(n-1)(c-1)}{2k^2{(k-1)}^2}
+    \]
     $k$ is constant and if c is constant too, this leads to expected time $=\Omega(n^2)$ for a flip of the first bit if $b_E = c\cdot\frac{W-w_1}{2}$ with $1<c<2$ which concludes the second statement.
 \end{proof}
 
 \begin{lemma}\label{lemma:RLSRoneMaxInput}
-    The \RLSR[k] for $2\le k=O(1)$ reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
+    The \RLSR[k] for constant $k\ge2$ reaches the optimal solution on an input with $w_1\ge W/2$ in expected time $\mathcal{O}(n\log{}n)$
 \end{lemma}
 \begin{proof}
     This proof is similar to proof for the (1+1) EA in Theorem~\ref{theo:OneMaxResult} and is divided in the same two parts.
     The first part is proving the \RLSR~does not flip the first bit in expected time $\mathcal{O}(n\log{}n)$ after some time $T$ has passed.
     After time $T$ the algorithm then minimises the linear function in expected time $\mathcal{O}(n\log{}n)$ before the first bit is flipped and the progress of the linear function might be reset.
     After expected time $(2\lceil kn\ln(2/0.4)\rceil)=2\lceil kn\ln(5)\rceil\le2\lceil 1.61\cdot kn\rceil\le4kn$ the \RLSR[k] reaches a solution of \(f(x)\le w_1+0.4(W-w_1)\) (Lemma~\ref{lemma:CWittRefined}).
-    This means \(b_E \ge 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
+    This means \(b_E=W-b_F\ge W-(w_1+0.4(W-w_1)) = 0.6(W-w_1) = 1.2\cdot\frac{W-w_1}{2}\).
     With Lemma~\ref{corollary:W1FlipWontHappen} the expected time of at least \(\frac{n(n-1)(c-1)}{k^2{(k-1)}^2}\frac{n(n-1)}{5k^2{(k-1)}^2}=\Omega(n^2)\) for a successful flip of $w_1$ follows. This concludes the first part\newline
     % So if the \RLSR~manages to find the optimum in time $\mathcal{O}(n\log{}n)$ the first bit won't be flipped and the global optimum does not change for the rest of the run in expectation.\newline
     The \RLSR~can be seen as an unbiased unary black box algorithm with a sequence $\mathcal{D}=(p_1,\dots,p_n)$ where $p_i=1/k$ for $1\le i\le k$ and $p_i=0$ otherwise.
@@ -381,7 +377,10 @@ The first analysed input is again the input with $w_1\ge W/2$.
         =1-\frac{1}{o(\sqrt{n})}
     \end{gather}
     The expected time of minimising the linear function then is
-    \[\frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n=\frac{1}{1-o(1)}\cdot(1+o(1))kn\ln n=\Theta(n\log{}n)\]
+    \[
+        \frac{1}{1-\frac{1}{o(\sqrt{n})}}\cdot(1+o(1))kn\ln n
+        =\frac{(1+o(1))}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)
+    \]
     The total expected runtime therefore is at most $4kn+\frac{1+o(1)}{1-o(1)}\cdot kn\ln n=\Theta(n\log{}n)$.
 \end{proof}
 
@@ -391,10 +390,10 @@ Here the same applies as for the (1+1) EA.\
 There proof does not contain the optimality of flipping only 1 bit in expectation, but it strongly suggests it.
 The main factor deciding the runtime is the runtime on linear functions which is minimal for $k=1$.
 Later in Section~\ref{evalSec:onemax} there is also an experiment for the different values of $k$ for the \RLSR[k].
-Another algorithms mentioned later is the \RLSN~which has a much worse runtime as the next lemma suggests.
+Another algorithms which is empirically analysed later is the \RLSN~which has a much worse runtime as the next lemma suggests.
 
 \begin{lemma}\label{lemma:RLSNBad}
-    The expected optimisation time of the \RLSN[k] for $2\le k=O(1)$ on inputs with $w_1\ge W/2$ is $\Omega(n^k)$ if the solution is not already optimal after the initialisation.
+    The expected optimisation time of the \RLSN[k] for constant $k\ge2$ on inputs with $w_1\ge W/2$ is $\Omega(n^k)$ if the solution is not already optimal after the initialisation.
 \end{lemma}
 \begin{proof}
     The solution has only two global optima.
@@ -411,10 +410,10 @@ Another algorithms mentioned later is the \RLSN~which has a much worse runtime a
     \end{gather}
     Because $y\le k = O(1)$ holds $\Theta(\frac{y!}{n^{k}})=\Theta(\frac{1}{n^{k}})$ also holds.
     The expected time for such a step to happen is ${(\Theta(\frac{1}{n^{k}}))}^{-1}=\Theta(n^{k})$.
-    If the algorithm instead successfully flips less than $y$ bits it reaches a search point where the expected optimisation time is still $\Theta(n^{k})$.
+    If the algorithm instead successfully flips less than $y$ bits it reaches a search point where the expected optimisation time is still $\Theta(n^{k})$ because there is still one bit left to flip and $y'\le k$ holds.
     Either way the expected optimisation time is $\Theta(n^{k})$ when the algorithm has reached a search point with Hamming distance $1\le y\le k$.
     For every value of $k$ the \RLSN[k] can only flip at most $k$ bits in each step.
-    So it will reach a search point of \RLSN[k] if the initial Hamming distance is at least one.
+    So it will reach such a search point if the initial Hamming distance is at least one.
     This will happen with probability $1-1\cdot{(1/2)}^{n-1}=1-\frac{1}{2^{n-1}}$.
 \end{proof}
 
@@ -422,53 +421,55 @@ For smaller values of $n$ the actual runtime might be lower due to constants suc
 This difference should be noticeable for the smaller values of $n$ but not for higher values.
 Since the standard RLS is the same as the \RLSN[1] the optimal values for the \RLSN[k] variants again is at $k=1$.
 This algorithm is also evaluated in the Section~\ref{evalSec:onemax} as the other algorithms that were analysed for inputs similar to a linear function.\newline
-Now let's look another input.
+Now let's look at another input.
 In this case the input contains every number from 1 to $n$ where $n$ is the size of the input.
 So the input looks like this if the weights are sorted: [n,n-1,n-2,\dots,3,2,1].
 Solving this input greedily if the input is sorted will always result in an optimal solution.
+If the weights are not sorted the difference to the optimal solution is at most $w_1=n$.
 As the greedy approach has nothing to do with Evolutionary Algorithms there is only a brief sketch of the proof idea:\newline
-Let $n=4k+y$ with $k\in \N_0, y \in\{0,1,2,3\}$. Then the difference to an equal partition ($b_F-b_E=0$) is given by:
+Let $n=4k+y$ with $k\in \N_0, y \in\{0,1,2,3\}$. Then the difference to an equal partition ($b_F-b_E=0$) for a sorted input is given by:
 \begin{itemize}
     \item starting with no element in both bins the initial difference to an equal partition is 0 at step 0
     \item after placing $w_1$ in one bin the difference is $n$ at step 1
     \item after step 2 the difference is $1$ after placing $n-1$
     \item after step 3 the difference is $n-3$ after placing $n-2$
     \item then the next cycle is 0, $n-4$, 1, $n-7$
-    \item then $n-8$, 1, $n-11$, 0
+    \item then 0, $n-8$, 1, $n-11$
     \item \dots
     \item all the way to 0, $n-4k$, 1, $n-(4k+3)$ (ending at step $n$)
 \end{itemize}
 This means the difference to an equal partition after $n=4k+y$ steps is 0 for $y=0$, $n-4k=1$ for $y=1$, 1 for $y=2$ and $n-4k-3=0$ for $y=3$.
 The partition for $y=0$ and $y=3$ is already perfect.
-For $y=1$ and $y=2$ there is an odd amount of odd values, so one bin must have an even sum while the other has an odd sum resulting in a difference of at least one, hence the solution is optimal in those cases as well.\newline
+For $y=1$ and $y=2$ there is an odd amount of odd values, so one bin must have an even sum while the other has an odd sum resulting in a difference of at least one, hence the solution is optimal in those cases as well.
+For unsorted inputs the following holds: In any step the algorithm will not reach a difference to the optimum of more than $w_1$ because the greedy option would then be putting the element in the other bin.
+If the two bins have the same volume a step can increase the difference to at most $w_1=n$.
+So the last step can also increase the difference to at most $w_1$.\newline
 This will be hard to beat for Evolutionary Algorithms, but they perform good as well as the next lemma shows.
 
 \begin{lemma}
     On an input [n,n-1,n-2,\dots,3,2,1] every algorithm with probability $p$ to flip only one bit reaches an approximation ratio of at most $(1+\frac{2}{n+1})$ (which means $b_F-f(opt)\le w_1$) in expected time at most $2n/p$.
-    This results in expected time at most $\frac{e^c}{c(1-o(1))}$ for the (1+1) EA with mutation rate $c/n$ with constant $c>0$ and expected time at most $2kn$ for the \RLSR[k] with constant $k$.
+    This results in expected time at most $\frac{3e^{c}n}{c(1-o(1))}$ for the (1+1) EA with mutation rate $c/n$ with constant $c>0$ and expected time at most $3kn$ for the \RLSR[k] with constant $k$.
 \end{lemma}
 \begin{proof}
-    The total volume \(w=\sum_{i=1}^{n}{w_i}=\sum_{i=1}^{n}{i}=\frac{n(n+1)}{2}\).
-    If the emptier bin contained only the smallest $r=\lceil n/\sqrt{2}\rceil\ge 0.7n$ elements then it has a volume of
-    \begin{gather}\nonumber
-        b_E=\sum_{i}^{r}{i}
+    The total volume is \(w=\sum_{i=1}^{n}{w_i}=\sum_{i=1}^{n}{i}=\frac{n(n+1)}{2}\).
+    Assume the emptier bin contained the smallest $r=\lceil n/\sqrt{2}\rceil\ge 0.7n$ elements. It would then have a volume of
+    \[
+        b_E=\sum_{i=1}^{r}{i}
         =\frac{\lceil \frac{n}{\sqrt{2}}\rceil(\lceil \frac{n}{\sqrt{2}}\rceil+1)}{2}
-        \ge\frac{\frac{n}{\sqrt{2}}(\frac{n}{\sqrt{2}}+1)}{2}
-        =\frac{n(n+\frac{1}{\sqrt{2}})}{4}
-        =\frac{n^2+n-(n-\frac{n}{\sqrt{2}})}{4}\\ \nonumber
-        =W/2-\frac{n-\frac{n}{\sqrt{2}}}{4}
-        \ge W/2-\frac{n-\frac{n}{2}}{4}
-        = W/2-\frac{n}{8}
-        % \ge W/2-n
-        % = W/2-w_1
-    \end{gather}
-    This also means that the emptier bin always has at most r elements ($w_{r+1}>r>n/8$) and therefore the fuller bin always has at least $n-r\ge 0.3n$ elements.
+        \ge\frac{\frac{n}{\sqrt{2}}(\frac{n}{\sqrt{2}}+\sqrt{2})}{2}
+        =\frac{n(n+\sqrt{2})}{4}
+        >\frac{n(n+1)}{4}
+        = W/2
+    \]
+    This is a contradiction since $b_E\le W/2$ always holds.
+    So the emptier bin will never have $r$ or more elements in any step of the run.
+    This also means that the fuller bin always has more than $n-r\ge 0.3n$ elements.
     As long as $b_F-f(opt)>w_1$ holds moving any object $w_i$ from the fuller to the emptier bin decreases the fitness by $w_i$.
     Let $p$ be the probability of any algorithm to flip only one bit.
     Then probability of moving one element from the fuller to the emptier bin is at least $p\cdot\frac{0.3n}{n}=0.3p$.
-    This results in an excepted time for a step decreasing the fuller bin of ${0.3p}^{-1}=10/(3p)$.
+    This results in an excepted time for a step decreasing the fuller bin of ${(0.3p)}^{-1}=10/(3p)$.
     At the beginning the fuller bin has at most $n$ elements and it will always have at least $0.3n$ elements, so there are at most $n-0.3n=0.7n$ elements that have to be moved before $b_F-f(opt)\le w_1$ holds.
-    The expected time until $b_F-f(opt)\le w_1$ holds therefore is at most \(0.7n\cdot10/(3p)=7n/(3p)\le 2n/p\).
+    The expected time until $b_F-f(opt)\le w_1$ holds therefore is at most \(0.7n\cdot10/(3p)=7n/(3p)\le 3n/p\).
     This results in an approximation-ratio of
     \[
         \frac{f(x)}{opt}
@@ -481,6 +482,7 @@ This will be hard to beat for Evolutionary Algorithms, but they perform good as 
     Inserting the probability $\frac{c(1-o(1))}{e^c}$ for the (1+1) EA and $1/k$ for the \RLSR[k] completes the proof.
 \end{proof}
 
+So both algorithms reach the same upper bound for the approximation as the greedy method on unsorted inputs in the same asymptotic runtime.
 The same lemma should be possible for the \RLSN[k] with constant $k$ too.
 Instead of looking at steps flipping only one bit here steps flipping $k$ bits are relevant as those steps happen with probability $\Theta(1)$.
 The bound resulting from this is a bit worse as every step moving $k$ bits from the fuller bin is not always accepted if only $b_F-f(opt)>w_1$ holds.
@@ -492,9 +494,9 @@ By lowering the guaranteed solution quality at the end this can be fixed as well
 \begin{proof}
     As long as $b_F-f(opt)>w_1\cdot k$ holds every step moving $k$ objects from the fuller to the emptier bin is accepted.
     The probability of the \RLSN[k] to flip $k$ bits is $\Theta(1)$ and the probability to choose k bits of the fuller bin is at least \(\binom{\lfloor 0.3n\rfloor}{k}/\binom{n}{k}=\frac{\Theta({(0.3n)}^k)}{\Theta(n^k)}=\Theta(0.3^k)=\Theta(1)\), because there are always at least $0.3n$ elements in the fuller bin for the same reason as in the last lemma.
-    So the expected time until the \RLSN[k] moves k elements from the fuller to the emptier bin is at most \({(\Theta(1)\cdot\Theta(0.3^k))}^{-1}=\Theta{\frac{10}{3}}^k=\Theta(1)\).
+    So the expected time until the \RLSN[k] moves k elements from the fuller to the emptier bin is at most \({(\Theta(1)\cdot\Theta(0.3^k))}^{-1}=\Theta({\frac{10}{3}}^k)=\Theta(1)\).
     There are at most $0.7n$ elements that must be shifted to the emptier bin and therefore the expected time until $b_F-f(opt)>w_1\cdot k$ holds is at most $\frac{0.7n}{k}\cdot\bigO(1)=\bigO(n)$.
-    The approximation-ratio then is 
+    The approximation-ratio then is
     \[
         \frac{f(x)}{opt}
         =\frac{b_F}{f(opt)}
@@ -508,35 +510,55 @@ By lowering the guaranteed solution quality at the end this can be fixed as well
 \section{Binomial distributed input}
 This section discusses inputs following a binomial distribution\textasciitilde$B(m,p)$.
 Since $n$ is reserved for the size of the input $m$ is used for the distribution instead.
-At first they seem uninteresting as all values are rather close to the expected value of the distribution.
+At first binomial distributed inputs seem uninteresting as all values are rather close to the expected value of the distribution.
 So it seems like the Evolutionary Algorithm only has to find a search point where both bins have an equal amount of values.
 After investigating this input experimentally this is not true to that extend.
-Solutions with an equal amount of bits with value 0 and value 1 are indeed close to the optimum, but they are just close and not optimal.
+Solutions with an equal amount of bits with value 0 and value 1 are indeed close to the optimum, but they are just close and not optimal yet.
 There is mostly still a difference of at least one to the optimum.
 This might cause algorithms like the RLS to get stuck despite the input looking easy at first glance if there are no small elements.
 If elements can be swapped this input should become solvable again because there are many values slightly bigger or smaller than the expected value.
 If the algorithm switches those the small difference to the optimum can be closed.
-The first lemma tries to prove that these input are indeed easy to solve in a sense that this input is very likely to have a perfect partition.
+% The first lemma tries to prove that these input are indeed easy to solve in a sense that this input is very likely to have a perfect partition.
+
+\begin{corollary}\label{cor:RLSStuck}
+    The RLS is stuck in a local optimum if \(b_F-b_E \le w_n\) holds and \(b_F > opt\).
+\end{corollary}
+\begin{proof}
+    A single bit flip of weight $v$ can only happen if \(b_F - b_E \ge v\) (Corollary~\ref{lemma:movingObjects}). If \(b_F-b_E < w_n\) there is no weight which satisfies the condition and therefore no single bit flip is possible.
+    If \(b_F-b_E = w_n\) then only objects with weight \(w_n\) can be flipped, but this does not change the fitness ($b_F' = b_E + w_n = b_F - w_n +w_n = b_F$).
+    Since the RLS can only move one bit at a time and only if it results in an improvement, the RLS is stuck.
+    If \(b_F > opt\) holds the RLS is stuck in a local optimum.
+\end{proof}
+
+This corollary shows that RLS might have problems solving inputs that do not have small values.
+It can still find a solution and even in most cases for example if every weight is the same, because then it just has to reach a point where both bins have an equal amount of elements.
+Consider the input [10,11,12,13] which could be generated from \textasciitilde$B(110,0.1)$ and the RLS starting with a search point $b_F=[13,12,11], b_E=[10]$.
+If the RLS moves either 11 or 12 to the emptier bin with probability 2/3 (principle of deferred decisions~\cite{raghavan1995randomized}), then the difference between the two bins is at most $\max\{13+12-10-11,13+11-12-10\}=4$.
+Due to Corollary~\ref{cor:RLSStuck} the RLS is stuck and won't reach the optimal solution $b_F=b_E=23$.
+If it could switch elements like the (1+1) EA for example it could reach this solution.
+The problem that can happen with this input is also possible for binomial inputs in general as Lemma~\ref{lemma:RLSBadBinomial} shows.
+Together with Lemma~\ref{lemma:BinomialSolvable} this completes the proof of the RLS being unlikely to find a perfect partition on some binomial distributed inputs.
+The binomial inputs are researched experimentally in Section~\ref{Sec:BinomialSolvable} and Section~\ref{Sec:BinomialRuntime}.
 
 \begin{lemma}\label{lemma:BinomialSolvable}
     A binomial distributed input \textasciitilde$B(m,p)$ has a perfect partition ($b_F - b_E = 0$ for even $W$ and $b_F - b_E = 1$ for uneven $W$) with high probability if the input size $n$ is large enough.
 \end{lemma}
 \begin{proof}
-    Sketch:
-    \begin{itemize}
-        \item The initial distribution is likely rather close to the optimum
-        \item The difference between the bins is probably not more than 10 expected values
-        \item the large values
-    \end{itemize}
-    Consider a random separation of all values into two sets with equal size if $n$ is even or one set with one value more than the other if $n$ is odd. The sum X of one set is a sum of $\frac{n}{2}\cdot m$ independent Bernoulli trials with probability $p$. With Chernoff Bounds the following inequality follows:
-    \[\probP(X\ge(\frac{n}{2}+\sqrt{\frac{n}{2}})\cdot m \cdot p) = \probP(X\ge(1+2\sqrt{\frac{2}{n}})\cdot \frac{nmp}{2}) \le e^{-\frac{mnp}{2}\cdot2\sqrt{\frac{2}{n}}^2 /3} = e^{-\frac{2mp}{3}}\]
-    For $mp\ge1.5$ the probability is less than $\frac{1}{e}$. Otherwise the input is rather trivial, since the numbers will be concentrated around $mp\le1.5$ and most values will be below 10.\newline
-    After moving $\mathcal{O}(\sqrt{\frac{n}{2}}/2)$ objects to the emptier set, the difference between the two sets is at most half the expected value $mp$ of a single value.
-    \dots
+    % Sketch:
+    % \begin{itemize}
+    %     \item The initial distribution is likely rather close to the optimum
+    %     \item The difference between the bins is probably not more than 10 expected values
+    %     \item the large values
+    % \end{itemize}
+    % Consider a random separation of all values into two sets with equal size if $n$ is even or one set with one value more than the other if $n$ is odd. The sum X of one set is a sum of $\frac{n}{2}\cdot m$ independent Bernoulli trials with probability $p$. With Chernoff Bounds the following inequality follows:
+    % \[\probP(X\ge(\frac{n}{2}+\sqrt{\frac{n}{2}})\cdot m \cdot p) = \probP(X\ge(1+2\sqrt{\frac{2}{n}})\cdot \frac{nmp}{2}) \le e^{-\frac{mnp}{2}\cdot2\sqrt{\frac{2}{n}}^2 /3} = e^{-\frac{2mp}{3}}\]
+    % For $mp\ge1.5$ the probability is less than $\frac{1}{e}$. Otherwise the input is rather trivial, since the numbers will be concentrated around $mp\le1.5$ and most values will be below 10.\newline
+    % After moving $\mathcal{O}(\sqrt{\frac{n}{2}}/2)$ objects to the emptier set, the difference between the two sets is at most half the expected value $mp$ of a single value.
+    Missing due to lack of time\dots
 \end{proof}
 
 
-\begin{lemma}
+\begin{lemma}\label{lemma:RLSBadBinomial}
     With high probability the RLS does not find a perfect partition for an input with distribution \textasciitilde$B(m,p)$ if n is large enough, $mp\ge50$ and $m-mp\ge50$.
 \end{lemma}
 \begin{proof}
@@ -550,34 +572,35 @@ The first lemma tries to prove that these input are indeed easy to solve in a se
     % If the moved object $w_i> b_F-b_E$ then $b_F'-b_E'=(b_F-w_i)-(b_E-w_i)=b_F-b_E-2w_i\le \dots$.
 
     % Due to Lemma~\ref{lemma:BinomialSolvable} the input has an optimal solution with high probability
-    The RLS will always move one object per step from fuller to the emptier bin.
-    As long as $b_F-b_E>w_i$ holds moving any object of weight at most $w_i$ from $b_F$ to $b_E$ results in a decrease of the fitness ($b_F'=b_E+w_i<b_F-w_i+w_i=b_F$).
-    If the RLS does not decrease the difference $b_F-b_E$ to at most $w_n$ in any step the solution is never optimal and the RLS therefore must be stuck.
-    So now assume the RLS eventually reaches a search point with $b_F-b_E\le w_n$.
-    Consider the step which decreases the difference from more than $w_n$ to at most $w_n$.
-    If this step does not decrease the difference to 0 for even $n$ or 1 for odd $n$ the RLS is stuck due to Corollary~\ref{cor:RLSStuck}.
-    For a step to decrease $b_F-b_E$ from more than $w_n$ to 0 the RLS must move an object of weight $y$ which is given by $b_F'-b_E'=(b_F-y)-(b_E+y)=0\Leftrightarrow b_F-b_E-2y=0\Leftrightarrow y=(b_F-b_E)/2$.
-    Such an element can only exist for even $n$ because only for even n either both bins have an even sum or neither of them.
-    Odd inputs will always have exactly one bin with an even sum and one with an odd sum.
-    For odd $n$ a difference of 1 suffices for a perfect partition and therefore the value of $y$ must be either $\lceil(b_F-b_E)/2\rceil$ or $\lfloor(b_F-b_E)/2\rfloor$.
-    For any binomial distribution the value which occurs the most in expectation is the expected value if $mp\in\N$ or $\lceil mp\rceil$ and $\lfloor mp\rfloor$ otherwise.
-    Even if the behaviour of the algorithm forces values smaller or bigger than $mp$ in the emptier bin, the number of bigger/smaller values in the fuller bin will still be less in expectation than the amount of $mp$ in both bins.
-    Let's assume that objects with exactly this volume must be selected and that there are two options because $mp\notin\N$.
-    This will give an upper bound on the probability of flipping the right object in the crucial step.
-    The probability of a number to be $\lfloor mp\rfloor$ is $p^{\lfloor mp\rfloor}{(1-p)}^{m-\lfloor mp\rfloor}\le0.5^{50}=\frac{1}{1024^5}<10^{-15}$ because both $mp\ge50$ and $m-mp\ge50$ and $p\le0.5$ or $1-p\le0.5$.
-    For $\lceil mp\rceil$ the same bound applies with the same arguments.
-    The probability of either of these numbers to be drawn from the binomial distribution is at most $2\cdot 0.5^{50}=0.5^{49}\le10^{-15}$.
-    This leads to $n\cdot 10^{-15}$ values with the right value in expectation.
-    All bits are flipped uniformly at random and therefore the probability of flipping a good bit is at most
-    \(\frac{n\cdot 10^{-15}}{|b_F|}\le \frac{n\cdot 10^{-15}}{n} =10^{-15}\).
+    % The RLS will always move one object per step from fuller to the emptier bin.
+    % As long as $b_F-b_E>w_i$ holds moving any object of weight at most $w_i$ from $b_F$ to $b_E$ results in a decrease of the fitness ($b_F'=b_E+w_i<b_F-w_i+w_i=b_F$).
+    % If the RLS does not decrease the difference $b_F-b_E$ to at most $w_n$ in any step the solution is never optimal and the RLS therefore must be stuck.
+    % So now assume the RLS eventually reaches a search point with $b_F-b_E\le w_n$.
+    % Consider the step which decreases the difference from more than $w_n$ to at most $w_n$.
+    % If this step does not decrease the difference to 0 for even $n$ or 1 for odd $n$ the RLS is stuck due to Corollary~\ref{cor:RLSStuck}.
+    % For a step to decrease $b_F-b_E$ from more than $w_n$ to 0 the RLS must move an object of weight $y$ which is given by $b_F'-b_E'=(b_F-y)-(b_E+y)=0\Leftrightarrow b_F-b_E-2y=0\Leftrightarrow y=(b_F-b_E)/2$.
+    % Such an element can only exist for even $n$ because only for even n either both bins have an even sum or neither of them.
+    % Odd inputs will always have exactly one bin with an even sum and one with an odd sum.
+    % For odd $n$ a difference of 1 suffices for a perfect partition and therefore the value of $y$ must be either $\lceil(b_F-b_E)/2\rceil$ or $\lfloor(b_F-b_E)/2\rfloor$.
+    % For any binomial distribution the value which occurs the most in expectation is the expected value if $mp\in\N$ or $\lceil mp\rceil$ and $\lfloor mp\rfloor$ otherwise.
+    % Even if the behaviour of the algorithm forces values smaller or bigger than $mp$ in the emptier bin, the number of bigger/smaller values in the fuller bin will still be less in expectation than the amount of $mp$ in both bins.
+    % Let's assume that objects with exactly this volume must be selected and that there are two options because $mp\notin\N$.
+    % This will give an upper bound on the probability of flipping the right object in the crucial step.
+    % The probability of a number to be $\lfloor mp\rfloor$ is $p^{\lfloor mp\rfloor}{(1-p)}^{m-\lfloor mp\rfloor}\le0.5^{50}=\frac{1}{1024^5}<10^{-15}$ because both $mp\ge50$ and $m-mp\ge50$ and $p\le0.5$ or $1-p\le0.5$.
+    % For $\lceil mp\rceil$ the same bound applies with the same arguments.
+    % The probability of either of these numbers to be drawn from the binomial distribution is at most $2\cdot 0.5^{50}=0.5^{49}\le10^{-15}$.
+    % This leads to $n\cdot 10^{-15}$ values with the right value in expectation.
+    % All bits are flipped uniformly at random and therefore the probability of flipping a good bit is at most
+    % \(\frac{n\cdot 10^{-15}}{|b_F|}\le \frac{n\cdot 10^{-15}}{n} =10^{-15}\).
 
 
-    This means the RLS is very unlikely to find a perfect partition.
-    Given the solution has a perfect partition the RLS will get stuck in a local optimum.
+    % This means the RLS is very unlikely to find a perfect partition.
+    % Given the solution has a perfect partition the RLS will get stuck in a local optimum.
+    Also missing due to lack of time\dots
 \end{proof}
 
 The restriction of $mp\ge50$ and $m-mp\ge50$ was not chosen to make the proof work but is also necessary.
 Without those restrictions the distribution might have many small values and especially elements close to 1.
 When there are many small values these can be used to fill the small gaps which makes it easy for the RLS to find a perfect partition.
-On the other hand if $p$ is almost one, then almost every element will be same for smaller values of $m$.
-If every element is the same then the RLS must only find a search point with equal amounts of 0s and 1s.
+On the other hand if $p$ is really close to 1.0, then almost every element will be $m$ for smaller values of $m$.
+If every element is the same then the RLS must only find a search point with equal amounts of 0s and 1s which is very easy for the RLS.

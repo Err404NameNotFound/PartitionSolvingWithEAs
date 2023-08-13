@@ -1091,6 +1091,7 @@ INPUT ./tables/mixedAndOverlapped/multipleN_totalAvg.tex
 INPUT tables/mixedAndOverlapped/multipleN_totalAvg.tex
 INPUT ./tables/mixedAndOverlapped/multipleN_totalAvg.tex
 INPUT tables/mixedAndOverlapped/multipleN_totalAvg.tex
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/lm/ec-lmbxi10.tfm
 OUTPUT conclusion.aux
 INPUT ./thesis.bbl
 INPUT thesis.bbl
@@ -1120,6 +1121,7 @@ INPUT ./thesis.out
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx12.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbx8.pfb
+INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmcsc10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmex10.pfb
 INPUT c:/texlive/2023/texmf-dist/fonts/type1/public/lm/lmmi10.pfb

@@ -18,17 +18,17 @@ A short list of vocabulary used throughout the paper.
     \item[$b_F$] The fuller bin (the bin with more total weight)
     \item[$b_E$] The emptier bin (the bin with less total weight)
 %     \item[$b_{w_i}$] The bin containing the object $w_i$
-    \item[$opt$] The optimal solution for a given partition instance.
+    \item[$opt$] An optimal solution for a given partition instance.
     \item[$x$] A vector $x \in {\{0, 1\}}^n$ describing a solution
     \item[$f(x)$] The fitness function for PARTITION.\ This means a solution $x$ has a solution quality of \(f(x)=\max\{\sum_{i=1}^{n}w_i\cdot x_i, \sum_{i=1}^{n}w_i\cdot(1-x_i)\}=b_F\)
 \end{description}
 
 \section{Background}
 \subsection{Known algorithms for partition}
-Multiple methods for generating a solution of PARTITION already exist.
+Multiple methods for generating a solution for PARTITION already exist.
 Solving the problem with a greedy approach in runtime $\mathcal{O}(n)$ results in an approximation ratio of 3/2 if the elements are not sorted or a ratio of 7/6 if the numbers are sorted~\cite{graham1966bounds}.
 Greedy in this case means putting each element in the currently emptier set while looking at each value exactly once.
-Another approximation algorithm is the KK-algorithm or also called Largest Differencing Method.
+Another approximation algorithm is the KK-algorithm or also called Largest Differencing Method~\cite{karmarkar1982differencing}.
 With expected time $\mathcal{O}(n\log{}n)$ it has the same runtime as greedy with sorting and also the same worst case approximation of 7/6.
 For inputs chosen uniform random from [0,1] the KK has an expected ratio of \(1+\frac{1}{n^{\Theta(\log{}n)}}\) in comparison to the greedy algorithm which only reaches an approximation ratio of \(1+\mathcal{O}(\frac{1}{n})\).
 Instead of putting each element in the currently emptier set the currently largest two values are combined to one value by either subtracting or adding them depending on which results in a better solution.
@@ -64,7 +64,7 @@ So every possible value of $x$ describes a feasible solution but not necessarily
 To evaluate the quality of a solution the EA is given a fitness function.
 The fitness function in this case is \(f(x)=\max\{\sum_{i=1}^{n}w_i\cdot x_i, \sum_{i=1}^{n}w_i\cdot(1-x_i)\}=b_F\).
 The goal of the algorithm is to return a solution with minimal fitness.
-A mutation step in the PARTITION problem will change an algorithm-dependent number of bits from 1 to 0 or vice versa.
+A mutation step in the PARTITION problem will change an algorithm-dependent number of bits from 0 to 1 or vice versa.
 In this case flipping a bit means putting the element in the other set.
 A simple implementation of an EA is the so called (1+1) EA (Algorithm~\ref{alg:EA}).\
 The first 1 in the brackets refers to size of the population and the second to the amount of mutants created in each iteration of the loop.
@@ -124,7 +124,8 @@ Apart from that the algorithms are the same.
 Carsten Witt proved that the RLS and the (1+1) EA find a $(4/3+\epsilon)$ approximation in expected time $\bigO(n)$ and a $(4/3)$-approximation in expected time $\bigO(n^2)$~\cite{witt2005worst}.
 He then introduced an almost worst case input to prove the bound for the approximation ratio is at least almost tight.
 The input is defined as followed for any $0<\epsilon<1/3$ and even $n$:\newline
-The input contains two numbers of value $1/3 - \epsilon/4$ and $n-2$ elements of value $(1/3+\epsilon/2)/(n-2)$. 
+The input contains two numbers of value $1/3 - \epsilon/4$ and $n-2$ elements of value\newline
+$(1/3+\epsilon/2)/(n-2)$. 
 The total volume is normalised to 1.
 When the two large values are in the same bin, the RSHs are tricked into a local optimum, where only $w_1$ and $w_2$ are in the first bin and the remaining elements in the other bin.
 This results in an almost worst case.
@@ -146,12 +147,11 @@ Solutions for MAKESPAN-SCHEDULING are \(x\in{\{0,\dots,k-1\}}^n\) and therefore 
 The adapted RSHs reach an approximation ratio of $(2k/k+1)$ in expected time $\bigO(Wn^{2k-2}/w_n)$.
 On an instance where every weight is the same the expected optimisation time is bounded by $\bigO(n\log{n})$.
 He also adapted the almost worse case to the more general problem and proved the RLS does not find a solution better than \((2k/(k+1)-\epsilon)\) in finite time for any $\epsilon>0$ with constant probability.
-The second statement for PARTITION on the uniform distributed inputs on [0,1] has an equivalent lemma for MAKESPAN-SCHEDULING on $k$ machines as well.
-
+The second statement for PARTITION on the uniform distributed inputs on [0,1] has an equivalent lemma for MAKESPAN-SCHEDULING on $k$ machines as well.\newline
 Another way of dealing with $NP$-hard problems is identifying a parameter $k$ which defines how hard the problem is to solve.
 One possible parametrisation of PARTITION is solving whether there is a solution of $f(x)\le k$.
 A fixed-parameter tractable problem is a problem that can be solved in time polynomial in the size of the input and $g(k)$ where $g$ is any arbitrary function.
-Partition falls into this category as it can be decided in time at most $\bigO(4^k)$\cite{fernau2005parameterized}.
+The given parametrisation of PARTITION falls into this category as it can be decided in time at most $\bigO(4^k)$\cite{fernau2005parameterized}.
 Andrew M. Sutton and Frank Neumann made a parametrised analysis of PARTITION\cite{sutton2012parameterized}.\
 They parametrised the problem in multiple ways.
 One of their parametrisation was: given an integer $k$, is there a solution of at most $W/2+W/k$?
@@ -168,7 +168,7 @@ So every step the algorithms makes decreases the Hamming distance to the optimum
 A more general version of this problem are linear functions where every bit is given a weight.
 Here the fitness function is $f(x)=\sum_{i=1}^{n}{w_i \cdot x_i}$ which either has to be maximised or minimised.
 The weights $w_i$ can be any real value.
-In contrast to OneMax increasing the fitness can increase the Hamming distance to the global optimum if multiple small values switch places with a big value.
+In contrast to OneMax improving the fitness can increase the Hamming distance to the global optimum if multiple small values switch places with a big value.
 The runtime for both the RLS and the (1+1) EA is $\Theta(n\log{n})$ for both problems and the optimal mutation rate for the (1+1) EA is $1/n$ which was proven multiple times (\cite{witt2013tight},~\cite{doerr2023tight}).
 The optimality of $1/n$ does not hold for every problem which leads to the next section.
 
@@ -210,7 +210,7 @@ So the variant of the RLS could simply choose neighbours that have a Hamming dis
 The selection should still be uniform random to keep the idea of the RLS intact.
 One possible way is to choose a random neighbour with Hamming distance $\le k$.
 This algorithm will be called \RLSN[k] from now on, because it chooses a random neighbour within the Hamming ball with radius $k$.
-The amount of neighbours with Hamming distance $y$ is given by $\binom{n}{y}$.
+The amount of neighbours with Hamming distance $1\le y\le n$ is given by $\binom{n}{y}$.
 For $k=4$, this results in $n$ neighbours with Hamming distance 1, $n(n-1)/2$ neighbours with Hamming distance 2, $n(n-1)(n-2)/6$ for 3
 and $n(n-1)(n-2)(n-3)/24$ for 4.
 The probability to choose a random neighbour with Hamming distance $y \le k$ for $k = \mathcal{O}(1)$ is given by
@@ -218,13 +218,13 @@ The probability to choose a random neighbour with Hamming distance $y \le k$ for
       = \frac{\Theta(n^y)}{\Theta(n^k)} = \Theta(n^{y-k}) = \Theta(\frac{1}{n^{k-y}})\]
 This variant of the RLS is likely to choose a neighbour with Hamming distance k as the number of neighbours with hamming
 distance $k$ rises with $k$ for $k \le n/2$.
-The probability of flipping only one bit is $\mathcal{O}(\frac{1}{n^{k-1}})$.
+The probability of flipping only one bit is $\Theta(\frac{1}{n^{k-1}})$.
 For some inputs flipping only one bit might be more optimal which is rather unlikely for this variant of the RLS.\newline
 An alternative way of changing the RLS is to first choose $y \in \{1, \dots, k\}$ uniform random and then choose a neighbour with Hamming distance $y$ uniform random.
 Here the probability of flipping $y \le k$ bits is given by $1/k$, so the algorithm is much more likely to choose to flip only one bit.
 This variant of the RLS will be referred to as \RLSR[k] because it first choses the Hamming sphere and afterwards the neighbour within the selected Hamming sphere.
 
-\begin{algorithm}[bt]
+\begin{algorithm}[b]
       \caption{\textsc{\RLSN}}\label{alg:rlsN}
 
       % Some settings
@@ -246,7 +246,7 @@ This variant of the RLS will be referred to as \RLSR[k] because it first choses 
       }
 \end{algorithm}
 
-\begin{algorithm}[bt]
+\begin{algorithm}[t]
       \caption{\textsc{\RLSR}}\label{alg:rlsR}
 
       % Some settings

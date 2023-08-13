@@ -1,7 +1,7 @@
 \chapter{Experimental Results}\label{ch:expRes}
 
-In the following chapter the different variants of the RLS and the (1+1) EA are now analysed empirically for the best algorithm depending on the input.
-Additionally for most lemmas from the previous chapters there are also tests if they actually hold in practice.
+In the following chapter the different variants of the RLS, the (1+1) EA and the $pmut$ operator are now analysed empirically for the best algorithm depending on the input.
+Additionally for some lemmas from the previous chapters there are also tests if they actually hold in practice.
 
 \section{Code}
 The complete java code used for all empirical studies is available on \href{https://github.com/Err404NameNotFound/PartitionSolvingWithEAs}{GitHub}.
@@ -18,17 +18,20 @@ The (1+1) EA variants behave differently at first glance as they flip each bit i
 This can be seen as $n$ independent Bernoulli trials with probability $c/n$.
 The amount of bits that are flipped is therefore binomial distributed and the algorithm can be implemented exactly as the versions of the RLS. The same holds for the $pmut$ operator which generates a number $k$ from a powerlaw distribution and then flips $k$ bits.
 This leads to only one implementation of a partition solving algorithm which is not only given the input array of numbers but also a generator for the amount of bits to be flipped in each step.
-The random values for the amount of bits to be flipped are generated according to this table:
+The random values for the amount of bits to be flipped are generated according to Table~\ref{table:rngForAlgos}.
 
-\begin{tabular}[h]{c c}
-      Algorithm & Returned value                                                                          \\
-      \hline
-      RLS       & 1                                                                                       \\
-      \RLSN~    & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
-      \RLSR~    & uniform random value $y \in \{1,\dots,k\}$                                              \\
-      (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
-      pmut      & powerlaw distributed value from \textasciitilde$D^\beta_{n/2}$                          \\
-\end{tabular}
+\begin{table}
+      \caption{Random number generator for the amount of bits flipped in a step for each algorithm variant}
+      \begin{tabular}[h]{c c}\label{table:rngForAlgos}
+            Algorithm & Returned value                                                                          \\
+            \hline
+            RLS       & 1                                                                                       \\
+            \RLSN     & $y \in \{1,\dots,k\}$ with probability $\frac{\binom{n}{y}}{\sum_{i=1}^k \binom{n}{i}}$ \\
+            \RLSR     & uniform random value $y \in \{1,\dots,k\}$                                              \\
+            (1+1) EA  & binomial distributed value from \textasciitilde$B(n,c/n)$                               \\
+            pmut      & powerlaw distributed value from \textasciitilde$D^\beta_{n/2}$                          \\
+      \end{tabular}
+\end{table}
 
 
 
@@ -59,8 +62,8 @@ The random values for the amount of bits to be flipped are generated according t
 \subsection{Random number generation}
 Java only provides a random number generator for uniform distributed values for any integer interval or random double values $\in \left[0, 1\right)$.
 The same holds for the \href{http://www.math.sci.hiroshima-u.ac.jp/m-mat/MT/emt.html}{MersenneTwister} with an implementation used from this \href{https://cs.gmu.edu/~sean/research/}{page}.
-All experiment were executed with both uniform random number generators.
-The results were rather similar, so only the results for the Fast Mersenne Twister are shown.
+All experiments were executed with both uniform random number generators.
+The results were rather similar, so only the results for the Fast MersenneTwister are shown.
 For this project uniform random numbers do not suffice as for an efficient way of implementing the (1+1) EA or simply for generating a binomial distributed input another random number generator is needed.
 One of the needed distributions is a binomial distribution.
 The simplest way to generate a number \textasciitilde$B(m,p)$ would be to run a loop $m$ times and add 1 to the generated number if a uniform random value $\in \left[0, 1\right)$ is less than $p$.
@@ -132,7 +135,7 @@ The values inserted in this formula must be negative.
 In the original paper for the $pmut_{\beta}$ operator and in the definition normally a powerlaw distribution is \(P(x)=Cx^{-n}\) and therefore any positive value for $n$ in this case was negated.
 Apart from this negation the generator was not changed.
 
-\section{Do binomial inputs have perfect partitions?}
+\section{Do binomial inputs have perfect partitions?}\label{Sec:BinomialSolvable}
 
 Lemma~\ref{lemma:BinomialSolvable} is only valid for larger $n$.
 In practice the bound is much smaller depending on the expected value of a single number.
@@ -140,7 +143,7 @@ Another factor deciding how likely an input is to have a perfect partition is wh
 To determine the influence of all factors multiple experiments were conducted.
 The goal of the first experiment was to determine the influence of the array size to the input having a perfect partition and the fact if $n$ is even or odd.
 So for every possible combination of $p \in \{0.1, 0.2, \dots , 0.8, 0.9\}, m \in \{10,100,1000,10^4,10^5\} \text{ and } n \in \{2,3,4,\dots,19,20\}$ 1000 randomly generated inputs of size $n$ were tested for a perfect partition.
-Due to the small values for $n$ it was possible to brute force the results in a short amount of time.
+Due to the small values for $n$ it was possible to brute force the results in a reasonable amount of time.
 The results are visualised in Figure~\ref{fig:firstBinPercentage} to Figure~\ref{fig:lastBinPercentage}.
 
 \begin{figure}[h]
@@ -278,7 +281,7 @@ For $p=0.9$ the percentage only drops below 50\% but still decreases by a factor
       \end{minipage}
 \end{figure}
 
-The last experiment showed that for $n=20$, 1000/1000 inputs had a perfect partition. This raised the question of how the amount of perfect partition changes with changing values for $m, p, n$.
+The last experiment showed that for $n=20$ all 1000/1000 inputs had a perfect partition. This raised the question of how the amount of perfect partition changes with changing values for $m, p, n$.
 Figure~\ref{fig:firstBinSolCount} to Figure~\ref{fig:lastBinSolCount} show the amount of perfect partitions a binomial distribution \textasciitilde$B(m,p$) has.
 For these figures 10,000 random binomial inputs with the given values for $m$ and $p$ were generated.
 Each input was then tested for the number of perfect partitions it has.
@@ -288,8 +291,20 @@ The value of $p$ is dependent on the picture and each value of $m \in \{10,100,1
 The $x$-axis is the size of the input and the $y$-axis the number of perfect partitions the input has.
 Notice that all graphs have a $y$-axis with a logarithmic scale.
 Since the graphs are all linear the actual values rise exponentially.
-The number of perfect partitions is mostly multiplied by a factor between 3 and 4 when the input size increases by 2.
+The number of perfect partitions is mostly multiplied by a factor between 3 and 4 when the input size increases by 2.\newline
+The higher the value of $m$ the closer the curves of $p$ and $1-p$ get.
+For $m=1000$ and $m=10000$ the values are almost the same for every input size.
+% As in this case $m$ was not defined as $e/p$ with some values for $e$ but instead some values directly for $m$, the influence of the expected values distorts the image for the lower values of $m$.
+For $p=0.1, m=10$ an input with expected values of 1 seems to much more likely to have a perfect partition than an input with expected value $10\cdot0.9=9$.
+With growing $m$ this has less impact.
+% Figure~\ref{fig:additionalBinSolCount} shows that for equal expected values the average amount of perfect partitions is the same for $p$ and $1-p$.
+% Here this fact even holds for the smaller values of $m$.
 
+% \begin{figure}[h]
+%       \caption{Amount of perfect partitions for $p=0.1$ and $p=0.9$}
+%       \centering
+% \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/perfectPartitionCount-p0_1Andp0_9_2.png}\label{fig:additionalBinSolCount}
+% \end{figure}
 \begin{figure}[h]
       \centering
       \begin{minipage}[b]{0.45\textwidth}
@@ -315,20 +330,6 @@ The number of perfect partitions is mostly multiplied by a factor between 3 and 
             \includegraphics[width=\textwidth]{figures/images/solvabilityOfInputs/perfectPartitionCount-p0_5.png}\label{fig:lastBinSolCount}
       \end{minipage}
 \end{figure}
-
-The higher the value of $m$ the closer the curves of $p$ and $1-p$ get.
-For $m=1000$ and $m=10000$ the values are almost the same for every input size.
-% As in this case $m$ was not defined as $e/p$ with some values for $e$ but instead some values directly for $m$, the influence of the expected values distorts the image for the lower values of $m$.
-For $p=0.1, m=10$ an input with expected values of 1 seems to much more likely to have a perfect partition than an input with expected value $10\cdot0.9=9$.
-With growing $m$ this has less impact.
-% Figure~\ref{fig:additionalBinSolCount} shows that for equal expected values the average amount of perfect partitions is the same for $p$ and $1-p$.
-% Here this fact even holds for the smaller values of $m$.
-
-% \begin{figure}[h]
-%       \caption{Amount of perfect partitions for $p=0.1$ and $p=0.9$}
-%       \centering
-% \includegraphics[width=0.45\textwidth]{figures/images/solvabilityOfInputs/perfectPartitionCount-p0_1Andp0_9_2.png}\label{fig:additionalBinSolCount}
-% \end{figure}
 
 So the binomial input should be easy to solve due to the exponential number of perfect partitions.
 It might be harder for the smaller values of $n$ as there are only a few perfect partitions.
@@ -394,7 +395,8 @@ Now to round this paper up there are two tables that summarise the previous resu
 For each input type and each algorithm the best three variants are listed in Table~\ref{table:BestAlgoVariantsTable} ordered by their average runtime.
 This implies a general tendency of better algorithms but is not necessarily a complete insight as the best parameter and algorithm changes depending on $n$.
 Table~\ref{table:BestAlgoVariantTable} list my personal preference based on the previous results depending on the distribution and size of the input.
-
+\TODO{add overall best algorithm}
+\TODO{add text to 1 bit flip vs 2 and 4}
 
 \begin{table}[h]
       \caption{Suggestions for the fastest algorithm on each input depending on the input size (the (1+1) EA is listed as EA to make the table shorter)}

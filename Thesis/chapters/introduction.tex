@@ -25,21 +25,21 @@ PARTITION is one of the easiest $NP$-hard problems and has even been dubbed the 
 There are multiple algorithms specifically designed for PARTITION.\ 
 Some of them return approximations and others always return the best solution.
 The exact algorithms have a runtime exponential in the input size due to the $NP$-hardness.
-Problem specific approximation algorithms are mostly deterministic such as the greedy method, the KK-algorithm or the FPTAS for the subsetsum problem which can be used for partition as well.
-Another class of non-deterministic algorithms are the so-called Evolutionary Algorithms which mimic the behaviour of evolution.
+Problem specific approximation algorithms are mostly deterministic such as the greedy method~\cite{graham1966bounds}, the KK-algorithm~\cite{karmarkar1982differencing} or the FPTAS for the subsetsum problem~\cite{KELLERER2003349} which can be used for partition as well.
+Another class of algorithms that can be used as approximation algorithm are a subclass of non-deterministic algorithms, the so-called Evolutionary Algorithms which mimic the behaviour of evolution.
 Those algorithms start with a random population of solutions which are then changed with random steps.
 If the solution is good enough it survives and replaces one of the worst individuals in the population.
 The EA continues to generate new offspring in an endless loop.
 In practice the algorithm is given stopping conditions such as reaching a number of iterations or a specific solution quality.
 This is the principle of an anytime algorithm which can be terminated at anytime and output a valid solution.
 The longer the waiting time the better the solution might get.
-The main usage of EA lies in problems without a problem specific algorithms as these mostly outperform the EAs.
+The main usage of EA lies in problems without a problem specific algorithms as these mostly outperform the EAs~\cite{scharnow2005analysis}.
 To better understand their behaviour analysing them on well researched problems might still be beneficial to learn more about this class of algorithms.
 This thesis researches the runtime of basic EAs such as (1+1) EA and variations of the RLS.\ 
 The first part is a theoretical analysis with a main focus of lowering bounds that were previously shown.
-Additionally there are new results for other algorithm variants and also a lemma on different type of inputs.
+Additionally there are new results for other algorithm variants and also a lemma on a special input type.
 The remainder of this thesis is an empirical analysis of multiple base algorithms with different parameter setting on different kinds of inputs.
 Here not only the (1+1) EA with different mutation rate and variants of the RLS with different parameter values are researched but also a heavy tailed mutation operator.
-Apart from typical distributions such as the uniform, geometric and binomial distribution there are also results for problem specific instances such as an input where one values is as large as all other values combined.
+Apart from typical distributions such as the uniform, geometric and binomial distribution there are also results for problem specific instances such as an input where one value is as large as all other values combined.
 In the end the empirical results are condensed into a personal suggestion which algorithm should best be chosen to solve the problem, depending on the input but also in general.
 

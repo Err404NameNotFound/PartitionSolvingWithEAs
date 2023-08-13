@@ -45,7 +45,7 @@
 \newcommand{\probP}{\text{I\kern-0.15em P}}
 \newcommand{\RLSR}[1][k]{RLS$^{S}_{#1}$}
 \newcommand{\RLSN}[1][k]{RLS$^{B}_{#1}$}
-\newcommand{\TODO}[1]{\textbf{\newline\textit{TODO:\ #1}}}
+\newcommand{\TODO}[1]{\newline\textbf{\textit{TODO:\ #1}}\newline}
 \newcommand{\etal}{\emph{et.\ al.\ }}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\bigO}{\mathcal{O}}
@@ -151,6 +151,7 @@ I hereby declare that this document has been composed by myself and describes my
       In this thesis the runtime of multiple Evolutionary Algorithms such as the (1+1) EA, variants of the RLS and the $pmut$ mutation operator is analysed theoretically and empirically on PARTITION.\ 
       Some of the previously known bounds for the (1+1) EA and RLS are improved and expanded to different version of those algorithms.
       In the end there is an empirical study on the best algorithm variant depending on input type and size revealing the optimal mutation rate is dependent on the input and not always the same for every input of PARTITION.\
+      Another result is the more small values an input has the better one bit flips influence the runtime whereas without them flipping 2 or 4 bits per step leads to a better runtime.
 
       \centerline{\textbf{Deutsche Zusammenfassung}}
 
@@ -160,7 +161,9 @@ I hereby declare that this document has been composed by myself and describes my
       In dieser Bachelorarbeit wird die Laufzeit mehrerer Evolutionärer Algorithmen wie dem (1+1) EA, Varianten des RLS sowie des $pmut$ Operators theoretisch und empirisch analysiert für PARTITION.\ 
       Bereits bestehende Ergebnisse werden verschärft für den (1+1) EA und den RLS und erweitert für Varianten der beiden Algorithmen.
       Am Ende der Arbeit ist eine empirische Analyse, die die verschiedenen Algorithmen auf verschiedenen Eingabetypen und Eingabegrößen vergleicht.
-      Ein der vielen Erkenntnisse ist, dass die optimale Mutationsrate abhängig von der Art der Eingabe ist und nicht global für PARTITION gilt.
+      Eine der vielen Erkenntnisse ist, dass die optimale Mutationsrate abhängig von der Art der Eingabe ist und nicht global für PARTITION gilt.
+      Außerdem scheinen 1-Bit Schritte die Laufzeit positiv zu beeinflussen, wenn es viele kleine Werte gibt.
+      Falls diese nicht existieren sollten stattdessen häufiger 2 oder 4 Bits in einen Schritt geändert werden.
 
 
 \end{addmargin}

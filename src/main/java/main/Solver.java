@@ -91,8 +91,8 @@ public class Solver {
                 getEA(4),
                 getEA(5),
                 getEA(10),
-                getEA(50),
-                getEA(100),
+//                getEA(50),
+//                getEA(100),
         };
     }
 

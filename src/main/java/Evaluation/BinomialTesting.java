@@ -99,7 +99,7 @@ public class BinomialTesting {
         long[] input = generator.generate(length);
         long expected = Math.round(generator.expectedValue);
         int offset = calculateRange(input, expected);
-        printDistribution(input, generator, expected - offset - 1, expected + offset + 1);
+        printDistribution(input, generator, expected - offset - 1, expected + offset + 1, true);
     }
 
     public static void estimateOptimalSolutionCount(int m, int amountOfArrays) {
@@ -172,7 +172,7 @@ public class BinomialTesting {
         System.out.printf("np:    %5f%n", n * p);
         System.out.printf("n- np: %5f%n", n - n * p);
         evaluator.printEvaluation();
-        Main.printDistribution(generator, difs);
+        Main.printDistribution(generator, difs, false);
     }
 
     public static void testRandomBinomialPartition(long m, long n, double p, long k) {
