@@ -20,7 +20,7 @@ The higher the numbers get the less often they occur.
 \input{tables/mixedAndOverlapped/rls_compare.tex}
 
 There is a clear preference of algorithms with higher probability to flip only one bit per step similar to the geometric distribution.
-For geometric distributions all variants had a rather equal runtime but here the \RLSN[4] needs more than 100 time the iterations on average than the fastest RLS variant.
+For geometric distributions all variants had a rather equal runtime but here the \RLSN[4] needs more than 100 times the iterations on average than the fastest RLS variant.
 This type of input punishes the worse mutation operators more than geometric inputs but not as extreme as the equivalent to linear functions.
 Here still every variant reaches an optimal solution in every case as opposed to the linear function equivalent.
 For the geometric input only the RLS failed to reach an optimal value in every run but here it does not.
@@ -30,7 +30,7 @@ This leads to the RLS being the best RLS variants for this type of input in cont
 
 The results here are pretty similar to the results of the RLS.\
 The lower the mutation rates the faster the algorithm reaches an optimal solution.
-For $p_m\le10/n$ did not find an optimal solution in $10n\ln n$ steps in of the 10000 runs.
+For $p_m\ge10/n$ the algorithms did not find an optimal solution in $10n\ln n$ steps in all 10000 runs.
 In other shorter experiments higher mutation rates reached an optimal solution less often.
 The highest researched rate of $100/n$ even failed to reach the optimal solution in about 15 \% of the inputs.
 
@@ -38,7 +38,6 @@ The highest researched rate of $100/n$ even failed to reach the optimal solution
 \input{tables/mixedAndOverlapped/pmut_compare.tex}
 
 Here the results are similar again, but there are a few differences.
-$\beta=2.5$ seems to perform better despite not being the highest value for $\beta$.
 Here using a worse mutation rates are has less impact on the runtime in contrast to the geometric inputs where the penalty is higher.
 Apart from that these inputs seem similar as every value of $\beta$ also reaches an optimal value in every run.
 

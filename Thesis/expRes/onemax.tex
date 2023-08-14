@@ -7,7 +7,7 @@ This should also hold for this input.
 The RLS variants should also perform worse than the standard RLS.\
 The higher the value for $\beta$ the better the $pmut_\beta$ mutation should perform.
 Flips of the first bits could decrease the runtime, depending on how often they happen.
-By doing some testing with various algorithm variants of the RLS and the (1+1) EA it looked like the last bit was only flipped at most once for every input.
+By doing some testing with various algorithm variants of the RLS and the (1+1) EA it looked like the first bit was only flipped at most once for every input.
 There was only one case where it was flipped twice, but it was never flipped more than twice per run.
 The average number of flips was also mostly closer to zero than to one.\newline
 The experiments where conducted with the variant where the smaller values are all one.
@@ -20,11 +20,11 @@ It also reaches an optimal value for every instance.
 The \RLSR[s] variants need more iterations to find an optimal solution.
 By looking at the average values more closely it seems like the average number of steps for the \RLSR[s] is roughly $25,000 + 70,000s \pm 5,000$.
 The standard RLS is equivalent to \RLSR~or \RLSN~with $k=1$.
-So the value of $k=1$ seems to be optimal for the RLS variants too.
+So the value of $k=1$ seems to be optimal for the RLS variants.
 The \RLSN[b] variants on the other hand do not reach any of the two optimal solutions in any run.
 This is most likely caused by their very low possibility of flipping only one bit in a single step.
 They would eventually reach the optimal solution as well, but this would take much longer than for the RLS.\
-The probability of flipping only one bit in a step is $\mathcal{O}(n^{1-k})$ which results in a single bit flip every $\mathcal{O}(n^{k-1})$ steps in expectation.
+The probability of flipping only one bit in a step is $\mathcal{O}(n^{1-k})$ which results in a single bit flip every $\Omega(n^{k-1})$ steps in expectation.
 Because the fitness can only improve for OneMax making steps flipping more bits does not harm the fitness.
 The bound for OneMax is $\mathcal{O}(n\log n)$ and with the previous result the expected number of steps is bounded by
 $\mathcal{O}(n\cdot\mathcal{O}(n^{k-1})\cdot \log(n\cdot\mathcal{O}(n^{k-1}))) 
@@ -32,7 +32,7 @@ $\mathcal{O}(n\cdot\mathcal{O}(n^{k-1})\cdot \log(n\cdot\mathcal{O}(n^{k-1})))
 =\mathcal{O}(kn^{k}\cdot\log(n))$
 This problem is not equivalent to OneMax, as a flip of the bit with the highest value inverts the fitness function to ZeroMax but the result might still hold as the bound for the standard RLS for this input is the same as for the RLS on OneMax.
 There is no statistically significant difference between the \RLSN[b] variants because all variants reached the step limit in each run.
-Only the amount of steps was used to for the significance test it looks like all variants are the same.
+Only the amount of steps was used to for the significance test, so it looks like all variants are the same.
 If the test was executed with the differences to the optimum there would be a statistically significant difference between each algorithm.
 \subsection{(1+1) EA Comparison}
 \input{tables/onemax/ea_compare.tex}
@@ -53,7 +53,7 @@ For $pmut$ only 1798/10000 repetitions were executed as there was a clear tenden
 \input{tables/onemax/pmut_compare.tex}
 The results for the $pmut$ operator are pretty similar to the results for the (1+1) EA and the RLS.\
 The parameter $\beta=3.25$ which flips the least bits on average finds the solution the fastest.
-Decreasing value for $\beta$ lead to more time needed for finding one of the two optimums.
+Decreasing value for $\beta$ lead to more time needed for finding one of the two optima.
 All variants find an optimum in every run except for $\beta=1.25$ which has a much higher value for the number of flipped bits per steps.
 The average number of bits flipped in a successful mutation is much lower than for the other inputs especially for the lower values for $\beta$.
 For the binomial and geometric input the successful average was around 100 for $\beta=1.25$ but for the OneMax equivalent it was only at 5.
@@ -89,7 +89,8 @@ The standard (1+1) EA performs a bit worse than the other three algorithms and a
 
 Another variant of this input are uniform distributed inputs for example.
 The small values in this case are chosen from \textasciitilde$U(1,49999)$ and the first value again is the sum of all other values.
-This input is harder because switching multiple small values for a big value increases the fitness but also increases the Hamming distance to the optimum. Looking at Figure~\ref{fig:onemaxUniformNlogNBound} the equivalent to uniform distributed linear functions looks not much harder compared to the variant where all values are one.
+This input is harder because switching multiple small values for a big value decreases the fitness but increases the Hamming distance to the optimum.
+Looking at Figure~\ref{fig:onemaxUniformNlogNBound} the equivalent to uniform distributed linear functions looks not much harder compared to the variant where all values are one.
 The graphs are almost identical.
 It was clear for the RLS because the RLS can't switch elements which leads to the exact same behaviour.
 But even the other algorithms that are able to switch seem to not harm the hamming distance drastically by switching elements.
