@@ -58,7 +58,7 @@ For binomial distributed inputs the \RLSN[2] and the \RLSN[4] are the fastest RL
 The runtime of the other RLS variants is also too unstable.
 So the RLS versions are too much dependent on the input and should not be chosen in every case, especially if the input size is small.
 For the best (1+1) EA variants this does not to that extend as the mutation rate $3/n$ is under the top 3 for every input type except the worst case input.
-Yet on the OneMax input and the worst case input there are runs where the (1+1) EA with mutation rate $3/n$ does not reach the optimal solution in all runs in at most $10n\ln{n}$ steps.
+Yet on the OneMax input and the worst case input the (1+1) EA with mutation rate $3/n$ does not reach the optimal solution in all runs in at most $10n\ln{n}$ steps.
 $pmut_{2.25}$ is not always one of the best three $pmut$ variants but is also never one of the worst and for the bigger input sizes it also reaches the optimal solution for almost any input in $10n\ln{n}$ steps except for 2/10,000 runs for the Worst Case input of C. Witt.
 So if only one algorithm for every input must be chosen, then $pmut_{2.25}$ should be one of the best options.
 
