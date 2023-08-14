@@ -39,7 +39,7 @@ public class ResultsChapterPrinter {
         String text = convertFileWithPath(path);
         int length = 2 * getTableLengthForCSVFile(text) - 2;
         text = text + "&".repeat(length);
-        String smallColumnLength = String.format("%.2f", (17.0 - 2.5) / (2*length));
+        String smallColumnLength = String.format("%.2f", (17.0 - 2.5) / (2 * length));
         String content = "\\begin{tabular}[h]{" +
                 "m{2.5cm}" + ("m{" + smallColumnLength + "cm}").repeat(2 * getTableLengthForCSVFile(text) - 2) +
                 "}\n" +

@@ -11,7 +11,7 @@ public class SolutionLong extends BaseSolution {
     private long optimalValue;
     private long fitness;
 
-    SolutionLong(long[] values){
+    SolutionLong(long[] values) {
         super(values);
         sum = 0;
         totalSum = Arrays.stream(values).sum();
@@ -37,7 +37,7 @@ public class SolutionLong extends BaseSolution {
         lastBitFlippedTried = solution.getLastBitFlippedTried();
     }
 
-    private void setOptimalValue(){
+    private void setOptimalValue() {
         optimalValue = totalSum / 2;
         sumIsEven = totalSum % 2 == 0;
         if (!sumIsEven) {
