@@ -380,14 +380,6 @@ public class Main {
     }
 
     private static void fineEvaluation(InputGenerator generator) {
-//        Solver[] solvers = new Solver[]{
-////                getRLS(),
-////                getEA(),
-//                getPmut(3.25),
-//                getPmut(3.0),
-//                getPmut(3.75),
-//                getPmut(3.5),
-//        };
         Solver[] solvers = getEAComparison();
         fineEvaluation(generator, solvers);
     }
